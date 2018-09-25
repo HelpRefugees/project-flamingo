@@ -4,13 +4,18 @@
   "description": "Impact tracking tool for Help Refugees",
   "scripts": {
     "preinstall": "cd client && yarn",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress": "cypress open",
+    "test": "yarn test:client",
+    "test:client": "cd client && cross-env CI=true yarn test",
     "prebuild": "rimraf ./server/static/*",
     "build": "cd client && yarn build",
     "postbuild": "copy \"./client/build/**/*\" ./server/static",
     "start": "yarn build && yarn start:server",
     "start:server": "node ./server/server.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "e2e": "cypress run",
+    "e2e:ci": "concurrently -k -s first -n \"app,e2e\" \"yarn start\" \"yarn e2e:ci:safe\"",
+    "e2e:ci:safe": "wait-on -l -t 30000 http-get://localhost:3000 && yarn e2e"
   },
   "repository": {
     "type": "git",
@@ -32,15 +37,23 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "concurrently": "^4.0.1",
     "copy": "^0.3.2",
+    "cross-env": "^5.2.0",
+    "cypress": "^3.1.0",
     "eslint": "^4.1.1",
-    "eslint-config-airbnb": "^17.1.0",
     "eslint-config-react-app": "^2.1.0",
-    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-cypress": "^2.0.1",
     "eslint-plugin-flowtype": "^2.34.1",
-    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-react": "^7.1.0",
-    "rimraf": "^2.6.2"
+    "eslint-plugin-standard": "^3.0.1",
+    "rimraf": "^2.6.2",
+    "wait-on": "^3.0.1"
   }
 }
