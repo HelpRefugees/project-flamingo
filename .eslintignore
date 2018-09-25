@@ -1,0 +1,4 @@
+client/build/
+client/node_modules/
+server/static/
+

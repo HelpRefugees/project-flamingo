@@ -1,0 +1,46 @@
+{
+  "name": "project-flamingo",
+  "version": "0.0.1",
+  "description": "Impact tracking tool for Help Refugees",
+  "scripts": {
+    "preinstall": "cd client && yarn",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "rimraf ./server/static/*",
+    "build": "cd client && yarn build",
+    "postbuild": "copy \"./client/build/**/*\" ./server/static",
+    "start": "yarn build && yarn start:server",
+    "start:server": "node ./server/server.js",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HelpRefugees/project-flamingo.git"
+  },
+  "author": "Team Flamingo",
+  "contributors": [
+    "Ada Solcan",
+    "Eslam Elsayed",
+    "Islam Gad",
+    "Jonathan Sharpe"
+  ],
+  "bugs": {
+    "url": "https://github.com/HelpRefugees/project-flamingo/issues"
+  },
+  "homepage": "https://github.com/HelpRefugees/project-flamingo#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "copy": "^0.3.2",
+    "eslint": "^4.1.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-flowtype": "^2.34.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "rimraf": "^2.6.2"
+  }
+}
