@@ -13,6 +13,9 @@
     "start": "yarn build && yarn start:server",
     "start:server": "node ./server/server.js",
     "lint": "eslint .",
+    "dev": "concurrently -k -s first -n \"client,server\" \"yarn dev:client\" \"yarn dev:server\"",
+    "dev:client": "cd client && cross-env PORT=4200 yarn start",
+    "dev:server": "nodemon ./server/server.js",
     "e2e": "cypress run",
     "e2e:ci": "concurrently -k -s first -n \"app,e2e\" \"yarn start\" \"yarn e2e:ci:safe\"",
     "e2e:ci:safe": "wait-on -l -t 30000 http-get://localhost:3000 && yarn e2e"
@@ -53,6 +56,7 @@
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-standard": "^3.0.1",
+    "nodemon": "^1.18.4",
     "rimraf": "^2.6.2",
     "wait-on": "^3.0.1"
   }
