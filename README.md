@@ -39,6 +39,7 @@ We have provided helpful automation scripts in `package.json`:
 - `e2e:dev`: Runs the end-to-end tests against the dev mode of the app, assuming it will be running on http://localhost:4200.
 - `e2e:ci`: Simultaneously runs the app (using `start`) and the end-to-end tests (using `e2e`), including a wait for the app to start before the tests begin. This runs the app on port `3100` to avoid conflicts.
 - `cypress`: Runs the Cypress UI for local end-to-end test development.
+- `client`: Run yarn command in client directory.
 
 ## CI/CD
 

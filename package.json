@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "Impact tracking tool for Help Refugees",
   "scripts": {
-    "preinstall": "cd client && yarn",
+    "client": "cd client && yarn",
+    "preinstall": "yarn client",
     "cypress": "cypress open",
     "test": "yarn test:client",
     "test:client": "cd client && cross-env CI=true yarn test",

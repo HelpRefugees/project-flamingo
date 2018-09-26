@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./App.css";
+import { Button, Grid, TextField } from "@material-ui/core";
 
 class App extends Component {
   constructor() {
@@ -14,19 +14,38 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <Grid container spacing={24} alignItems="center" direction="column">
+        <Grid item>
           <h1 className="App-title">Impact Tracker</h1>
-        </header>
-        <input data-test-id="username-input" type="email" />
-        <input data-test-id="password-input" type="password" />
-        <button data-test-id="login-button" onClick={this.login}>
-          Login
-        </button>
+        </Grid>
+        <Grid item container alignItems="center" justify="center">
+          <TextField
+            data-test-id="username-input"
+            label="Email"
+            type="email"
+            variant="outlined"
+          />
+          <TextField
+            data-test-id="password-input"
+            label="Password"
+            type="password"
+            variant="outlined"
+          />
+          <Button
+            variant="outlined"
+            color="primary"
+            data-test-id="login-button"
+            onClick={this.login}
+          >
+            Login
+          </Button>
+        </Grid>
         {this.state.isAuthenticated === false && (
-          <p data-test-id="login-error">Invalid credentials</p>
+          <Grid item>
+            <p data-test-id="login-error">Invalid credentials</p>
+          </Grid>
         )}
-      </div>
+      </Grid>
     );
   }
 }

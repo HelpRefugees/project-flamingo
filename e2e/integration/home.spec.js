@@ -9,8 +9,8 @@ context("Home page", () => {
 
   it("reject invalid credentials", () => {
     // arrange
-    cy.get('[data-test-id="username-input"]').type("ellen@ip.org");
-    cy.get('[data-test-id="password-input"]').type("worngpassword");
+    cy.get('[data-test-id="username-input"] input').type("ellen@ip.org");
+    cy.get('[data-test-id="password-input"] input').type("worngpassword");
     cy.get('[data-test-id="login-error"]').should("not.exist");
 
     // act
