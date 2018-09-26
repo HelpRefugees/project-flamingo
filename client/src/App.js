@@ -1,22 +1,31 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      isAuthenticated: null
+    };
+  }
+  login = () => {
+    this.setState({ isAuthenticated: false });
+  };
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Impact Tracker</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit
-          {' '}
-          <code>src/App.js</code>
-          {' '}
-and save to reload.
-        </p>
+        <input data-test-id="username-input" type="email" />
+        <input data-test-id="password-input" type="password" />
+        <button data-test-id="login-button" onClick={this.login}>
+          Login
+        </button>
+        {this.state.isAuthenticated === false && (
+          <p data-test-id="login-error">Invalid credentials</p>
+        )}
       </div>
     );
   }
