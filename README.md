@@ -34,7 +34,7 @@ We have provided helpful automation scripts in `package.json`:
 - `start`: Runs the app in the production mode, by building the React app and copying the resulting files over to the Express app's `static/` directory then starting the Express app. You can then visit the application at http://localhost:3000.
 - `dev`: Runs the app in development mode, by simultaneously running the `create-react-app` dev server and the backend with `nodemon`; this means that any changes will cause the apps to automatically restart. You can then visit the application at http://localhost:4200, and the CRA proxy will send requests from the front-end to the back-end (which is still running on port `3000`). The front-end will automatically reload when changes are made, but you will need to manually refresh the page when you make changes to the back-end.
 - `lint`: Runs ESLint on all of the JavaScript.
-- `test`: Runs the front-end tests.
+- `test`: Runs the unit and integration tests.
 - `e2e`: Runs the end-to-end tests, assuming the app will be running already on http://localhost:3000.
 - `e2e:dev`: Runs the end-to-end tests against the dev mode of the app, assuming it will be running on http://localhost:4200.
 - `e2e:ci`: Simultaneously runs the app (using `start`) and the end-to-end tests (using `e2e`), including a wait for the app to start before the tests begin. This runs the app on port `3100` to avoid conflicts.

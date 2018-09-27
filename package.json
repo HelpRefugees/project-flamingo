@@ -6,8 +6,10 @@
     "client": "cd client && yarn",
     "preinstall": "yarn client",
     "cypress": "cypress open",
-    "test": "yarn test:client",
+    "test": "yarn test:client && yarn test:server",
     "test:client": "cd client && cross-env CI=true yarn test",
+    "test:client:watch": "cd client && yarn test",
+    "test:server": "jest --config ./server/tests/jest.config.js",
     "prebuild": "rimraf ./server/static/*",
     "build": "cd client && yarn build",
     "postbuild": "copy \"./client/build/**/*\" ./server/static",
@@ -58,8 +60,10 @@
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-standard": "^3.0.1",
+    "jest": "20.0.4",
     "nodemon": "^1.18.4",
     "rimraf": "^2.6.2",
+    "supertest": "^3.3.0",
     "wait-on": "^3.0.1"
   }
 }
