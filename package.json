@@ -4,7 +4,7 @@
   "description": "Impact tracking tool for Help Refugees",
   "scripts": {
     "client": "cd client && yarn",
-    "preinstall": "yarn client",
+    "install:all": "yarn client && yarn",
     "cypress": "cypress open",
     "test": "yarn test:client && yarn test:server",
     "test:client": "cd client && cross-env CI=true yarn test",
@@ -65,5 +65,8 @@
     "rimraf": "^2.6.2",
     "supertest": "^3.3.0",
     "wait-on": "^3.0.1"
+  },
+  "engines": {
+    "node": "~9.11.2"
   }
 }

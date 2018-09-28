@@ -1,0 +1,5 @@
+applications:
+  - name: flamingo
+    buildpacks:
+      - nodejs_buildpack
+    command: yarn start:server

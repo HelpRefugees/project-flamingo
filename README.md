@@ -17,7 +17,7 @@ For basic machine setup, we are using Pivotal's workstation scripts: see https:/
   npm install -g yarn
   ```
 
-  Inside the project directory, you can then run `yarn` to install the dependencies for both parts of the application.
+  Inside the project directory, you can then run `yarn install:all` to install the dependencies for both parts of the application.
 
 ## Project structure
 
