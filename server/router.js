@@ -3,8 +3,8 @@ const router = new express.Router();
 
 router.post(`/login`, (req, res) => {
   if (
-    req.body.username === "ellen@ip.org" &&
-    req.body.password === "flamingo"
+    req.body.username === "ellen@ip.org"
+    && req.body.password === "flamingo"
   ) {
     return res.sendStatus(200);
   }

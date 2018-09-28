@@ -2,9 +2,9 @@ import React from "react";
 import { shallow } from "enzyme";
 import Deferred from "promise-deferred";
 
-import LoginPage from "./LoginPage";
+import LoginComponent from "./LoginComponent";
 
-describe("App", () => {
+describe("LoginComponent", () => {
   let wrapper;
   let mockLogin;
   let deferred;
@@ -12,7 +12,7 @@ describe("App", () => {
   beforeEach(() => {
     deferred = new Deferred();
     mockLogin = jest.fn(() => deferred.promise);
-    wrapper = shallow(<LoginPage login={mockLogin} />);
+    wrapper = shallow(<LoginComponent login={mockLogin} />);
   });
 
   it("calls login service when clicking button", () => {

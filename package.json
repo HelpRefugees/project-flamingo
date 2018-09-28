@@ -6,6 +6,7 @@
     "client": "cd client && yarn",
     "install:all": "yarn client && yarn",
     "cypress": "cypress open",
+    "cypress:dev": "CYPRESS_BASE_URL=http://localhost:4200 cypress open",
     "test": "yarn test:client && yarn test:server",
     "test:client": "cd client && cross-env CI=true yarn test",
     "test:client:watch": "cd client && yarn test",
