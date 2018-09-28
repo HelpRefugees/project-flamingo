@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Grid, TextField } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
 
 export default class LoginComponent extends Component {
   constructor() {
@@ -29,6 +30,7 @@ export default class LoginComponent extends Component {
   };
 
   render() {
+    if (this.state.isAuthenticated) return <Redirect to="/home" />;
     return (
       <Grid container spacing={24} alignItems="center" direction="column">
         <Grid item>
@@ -64,11 +66,6 @@ export default class LoginComponent extends Component {
         {this.state.isAuthenticated === false && (
           <Grid item>
             <p data-test-id="login-error">Invalid credentials</p>
-          </Grid>
-        )}
-        {this.state.isAuthenticated === true && (
-          <Grid item>
-            <p data-test-id="login-success">Valid credentials</p>
           </Grid>
         )}
       </Grid>

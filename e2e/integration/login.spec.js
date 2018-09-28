@@ -32,9 +32,6 @@ context("Login Page", () => {
     cy.get('[data-test-id="login-button"]').click();
 
     // assert
-    cy.get('[data-test-id="login-success"]').should(
-      "contains.text",
-      "Valid credentials"
-    );
+    cy.url().should("include", "/home", "should navigate to home page");
   });
 });
