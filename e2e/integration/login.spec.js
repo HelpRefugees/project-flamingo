@@ -3,10 +3,6 @@ context("Login Page", () => {
     cy.visit("/");
   });
 
-  it("shows the application title", () => {
-    cy.get("h1").should("have.text", "Impact Tracker");
-  });
-
   it("rejects invalid credentials", () => {
     // arrange
     cy.get('[data-test-id="username-input"] input').type("ellen@ip.org");

@@ -1,6 +1,15 @@
 import React, { Component } from "react";
-import { Button, Grid, TextField } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  TextField,
+  Paper,
+  FormGroup,
+  FormControl
+} from "@material-ui/core";
 import { Redirect } from "react-router-dom";
+
+import "./LoginComponent.css";
 
 export default class LoginComponent extends Component {
   constructor() {
@@ -32,42 +41,48 @@ export default class LoginComponent extends Component {
   render() {
     if (this.state.isAuthenticated) return <Redirect to="/home" />;
     return (
-      <Grid container spacing={24} alignItems="center" direction="column">
-        <Grid item>
-          <h1>Impact Tracker</h1>
+      <Grid container spacing={24} alignContent="center" display="column">
+        <Grid item container alignContent="center" justify="center">
+          <Paper className="login-card" justify="center">
+            <h2 justify="center">Welcome</h2>
+            <h4>Please enter your login details</h4>
+            <FormGroup>
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  data-test-id="username-input"
+                  label="Email"
+                  type="email"
+                  variant="outlined"
+                  onChange={event => this.changeCredentials("username", event)}
+                  value={this.state.credentials.username}
+                />
+              </FormControl>
+              <FormControl margin="normal" required fullWidth>
+                <TextField
+                  data-test-id="password-input"
+                  label="Password"
+                  type="password"
+                  variant="outlined"
+                  onChange={event => this.changeCredentials("password", event)}
+                  value={this.state.credentials.password}
+                />
+              </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                data-test-id="login-button"
+                onClick={() => this.login()}
+              >
+                Login
+              </Button>
+            </FormGroup>
+          </Paper>
+          {this.state.isAuthenticated === false && (
+            <Grid item>
+              <p data-test-id="login-error">Invalid credentials</p>
+            </Grid>
+          )}
         </Grid>
-
-        <Grid item container alignItems="center" justify="center">
-          <TextField
-            data-test-id="username-input"
-            label="Email"
-            type="email"
-            variant="outlined"
-            onChange={event => this.changeCredentials("username", event)}
-            value={this.state.credentials.username}
-          />
-          <TextField
-            data-test-id="password-input"
-            label="Password"
-            type="password"
-            variant="outlined"
-            onChange={event => this.changeCredentials("password", event)}
-            value={this.state.credentials.password}
-          />
-          <Button
-            variant="outlined"
-            color="primary"
-            data-test-id="login-button"
-            onClick={() => this.login()}
-          >
-            Login
-          </Button>
-        </Grid>
-        {this.state.isAuthenticated === false && (
-          <Grid item>
-            <p data-test-id="login-error">Invalid credentials</p>
-          </Grid>
-        )}
       </Grid>
     );
   }
