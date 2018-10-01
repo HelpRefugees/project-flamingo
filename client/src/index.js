@@ -1,19 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
+import { PersistGate } from "redux-persist/integration/react";
 
-import reducers from "./reducers";
+import configureStore from "./configureStore";
 import "./index.css";
 import App from "./App";
 import { unregister } from "./registerServiceWorker";
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const { store, persistor } = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );
