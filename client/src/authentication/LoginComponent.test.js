@@ -27,26 +27,6 @@ describe("LoginComponent", () => {
     });
   });
 
-  it("sets authentication state when the promise is resolved false", done => {
-    login("foo", "bar");
-    deferred.resolve(false);
-
-    setTimeout(() => {
-      expect(wrapper.state().isAuthenticated).toBe(false);
-      done();
-    });
-  });
-
-  it("sets authentication state when the promise is resolved true", done => {
-    login("foo", "bar");
-    deferred.resolve(true);
-
-    setTimeout(() => {
-      expect(wrapper.state().isAuthenticated).toBe(true);
-      done();
-    });
-  });
-
   function login(username, password) {
     wrapper
       .find('[data-test-id="username-input"]')

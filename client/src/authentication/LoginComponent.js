@@ -15,7 +15,6 @@ export default class LoginComponent extends Component {
   constructor() {
     super();
     this.state = {
-      isAuthenticated: null,
       credentials: {
         username: "",
         password: ""
@@ -24,9 +23,7 @@ export default class LoginComponent extends Component {
   }
 
   login = () => {
-    this.props.login(this.state.credentials).then(isAuthenticated => {
-      this.setState({ isAuthenticated });
-    });
+    this.props.login(this.state.credentials);
   };
 
   changeCredentials = (key, event) => {
@@ -39,7 +36,7 @@ export default class LoginComponent extends Component {
   };
 
   render() {
-    if (this.state.isAuthenticated) return <Redirect to="/home" />;
+    if (this.props.isAuthenticated) return <Redirect to="/home" />;
     return (
       <Grid container spacing={24} alignContent="center" display="column">
         <Grid item container alignContent="center" justify="center">
@@ -77,7 +74,7 @@ export default class LoginComponent extends Component {
               </Button>
             </FormGroup>
           </Paper>
-          {this.state.isAuthenticated === false && (
+          {this.props.isAuthenticated === false && (
             <Grid item>
               <p data-test-id="login-error">Invalid credentials</p>
             </Grid>

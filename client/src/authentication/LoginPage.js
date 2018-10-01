@@ -1,15 +1,17 @@
-import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import AuthService from "./authService";
 import LoginComponent from "./LoginComponent";
+import { login } from "../actions";
 
-export default class LoginPage extends Component {
-  constructor() {
-    super();
-    this.authService = new AuthService();
-  }
+const mapStateToProps = state => ({
+  isAuthenticated: state.isAuthenticated
+});
 
-  render() {
-    return <LoginComponent login={this.authService.login} />;
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  login: credentials => dispatch(login(credentials))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginComponent);
