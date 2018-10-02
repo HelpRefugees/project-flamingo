@@ -19,7 +19,7 @@ const styles = themes => ({
   }
 });
 
-class LoginComponent extends Component {
+export class LoginComponent extends Component {
   constructor() {
     super();
     this.state = {
