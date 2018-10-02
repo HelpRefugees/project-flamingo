@@ -1,6 +1,7 @@
 module.exports = {
-  extends: ["../.eslintrc.js", "react-app"],
-  globals: {
-    assertLater: true
+  extends: ["../.eslintrc.js", "plugin:flowtype/recommended", "react-app"],
+  plugins: ["flowtype"],
+  rules: {
+    "flowtype/no-types-missing-file-annotation": 0
   }
 };

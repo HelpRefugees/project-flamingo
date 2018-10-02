@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
-export default class HomePage extends Component {
+type Props = {};
+
+export default class HomePage extends Component<Props> {
   render() {
     return <h1> Welcome </h1>;
   }

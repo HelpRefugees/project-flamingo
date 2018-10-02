@@ -1,15 +1,23 @@
-const reducers = (state = {}, action) => {
+export interface State {
+  isAuthenticated?: boolean;
+}
+
+interface Action {
+  type: string;
+}
+
+const reducers = (state: State = {}, action: Action): State => {
   switch (action.type) {
-  case "SET_LOGGED_IN":
-    return {
-      isAuthenticated: true
-    };
-  case "SET_NOT_LOGGED_IN":
-    return {
-      isAuthenticated: false
-    };
-  default:
-    return state;
+    case "SET_LOGGED_IN":
+      return {
+        isAuthenticated: true
+      };
+    case "SET_NOT_LOGGED_IN":
+      return {
+        isAuthenticated: false
+      };
+    default:
+      return state;
   }
 };
 

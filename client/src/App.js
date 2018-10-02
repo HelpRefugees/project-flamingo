@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import LoginPage from "./authentication/LoginPage";
 import HomePage from "./home/HomePage";
 
-class App extends Component {
+class App extends Component<{}> {
   render() {
     return (
       <Router>

@@ -1,13 +1,15 @@
 import { connect } from "react-redux";
+import type { Dispatch } from "redux";
 
 import LoginComponent from "./LoginComponent";
 import { login } from "../actions";
+import { State } from "../reducers";
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): any => ({
   isAuthenticated: state.isAuthenticated
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   login: credentials => dispatch(login(credentials))
 });
 

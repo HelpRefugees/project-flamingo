@@ -10,6 +10,8 @@ import {
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
+import type { Credentials } from "./models";
+
 const styles = themes => ({
   loginPaper: {
     padding: themes.spacing.unit * 4
@@ -19,7 +21,17 @@ const styles = themes => ({
   }
 });
 
-export class LoginComponent extends Component {
+interface State {
+  credentials: Credentials;
+}
+
+interface Props {
+  classes: any;
+  isAuthenticated?: boolean;
+  login: (credentials: Credentials) => void;
+}
+
+export class LoginComponent extends Component<Props, State> {
   constructor() {
     super();
     this.state = {
@@ -34,11 +46,11 @@ export class LoginComponent extends Component {
     this.props.login(this.state.credentials);
   };
 
-  changeCredentials = (key, event) => {
+  changeCredentials = (key: string, event: Event) => {
     this.setState({
       credentials: {
         ...this.state.credentials,
-        [key]: event.target.value
+        [key]: (event.target: window.HTMLInputElement).value
       }
     });
   };

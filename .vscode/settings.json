@@ -1,0 +1,6 @@
+{
+  "flow.useNPMPackagedFlow": true,
+  "flow.runOnAllFiles": true,
+  "javascript.validate.enable": false,
+  "flow.pathToFlow": "${workspaceRoot}/client/node_modules/.bin/flow"
+}

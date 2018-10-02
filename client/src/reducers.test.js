@@ -2,7 +2,11 @@ import reducers from "./reducers";
 
 describe("reducers", () => {
   it("should handle initial state", () => {
-    expect(reducers(undefined, {})).toEqual({});
+    expect(
+      reducers(undefined, {
+        type: ""
+      })
+    ).toEqual({});
   });
 
   it("should handle SET_LOGGED_IN", () => {

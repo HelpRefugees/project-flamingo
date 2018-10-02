@@ -1,0 +1,18 @@
+[ignore]
+<PROJECT_ROOT>/build
+<PROJECT_ROOT>/node_modules
+<PROJECT_ROOT>/public
+
+[include]
+
+[libs]
+flow-typed
+
+[lints]
+all=warn
+
+[options]
+all=true
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
+
+[strict]

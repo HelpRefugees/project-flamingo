@@ -18,11 +18,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "yarn flow-typed install"
   },
   "devDependencies": {
     "enzyme": "^3.6.0",
     "enzyme-adapter-react-16": "^1.5.0",
+    "flow-bin": "^0.82.0",
+    "flow-typed": "^2.5.1",
     "jest-fetch-mock": "^1.6.6",
     "promise-deferred": "^2.0.1",
     "react-test-renderer": "^16.5.2"
