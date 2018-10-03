@@ -3,6 +3,12 @@ context("Login Page", () => {
     cy.visit("/");
   });
 
+  it("prevents access to the home page when not logged in", () => {
+    cy.visit("/home");
+
+    cy.url().should("not.include", "/home", "should not go to home page");
+  });
+
   it("rejects invalid credentials", () => {
     // arrange
     cy.get('[data-test-id="login-error"]').should("not.exist");

@@ -3,7 +3,7 @@ import type { Dispatch } from "redux";
 
 import LoginComponent from "./LoginComponent";
 import { login } from "../actions";
-import { State } from "../reducers";
+import type { State } from "../reducers";
 
 const mapStateToProps = (state: State): any => ({
   isAuthenticated: state.isAuthenticated

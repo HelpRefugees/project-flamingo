@@ -1,5 +1,6 @@
 {
   "name": "project-flamingo",
+  "private": true,
   "version": "0.0.1",
   "description": "Impact tracking tool for Help Refugees",
   "scripts": {
@@ -18,6 +19,7 @@
     "start:server": "node ./server/server.js",
     "ship": "yarn lint && yarn test && yarn e2e:ci",
     "lint": "eslint . && yarn client flow check",
+    "lint:fix": "eslint . --fix && yarn client flow check",
     "dev": "concurrently -k -s first -n \"client,server\" \"yarn dev:client\" \"yarn dev:server\"",
     "dev:client": "cd client && cross-env PORT=4200 yarn start",
     "dev:server": "nodemon ./server/server.js",
