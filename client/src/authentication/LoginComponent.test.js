@@ -1,17 +1,14 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Deferred from "promise-deferred";
 
 import { LoginComponent } from "./LoginComponent";
 
 describe("LoginComponent", () => {
   let wrapper;
   let mockLogin;
-  let deferred;
 
   beforeEach(() => {
-    deferred = new Deferred();
-    mockLogin = jest.fn(() => deferred.promise);
+    mockLogin = jest.fn();
     wrapper = shallow(
       <LoginComponent
         login={mockLogin}
