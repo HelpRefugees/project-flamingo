@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import { persistStore, persistReducer } from "redux-persist";
 // $FlowIgnore: redux-persist types don't seem to work
 import storage from "redux-persist/lib/storage";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import reducers from "./reducers";
 
@@ -15,7 +16,10 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 export default () => {
-  let store = createStore(persistedReducer, applyMiddleware(thunk));
+  let store = createStore(
+    persistedReducer,
+    composeWithDevTools(applyMiddleware(thunk))
+  );
   let persistor = persistStore(store);
   return { store, persistor };
 };
