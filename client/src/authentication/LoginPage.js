@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
 import LoginComponent from "./LoginComponent";
-import { login } from "../actions";
+import { login, initializeLogin } from "../actions";
 import type { State } from "../reducers";
 
 const mapStateToProps = (state: State): any => ({
@@ -10,7 +10,8 @@ const mapStateToProps = (state: State): any => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  login: credentials => dispatch(login(credentials))
+  login: credentials => dispatch(login(credentials)),
+  initializeLogin: () => dispatch(initializeLogin())
 });
 
 export default connect(

@@ -12,7 +12,13 @@ describe("LoginComponent", () => {
   beforeEach(() => {
     deferred = new Deferred();
     mockLogin = jest.fn(() => deferred.promise);
-    wrapper = shallow(<LoginComponent login={mockLogin} classes={{}} />);
+    wrapper = shallow(
+      <LoginComponent
+        login={mockLogin}
+        classes={{}}
+        initializeLogin={() => {}}
+      />
+    );
   });
 
   it("calls login service when clicking button", () => {

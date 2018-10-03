@@ -10,6 +10,10 @@ export const loginFailed = () => ({
   type: "SET_NOT_LOGGED_IN"
 });
 
+export const initializeLogin = () => ({
+  type: "INITIALIZE_LOGGED_IN"
+});
+
 export const login = (credentials: Credentials) => (dispatch: Dispatch<any>) =>
   fetch("/api/login", {
     method: "POST",

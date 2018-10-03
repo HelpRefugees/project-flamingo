@@ -10,17 +10,18 @@ context("Login Page", () => {
   });
 
   it("rejects invalid credentials", () => {
-    // arrange
     cy.get('[data-test-id="login-error"]').should("not.exist");
 
-    // act
     loginAs("ellen@ip.org", "wrongpassword");
 
-    // assert
     cy.get('[data-test-id="login-error"]').should(
       "contains.text",
       "Invalid credentials"
     );
+
+    cy.reload();
+
+    cy.get('[data-test-id="login-error"]').should("not.exist");
   });
 
   it("accepts the valid credentials", () => {

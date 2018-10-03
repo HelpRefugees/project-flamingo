@@ -14,6 +14,12 @@ describe("actions", () => {
     });
   });
 
+  it("loginInitialized should create INITIALIZE_LOGGED_IN action", () => {
+    expect(actions.initializeLogin()).toEqual({
+      type: "INITIALIZE_LOGGED_IN"
+    });
+  });
+
   describe("login", () => {
     let action;
     let mockDispatch;

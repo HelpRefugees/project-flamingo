@@ -16,6 +16,8 @@ const reducers = (state: State = {}, action: Action): State => {
       return {
         isAuthenticated: false
       };
+    case "INITIALIZE_LOGGED_IN":
+      return {};
     default:
       return state;
   }

@@ -29,17 +29,21 @@ interface Props {
   classes: any;
   isAuthenticated?: boolean;
   login: (credentials: Credentials) => void;
+  initializeLogin: () => void;
 }
 
 export class LoginComponent extends Component<Props, State> {
-  constructor() {
-    super();
+  constructor(props: Props) {
+    super(props);
     this.state = {
       credentials: {
         username: "",
         password: ""
       }
     };
+    if (!this.props.isAuthenticated) {
+      this.props.initializeLogin();
+    }
   }
 
   login = () => {

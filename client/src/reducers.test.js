@@ -34,4 +34,15 @@ describe("reducers", () => {
       isAuthenticated: false
     });
   });
+
+  it("should handle INITIALIZE_LOGGED_IN", () => {
+    expect(
+      reducers(
+        {},
+        {
+          type: "INITIALIZE_LOGGED_IN"
+        }
+      )
+    ).toEqual({});
+  });
 });
