@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import ReportComponent from "./ReportComponent";
+import { ReportComponent } from "./ReportComponent";
 
 describe("ReportComponent", () => {
   let wrapper;
@@ -10,7 +10,7 @@ describe("ReportComponent", () => {
   };
 
   beforeEach(() => {
-    wrapper = shallow(<ReportComponent report={report} />);
+    wrapper = shallow(<ReportComponent report={report} classes={{}} />);
   });
 
   it("shows the report", () => {

@@ -1,14 +1,23 @@
 import React, { Component, Fragment } from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography, withStyles } from "@material-ui/core";
 
 import ReportComponent from "./ReportComponent";
 import type { Report } from "./models";
 
-type Props = {};
+type Props = {
+  classes: any
+};
 
-export default class HomePage extends Component<Props> {
+const styles = theme => ({
+  rowContainer: {
+    marginTop: theme.spacing.unit * 4
+  }
+});
+
+export class HomePage extends Component<Props> {
   render() {
     const reports: Report[] = [{ grant: "Grant Mitchell" }];
+    const { classes } = this.props;
     return (
       <Fragment>
         {/* Header placeholder */}
@@ -16,10 +25,25 @@ export default class HomePage extends Component<Props> {
           <Grid item xs={12} style={{ backgroundColor: "#fff", height: 80 }} />
         </Grid>
 
-        <Grid container>
+        <Grid container className={classes.rowContainer}>
+          <Grid item xs={1} />
+          <Grid item container xs={10} justify="center">
+            <Typography variant="display2" data-test-id="page-title">
+              Monthly Report
+            </Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item xs={10}>
-            <h1 data-test-id="page-title">Monthly Report</h1>
+            <Typography variant="display1">Incomplete Reports</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container className={classes.rowContainer}>
+          <Grid item xs={1} />
+          <Grid item xs={10}>
             {reports.map((report, index) => (
               <ReportComponent report={report} key={index} />
             ))}
@@ -29,3 +53,5 @@ export default class HomePage extends Component<Props> {
     );
   }
 }
+
+export default withStyles(styles)(HomePage);
