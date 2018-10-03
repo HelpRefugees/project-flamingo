@@ -24,5 +24,5 @@ deploy:
   username: $CF_USERNAME
   password: $CF_PASSWORD
   api: https://api.run.pivotal.io
-  organization: digital-coe
-  space: flamingo
+  organization: labs-playground
+  space: jsharpe
