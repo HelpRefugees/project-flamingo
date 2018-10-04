@@ -1,15 +1,15 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { HomeComponent } from "./HomeComponent";
+import { HeaderComponent } from "./HeaderComponent";
 
-describe("HomeComponent", () => {
+describe("HeaderComponent", () => {
   let wrapper;
   let mockLogout;
 
   beforeEach(() => {
     mockLogout = jest.fn();
-    wrapper = shallow(<HomeComponent classes={{}} logout={mockLogout} />);
+    wrapper = shallow(<HeaderComponent classes={{}} logout={mockLogout} />);
   });
 
   it("calls logout action when clicking logout menu item", () => {
