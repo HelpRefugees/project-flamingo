@@ -7,11 +7,11 @@ export const loginSuccessful = () => ({
 });
 
 export const loginFailed = () => ({
-  type: "SET_NOT_LOGGED_IN"
+  type: "SET_LOGGED_IN_ERROR"
 });
 
-export const initializeLogin = () => ({
-  type: "INITIALIZE_LOGGED_IN"
+export const logout = () => ({
+  type: "SET_LOGGED_OUT"
 });
 
 export const login = (credentials: Credentials) => (dispatch: Dispatch<any>) =>

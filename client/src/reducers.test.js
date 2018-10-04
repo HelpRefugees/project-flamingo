@@ -22,12 +22,12 @@ describe("reducers", () => {
     });
   });
 
-  it("should handle SET_NOT_LOGGED_IN", () => {
+  it("should handle SET_LOGGED_IN_ERROR", () => {
     expect(
       reducers(
         {},
         {
-          type: "SET_NOT_LOGGED_IN"
+          type: "SET_LOGGED_IN_ERROR"
         }
       )
     ).toEqual({
@@ -35,12 +35,12 @@ describe("reducers", () => {
     });
   });
 
-  it("should handle INITIALIZE_LOGGED_IN", () => {
+  it("should handle SET_LOGGED_OUT", () => {
     expect(
       reducers(
         {},
         {
-          type: "INITIALIZE_LOGGED_IN"
+          type: "SET_LOGGED_OUT"
         }
       )
     ).toEqual({});

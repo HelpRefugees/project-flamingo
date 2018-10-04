@@ -8,15 +8,15 @@ describe("actions", () => {
     });
   });
 
-  it("loginFailed should create SET_NOT_LOGGED_IN action", () => {
+  it("loginFailed should create SET_LOGGED_IN_ERROR action", () => {
     expect(actions.loginFailed()).toEqual({
-      type: "SET_NOT_LOGGED_IN"
+      type: "SET_LOGGED_IN_ERROR"
     });
   });
 
-  it("loginInitialized should create INITIALIZE_LOGGED_IN action", () => {
-    expect(actions.initializeLogin()).toEqual({
-      type: "INITIALIZE_LOGGED_IN"
+  it("loginInitialized should create SET_LOGGED_OUT action", () => {
+    expect(actions.logout()).toEqual({
+      type: "SET_LOGGED_OUT"
     });
   });
 

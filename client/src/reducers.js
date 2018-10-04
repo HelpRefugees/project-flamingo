@@ -12,11 +12,11 @@ const reducers = (state: State = {}, action: Action): State => {
       return {
         isAuthenticated: true
       };
-    case "SET_NOT_LOGGED_IN":
+    case "SET_LOGGED_IN_ERROR":
       return {
         isAuthenticated: false
       };
-    case "INITIALIZE_LOGGED_IN":
+    case "SET_LOGGED_OUT":
       return {};
     default:
       return state;
