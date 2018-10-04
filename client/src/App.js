@@ -38,15 +38,19 @@ export class App extends Component<Props> {
 
 export default connect(mapStateToProps)(App);
 
-const PrivateRoute = props => {
-  const { path, isAuthenticated, component } = props;
+export const PrivateRoute = (configProps: {
+  path: string,
+  isAuthenticated?: boolean,
+  component: any
+}) => {
+  const { path, isAuthenticated, component } = configProps;
   const OriginalComponent = component;
   return (
     <Route
       path={path}
-      render={() => {
+      render={props => {
         if (isAuthenticated) {
-          return <OriginalComponent />;
+          return <OriginalComponent {...props} />;
         } else {
           return <Redirect to="/" />;
         }
