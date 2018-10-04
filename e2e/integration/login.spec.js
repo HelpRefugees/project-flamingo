@@ -30,9 +30,21 @@ context("Login Page", () => {
     cy.url().should("include", "/home", "should redirect to home page");
   });
 
+  it("redirects to the login page when clicking logout", () => {
+    loginAs("ellen@ip.org", "flamingo");
+    logout();
+
+    cy.get('[data-test-id="login-button"]').should("be.visible");
+  });
+
   context("Ellen is logged in", () => {
     beforeEach(() => {
+      cy.visit("/");
       loginAs("ellen@ip.org", "flamingo");
+    });
+
+    afterEach(() => {
+      logout();
     });
 
     it("prevents access to the login page", () => {
@@ -46,5 +58,10 @@ context("Login Page", () => {
     cy.get('[data-test-id="username-input"] input').type(username);
     cy.get('[data-test-id="password-input"] input').type(password);
     cy.get('[data-test-id="login-button"]').click();
+  }
+
+  function logout() {
+    cy.get('[data-test-id="user-menu"]').click();
+    cy.get('[data-test-id="logout-menuitem"]').click();
   }
 });

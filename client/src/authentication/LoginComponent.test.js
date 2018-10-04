@@ -18,7 +18,7 @@ describe("LoginComponent", () => {
     );
   });
 
-  it("calls login service when clicking button", () => {
+  it("calls login action when clicking button", () => {
     const username = "ellen@ip.org";
     const password = "flamingo";
 
