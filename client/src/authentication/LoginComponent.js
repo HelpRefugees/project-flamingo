@@ -34,7 +34,6 @@ const styles = themes => ({
     fontStretch: "normal"
   },
   headerText: {
-    opacity: "0.87",
     color: "#404040"
   },
   normalText: {

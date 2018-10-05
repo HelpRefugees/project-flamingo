@@ -35,6 +35,13 @@ context.only("Home Page", () => {
       cy.get('[data-test-id="report"]').click();
 
       cy.url().should("include", "/reports/current");
+      cy.get("[data-test-id='report-details-title']").should(
+        "contain.text",
+        "Grant progress"
+      );
+      cy.get('[data-test-id="report-progress-input"] textarea')
+        .last()
+        .type("report details");
     });
   });
 });

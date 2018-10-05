@@ -58,7 +58,7 @@ export class HeaderComponent extends Component<Props, State> {
         <Toolbar>
           <Grid container justify="space-between" alignItems="center">
             <img
-              src="logo.png"
+              src="/logo.png"
               alt="Help Refugees Logo"
               className={classes.headerLogo}
             />
