@@ -3,6 +3,10 @@ context("Login Page", () => {
     cy.visit("/");
   });
 
+  afterEach(() => {
+    logout();
+  });
+
   it("prevents access to the home page when not logged in", () => {
     cy.visit("/home");
 
@@ -43,10 +47,6 @@ context("Login Page", () => {
       loginAs("ellen@ip.org", "flamingo");
     });
 
-    afterEach(() => {
-      logout();
-    });
-
     it("prevents access to the login page", () => {
       cy.visit("/");
 
@@ -61,7 +61,11 @@ context("Login Page", () => {
   }
 
   function logout() {
-    cy.get('[data-test-id="user-menu"]').click();
-    cy.get('[data-test-id="logout-menuitem"]').click();
+    cy.get("body").then($body => {
+      if ($body.find('[data-test-id="user-menu"]').length) {
+        cy.get('[data-test-id="user-menu"]').click();
+        cy.get('[data-test-id="logout-menuitem"]').click();
+      }
+    });
   }
 });
