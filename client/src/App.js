@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { CssBaseline } from "@material-ui/core";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, Switch } from "react-router-dom";
 
 import LoginPage from "./authentication/LoginPage";
 import HomePage from "./home/HomePage";
@@ -24,12 +24,15 @@ export class App extends Component<Props> {
       <Router>
         <Fragment>
           <CssBaseline />
-          <Route exact path="/" component={LoginPage} />
-          <PrivateRoute
-            path="/home"
-            component={HomePage}
-            isAuthenticated={this.props.isAuthenticated}
-          />
+          <Switch>
+            <Route exact path="/" component={LoginPage} />
+            <PrivateRoute
+              path="/home"
+              component={HomePage}
+              isAuthenticated={this.props.isAuthenticated}
+            />
+            <Route component={NotFoundPage} />
+          </Switch>
         </Fragment>
       </Router>
     );
@@ -58,3 +61,7 @@ export const PrivateRoute = (configProps: {
     />
   );
 };
+
+export const NotFoundPage = () => (
+  <h2 data-test-id="not-found">404 Sorry page not found.</h2>
+);
