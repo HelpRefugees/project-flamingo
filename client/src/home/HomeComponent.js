@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 
-import ReportComponent from "./ReportComponent";
+import ReportCardComponent from "./ReportCardComponent";
 import HeaderComponent from "./HeaderComponent";
-import { Report } from "./models";
+import type { Report } from "./models";
 
 type Props = {
   classes: any,
@@ -48,7 +48,7 @@ export class HomeComponent extends Component<Props, State> {
           <Grid item xs={1} />
           <Grid item xs={10}>
             {reports.map((report, index) => (
-              <ReportComponent report={report} key={index} />
+              <ReportCardComponent report={report} key={index} />
             ))}
           </Grid>
         </Grid>

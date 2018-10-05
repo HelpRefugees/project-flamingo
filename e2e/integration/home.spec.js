@@ -30,5 +30,11 @@ context.only("Home Page", () => {
           );
         });
     });
+
+    it("opens an incomplete report", () => {
+      cy.get('[data-test-id="report"]').click();
+
+      cy.url().should("include", "/reports/current");
+    });
   });
 });

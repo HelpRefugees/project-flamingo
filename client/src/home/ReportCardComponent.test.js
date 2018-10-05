@@ -1,7 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { Link } from "react-router-dom";
 
-import { ReportComponent } from "./ReportComponent";
+import { ReportCardComponent } from "./ReportCardComponent";
 
 describe("ReportComponent", () => {
   let wrapper;
@@ -10,7 +11,7 @@ describe("ReportComponent", () => {
   };
 
   beforeEach(() => {
-    wrapper = shallow(<ReportComponent report={report} classes={{}} />);
+    wrapper = shallow(<ReportCardComponent report={report} classes={{}} />);
   });
 
   it("shows the report", () => {
@@ -33,5 +34,9 @@ describe("ReportComponent", () => {
         .render()
         .text()
     ).toContain("Incomplete");
+  });
+
+  it("links to the report edit page", () => {
+    expect(wrapper.find(Link).props().to).toBe("/reports/current");
   });
 });
