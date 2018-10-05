@@ -9,6 +9,7 @@
     "cypress": "cypress open",
     "cypress:dev": "CYPRESS_BASE_URL=http://localhost:4200 cypress open",
     "test": "yarn test:client && yarn test:server",
+    "test:cover": "yarn test:client --coverage && cross-env CI=true yarn test:server --coverage",
     "test:client": "cd client && cross-env CI=true yarn test",
     "test:client:watch": "cd client && yarn test",
     "test:server": "jest --config ./server/tests/jest.config.js",
@@ -32,6 +33,9 @@
     "hooks": {
       "pre-push": "yarn ship"
     }
+  },
+  "jest": {
+    "coverageCollector": "jest-babel-istanbul"
   },
   "repository": {
     "type": "git",
@@ -71,6 +75,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^1.1.0",
     "jest": "20.0.4",
+    "jest-babel-istanbul": "^0.1.0",
     "nodemon": "^1.18.4",
     "rimraf": "^2.6.2",
     "supertest": "^3.3.0",

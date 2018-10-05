@@ -11,13 +11,18 @@ cache: yarn
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.9.4
   - export PATH="$HOME/.yarn/bin:$PATH"
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
 
 install:
   - yarn install:all
 
+before_script:
+  - ./cc-test-reporter before-build
+
 script:
   - yarn lint
-  - yarn test
+  - yarn test:cover
   - yarn e2e:ci
 
 before_deploy:
@@ -30,3 +35,9 @@ deploy:
   api: https://api.run.pivotal.io
   organization: digital-coe
   space: flamingo
+
+after_script:
+  - ./cc-test-reporter format-coverage -o "coverage/cc.server.json" -p .
+  - cd client && ../cc-test-reporter format-coverage -o "../coverage/cc.client.json" -p client
+  - ./cc-test-reporter sum-coverage coverage/cc.*.json -p 2
+  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi

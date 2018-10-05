@@ -1,5 +1,6 @@
 client/build/
+client/coverage/
 client/flow-typed/
 client/node_modules/
 server/static/
-
+coverage/

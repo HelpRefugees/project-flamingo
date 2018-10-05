@@ -1,6 +1,8 @@
 # Project Flamingo
 
 [![Build Status](https://travis-ci.org/HelpRefugees/project-flamingo.svg?branch=master)](https://travis-ci.org/HelpRefugees/project-flamingo)
+[![Maintainability](https://api.codeclimate.com/v1/badges/54f99530ff936ab85a45/maintainability)](https://codeclimate.com/github/HelpRefugees/project-flamingo/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/54f99530ff936ab85a45/test_coverage)](https://codeclimate.com/github/HelpRefugees/project-flamingo/test_coverage)
 
 Impact tracking tool for Help Refugees.
 
