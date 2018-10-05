@@ -38,8 +38,6 @@ deploy:
 
 after_script:
   - ./cc-test-reporter format-coverage -o "coverage/cc.server.json" -p .
-  - cd client \
-    && ../cc-test-reporter format-coverage -o "../coverage/cc.client.json" -p client \
-    && cd ..
+  - cd client && ../cc-test-reporter format-coverage -o "../coverage/cc.client.json" -p client && cd ..
   - ./cc-test-reporter sum-coverage coverage/cc.*.json -p 2
   - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi
