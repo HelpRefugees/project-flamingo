@@ -66,8 +66,9 @@ export class LoginComponent extends Component<Props, State> {
     }
   }
 
-  login = () => {
+  login = (event: Event) => {
     this.props.login(this.state.credentials);
+    event.preventDefault();
   };
 
   changeCredentials = (key: string, event: Event) => {
@@ -117,52 +118,54 @@ export class LoginComponent extends Component<Props, State> {
                 >
                   Please enter your login details
                 </h5>
-                <FormGroup className={classes.formGroup}>
-                  <FormControl margin="normal" required>
-                    <TextField
-                      data-test-id="username-input"
-                      label="Email"
-                      type="email"
-                      fullWidth
-                      variant="outlined"
-                      onChange={event =>
-                        this.changeCredentials("username", event)
-                      }
-                      error={this.props.isAuthenticated === false}
-                      value={this.state.credentials.username}
-                    />
-                  </FormControl>
-                  <FormControl margin="normal" required>
-                    <TextField
-                      data-test-id="password-input"
-                      label="Password"
-                      type="password"
-                      variant="outlined"
-                      onChange={event =>
-                        this.changeCredentials("password", event)
-                      }
-                      error={this.props.isAuthenticated === false}
-                      value={this.state.credentials.password}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    {this.props.isAuthenticated === false && (
-                      <FormHelperText error={true} data-test-id="login-error">
-                        Invalid credentials
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                  <FormControl margin="normal">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      data-test-id="login-button"
-                      onClick={() => this.login()}
-                    >
-                      Login
-                    </Button>
-                  </FormControl>
-                </FormGroup>
+                <form onSubmit={event => this.login(event)}>
+                  <FormGroup className={classes.formGroup}>
+                    <FormControl margin="normal" required>
+                      <TextField
+                        data-test-id="username-input"
+                        label="Email"
+                        type="email"
+                        fullWidth
+                        variant="outlined"
+                        onChange={event =>
+                          this.changeCredentials("username", event)
+                        }
+                        error={this.props.isAuthenticated === false}
+                        value={this.state.credentials.username}
+                      />
+                    </FormControl>
+                    <FormControl margin="normal" required>
+                      <TextField
+                        data-test-id="password-input"
+                        label="Password"
+                        type="password"
+                        variant="outlined"
+                        onChange={event =>
+                          this.changeCredentials("password", event)
+                        }
+                        error={this.props.isAuthenticated === false}
+                        value={this.state.credentials.password}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      {this.props.isAuthenticated === false && (
+                        <FormHelperText error={true} data-test-id="login-error">
+                          Invalid credentials
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                    <FormControl margin="normal">
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        data-test-id="login-button"
+                      >
+                        Login
+                      </Button>
+                    </FormControl>
+                  </FormGroup>
+                </form>
               </Grid>
             </Paper>
           </Grid>
