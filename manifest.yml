@@ -3,3 +3,5 @@ applications:
     buildpacks:
       - nodejs_buildpack
     command: yarn start:server
+    services:
+      - flamongo-db

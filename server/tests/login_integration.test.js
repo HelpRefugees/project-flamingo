@@ -1,5 +1,5 @@
 const request = require("supertest");
-const app = require("../app");
+const app = require("../app")(DATABASE_URL);
 
 describe("/api/login", () => {
   const route = "/api/login";

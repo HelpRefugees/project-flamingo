@@ -1,14 +1,16 @@
-const http = require('http');
+const http = require("http");
+const databaseUrl
+  = process.env.DATABASE_URL || "mongodb://localhost:27017/flamingo";
 
-const app = require('./app');
+const app = require("./app")(databaseUrl);
 
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+const port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
 
 const server = http.createServer(app);
 
 server.listen(port);
-server.on('listening', onListening);
+server.on("listening", onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -36,8 +38,6 @@ function normalizePort(val) {
 
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `pipe ${addr}`
-    : `port ${addr.port}`;
+  const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
   console.log(`Listening on ${bind}`);
 }
