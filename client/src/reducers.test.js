@@ -1,4 +1,5 @@
-import reducers from "./reducers";
+import reducers, { type State, initialState } from "./reducers";
+import type { Report } from "./home/models";
 
 describe("reducers", () => {
   it("should handle initial state", () => {
@@ -6,43 +7,49 @@ describe("reducers", () => {
       reducers(undefined, {
         type: ""
       })
-    ).toEqual({});
+    ).toEqual(initialState);
   });
 
   it("should handle SET_LOGGED_IN", () => {
     expect(
-      reducers(
-        {},
-        {
-          type: "SET_LOGGED_IN"
-        }
-      )
-    ).toEqual({
-      isAuthenticated: true
-    });
+      reducers(initialState, {
+        type: "SET_LOGGED_IN"
+      }).isAuthenticated
+    ).toEqual(true);
+  });
+
+  it("should handle ADD_REPORTS", () => {
+    const reports: Report[] = [{ grant: "hugh grant" }];
+    const startingState: State = {
+      isAuthenticated: true,
+      reports: undefined
+    };
+    const expectedState: State = {
+      isAuthenticated: true,
+      reports
+    };
+
+    expect(
+      reducers(startingState, {
+        type: "ADD_REPORTS",
+        payload: reports
+      })
+    ).toEqual(expectedState);
   });
 
   it("should handle SET_LOGGED_IN_ERROR", () => {
     expect(
-      reducers(
-        {},
-        {
-          type: "SET_LOGGED_IN_ERROR"
-        }
-      )
-    ).toEqual({
-      isAuthenticated: false
-    });
+      reducers(initialState, {
+        type: "SET_LOGGED_IN_ERROR"
+      }).isAuthenticated
+    ).toEqual(false);
   });
 
   it("should handle SET_LOGGED_OUT", () => {
     expect(
-      reducers(
-        {},
-        {
-          type: "SET_LOGGED_OUT"
-        }
-      )
-    ).toEqual({});
+      reducers(initialState, {
+        type: "SET_LOGGED_OUT"
+      }).isAuthenticated
+    ).toBeUndefined();
   });
 });

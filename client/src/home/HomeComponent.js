@@ -1,13 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 
-import ReportCardComponent from "./ReportCardComponent";
+import ReportListComponent from "./ReportListComponent";
 import HeaderComponent from "./HeaderComponent";
 import type { Report } from "./models";
 
-type Props = {
+export type Props = {
   classes: any,
-  logout: () => void
+  logout: () => void,
+  loadReports: () => void,
+  reports: ?(Report[])
 };
 
 type State = {
@@ -21,9 +23,12 @@ const styles = theme => ({
 });
 
 export class HomeComponent extends Component<Props, State> {
+  componentWillMount() {
+    this.props.loadReports();
+  }
+
   render() {
-    const reports: Report[] = [{ grant: "Grant Mitchell" }];
-    const { classes, logout } = this.props;
+    const { classes, logout, reports } = this.props;
     return (
       <Fragment>
         <HeaderComponent logout={logout} />
@@ -47,9 +52,7 @@ export class HomeComponent extends Component<Props, State> {
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item xs={10}>
-            {reports.map((report, index) => (
-              <ReportCardComponent report={report} key={index} />
-            ))}
+            {reports && <ReportListComponent reports={reports} />}
           </Grid>
         </Grid>
       </Fragment>

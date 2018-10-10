@@ -1,7 +1,12 @@
+import type { Dispatch } from "redux";
+
 import * as actions from "./actions";
 import { assertLater } from "./testHelpers";
 
 describe("actions", () => {
+  let action: (dispatch: Dispatch<any>) => any;
+  let mockDispatch;
+
   it("loginSuccessful should create SET_LOGGED_IN action", () => {
     expect(actions.loginSuccessful()).toEqual({
       type: "SET_LOGGED_IN"
@@ -20,10 +25,44 @@ describe("actions", () => {
     });
   });
 
-  describe("login", () => {
-    let action;
-    let mockDispatch;
+  it("receiveReports should create ADD_REPORTS action", () => {
+    const reports = [];
+    expect(actions.receiveReports(reports)).toEqual({
+      type: "ADD_REPORTS",
+      payload: reports
+    });
+  });
 
+  describe("loadReports", () => {
+    beforeEach(() => {
+      mockDispatch = jest.fn();
+      fetch.resetMocks();
+
+      action = actions.loadReports();
+    });
+
+    it("makes a request to the backend", () => {
+      fetch.mockResponseOnce("[]");
+
+      action(mockDispatch);
+
+      expect(fetch.mock.calls.length).toEqual(1);
+      const [url] = fetch.mock.calls[0];
+      expect(url).toEqual("/api/reports");
+    });
+
+    it("dispatches reports when the request succeed", done => {
+      fetch.mockResponseOnce("[]");
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(actions.receiveReports([]));
+      });
+    });
+  });
+
+  describe("login", () => {
     const username = "cookie monster";
     const password = "COOKIES!";
 

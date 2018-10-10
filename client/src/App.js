@@ -7,7 +7,7 @@ import { Redirect, Switch } from "react-router-dom";
 import LoginPage from "./authentication/LoginPage";
 import HomePage from "./home/HomePage";
 import ReportPage from "./report/ReportComponent";
-import { State } from "./reducers";
+import type { State } from "./reducers";
 
 const mapStateToProps = (state: State) => {
   return {

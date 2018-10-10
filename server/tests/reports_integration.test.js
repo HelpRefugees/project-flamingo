@@ -16,12 +16,19 @@ describe("reports endpoint", () => {
     await safeDrop("reports");
     await db
       .collection("reports")
-      .insert({ id: 1, completed: false, overview: "" });
+      .insert({
+        id: 1,
+        completed: false,
+        overview: "",
+        grant: "Grant Mitchell"
+      });
   });
 
   test("returns the list of current reports", async () => {
     const response = await request(app).get("/api/reports");
     expect(response.statusCode).toBe(200);
-    expect(response.body).toEqual([{ id: 1, completed: false, overview: "" }]);
+    expect(response.body).toEqual([
+      { id: 1, completed: false, overview: "", grant: "Grant Mitchell" }
+    ]);
   });
 });

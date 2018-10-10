@@ -1,5 +1,6 @@
 import type { Dispatch } from "redux";
 
+import type { Report } from "./home/models";
 import type { Credentials } from "./authentication/models";
 
 export const loginSuccessful = () => ({
@@ -26,3 +27,16 @@ export const login = (credentials: Credentials) => (dispatch: Dispatch<any>) =>
       dispatch(loginFailed());
     }
   });
+
+export const loadReports = () => (dispatch: Dispatch<any>) => {
+  fetch("/api/reports")
+    .then(res => res.json())
+    .then((reports: any) => {
+      dispatch(receiveReports(reports));
+    });
+};
+
+export const receiveReports = (reports: Report[]) => ({
+  type: "ADD_REPORTS",
+  payload: reports
+});
