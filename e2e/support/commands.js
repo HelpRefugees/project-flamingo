@@ -25,6 +25,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("login", (username, password) => {
+  cy.clearLocalStorage();
   cy.visit("/");
   cy.get('[data-test-id="username-input"] input').type(username);
   cy.get('[data-test-id="password-input"] input').type(password);
