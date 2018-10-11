@@ -4,7 +4,7 @@ context("Login Page", () => {
   });
 
   afterEach(() => {
-    logout();
+    cy.logout();
   });
 
   it("prevents access to the home page when not logged in", () => {
@@ -36,15 +36,14 @@ context("Login Page", () => {
 
   it("redirects to the login page when clicking logout", () => {
     loginAs("ellen@ip.org", "flamingo");
-    logout();
+    cy.logout();
 
     cy.get('[data-test-id="login-button"]').should("be.visible");
   });
 
   context("Ellen is logged in", () => {
     beforeEach(() => {
-      cy.visit("/");
-      loginAs("ellen@ip.org", "flamingo");
+      cy.login("ellen@ip.org", "flamingo");
     });
 
     it("prevents access to the login page", () => {
@@ -58,14 +57,5 @@ context("Login Page", () => {
     cy.get('[data-test-id="username-input"] input').type(username);
     cy.get('[data-test-id="password-input"] input').type(password);
     cy.get('[data-test-id="login-button"]').click();
-  }
-
-  function logout() {
-    cy.get("body").then($body => {
-      if ($body.find('[data-test-id="user-menu"]').length) {
-        cy.get('[data-test-id="user-menu"]').click();
-        cy.get('[data-test-id="logout-menuitem"]').click();
-      }
-    });
   }
 });

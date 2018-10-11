@@ -25,9 +25,18 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("login", (username, password) => {
-  cy.clearLocalStorage();
   cy.visit("/");
+  cy.logout();
   cy.get('[data-test-id="username-input"] input').type(username);
   cy.get('[data-test-id="password-input"] input').type(password);
   cy.get('[data-test-id="login-button"]').click();
+});
+
+Cypress.Commands.add("logout", () => {
+  cy.get("body").then($body => {
+    if ($body.find('[data-test-id="user-menu"]').length) {
+      cy.get('[data-test-id="user-menu"]').click();
+      cy.get('[data-test-id="logout-menuitem"]').click();
+    }
+  });
 });
