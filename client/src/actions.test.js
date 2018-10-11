@@ -46,7 +46,7 @@ describe("actions", () => {
 
       action(mockDispatch);
 
-      expect(fetch.mock.calls.length).toEqual(1);
+      expect(fetch.mock.calls).toHaveLength(1);
       const [url] = fetch.mock.calls[0];
       expect(url).toEqual("/api/reports");
     });
@@ -78,7 +78,7 @@ describe("actions", () => {
 
       action(mockDispatch);
 
-      expect(fetch.mock.calls.length).toEqual(1);
+      expect(fetch.mock.calls).toHaveLength(1);
       const [url, options] = fetch.mock.calls[0];
       expect(url).toEqual("/api/login");
       expect(options.method).toBe("POST");

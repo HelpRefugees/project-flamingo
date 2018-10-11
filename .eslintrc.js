@@ -4,7 +4,7 @@ module.exports = {
     node: true,
     jest: true
   },
-  extends: ["eslint:recommended"],
+  extends: ["eslint:recommended", "plugin:jest/recommended"],
   parser: "babel-eslint",
   parserOptions: {
     ecmaVersion: 8
