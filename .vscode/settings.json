@@ -2,5 +2,6 @@
   "flow.useNPMPackagedFlow": true,
   "flow.runOnAllFiles": true,
   "javascript.validate.enable": false,
+  "prettier.eslintIntegration": true,
   "flow.pathToFlow": "${workspaceRoot}/client/node_modules/.bin/flow"
 }

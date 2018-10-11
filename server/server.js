@@ -1,3 +1,4 @@
+const debug = require("debug")("server");
 const http = require("http");
 const databaseUrl
   = process.env.DATABASE_URL || "mongodb://localhost:27017/flamingo";
@@ -39,5 +40,5 @@ function normalizePort(val) {
 function onListening() {
   const addr = server.address();
   const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-  console.log(`Listening on ${bind}`);
+  debug(`Listening on ${bind}`);
 }

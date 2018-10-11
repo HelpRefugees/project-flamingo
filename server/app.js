@@ -1,12 +1,14 @@
 const express = require("express");
 const path = require("path");
 const { MongoClient } = require("mongodb");
+const morgan = require("morgan");
 
 const router = require("./router");
 const appFactory = mongoUrl => {
   const app = express();
   const API_ROOT_PATH = "/api";
   app.use(express.json());
+  app.use(morgan("dev"));
 
   router.get("/reports", async (req, res) => {
     const connection = await MongoClient.connect(mongoUrl);
