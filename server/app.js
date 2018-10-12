@@ -28,7 +28,8 @@ const appFactory = mongoUrl => {
     const db = await connection.db();
     db.collection("users").findOne(
       { username: req.body.username },
-      (err, dbResult) => {
+      async (err, dbResult) => {
+        await connection.close();
         if (bcrypt.compareSync(req.body.password, dbResult.password)) {
           return res.sendStatus(200);
         }

@@ -5,6 +5,7 @@ const app = require("../app")(DATABASE_URL);
 
 describe("/api/login", () => {
   const route = "/api/login";
+  let db;
 
   const safeDrop = async collection => {
     const collections = await db.collections();
