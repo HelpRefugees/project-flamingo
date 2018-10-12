@@ -23,7 +23,7 @@ const styles = themes => ({
   outerContainer: {
     height: "100vh"
   },
-  formGroup: {
+  form: {
     width: "100%"
   },
   fontFamily: {
@@ -118,8 +118,11 @@ export class LoginComponent extends Component<Props, State> {
                 >
                   Please enter your login details
                 </h5>
-                <form onSubmit={event => this.login(event)}>
-                  <FormGroup className={classes.formGroup}>
+                <form
+                  onSubmit={event => this.login(event)}
+                  className={classes.form}
+                >
+                  <FormGroup>
                     <FormControl margin="normal" required>
                       <TextField
                         data-test-id="username-input"
