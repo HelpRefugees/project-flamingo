@@ -6,7 +6,8 @@ import { Redirect, Switch } from "react-router-dom";
 
 import LoginPage from "./authentication/LoginPage";
 import HomePage from "./home/HomePage";
-import ReportPage from "./report/ReportComponent";
+import ReportPage from "./report/ReportPage";
+
 import type { State } from "./reducers";
 
 const mapStateToProps = (state: State) => {
@@ -33,7 +34,7 @@ export class App extends Component<Props> {
               isAuthenticated={this.props.isAuthenticated}
             />
             <PrivateRoute
-              path="/reports/current"
+              path="/reports/:id"
               component={ReportPage}
               isAuthenticated={this.props.isAuthenticated}
             />

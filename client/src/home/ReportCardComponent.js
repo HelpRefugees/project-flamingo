@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-import { Report } from "./models";
+import type { Report } from "../report/models";
 import theme from "../theme";
 
 const styles = themes => ({
@@ -25,7 +25,10 @@ export const ReportCardComponent = (props: {
 }) => {
   return (
     <Card data-test-id="report">
-      <Link to="/reports/current" style={{ textDecoration: "none" }}>
+      <Link
+        to={`/reports/${props.report.id}`}
+        style={{ textDecoration: "none" }}
+      >
         <CardContent>
           <Grid container justify="space-between" alignItems="center">
             <Grid item container direction="column" xs={3}>

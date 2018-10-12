@@ -1,6 +1,6 @@
 import type { Dispatch } from "redux";
 
-import type { Report } from "./home/models";
+import type { Report } from "./report/models";
 import type { Credentials } from "./authentication/models";
 
 export const loginSuccessful = () => ({
@@ -28,15 +28,38 @@ export const login = (credentials: Credentials) => (dispatch: Dispatch<any>) =>
     }
   });
 
+export const receivedReports = (reports: Report[]) => ({
+  type: "ADD_REPORTS",
+  payload: reports
+});
+
 export const loadReports = () => (dispatch: Dispatch<any>) => {
   fetch("/api/reports")
     .then(res => res.json())
     .then((reports: any) => {
-      dispatch(receiveReports(reports));
+      dispatch(receivedReports(reports));
     });
 };
 
-export const receiveReports = (reports: Report[]) => ({
-  type: "ADD_REPORTS",
-  payload: reports
+export const saveReportSuccessful = (report: Report) => ({
+  type: "SAVE_REPORT_SUCCESS",
+  payload: report
 });
+
+export const saveReportFailed = () => ({
+  type: "SAVE_REPORT_FAILURE"
+});
+
+export const saveReport = (report: Report) => (dispatch: Dispatch<any>) => {
+  fetch(`/api/reports/${report.id}`, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(report)
+  }).then(res => {
+    if (res.status === 200) {
+      dispatch(saveReportSuccessful(report));
+    } else {
+      dispatch(saveReportFailed());
+    }
+  });
+};

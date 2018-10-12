@@ -22,11 +22,30 @@ describe("reports endpoint", () => {
     });
   });
 
-  test("returns the list of current reports", async () => {
+  test("GET returns the list of current reports", async () => {
     const response = await request(app).get("/api/reports");
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual([
       { id: 1, completed: false, overview: "", grant: "Grant Mitchell" }
     ]);
+  });
+
+  test("PUT updates the report", async () => {
+    const updatedReport = {
+      id: 1,
+      completed: false,
+      overview: "Our new overview",
+      grant: "Grant Mitchell"
+    };
+
+    const response = await request(app)
+      .put("/api/reports/1")
+      .send(updatedReport)
+      .set("Accept", "application/json");
+
+    expect(response.statusCode).toBe(200);
+
+    const allReports = await request(app).get("/api/reports");
+    expect(allReports.body).toEqual([updatedReport]);
   });
 });

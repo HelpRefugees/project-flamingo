@@ -3,7 +3,7 @@ import { Grid, Typography, withStyles } from "@material-ui/core";
 
 import ReportListComponent from "./ReportListComponent";
 import HeaderComponent from "./HeaderComponent";
-import type { Report } from "./models";
+import type { Report } from "../report/models";
 
 export type Props = {
   classes: any,

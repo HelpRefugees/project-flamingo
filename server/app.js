@@ -37,6 +37,21 @@ const appFactory = mongoUrl => {
       }
     );
   });
+
+  router.put("/reports/:id", async (req, res) => {
+    const connection = await MongoClient.connect(mongoUrl);
+    const db = await connection.db();
+
+    db.collection("reports").replaceOne(
+      { id: parseInt(req.params.id, 10) },
+      req.body,
+      async () => {
+        await connection.close();
+        return res.sendStatus(200);
+      }
+    );
+  });
+
   app.use(API_ROOT_PATH, router);
 
   app.use(express.static(path.join(__dirname, "static")));

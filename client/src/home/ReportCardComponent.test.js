@@ -7,7 +7,10 @@ import { ReportCardComponent } from "./ReportCardComponent";
 describe("ReportComponent", () => {
   let wrapper;
   const report = {
-    grant: "Hello world"
+    grant: "Hello world",
+    overview: "Hi!",
+    completed: false,
+    id: 1
   };
 
   beforeEach(() => {
@@ -37,6 +40,6 @@ describe("ReportComponent", () => {
   });
 
   it("links to the report edit page", () => {
-    expect(wrapper.find(Link).props().to).toBe("/reports/current");
+    expect(wrapper.find(Link).props().to).toBe("/reports/1");
   });
 });

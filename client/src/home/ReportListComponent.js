@@ -1,7 +1,7 @@
 import React from "react";
 
 import ReportCardComponent from "./ReportCardComponent";
-import { Report } from "./models";
+import type { Report } from "../report/models";
 
 interface Props {
   reports: Report[];

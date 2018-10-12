@@ -1,10 +1,23 @@
 import React, { Component, Fragment } from "react";
 import HeaderComponent from "../home/HeaderComponent";
-import { Grid, Paper, withStyles, OutlinedInput } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  Paper,
+  withStyles,
+  OutlinedInput,
+  AppBar,
+  Toolbar,
+  Typography
+} from "@material-ui/core";
+import type { Report } from "./models";
 
 type Props = {
   classes: any,
-  logout: () => void
+  logout: () => void,
+  saveReport: (report: Report) => void,
+  match: any,
+  reports: Report[]
 };
 
 const styles = themes => ({
@@ -19,6 +32,11 @@ const styles = themes => ({
   headerText: {
     color: "#404040"
   },
+  appbar: {
+    boxShadow: "none",
+    justifyContent: "space-between",
+    marginTop: "1px"
+  },
   fontFamily: {
     fontFamily: "open Sans",
     margin: themes.spacing.unit * 0.5,
@@ -28,13 +46,56 @@ const styles = themes => ({
   }
 });
 
-export class ReportComponent extends Component<Props> {
+interface State {
+  overview: string;
+}
+
+export class ReportComponent extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      overview: this.report.overview
+    };
+  }
+
+  get report(): Report {
+    // TODO it's not very efficient to keep calling this
+    return (this.props.reports.find(
+      report => report.id === parseInt(this.props.match.params.id, 10)
+    ): any);
+  }
+
+  saveReport = () => {
+    this.props.saveReport({
+      ...this.report,
+      overview: this.state.overview
+    });
+  };
+
+  changeReportProgress = (event: Event) => {
+    this.setState({
+      overview: (event.target: window.HTMLInputElement).value
+    });
+  };
+
   render() {
     const { classes } = this.props;
+    const report = this.report;
 
     return (
       <Fragment>
         <HeaderComponent logout={this.props.logout} />
+        <AppBar position="static" color="inherit" className={classes.appbar}>
+          <Toolbar>
+            <Grid item container direction="column" xs={3}>
+              <Typography color="textSecondary" variant="caption">
+                Grant
+              </Typography>
+              <Typography data-test-id="grant-name">{report.grant}</Typography>
+            </Grid>
+          </Toolbar>
+        </AppBar>
+
         <Grid
           container
           spacing={24}
@@ -62,10 +123,25 @@ export class ReportComponent extends Component<Props> {
                       fullWidth={true}
                       id="component-outlined"
                       placeholder="Please add an overview"
+                      value={this.state.overview}
                       multiline
                       rows={10}
                       rowsMax={100}
+                      labelWidth={0}
+                      onChange={event => this.changeReportProgress(event)}
                     />
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      data-test-id="report-save-button"
+                      color="primary"
+                      variant="outlined"
+                      disabled={this.state.overview === report.overview}
+                      fullWidth={false}
+                      onClick={() => this.saveReport()}
+                    >
+                      Save
+                    </Button>
                   </Grid>
                 </Grid>
               </Paper>
