@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const { MongoClient } = require("mongodb");
 const morgan = require("morgan");
+const bcrypt = require("bcrypt");
 
 const router = require("./router");
 const appFactory = mongoUrl => {
@@ -22,6 +23,19 @@ const appFactory = mongoUrl => {
       });
   });
 
+  router.post("/login", async (req, res) => {
+    const connection = await MongoClient.connect(mongoUrl);
+    const db = await connection.db();
+    db.collection("users").findOne(
+      { username: req.body.username },
+      (err, dbResult) => {
+        if (bcrypt.compareSync(req.body.password, dbResult.password)) {
+          return res.sendStatus(200);
+        }
+        return res.sendStatus(401);
+      }
+    );
+  });
   app.use(API_ROOT_PATH, router);
 
   app.use(express.static(path.join(__dirname, "static")));

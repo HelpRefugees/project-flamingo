@@ -14,14 +14,12 @@ describe("reports endpoint", () => {
   beforeEach(async () => {
     db = global.__MONGO_DB__;
     await safeDrop("reports");
-    await db
-      .collection("reports")
-      .insert({
-        id: 1,
-        completed: false,
-        overview: "",
-        grant: "Grant Mitchell"
-      });
+    await db.collection("reports").insert({
+      id: 1,
+      completed: false,
+      overview: "",
+      grant: "Grant Mitchell"
+    });
   });
 
   test("returns the list of current reports", async () => {
