@@ -1,4 +1,17 @@
-context.only("Home Page", () => {
+context("Home Page", () => {
+  context("Daisy is logged in", () => {
+    beforeEach(() => {
+      cy.login("daisy@hr.org", "chooselove");
+    });
+
+    it("shows her name", () => {
+      cy.get('[data-test-id="user-name"]').should(
+        "contains.text",
+        "Daisy Jones"
+      );
+    });
+  });
+
   context("Ellen is logged in", () => {
     beforeEach(() => {
       cy.login("ellen@ip.org", "flamingo");
@@ -8,6 +21,13 @@ context.only("Home Page", () => {
       cy.get('[data-test-id="page-title"]').should(
         "contains.text",
         "Monthly Report"
+      );
+    });
+
+    it("shows her name", () => {
+      cy.get('[data-test-id="user-name"]').should(
+        "contains.text",
+        "Ellen Smith"
       );
     });
 

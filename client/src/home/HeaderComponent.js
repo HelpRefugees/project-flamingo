@@ -72,7 +72,7 @@ export class HeaderComponent extends Component<Props, State> {
               aria-haspopup="true"
               onClick={this.expandMenu}
             >
-              Ellen Smith
+              <span data-test-id="user-name">Ellen Smith</span>
               <Icon className={classes.icon}>arrow_drop_down</Icon>
             </Button>
             <Menu

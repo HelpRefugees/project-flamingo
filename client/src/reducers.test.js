@@ -11,26 +11,34 @@ describe("reducers", () => {
   });
 
   it("should handle SET_LOGGED_IN", () => {
-    expect(
-      reducers(initialState, {
-        type: "SET_LOGGED_IN"
-      }).isAuthenticated
-    ).toEqual(true);
+    const account = { username: "Steve", name: "Also Steve" };
+
+    const newState = reducers(initialState, {
+      type: "SET_LOGGED_IN",
+      payload: account
+    });
+
+    expect(newState.isAuthenticated).toEqual(true);
+    expect(newState.account).toEqual(account);
   });
 
   it("should handle ADD_REPORTS", () => {
+    const account = { username: "Steve", name: "Also Steve" };
+
     const reports: Report[] = [
       { grant: "hugh grant", overview: "", completed: false, id: 1 }
     ];
     const startingState: State = {
       isAuthenticated: true,
       reports: undefined,
-      savedReport: undefined
+      savedReport: undefined,
+      account: account
     };
     const expectedState: State = {
       isAuthenticated: true,
       reports,
-      savedReport: undefined
+      savedReport: undefined,
+      account: account
     };
 
     expect(

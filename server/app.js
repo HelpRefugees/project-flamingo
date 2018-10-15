@@ -29,7 +29,8 @@ const appFactory = connection => {
           dbResult
           && bcrypt.compareSync(req.body.password, dbResult.password)
         ) {
-          return res.sendStatus(200);
+          const { username, name } = dbResult;
+          return res.json({ username, name });
         }
         return res.sendStatus(401);
       }
