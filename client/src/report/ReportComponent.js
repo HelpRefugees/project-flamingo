@@ -15,7 +15,7 @@ import type { Report } from "./models";
 type Props = {
   classes: any,
   logout: () => void,
-  saveReport: (report: Report) => void,
+  updateReport: (report: Report) => void,
   match: any,
   reports: Report[]
 };
@@ -66,7 +66,7 @@ export class ReportComponent extends Component<Props, State> {
   }
 
   saveReport = () => {
-    this.props.saveReport({
+    this.props.updateReport({
       ...this.report,
       overview: this.state.overview
     });

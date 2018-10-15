@@ -41,25 +41,25 @@ export const loadReports = () => (dispatch: Dispatch<any>) => {
     });
 };
 
-export const saveReportSuccessful = (report: Report) => ({
+export const updateReportSuccessful = (report: Report) => ({
   type: "SAVE_REPORT_SUCCESS",
   payload: report
 });
 
-export const saveReportFailed = () => ({
+export const updateReportFailed = () => ({
   type: "SAVE_REPORT_FAILURE"
 });
 
-export const saveReport = (report: Report) => (dispatch: Dispatch<any>) => {
+export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
   fetch(`/api/reports/${report.id}`, {
     method: "PUT",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(report)
   }).then(res => {
     if (res.status === 200) {
-      dispatch(saveReportSuccessful(report));
+      dispatch(updateReportSuccessful(report));
     } else {
-      dispatch(saveReportFailed());
+      dispatch(updateReportFailed());
     }
   });
 };

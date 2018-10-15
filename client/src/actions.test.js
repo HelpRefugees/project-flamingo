@@ -120,14 +120,14 @@ describe("actions", () => {
         overview: "everything is fine",
         completed: false
       };
-      expect(actions.saveReportSuccessful(report)).toEqual({
+      expect(actions.updateReportSuccessful(report)).toEqual({
         type: "SAVE_REPORT_SUCCESS",
         payload: report
       });
     });
 
     it("saveReportFailed should create SAVE_REPORT_FAILURE action", () => {
-      expect(actions.saveReportFailed()).toEqual({
+      expect(actions.updateReportFailed()).toEqual({
         type: "SAVE_REPORT_FAILURE"
       });
     });
@@ -146,7 +146,7 @@ describe("actions", () => {
         mockDispatch = jest.fn();
         fetch.resetMocks();
 
-        action = actions.saveReport(report);
+        action = actions.updateReport(report);
       });
 
       it("makes a request to the backend with report progress status", () => {
@@ -169,7 +169,7 @@ describe("actions", () => {
 
         assertLater(done, () => {
           expect(mockDispatch).toHaveBeenCalledWith(
-            actions.saveReportSuccessful(report)
+            actions.updateReportSuccessful(report)
           );
         });
       });
@@ -180,7 +180,9 @@ describe("actions", () => {
         action(mockDispatch);
 
         assertLater(done, () => {
-          expect(mockDispatch).toHaveBeenCalledWith(actions.saveReportFailed());
+          expect(mockDispatch).toHaveBeenCalledWith(
+            actions.updateReportFailed()
+          );
         });
       });
     });

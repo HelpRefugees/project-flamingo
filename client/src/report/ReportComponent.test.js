@@ -7,7 +7,7 @@ import type { Report } from "./models";
 
 describe("ReportComponent", () => {
   let wrapper;
-  let mockSaveReport;
+  let mockUpdateReport;
   let mockLogout;
   const report1: Report = {
     id: 1,
@@ -24,12 +24,12 @@ describe("ReportComponent", () => {
   let reports: Report[] = [report1, report2];
 
   beforeEach(() => {
-    mockSaveReport = jest.fn();
+    mockUpdateReport = jest.fn();
     mockLogout = jest.fn();
 
     wrapper = shallow(
       <ReportComponent
-        saveReport={mockSaveReport}
+        updateReport={mockUpdateReport}
         logout={mockLogout}
         reports={reports}
         match={{ params: { id: "1" } }}
@@ -84,6 +84,6 @@ describe("ReportComponent", () => {
 
     wrapper.find('[data-test-id="report-save-button"]').simulate("click");
 
-    expect(mockSaveReport).toHaveBeenCalledWith(updatedReport1);
+    expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
   });
 });
