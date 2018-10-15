@@ -16,7 +16,7 @@ describe("reports endpoint", () => {
 
   beforeEach(async () => {
     await safeDrop("reports");
-    await global.DATABASE.collection("reports").insert({
+    await global.DATABASE.collection("reports").insertOne({
       id: 1,
       completed: false,
       overview: "",

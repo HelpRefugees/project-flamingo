@@ -10,7 +10,12 @@ exports.connect = function(url, callback = () => {}) {
     return Promise.resolve(state.connection);
   }
 
-  return MongoClient.connect(url)
+  return MongoClient.connect(
+    url,
+    {
+      useNewUrlParser: true
+    }
+  )
     .then(connection => {
       state.connection = connection;
       callback(null, connection);

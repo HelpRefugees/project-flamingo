@@ -19,7 +19,7 @@ describe("/api/login", async () => {
   beforeEach(async () => {
     await safeDrop("users");
     let salt = bcrypt.genSaltSync();
-    await global.DATABASE.collection("users").insert({
+    await global.DATABASE.collection("users").insertOne({
       username: "ellen@ip.org",
       password: bcrypt.hashSync("flamingo", salt)
     });
