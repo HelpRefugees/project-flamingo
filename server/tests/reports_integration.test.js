@@ -1,20 +1,22 @@
 const request = require("supertest");
-const app = require("../app")(DATABASE_URL);
 
 describe("reports endpoint", () => {
-  let db;
+  let app;
+
+  beforeAll(() => {
+    app = require("../app")(global.CONNECTION);
+  });
 
   const safeDrop = async collection => {
-    const collections = await db.collections();
+    const collections = await global.DATABASE.collections();
     if (collections.map(c => c.s.name).indexOf(collection) > -1) {
-      await db.collection(collection).drop();
+      await global.DATABASE.collection(collection).drop();
     }
   };
 
   beforeEach(async () => {
-    db = global.__MONGO_DB__;
     await safeDrop("reports");
-    await db.collection("reports").insert({
+    await global.DATABASE.collection("reports").insert({
       id: 1,
       completed: false,
       overview: "",

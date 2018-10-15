@@ -1,24 +1,25 @@
 const request = require("supertest");
 const bcrypt = require("bcrypt");
 
-const app = require("../app")(DATABASE_URL);
-
-describe("/api/login", () => {
+describe("/api/login", async () => {
+  let app;
   const route = "/api/login";
-  let db;
+
+  beforeAll(() => {
+    app = require("../app")(global.CONNECTION);
+  });
 
   const safeDrop = async collection => {
-    const collections = await db.collections();
+    const collections = await global.DATABASE.collections();
     if (collections.map(c => c.s.name).indexOf(collection) > -1) {
-      await db.collection(collection).drop();
+      await global.DATABASE.collection(collection).drop();
     }
   };
 
   beforeEach(async () => {
-    db = global.__MONGO_DB__;
     await safeDrop("users");
     let salt = bcrypt.genSaltSync();
-    await db.collection("users").insert({
+    await global.DATABASE.collection("users").insert({
       username: "ellen@ip.org",
       password: bcrypt.hashSync("flamingo", salt)
     });

@@ -1,17 +1,30 @@
 const debug = require("debug")("server");
 const http = require("http");
+
 const databaseUrl
   = process.env.DATABASE_URL || "mongodb://localhost:27017/flamingo";
-
-const app = require("./app")(databaseUrl);
-
 const port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
 
-const server = http.createServer(app);
+const db = require("./db");
 
-server.listen(port);
-server.on("listening", onListening);
+let server;
+
+db.connect(
+  databaseUrl,
+  (err, connection) => {
+    if (err) {
+      debug("Unable to connect to Mongo", err);
+      return process.exit(1);
+    }
+
+    let app = require("./app")(connection);
+    app.set("port", port);
+
+    server = http.createServer(app);
+    server.listen(port);
+    server.on("listening", onListening);
+  }
+);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -42,3 +55,7 @@ function onListening() {
   const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
 }
+
+process.on("SIGINT", () => {
+  db.close();
+});
