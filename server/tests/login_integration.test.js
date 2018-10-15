@@ -46,4 +46,15 @@ describe("/api/login", async () => {
 
     expect(response.statusCode).toBe(401);
   });
+
+  test("returns 401 Unauthorised when unknown username is provided", async () => {
+    const credentials = { username: "bob@ip.org", password: "whocares" };
+
+    const response = await request(app)
+      .post(route)
+      .send(credentials)
+      .set("Accept", "application/json");
+
+    expect(response.statusCode).toBe(401);
+  });
 });

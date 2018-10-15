@@ -24,8 +24,11 @@ const appFactory = connection => {
     const db = await connection.db();
     db.collection("users").findOne(
       { username: req.body.username },
-      async (err, dbResult) => {
-        if (bcrypt.compareSync(req.body.password, dbResult.password)) {
+      (err, dbResult) => {
+        if (
+          dbResult
+          && bcrypt.compareSync(req.body.password, dbResult.password)
+        ) {
           return res.sendStatus(200);
         }
         return res.sendStatus(401);
