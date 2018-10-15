@@ -23,10 +23,11 @@ exports.connect = function(url, callback = () => {}) {
 };
 
 exports.close = function(callback = () => {}) {
-  if (state.connection) {
-    state.connection.close(err => {
-      state.connection = null;
-      callback(err);
-    });
+  if (!state.connection) {
+    return Promise.resolve();
   }
+  return state.connection.close(err => {
+    state.connection = null;
+    callback(err);
+  });
 };

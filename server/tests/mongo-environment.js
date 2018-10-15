@@ -12,7 +12,7 @@ module.exports = class MongoEnvironment extends NodeEnvironment {
   }
 
   async teardown() {
-    await this.global.CONNECTION.close();
+    await db.close();
     await super.teardown();
   }
 };
