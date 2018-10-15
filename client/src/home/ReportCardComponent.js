@@ -19,10 +19,12 @@ const styles = themes => ({
   }
 });
 
-export const ReportCardComponent = (props: {
-  report: Report,
-  classes: any
-}) => {
+type Props = {
+  classes: any,
+  report: Report
+};
+
+export const ReportCardComponent = (props: Props) => {
   return (
     <Card data-test-id="report">
       <Link

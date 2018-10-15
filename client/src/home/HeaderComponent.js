@@ -9,6 +9,7 @@ import {
   Button,
   Icon
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 type Props = {
   classes: any,
@@ -26,7 +27,7 @@ const styles = theme => ({
   },
   headerLogo: {
     margin: theme.spacing.unit,
-    height: theme.spacing.unit * 8
+    maxHeight: "45px"
   },
   menuItem: {
     minWidth: "150px"
@@ -57,11 +58,14 @@ export class HeaderComponent extends Component<Props, State> {
       <AppBar position="static" color="inherit" className={classes.header}>
         <Toolbar>
           <Grid container justify="space-between" alignItems="center">
-            <img
-              src="/logo.png"
-              alt="Help Refugees Logo"
-              className={classes.headerLogo}
-            />
+            <Link to={`/home`}>
+              <img
+                data-test-id="logo"
+                src="/logo-wide.png"
+                alt="Help Refugees Logo"
+                className={classes.headerLogo}
+              />
+            </Link>
             <Button
               data-test-id="user-menu"
               aria-owns={anchorElement ? "simple-menu" : null}

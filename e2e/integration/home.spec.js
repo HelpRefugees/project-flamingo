@@ -54,7 +54,7 @@ context.only("Home Page", () => {
 
       cy.get("[data-test-id='report-save-button']").click();
 
-      cy.visit("/");
+      cy.get("[data-test-id='logo']").click();
       cy.get('[data-test-id="report"]').click();
       cy.get('[data-test-id="report-progress-input"] textarea')
         .last()
