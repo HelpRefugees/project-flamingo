@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { ReportComponent } from "./ReportComponent";
-import HeaderComponent from "../my-reports/HeaderComponent";
+import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "./models";
 import type { Account } from "../authentication/models";
 

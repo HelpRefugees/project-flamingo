@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 
 import ReportListComponent from "./ReportListComponent";
-import HeaderComponent from "./HeaderComponent";
+import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "../report/models";
 import type { Account } from "../authentication/models";
 
