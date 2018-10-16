@@ -30,7 +30,7 @@ Cypress.Commands.add("login", (username, password) => {
   cy.get('[data-test-id="username-input"] input').type(username);
   cy.get('[data-test-id="password-input"] input').type(password);
   cy.get('[data-test-id="login-button"]').click();
-  cy.url().should("include", "/home", "should redirect to home page");
+  cy.get('[data-test-id="user-menu"]').should("be.visible");
 });
 
 Cypress.Commands.add("logout", () => {

@@ -1,15 +1,18 @@
 import type { Report } from "./report/models";
+import type { Account } from "./authentication/models";
 
 export type State = {
   isAuthenticated: ?boolean,
   reports: ?(Report[]),
-  savedReport: ?boolean
+  savedReport: ?boolean,
+  account: ?Account
 };
 
 export const initialState: State = {
   isAuthenticated: undefined,
   reports: undefined,
-  savedReport: undefined
+  savedReport: undefined,
+  account: undefined
 };
 
 type Action = {
@@ -22,7 +25,8 @@ const reducers = (state: State = initialState, action: Action): State => {
     case "SET_LOGGED_IN": {
       return {
         ...state,
-        isAuthenticated: true
+        isAuthenticated: true,
+        account: action.payload
       };
     }
 
@@ -36,7 +40,8 @@ const reducers = (state: State = initialState, action: Action): State => {
     case "SET_LOGGED_OUT": {
       return {
         ...state,
-        isAuthenticated: undefined
+        isAuthenticated: undefined,
+        account: undefined
       };
     }
 

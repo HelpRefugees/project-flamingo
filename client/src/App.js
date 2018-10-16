@@ -7,6 +7,7 @@ import { Redirect, Switch } from "react-router-dom";
 import LoginPage from "./authentication/LoginPage";
 import HomePage from "./home/HomePage";
 import ReportPage from "./report/ReportPage";
+import ReportsListingPage from "./reports-listing/ReportsListingPage";
 
 import type { State } from "./reducers";
 
@@ -31,6 +32,11 @@ export class App extends Component<Props> {
             <PrivateRoute
               path="/home"
               component={HomePage}
+              isAuthenticated={this.props.isAuthenticated}
+            />
+            <PrivateRoute
+              path="/reportsListing"
+              component={ReportsListingPage}
               isAuthenticated={this.props.isAuthenticated}
             />
             <PrivateRoute

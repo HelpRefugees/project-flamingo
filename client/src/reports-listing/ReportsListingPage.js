@@ -1,21 +1,20 @@
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
-import LoginComponent from "./LoginComponent";
-import { login, logout } from "../actions";
+import ReportsListingComponent from "./ReportsListingComponent";
+import { logout } from "../actions";
 import type { State } from "../reducers";
 
 const mapStateToProps = (state: State): any => ({
   isAuthenticated: state.isAuthenticated,
-  role: state.account ? state.account.role : undefined
+  account: state.account
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  login: credentials => dispatch(login(credentials)),
-  initializeLogin: () => dispatch(logout())
+  logout: () => dispatch(logout())
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginComponent);
+)(ReportsListingComponent);

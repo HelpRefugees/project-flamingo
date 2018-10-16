@@ -1,10 +1,11 @@
 import type { Dispatch } from "redux";
 
 import type { Report } from "./report/models";
-import type { Credentials } from "./authentication/models";
+import type { Credentials, Account } from "./authentication/models";
 
-export const loginSuccessful = () => ({
-  type: "SET_LOGGED_IN"
+export const loginSuccessful = (account: Account) => ({
+  type: "SET_LOGGED_IN",
+  payload: account
 });
 
 export const loginFailed = () => ({
@@ -22,7 +23,9 @@ export const login = (credentials: Credentials) => (dispatch: Dispatch<any>) =>
     body: JSON.stringify(credentials)
   }).then(res => {
     if (res.status === 200) {
-      dispatch(loginSuccessful());
+      res.json().then(account => {
+        dispatch(loginSuccessful(account));
+      });
     } else {
       dispatch(loginFailed());
     }

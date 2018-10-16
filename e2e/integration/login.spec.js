@@ -28,10 +28,20 @@ context("Login Page", () => {
     cy.get('[data-test-id="login-error"]').should("not.exist");
   });
 
-  it("accepts the valid credentials", () => {
+  it("accepts Ellen's valid credentials", () => {
     loginAs("ellen@ip.org", "flamingo");
 
     cy.url().should("include", "/home", "should redirect to home page");
+  });
+
+  it("accepts Daisy's valid credentials", () => {
+    loginAs("daisy@hr.org", "chooselove");
+
+    cy.url().should(
+      "include",
+      "/reportsListing",
+      "should redirect to reports listing page"
+    );
   });
 
   it("redirects to the login page when clicking logout", () => {

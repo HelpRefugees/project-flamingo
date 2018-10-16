@@ -41,16 +41,17 @@ const styles = themes => ({
   }
 });
 
-interface State {
-  credentials: Credentials;
-}
+type State = {
+  credentials: Credentials
+};
 
-interface Props {
-  classes: any;
-  isAuthenticated?: boolean;
-  login: (credentials: Credentials) => void;
-  initializeLogin: () => void;
-}
+type Props = {
+  classes: any,
+  isAuthenticated?: boolean,
+  login: (credentials: Credentials) => void,
+  initializeLogin: () => void,
+  role: ?string
+};
 
 export class LoginComponent extends Component<Props, State> {
   constructor(props: Props) {
@@ -81,8 +82,14 @@ export class LoginComponent extends Component<Props, State> {
   };
 
   render() {
-    if (this.props.isAuthenticated) {
+    if (
+      this.props.isAuthenticated
+      && this.props.role === "implementing-partner"
+    ) {
       return <Redirect to="/home" />;
+    }
+    if (this.props.isAuthenticated && this.props.role === "help-refugees") {
+      return <Redirect to="/reportsListing" />;
     }
     const { classes } = this.props;
     return (

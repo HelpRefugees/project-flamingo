@@ -4,13 +4,15 @@ import { Grid, Typography, withStyles } from "@material-ui/core";
 import ReportListComponent from "./ReportListComponent";
 import HeaderComponent from "./HeaderComponent";
 import type { Report } from "../report/models";
+import type { Account } from "../authentication/models";
 
 export type Props = {
   classes: any,
   logout: () => void,
   loadReports: () => void,
   reports: ?(Report[]),
-  updateReport: Report => void
+  updateReport: Report => void,
+  account: ?Account
 };
 
 type State = {
@@ -39,10 +41,10 @@ export class HomeComponent extends Component<Props, State> {
   }
 
   render() {
-    const { classes, logout, reports, updateReport } = this.props;
+    const { classes, logout, reports, updateReport, account } = this.props;
     return (
       <Fragment>
-        <HeaderComponent logout={logout} />
+        <HeaderComponent logout={logout} account={account} />
 
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />

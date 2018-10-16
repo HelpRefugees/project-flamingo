@@ -11,9 +11,12 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+import type { Account } from "../authentication/models";
+
 type Props = {
   classes: any,
-  logout: () => void
+  logout: () => void,
+  account: Account
 };
 
 type State = {
@@ -30,6 +33,9 @@ const styles = theme => ({
   },
   menuItem: {
     minWidth: "150px"
+  },
+  userMenu: {
+    textTransform: "none"
   }
 });
 
@@ -51,7 +57,7 @@ export class HeaderComponent extends Component<Props, State> {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, account } = this.props;
     const { anchorElement } = this.state;
     return (
       <AppBar position="static" color="inherit" className={classes.header}>
@@ -70,8 +76,11 @@ export class HeaderComponent extends Component<Props, State> {
               aria-owns={anchorElement ? "simple-menu" : null}
               aria-haspopup="true"
               onClick={this.expandMenu}
+              className={classes.userMenu}
             >
-              Ellen Smith
+              <span data-test-id="user-name">
+                {account ? account.name : "No name"}
+              </span>
               <Icon className={classes.icon}>arrow_drop_down</Icon>
             </Button>
             <Menu

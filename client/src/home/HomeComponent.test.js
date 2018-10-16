@@ -19,6 +19,7 @@ describe("HomeComponent", () => {
           logout={() => {}}
           loadReports={mockLoadReports}
           updateReport={report => {}}
+          account={undefined}
         />
       </MemoryRouter>
     );
@@ -51,6 +52,7 @@ describe("HomeComponent", () => {
           logout={() => {}}
           loadReports={() => {}}
           updateReport={report => {}}
+          account={undefined}
         />
       );
     });
@@ -86,6 +88,7 @@ describe("HomeComponent", () => {
           logout={() => {}}
           loadReports={() => {}}
           updateReport={dummyUpdateReport}
+          account={undefined}
         />
       );
     });

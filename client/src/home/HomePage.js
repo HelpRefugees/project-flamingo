@@ -13,8 +13,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   updateReport: (report: Report) => dispatch(updateReport(report))
 });
 
-const mapStateToProps: (state: State) => $Shape<Props> = ({ reports }) => ({
-  reports
+const mapStateToProps: (state: State) => $Shape<Props> = ({
+  reports,
+  account
+}) => ({
+  reports,
+  account
 });
 
 export default connect(

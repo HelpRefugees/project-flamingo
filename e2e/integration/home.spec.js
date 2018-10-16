@@ -1,4 +1,4 @@
-context.only("Home Page", () => {
+context("Home Page", () => {
   context("Ellen is logged in", () => {
     beforeEach(() => {
       cy.login("ellen@ip.org", "flamingo");
@@ -8,6 +8,13 @@ context.only("Home Page", () => {
       cy.get('[data-test-id="page-title"]').should(
         "contains.text",
         "Monthly Report"
+      );
+    });
+
+    it("shows her name 'Ellen Smith'", () => {
+      cy.get('[data-test-id="user-name"]').should(
+        "contains.text",
+        "Ellen Smith"
       );
     });
 

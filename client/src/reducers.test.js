@@ -1,5 +1,6 @@
 import reducers, { type State, initialState } from "./reducers";
 import type { Report } from "./report/models";
+import type { Account } from "./authentication/models";
 
 describe("reducers", () => {
   it("should handle initial state", () => {
@@ -11,26 +12,42 @@ describe("reducers", () => {
   });
 
   it("should handle SET_LOGGED_IN", () => {
-    expect(
-      reducers(initialState, {
-        type: "SET_LOGGED_IN"
-      }).isAuthenticated
-    ).toEqual(true);
+    const account: Account = {
+      username: "steve@email.org",
+      name: "Also Steve",
+      role: "some-role"
+    };
+
+    const newState = reducers(initialState, {
+      type: "SET_LOGGED_IN",
+      payload: account
+    });
+
+    expect(newState.isAuthenticated).toEqual(true);
+    expect(newState.account).toEqual(account);
   });
 
   it("should handle ADD_REPORTS", () => {
+    const account: Account = {
+      username: "steve@email.org",
+      name: "Also Steve",
+      role: "some-role"
+    };
+
     const reports: Report[] = [
       { grant: "hugh grant", overview: "", completed: false, id: 1 }
     ];
     const startingState: State = {
       isAuthenticated: true,
       reports: undefined,
-      savedReport: undefined
+      savedReport: undefined,
+      account: account
     };
     const expectedState: State = {
       isAuthenticated: true,
       reports,
-      savedReport: undefined
+      savedReport: undefined,
+      account: account
     };
 
     expect(
@@ -50,11 +67,25 @@ describe("reducers", () => {
   });
 
   it("should handle SET_LOGGED_OUT", () => {
-    expect(
-      reducers(initialState, {
-        type: "SET_LOGGED_OUT"
-      }).isAuthenticated
-    ).toBeUndefined();
+    const account = {
+      username: "steve@email.org",
+      name: "Also Steve",
+      role: "some-role"
+    };
+
+    const startingState: State = {
+      isAuthenticated: true,
+      reports: undefined,
+      savedReport: undefined,
+      account: account
+    };
+
+    let newState = reducers(startingState, {
+      type: "SET_LOGGED_OUT"
+    });
+
+    expect(newState.isAuthenticated).toBeUndefined();
+    expect(newState.account).toBeUndefined();
   });
 
   it("should handle SAVE_REPORT_SUCCESS", () => {

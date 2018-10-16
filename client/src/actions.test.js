@@ -3,14 +3,21 @@ import type { Dispatch } from "redux";
 import type { Report } from "./report/models";
 import * as actions from "./actions";
 import { assertLater } from "./testHelpers";
+import type { Account } from "./authentication/models";
 
 describe("actions", () => {
   let action: (dispatch: Dispatch<any>) => any;
   let mockDispatch;
 
   it("loginSuccessful should create SET_LOGGED_IN action", () => {
-    expect(actions.loginSuccessful()).toEqual({
-      type: "SET_LOGGED_IN"
+    const account: Account = {
+      username: "Steve@ip.org",
+      name: "Also Steve",
+      role: "implementing-partner"
+    };
+    expect(actions.loginSuccessful(account)).toEqual({
+      type: "SET_LOGGED_IN",
+      payload: account
     });
   });
 
@@ -88,12 +95,19 @@ describe("actions", () => {
     });
 
     it("dispatches login success action when the request succeeds", done => {
-      fetch.mockResponseOnce("{}");
+      const account: Account = {
+        username: "Steve@ip.org",
+        name: "Also Steve",
+        role: "implementing-partner"
+      };
+      fetch.mockResponseOnce(JSON.stringify(account));
 
       action(mockDispatch);
 
       assertLater(done, () => {
-        expect(mockDispatch).toHaveBeenCalledWith(actions.loginSuccessful());
+        expect(mockDispatch).toHaveBeenCalledWith(
+          actions.loginSuccessful(account)
+        );
       });
     });
 

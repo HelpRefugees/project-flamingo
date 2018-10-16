@@ -14,6 +14,7 @@ describe("LoginComponent", () => {
         login={mockLogin}
         classes={{}}
         initializeLogin={() => {}}
+        role={undefined}
       />
     );
   });
