@@ -77,8 +77,7 @@ export class ReportComponent extends Component<Props, State> {
     this.props.updateReport({
       ...this.report,
       overview: this.state.overview,
-      completed: true,
-      submissionDate: new Date()
+      completed: true
     });
 
     this.props.history.push("/");

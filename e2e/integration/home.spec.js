@@ -67,8 +67,6 @@ context.only("Home Page", () => {
     });
 
     it("submits a report", () => {
-      const currentTestDate = new Date("2018-10-01T00:00:00Z");
-      cy.clock(currentTestDate.getTime());
       const details = randomText(16);
 
       cy.get(
@@ -105,7 +103,7 @@ context.only("Home Page", () => {
           );
           cy.get('[data-test-id="report-status"]').should(
             "contains.text",
-            "01/10/2018"
+            today()
           );
         });
 
@@ -115,6 +113,16 @@ context.only("Home Page", () => {
         .should("be", 1);
     });
   });
+
+  function today() {
+    const now = new Date();
+    const day = now
+      .getDate()
+      .toString()
+      .padStart(2, "0");
+    const month = (now.getMonth() + 1).toString().padStart(2, "0");
+    return `${day}/${month}/${now.getFullYear()}`;
+  }
 
   function randomText(length) {
     let text = "";

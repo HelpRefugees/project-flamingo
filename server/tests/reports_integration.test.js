@@ -1,10 +1,15 @@
 const request = require("supertest");
+const MockDate = require("mockdate");
 
 describe("reports endpoint", () => {
   let app;
 
   beforeAll(() => {
     app = require("../app")(global.CONNECTION);
+  });
+
+  afterEach(() => {
+    MockDate.reset();
   });
 
   const safeDrop = async collection => {
@@ -32,7 +37,7 @@ describe("reports endpoint", () => {
     ]);
   });
 
-  test("PUT updates the report", async () => {
+  test("PUT updates the report on save", async () => {
     const updatedReport = {
       id: 1,
       completed: false,
@@ -49,5 +54,26 @@ describe("reports endpoint", () => {
 
     const allReports = await request(app).get("/api/reports");
     expect(allReports.body).toEqual([updatedReport]);
+  });
+
+  test("PUT updates the report on submit", async () => {
+    const submittedReport = {
+      id: 1,
+      completed: true,
+      overview: "Our final overview",
+      grant: "Grant Mitchell"
+    };
+    const submissionDate = "2018-10-16T10:47:02.404Z";
+    MockDate.set(new Date(submissionDate));
+
+    const response = await request(app)
+      .put("/api/reports/1")
+      .send(submittedReport)
+      .set("Accept", "application/json");
+
+    expect(response.statusCode).toBe(200);
+
+    const allReports = await request(app).get("/api/reports");
+    expect(allReports.body).toEqual([{ ...submittedReport, submissionDate }]);
   });
 });

@@ -38,9 +38,13 @@ const appFactory = connection => {
 
   router.put("/reports/:id", async (req, res) => {
     const db = await connection.db();
+    const report = req.body;
+    if (report.completed) {
+      report.submissionDate = new Date();
+    }
     db.collection("reports").replaceOne(
       { id: parseInt(req.params.id, 10) },
-      req.body,
+      report,
       async () => {
         return res.sendStatus(200);
       }

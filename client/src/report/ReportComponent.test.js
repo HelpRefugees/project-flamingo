@@ -5,8 +5,6 @@ import { ReportComponent } from "./ReportComponent";
 import HeaderComponent from "../home/HeaderComponent";
 import type { Report } from "./models";
 
-const MockDate = require("mockdate");
-
 describe("ReportComponent", () => {
   let wrapper;
   let mockUpdateReport;
@@ -25,11 +23,8 @@ describe("ReportComponent", () => {
     completed: false
   };
   let reports: Report[] = [report1, report2];
-  const currentTestDate = new Date("2018-03-26T00:00:00Z");
 
   beforeEach(() => {
-    MockDate.set(currentTestDate);
-
     mockUpdateReport = jest.fn();
     mockLogout = jest.fn();
     mockHistoryPush = jest.fn();
@@ -44,10 +39,6 @@ describe("ReportComponent", () => {
         history={{ push: mockHistoryPush }}
       />
     );
-  });
-
-  afterEach(() => {
-    MockDate.reset();
   });
 
   it("renders a header component and passes the logout method to it", () => {
@@ -105,8 +96,7 @@ describe("ReportComponent", () => {
       id: 1,
       grant: "Hugh Grant",
       overview,
-      completed: true,
-      submissionDate: currentTestDate
+      completed: true
     };
 
     wrapper

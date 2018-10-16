@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.1.2",
-    "mockdate": "^2.0.2",
     "moment": "^2.22.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
