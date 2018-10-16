@@ -10,15 +10,17 @@ import {
   Toolbar,
   Typography
 } from "@material-ui/core";
-import type { Report } from "./models";
 
+import type { Report } from "./models";
+import type { Account } from "../authentication/models";
 type Props = {
   classes: any,
   logout: () => void,
   updateReport: (report: Report) => void,
   match: any,
   reports: Report[],
-  history: any
+  history: any,
+  account: Account
 };
 
 const styles = themes => ({
@@ -90,12 +92,12 @@ export class ReportComponent extends Component<Props, State> {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, account } = this.props;
     const report = this.report;
 
     return (
       <Fragment>
-        <HeaderComponent logout={this.props.logout} />
+        <HeaderComponent logout={this.props.logout} account={account} />
         <AppBar position="static" color="inherit" className={classes.appbar}>
           <Toolbar>
             <Grid container justify="space-between" alignItems="center">

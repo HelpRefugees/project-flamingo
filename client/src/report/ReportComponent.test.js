@@ -4,6 +4,7 @@ import { shallow } from "enzyme";
 import { ReportComponent } from "./ReportComponent";
 import HeaderComponent from "../home/HeaderComponent";
 import type { Report } from "./models";
+import type { Account } from "../authentication/models";
 
 describe("ReportComponent", () => {
   let wrapper;
@@ -23,6 +24,11 @@ describe("ReportComponent", () => {
     completed: false
   };
   let reports: Report[] = [report1, report2];
+  const account: Account = {
+    username: "Steve@ip.org",
+    name: "Also Steve",
+    role: "implementing-partner"
+  };
 
   beforeEach(() => {
     mockUpdateReport = jest.fn();
@@ -37,12 +43,14 @@ describe("ReportComponent", () => {
         match={{ params: { id: "1" } }}
         classes={{}}
         history={{ push: mockHistoryPush }}
+        account={account}
       />
     );
   });
 
-  it("renders a header component and passes the logout method to it", () => {
-    wrapper.find(<HeaderComponent logout={mockLogout} />);
+  it("renders a header component and passes the logout method and the account to it", () => {
+    expect(wrapper.find(HeaderComponent).prop("logout")).toBe(mockLogout);
+    expect(wrapper.find(HeaderComponent).prop("account")).toBe(account);
   });
 
   it("disables the save button when the overview is unchanged", () => {
