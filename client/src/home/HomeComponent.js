@@ -49,7 +49,7 @@ export class HomeComponent extends Component<Props, State> {
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item container xs={10} justify="center">
-            <Typography variant="display2" data-test-id="page-title">
+            <Typography variant="h3" data-test-id="page-title">
               Monthly Report
             </Typography>
           </Grid>
@@ -58,7 +58,7 @@ export class HomeComponent extends Component<Props, State> {
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item xs={10}>
-            <Typography variant="display1">Incomplete Reports</Typography>
+            <Typography variant="h4">Incomplete Reports</Typography>
           </Grid>
         </Grid>
 
@@ -77,7 +77,7 @@ export class HomeComponent extends Component<Props, State> {
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item xs={10}>
-            <Typography variant="display1">Complete Reports</Typography>
+            <Typography variant="h4">Complete Reports</Typography>
           </Grid>
         </Grid>
 

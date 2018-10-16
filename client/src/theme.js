@@ -6,8 +6,9 @@ export default createMuiTheme({
     background: { default: "#f4f4f4", paper: "#ffffff" }
   },
   typography: {
+    useNextVariants: true,
     allVariants: { color: "#404040" },
-    body1: { fontSize: 18 },
+    body2: { fontSize: 18 },
     caption: { fontSize: 10, textTransform: "uppercase" }
   }
 });
