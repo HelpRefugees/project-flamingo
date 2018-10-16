@@ -21,10 +21,16 @@ describe("ReportsListingComponent", () => {
     it("displays a message if there are no completed reports", () => {
       expect(
         wrapper
+          .find('[data-test-id="no-reports-title"]')
+          .render()
+          .text()
+      ).toContain("No submitted reports yet!");
+      expect(
+        wrapper
           .find('[data-test-id="no-reports-message"]')
           .render()
           .text()
-      ).toContain("No submitted reports");
+      ).toContain("Once you’ve a completed report it will appear here.");
     });
   });
 });

@@ -44,11 +44,15 @@ export class ReportsListingComponent extends Component<Props> {
           <Grid item xs={1} />
           <Grid item xs={10}>
             <Paper className={classes.paper}>
-              <Typography variant="h5" className={classes.paperTitle}>
-                Sorry!
+              <Typography
+                data-test-id="no-reports-title"
+                variant="h5"
+                className={classes.paperTitle}
+              >
+                No submitted reports yet!
               </Typography>
               <Typography data-test-id="no-reports-message">
-                No submitted reports
+                Once you’ve a completed report it will appear here.
               </Typography>
             </Paper>
           </Grid>

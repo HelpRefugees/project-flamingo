@@ -42,3 +42,7 @@ Cypress.Commands.add("logout", () => {
   });
   cy.get('[data-test-id="username-input"]').should("exist");
 });
+
+Cypress.Commands.add("seed", seedFile =>
+  cy.exec(`node ./e2e/data/loader.js ./e2e/data/${seedFile}`)
+);
