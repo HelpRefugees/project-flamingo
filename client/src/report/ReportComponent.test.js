@@ -5,10 +5,13 @@ import { ReportComponent } from "./ReportComponent";
 import HeaderComponent from "../home/HeaderComponent";
 import type { Report } from "./models";
 
+const MockDate = require("mockdate");
+
 describe("ReportComponent", () => {
   let wrapper;
   let mockUpdateReport;
   let mockLogout;
+  let mockHistoryPush;
   const report1: Report = {
     id: 1,
     grant: "Hugh Grant",
@@ -22,10 +25,14 @@ describe("ReportComponent", () => {
     completed: false
   };
   let reports: Report[] = [report1, report2];
+  const currentTestDate = new Date("2018-03-26T00:00:00Z");
 
   beforeEach(() => {
+    MockDate.set(currentTestDate);
+
     mockUpdateReport = jest.fn();
     mockLogout = jest.fn();
+    mockHistoryPush = jest.fn();
 
     wrapper = shallow(
       <ReportComponent
@@ -34,8 +41,13 @@ describe("ReportComponent", () => {
         reports={reports}
         match={{ params: { id: "1" } }}
         classes={{}}
+        history={{ push: mockHistoryPush }}
       />
     );
+  });
+
+  afterEach(() => {
+    MockDate.reset();
   });
 
   it("renders a header component and passes the logout method to it", () => {
@@ -69,7 +81,7 @@ describe("ReportComponent", () => {
     ).toBe(newOverview);
   });
 
-  it("calls save report action when clicking the save button", () => {
+  it("calls update report action with the correct arguments when clicking the save button", () => {
     const overview = "text for report progress";
     const updatedReport1 = {
       id: 1,
@@ -85,5 +97,25 @@ describe("ReportComponent", () => {
     wrapper.find('[data-test-id="report-save-button"]').simulate("click");
 
     expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+  });
+
+  it("calls update report action with the correct arguments and redirects to home when clicking the submit button", () => {
+    const overview = "text for report progress";
+    const updatedReport1 = {
+      id: 1,
+      grant: "Hugh Grant",
+      overview,
+      completed: true,
+      submissionDate: currentTestDate
+    };
+
+    wrapper
+      .find('[data-test-id="report-progress-input"]')
+      .simulate("change", { target: { value: overview } });
+
+    wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
+
+    expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+    expect(mockHistoryPush).toHaveBeenCalledWith("/");
   });
 });

@@ -9,7 +9,8 @@ export type Props = {
   classes: any,
   logout: () => void,
   loadReports: () => void,
-  reports: ?(Report[])
+  reports: ?(Report[]),
+  updateReport: Report => void
 };
 
 type State = {
@@ -27,8 +28,18 @@ export class HomeComponent extends Component<Props, State> {
     this.props.loadReports();
   }
 
+  filterReportByCompletion(isCompleted: boolean): Report[] {
+    if (this.props.reports) {
+      return this.props.reports.filter(
+        report => report.completed === isCompleted
+      );
+    }
+
+    return [];
+  }
+
   render() {
-    const { classes, logout, reports } = this.props;
+    const { classes, logout, reports, updateReport } = this.props;
     return (
       <Fragment>
         <HeaderComponent logout={logout} />
@@ -51,8 +62,32 @@ export class HomeComponent extends Component<Props, State> {
 
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
+          <Grid item xs={10} data-test-id="incomplete-reports">
+            {reports && (
+              <ReportListComponent
+                reports={this.filterReportByCompletion(false)}
+                updateReport={updateReport}
+              />
+            )}
+          </Grid>
+        </Grid>
+
+        <Grid container className={classes.rowContainer}>
+          <Grid item xs={1} />
           <Grid item xs={10}>
-            {reports && <ReportListComponent reports={reports} />}
+            <Typography variant="display1">Complete Reports</Typography>
+          </Grid>
+        </Grid>
+
+        <Grid container className={classes.rowContainer}>
+          <Grid item xs={1} />
+          <Grid item xs={10} data-test-id="completed-reports">
+            {reports && (
+              <ReportListComponent
+                reports={this.filterReportByCompletion(true)}
+                updateReport={updateReport}
+              />
+            )}
           </Grid>
         </Grid>
       </Fragment>

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import {
+  Button,
   Card,
   CardContent,
   Chip,
@@ -7,10 +8,11 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
 
 import type { Report } from "../report/models";
 import theme from "../theme";
+
+const moment = require("moment");
 
 const styles = themes => ({
   reportStatus: {
@@ -21,39 +23,58 @@ const styles = themes => ({
 
 type Props = {
   classes: any,
-  report: Report
+  report: Report,
+  updateReport: (report: Report) => void
 };
 
-export const ReportCardComponent = (props: Props) => {
-  return (
-    <Card data-test-id="report">
-      <Link
-        to={`/reports/${props.report.id}`}
-        style={{ textDecoration: "none" }}
-      >
+export class ReportCardComponent extends Component<Props> {
+  unsubmitReport = () => {
+    this.props.updateReport({
+      ...this.props.report,
+      completed: false,
+      submissionDate: undefined
+    });
+  };
+
+  render() {
+    const { report, classes } = this.props;
+
+    return (
+      <Card data-test-id="report">
         <CardContent>
           <Grid container justify="space-between" alignItems="center">
             <Grid item container direction="column" xs={3}>
               <Typography color="textSecondary" variant="caption">
                 Grant
               </Typography>
-              <Typography data-test-id="grant-name">
-                {props.report.grant}
-              </Typography>
+              <Typography data-test-id="grant-name">{report.grant}</Typography>
             </Grid>
-            <Grid item className={props.classes.reportStatus}>
+            <Grid item className={classes.reportStatus}>
               <Chip
-                label="Incomplete"
+                label={
+                  report.completed && report.submissionDate
+                    ? moment(report.submissionDate).format("DD/MM/YYYY")
+                    : "Incomplete"
+                }
                 variant="outlined"
                 color="secondary"
                 data-test-id="report-status"
               />
+              {report.completed && (
+                <Button
+                  data-test-id="report-unsubmit-button"
+                  color="primary"
+                  onClick={() => this.unsubmitReport()}
+                >
+                  Undo
+                </Button>
+              )}
             </Grid>
           </Grid>
         </CardContent>
-      </Link>
-    </Card>
-  );
-};
+      </Card>
+    );
+  }
+}
 
 export default withStyles(styles)(ReportCardComponent);

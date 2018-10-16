@@ -22,8 +22,7 @@ type State = {
 
 const styles = theme => ({
   header: {
-    boxShadow: "none",
-    justifyContent: "space-between"
+    boxShadow: "none"
   },
   headerLogo: {
     margin: theme.spacing.unit,

@@ -3,18 +3,35 @@ import { shallow } from "enzyme";
 
 import ReportListComponent from "./ReportListComponent";
 import ReportCardComponent from "./ReportCardComponent";
+import { Link } from "react-router-dom";
 import type { Report } from "../report/models";
 
 describe("ReportListComponent", () => {
+  const reports: Report[] = [
+    { id: 1, grant: "Hugh Grant", overview: "Hugh", completed: false },
+    { id: 2, grant: "Grant Shapps", overview: "Shapps", completed: true },
+    { id: 3, grant: "Grant Mitchell", overview: "Mitchell", completed: false }
+  ];
+  let wrapper;
+  const dummyUpdateReport = report => {};
+
+  beforeEach(() => {
+    wrapper = shallow(
+      <ReportListComponent reports={reports} updateReport={dummyUpdateReport} />
+    );
+  });
+
   it("displays the provided reports", () => {
-    const reports: Report[] = [
-      { id: 1, grant: "Hugh Grant", overview: "Hugh", completed: false },
-      { id: 2, grant: "Grant Shapps", overview: "Shapps", completed: false },
-      { id: 3, grant: "Grant Mitchell", overview: "Mitchell", completed: false }
-    ];
-
-    const wrapper = shallow(<ReportListComponent reports={reports} />);
-
     expect(wrapper.find(ReportCardComponent)).toHaveLength(3);
+  });
+
+  it("displays a link to the report edit page for all incomplete reports", () => {
+    expect(wrapper.find(Link)).toHaveLength(2);
+  });
+
+  it("passes the updateReport prop to the report cards", () => {
+    wrapper.find(ReportCardComponent).forEach(card => {
+      expect(card.props().updateReport).toBe(dummyUpdateReport);
+    });
   });
 });

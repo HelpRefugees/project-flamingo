@@ -17,7 +17,8 @@ type Props = {
   logout: () => void,
   updateReport: (report: Report) => void,
   match: any,
-  reports: Report[]
+  reports: Report[],
+  history: any
 };
 
 const styles = themes => ({
@@ -72,6 +73,17 @@ export class ReportComponent extends Component<Props, State> {
     });
   };
 
+  submitReport = () => {
+    this.props.updateReport({
+      ...this.report,
+      overview: this.state.overview,
+      completed: true,
+      submissionDate: new Date()
+    });
+
+    this.props.history.push("/");
+  };
+
   changeReportProgress = (event: Event) => {
     this.setState({
       overview: (event.target: window.HTMLInputElement).value
@@ -87,11 +99,24 @@ export class ReportComponent extends Component<Props, State> {
         <HeaderComponent logout={this.props.logout} />
         <AppBar position="static" color="inherit" className={classes.appbar}>
           <Toolbar>
-            <Grid item container direction="column" xs={3}>
-              <Typography color="textSecondary" variant="caption">
-                Grant
-              </Typography>
-              <Typography data-test-id="grant-name">{report.grant}</Typography>
+            <Grid container justify="space-between" alignItems="center">
+              <Grid item container direction="column" xs={3}>
+                <Typography color="textSecondary" variant="caption">
+                  Grant
+                </Typography>
+                <Typography data-test-id="grant-name">
+                  {report.grant}
+                </Typography>
+              </Grid>
+              <Button
+                data-test-id="report-submit-button"
+                variant="contained"
+                color="primary"
+                disabled={this.state.overview === ""}
+                onClick={() => this.submitReport()}
+              >
+                Submit
+              </Button>
             </Grid>
           </Toolbar>
         </AppBar>
