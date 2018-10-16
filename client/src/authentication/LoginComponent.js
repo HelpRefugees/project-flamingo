@@ -86,7 +86,7 @@ export class LoginComponent extends Component<Props, State> {
       this.props.isAuthenticated
       && this.props.role === "implementing-partner"
     ) {
-      return <Redirect to="/home" />;
+      return <Redirect to="/myReports" />;
     }
     if (this.props.isAuthenticated && this.props.role === "help-refugees") {
       return <Redirect to="/reportsListing" />;

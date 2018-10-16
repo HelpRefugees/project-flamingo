@@ -1,19 +1,19 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 
-import { HomeComponent } from "./HomeComponent";
+import { MyReportsComponent } from "./MyReportsComponent";
 import { MemoryRouter } from "react-router-dom";
 import ReportListComponent from "./ReportListComponent";
 
 import type { Report } from "../report/models";
 
-describe("HomeComponent", () => {
+describe("MyReportsComponent", () => {
   it("requests the reports on mount", () => {
     const mockLoadReports = jest.fn();
 
     mount(
       <MemoryRouter>
-        <HomeComponent
+        <MyReportsComponent
           classes={{}}
           reports={[]}
           logout={() => {}}
@@ -46,7 +46,7 @@ describe("HomeComponent", () => {
 
     beforeEach(() => {
       wrapper = shallow(
-        <HomeComponent
+        <MyReportsComponent
           classes={{}}
           reports={reports}
           logout={() => {}}
@@ -82,7 +82,7 @@ describe("HomeComponent", () => {
 
     beforeEach(() => {
       wrapper = shallow(
-        <HomeComponent
+        <MyReportsComponent
           classes={{}}
           reports={[]}
           logout={() => {}}

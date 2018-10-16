@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import HeaderComponent from "../home/HeaderComponent";
+import HeaderComponent from "../my-reports/HeaderComponent";
 import {
   Button,
   Grid,

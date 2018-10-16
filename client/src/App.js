@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 
 import LoginPage from "./authentication/LoginPage";
-import HomePage from "./home/HomePage";
+import MyReportsPage from "./my-reports/MyReportsPage";
 import ReportPage from "./report/ReportPage";
 import ReportsListingPage from "./reports-listing/ReportsListingPage";
 
@@ -30,8 +30,8 @@ export class App extends Component<Props> {
           <Switch>
             <Route exact path="/" component={LoginPage} />
             <PrivateRoute
-              path="/home"
-              component={HomePage}
+              path="/myReports"
+              component={MyReportsPage}
               isAuthenticated={this.props.isAuthenticated}
             />
             <PrivateRoute

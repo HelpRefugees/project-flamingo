@@ -25,7 +25,7 @@ const styles = theme => ({
   }
 });
 
-export class HomeComponent extends Component<Props, State> {
+export class MyReportsComponent extends Component<Props, State> {
   componentWillMount() {
     this.props.loadReports();
   }
@@ -97,4 +97,4 @@ export class HomeComponent extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(HomeComponent);
+export default withStyles(styles)(MyReportsComponent);

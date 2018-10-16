@@ -63,7 +63,7 @@ export class HeaderComponent extends Component<Props, State> {
       <AppBar position="static" color="inherit" className={classes.header}>
         <Toolbar>
           <Grid container justify="space-between" alignItems="center">
-            <Link to={`/home`}>
+            <Link to={`/myReports`}>
               <img
                 data-test-id="logo"
                 src="/logo-wide.png"

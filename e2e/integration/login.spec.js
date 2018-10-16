@@ -8,9 +8,9 @@ context("Login Page", () => {
   });
 
   it("prevents access to the home page when not logged in", () => {
-    cy.visit("/home");
+    cy.visit("/myReports");
 
-    cy.url().should("not.include", "/home", "should not go to home page");
+    cy.url().should("not.include", "/myReports", "should not go to home page");
   });
 
   it("rejects invalid credentials", () => {
@@ -31,7 +31,7 @@ context("Login Page", () => {
   it("accepts Ellen's valid credentials", () => {
     loginAs("ellen@ip.org", "flamingo");
 
-    cy.url().should("include", "/home", "should redirect to home page");
+    cy.url().should("include", "/myReports", "should redirect to home page");
   });
 
   it("accepts Daisy's valid credentials", () => {
@@ -59,7 +59,7 @@ context("Login Page", () => {
     it("prevents access to the login page", () => {
       cy.visit("/");
 
-      cy.url().should("include", "/home", "should redirect to home page");
+      cy.url().should("include", "/myReports", "should redirect to home page");
     });
   });
 

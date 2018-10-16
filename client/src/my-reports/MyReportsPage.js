@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
-import HomeComponent from "./HomeComponent";
+import MyReportsComponent from "./MyReportsComponent";
 import { logout, loadReports, updateReport } from "../actions";
 import type { State } from "../reducers";
-import type { Props } from "./HomeComponent";
+import type { Props } from "./MyReportsComponent";
 import type { Report } from "../report/models";
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
@@ -24,4 +24,4 @@ const mapStateToProps: (state: State) => $Shape<Props> = ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeComponent);
+)(MyReportsComponent);
