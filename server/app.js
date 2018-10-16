@@ -2,14 +2,17 @@ const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
 
-const routerFactory = require("./router");
+const loginRouterFactory = require("./routes/login");
+const reportsRouterFactory = require("./routes/reports");
+
 const appFactory = connection => {
   const app = express();
   const API_ROOT_PATH = "/api";
   app.use(express.json());
   app.use(morgan("dev"));
 
-  app.use(API_ROOT_PATH, routerFactory(connection));
+  app.use(`${API_ROOT_PATH}/login`, loginRouterFactory(connection));
+  app.use(`${API_ROOT_PATH}/reports`, reportsRouterFactory(connection));
 
   app.use(express.static(path.join(__dirname, "static")));
 
