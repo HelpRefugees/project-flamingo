@@ -8,9 +8,27 @@ import type { Report } from "../report/models";
 
 describe("ReportListComponent", () => {
   const reports: Report[] = [
-    { id: 1, grant: "Hugh Grant", overview: "Hugh", completed: false },
-    { id: 2, grant: "Grant Shapps", overview: "Shapps", completed: true },
-    { id: 3, grant: "Grant Mitchell", overview: "Mitchell", completed: false }
+    {
+      id: 1,
+      grant: "Hugh Grant",
+      overview: "Hugh",
+      completed: false,
+      reportPeriod: "2018-10-01T00:00:00.000Z"
+    },
+    {
+      id: 2,
+      grant: "Grant Shapps",
+      overview: "Shapps",
+      completed: true,
+      reportPeriod: "2018-10-01T00:00:00.000Z"
+    },
+    {
+      id: 3,
+      grant: "Grant Mitchell",
+      overview: "Mitchell",
+      completed: false,
+      reportPeriod: "2018-10-01T00:00:00.000Z"
+    }
   ];
   let wrapper;
   const dummyUpdateReport = report => {};

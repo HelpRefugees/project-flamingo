@@ -35,7 +35,13 @@ describe("reducers", () => {
     };
 
     const reports: Report[] = [
-      { grant: "hugh grant", overview: "", completed: false, id: 1 }
+      {
+        grant: "hugh grant",
+        overview: "",
+        completed: false,
+        id: 1,
+        reportPeriod: "2018-10-01T00:00:00.000Z"
+      }
     ];
     const startingState: State = {
       isAuthenticated: true,
@@ -93,7 +99,8 @@ describe("reducers", () => {
       id: 123,
       grant: "mitchell",
       overview: "before",
-      completed: false
+      completed: false,
+      reportPeriod: "2018-10-01T00:00:00.000Z"
     };
     const reportAfterEditing: Report = {
       ...reportToBeEdited,
@@ -103,7 +110,8 @@ describe("reducers", () => {
       id: 456,
       grant: "shapps",
       overview: "who cares?",
-      completed: true
+      completed: true,
+      reportPeriod: "2018-10-01T00:00:00.000Z"
     };
     const startingState: State = {
       ...initialState,

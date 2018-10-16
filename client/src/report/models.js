@@ -3,5 +3,6 @@ export type Report = {
   overview: string,
   grant: string,
   completed: boolean,
-  submissionDate?: Date
+  reportPeriod: string,
+  submissionDate?: string
 };

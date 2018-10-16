@@ -4,13 +4,14 @@ import { shallow } from "enzyme";
 import { ReportCardComponent } from "./ReportCardComponent";
 import type { Report } from "../report/models";
 
-describe("ReportComponent", () => {
+describe("ReportCardComponent", () => {
   let wrapper;
   const report: Report = {
     grant: "Hello world",
     overview: "Hi!",
     completed: false,
-    id: 1
+    id: 1,
+    reportPeriod: "2018-10-01T00:00:00.000Z"
   };
 
   beforeEach(() => {
@@ -27,6 +28,15 @@ describe("ReportComponent", () => {
     expect(wrapper.find('[data-test-id="report"]')).toHaveLength(1);
   });
 
+  it("shows the report period", () => {
+    expect(
+      wrapper
+        .find('[data-test-id="report-period"]')
+        .render()
+        .text()
+    ).toContain("October 2018");
+  });
+
   it("shows the grant name", () => {
     expect(
       wrapper
@@ -41,7 +51,8 @@ describe("ReportComponent", () => {
       grant: "Hello world",
       overview: "Hi!",
       completed: false,
-      id: 1
+      id: 1,
+      reportPeriod: "2018-10-01T00:00:00.000Z"
     };
 
     beforeEach(() => {
@@ -69,8 +80,9 @@ describe("ReportComponent", () => {
       grant: "Hello world",
       overview: "Hi!",
       completed: true,
-      submissionDate: new Date("2018-09-15T03:24:00"),
-      id: 1
+      submissionDate: "2018-09-15T03:24:00.000Z",
+      id: 1,
+      reportPeriod: "2018-10-01T00:00:00.000Z"
     };
 
     let mockUpdateReport;
@@ -102,7 +114,8 @@ describe("ReportComponent", () => {
         overview: "Hi!",
         completed: false,
         submissionDate: undefined,
-        id: 1
+        id: 1,
+        reportPeriod: "2018-10-01T00:00:00.000Z"
       };
 
       wrapper.find('[data-test-id="report-unsubmit-button"]').simulate("click");

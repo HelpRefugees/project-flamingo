@@ -15,13 +15,15 @@ describe("ReportComponent", () => {
     id: 1,
     grant: "Hugh Grant",
     overview: "Hugh",
-    completed: false
+    completed: false,
+    reportPeriod: "2018-10-01T00:00:00.000Z"
   };
   const report2: Report = {
     id: 2,
     grant: "Grant Shapps",
     overview: "Shapps",
-    completed: false
+    completed: false,
+    reportPeriod: "2018-10-01T00:00:00.000Z"
   };
   let reports: Report[] = [report1, report2];
   const account: Account = {
@@ -83,10 +85,8 @@ describe("ReportComponent", () => {
   it("calls update report action with the correct arguments when clicking the save button", () => {
     const overview = "text for report progress";
     const updatedReport1 = {
-      id: 1,
-      grant: "Hugh Grant",
-      overview,
-      completed: false
+      ...report1,
+      overview
     };
 
     wrapper
@@ -101,8 +101,7 @@ describe("ReportComponent", () => {
   it("calls update report action with the correct arguments and redirects to home when clicking the submit button", () => {
     const overview = "text for report progress";
     const updatedReport1 = {
-      id: 1,
-      grant: "Hugh Grant",
+      ...report1,
       overview,
       completed: true
     };

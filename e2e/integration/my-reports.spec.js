@@ -36,6 +36,10 @@ context("My Reports Page", () => {
             "contains.text",
             "Incomplete"
           );
+          cy.get('[data-test-id="report-period"]').should(
+            "contains.text",
+            thisMonth()
+          );
         });
     });
 
@@ -129,6 +133,25 @@ context("My Reports Page", () => {
       .padStart(2, "0");
     const month = (now.getMonth() + 1).toString().padStart(2, "0");
     return `${day}/${month}/${now.getFullYear()}`;
+  }
+
+  function thisMonth() {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+    const now = new Date();
+    return `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
   }
 
   function randomText(length) {
