@@ -56,6 +56,11 @@ function onListening() {
   debug(`Listening on ${bind}`);
 }
 
-process.on("SIGINT", () => {
-  db.close();
-});
+function shutdown() {
+  Promise.all([db.close()])
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}
+
+process.on("SIGINT", shutdown);
+process.on("SIGTERM", shutdown);
