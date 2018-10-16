@@ -73,7 +73,7 @@ export class ReportCardComponent extends Component<Props> {
                   {moment(report.reportPeriod).format("MMMM YYYY")}
                 </Typography>
               </Grid>
-              <Grid item className={classes.reportStatus}>
+              <Grid item container className={`${classes.reportStatus} ${classes.notFullWidth}`} alignItems="center">
                 <Chip
                   label={
                     report.completed && report.submissionDate
