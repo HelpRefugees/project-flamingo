@@ -23,4 +23,28 @@ context("Reports Listing Page", () => {
       );
     });
   });
+
+  context("One completed report", () => {
+    beforeEach(() => {
+      cy.seed("one-completed-report.json");
+      cy.login("daisy@hr.org", "chooselove");
+    });
+
+    it("shows a list of submitted reports", () => {
+      const selector
+        = '[data-test-id="submitted-reports"] [data-test-id="report"]';
+      cy.get(selector)
+        .its("length")
+        .should("be", 1);
+      cy.get(selector)
+        .first()
+        // eslint-disable-next-line no-unused-vars
+        .within($report => {
+          cy.get('[data-test-id="report-grant"]').should(
+            "contains.text",
+            "Grant Mitchell"
+          );
+        });
+    });
+  });
 });
