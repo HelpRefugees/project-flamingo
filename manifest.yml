@@ -1,7 +1,7 @@
 applications:
   - name: flamingo
     buildpacks:
-      - nodejs_buildpack
+      - https://github.com/cloudfoundry/nodejs-buildpack.git#v1.6.33
     command: yarn start:server
     services:
       - flamongo-db
