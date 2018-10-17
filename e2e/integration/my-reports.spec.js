@@ -1,6 +1,7 @@
 context("My Reports Page", () => {
   context("Ellen is logged in", () => {
     beforeEach(() => {
+      cy.seed("one-incomplete-report.json");
       cy.login("ellen@ip.org", "flamingo");
     });
 
