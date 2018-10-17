@@ -1,12 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 
-module.exports = connection => {
+module.exports = db => {
   const collection = "users";
   const router = new express.Router();
 
-  router.post("/", async (req, res) => {
-    const db = await connection.db();
+  router.post("/", (req, res) => {
     db.collection(collection).findOne(
       { username: req.body.username },
       (err, dbResult) => {

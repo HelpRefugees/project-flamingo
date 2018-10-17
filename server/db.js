@@ -1,13 +1,14 @@
 const { MongoClient } = require("mongodb");
 
 const state = {
+  db: null,
   connection: null
 };
 
 exports.connect = function(url, callback = () => {}) {
-  if (state.connection) {
-    callback(null, state.connection);
-    return Promise.resolve(state.connection);
+  if (state.db) {
+    callback(null, state.db);
+    return Promise.resolve(state.db);
   }
 
   return MongoClient.connect(
@@ -18,8 +19,12 @@ exports.connect = function(url, callback = () => {}) {
   )
     .then(connection => {
       state.connection = connection;
-      callback(null, connection);
-      return connection;
+      return connection.db();
+    })
+    .then(db => {
+      state.db = db;
+      callback(null, db);
+      return db;
     })
     .catch(err => {
       callback(err);
@@ -33,6 +38,7 @@ exports.close = function(callback = () => {}) {
   }
   return state.connection.close(err => {
     state.connection = null;
+    state.db = null;
     callback(err);
   });
 };

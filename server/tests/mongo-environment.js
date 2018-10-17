@@ -1,18 +1,17 @@
 const NodeEnvironment = require("jest-environment-node");
-const db = require("../db");
+const dbModule = require("../db");
 
 module.exports = class MongoEnvironment extends NodeEnvironment {
   constructor(config) {
     super(config);
   }
   async setup() {
-    this.global.CONNECTION = await db.connect(this.global.DATABASE_URL);
-    this.global.DATABASE = await this.global.CONNECTION.db();
+    this.global.DATABASE = await dbModule.connect(this.global.DATABASE_URL);
     await super.setup();
   }
 
   async teardown() {
-    await db.close();
+    await dbModule.close();
     await super.teardown();
   }
 };

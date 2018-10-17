@@ -5,14 +5,14 @@ const morgan = require("morgan");
 const loginRouterFactory = require("./routes/login");
 const reportsRouterFactory = require("./routes/reports");
 
-const appFactory = connection => {
+const appFactory = db => {
   const app = express();
   const API_ROOT_PATH = "/api";
   app.use(express.json());
   app.use(morgan("dev"));
 
-  app.use(`${API_ROOT_PATH}/login`, loginRouterFactory(connection));
-  app.use(`${API_ROOT_PATH}/reports`, reportsRouterFactory(connection));
+  app.use(`${API_ROOT_PATH}/login`, loginRouterFactory(db));
+  app.use(`${API_ROOT_PATH}/reports`, reportsRouterFactory(db));
 
   app.use(express.static(path.join(__dirname, "static")));
 

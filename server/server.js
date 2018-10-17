@@ -5,19 +5,19 @@ const databaseUrl
   = process.env.DATABASE_URL || "mongodb://localhost:27017/flamingo";
 const port = normalizePort(process.env.PORT || "3000");
 
-const db = require("./db");
+const dbModule = require("./db");
 
 let server;
 
-db.connect(
+dbModule.connect(
   databaseUrl,
-  (err, connection) => {
+  (err, db) => {
     if (err) {
       debug("Unable to connect to Mongo", err);
       return process.exit(1);
     }
 
-    let app = require("./app")(connection);
+    let app = require("./app")(db);
     app.set("port", port);
 
     server = http.createServer(app);
@@ -57,7 +57,7 @@ function onListening() {
 }
 
 function shutdown() {
-  Promise.all([db.close()])
+  Promise.all([dbModule.close()])
     .then(() => process.exit(0))
     .catch(() => process.exit(1));
 }

@@ -12,7 +12,7 @@ describe("/api/login", async () => {
   };
 
   beforeAll(() => {
-    app = require("../app")(global.CONNECTION);
+    app = require("../app")(global.DATABASE);
   });
 
   const safeDrop = async collection => {

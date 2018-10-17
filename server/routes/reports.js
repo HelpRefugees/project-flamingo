@@ -1,12 +1,10 @@
 const express = require("express");
 
-module.exports = connection => {
+module.exports = db => {
   const collection = "reports";
   const router = new express.Router();
 
-  router.get("/", async (req, res) => {
-    const db = await connection.db();
-
+  router.get("/", (req, res) => {
     db.collection(collection)
       .find()
       .toArray(async (err, reports) => {
@@ -14,8 +12,7 @@ module.exports = connection => {
       });
   });
 
-  router.put("/:id", async (req, res) => {
-    const db = await connection.db();
+  router.put("/:id", (req, res) => {
     const report = req.body;
     if (report.completed) {
       report.submissionDate = new Date();
@@ -23,7 +20,7 @@ module.exports = connection => {
     db.collection(collection).replaceOne(
       { id: parseInt(req.params.id, 10) },
       report,
-      async () => {
+      () => {
         return res.sendStatus(200);
       }
     );

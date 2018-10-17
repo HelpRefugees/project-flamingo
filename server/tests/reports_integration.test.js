@@ -5,7 +5,7 @@ describe("reports endpoint", () => {
   let app;
 
   beforeAll(() => {
-    app = require("../app")(global.CONNECTION);
+    app = require("../app")(global.DATABASE);
   });
 
   afterEach(() => {
