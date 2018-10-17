@@ -4,7 +4,7 @@ context.only("Not Found Page", () => {
 
     cy.get('[data-test-id="not-found"]').should(
       "contains.text",
-      "404 Sorry page not found."
+      "404 Sorry! Page not found."
     );
   });
 
@@ -13,7 +13,7 @@ context.only("Not Found Page", () => {
 
     cy.get('[data-test-id="not-found"]').should(
       "not.contains.text",
-      "404 Sorry page not found."
+      "404 Sorry! Page not found."
     );
   });
 });

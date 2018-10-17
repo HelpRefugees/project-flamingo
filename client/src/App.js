@@ -10,15 +10,18 @@ import ReportPage from "./report/ReportPage";
 import ReportsListingPage from "./reports-listing/ReportsListingPage";
 
 import type { State } from "./reducers";
+import type { Account } from "./authentication/models";
 
 const mapStateToProps = (state: State) => {
   return {
-    isAuthenticated: state.isAuthenticated
+    isAuthenticated: state.isAuthenticated,
+    account: state.account
   };
 };
 
 interface Props {
   isAuthenticated?: boolean;
+  account?: Account;
 }
 
 export class App extends Component<Props> {
@@ -30,20 +33,28 @@ export class App extends Component<Props> {
           <Switch>
             <Route exact path="/" component={LoginPage} />
             <PrivateRoute
-              path="/myReports"
-              component={MyReportsPage}
-              isAuthenticated={this.props.isAuthenticated}
-            />
-            <PrivateRoute
               path="/reportsListing"
+              allowed={["help-refugees"]}
               component={ReportsListingPage}
               isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
             />
             <PrivateRoute
+              path="/myReports"
+              allowed={["implementing-partner"]}
+              component={MyReportsPage}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
+
+            <PrivateRoute
               path="/reports/:id"
+              allowed={["implementing-partner"]}
               component={ReportPage}
               isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
             />
+            <Route exact path="/forbidden" component={Forbidden} />
             <Route component={NotFoundPage} />
           </Switch>
         </Fragment>
@@ -57,24 +68,40 @@ export default connect(mapStateToProps)(App);
 export const PrivateRoute = (configProps: {
   path: string,
   isAuthenticated?: boolean,
-  component: any
+  account?: Account,
+  component: any,
+  allowed: string[]
 }) => {
-  const { path, isAuthenticated, component } = configProps;
+  const { path, isAuthenticated, account, component, allowed } = configProps;
   const OriginalComponent = component;
   return (
     <Route
       path={path}
       render={props => {
-        if (isAuthenticated) {
-          return <OriginalComponent {...props} />;
-        } else {
+        if (!isAuthenticated) {
           return <Redirect to="/" />;
         }
+
+        if (
+          isAuthenticated
+          && account
+          && allowed.indexOf(account.role) === -1
+        ) {
+          return <Redirect to="/forbidden" />;
+        }
+
+        return <OriginalComponent {...props} />;
       }}
     />
   );
 };
 
 export const NotFoundPage = () => (
-  <h2 data-test-id="not-found">404 Sorry page not found.</h2>
+  <h2 data-test-id="not-found">404 Sorry! Page not found.</h2>
+);
+
+export const Forbidden = () => (
+  <h2 data-test-id="forbidden">
+    403 Sorry! You don’t have permission to access this page.
+  </h2>
 );

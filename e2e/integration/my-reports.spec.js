@@ -126,6 +126,31 @@ context("My Reports Page", () => {
     });
   });
 
+  context("Daisy is logged in", () => {
+    beforeEach(() => {
+      cy.seed("one-incomplete-report.json");
+      cy.login("daisy@hr.org", "chooselove");
+    });
+
+    it("is not able to see the My Reports page", () => {
+      cy.visit("/myReports");
+
+      cy.get('[data-test-id="forbidden"]').should(
+        "contains.text",
+        "403 Sorry! You don’t have permission to access this page."
+      );
+    });
+
+    it("is not able to see the Submit Report page", () => {
+      cy.visit("/reports/1");
+
+      cy.get('[data-test-id="forbidden"]').should(
+        "contains.text",
+        "403 Sorry! You don’t have permission to access this page."
+      );
+    });
+  });
+
   function today() {
     const now = new Date();
     const day = now
