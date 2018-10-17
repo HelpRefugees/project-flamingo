@@ -1,30 +1,36 @@
 import React, { Component, Fragment } from "react";
-import HeaderComponent from "../page-layout/HeaderComponent";
+import { Redirect } from "react-router-dom";
 import {
-  Button,
   Grid,
-  Paper,
   withStyles,
-  OutlinedInput,
   AppBar,
   Toolbar,
-  Typography
+  Typography,
+  Paper
 } from "@material-ui/core";
 
-import type { Report } from "./models";
+import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Account } from "../authentication/models";
+import type { Report } from "../report/models";
+
+const moment = require("moment");
 
 type Props = {
   classes: any,
   logout: () => void,
-  updateReport: (report: Report) => void,
-  match: any,
+  account: Account,
   reports: Report[],
-  history: any,
-  account: Account
+  match: any
 };
 
+type State = {};
+
 const styles = themes => ({
+  appbar: {
+    boxShadow: "none",
+    justifyContent: "space-between",
+    marginTop: "1px"
+  },
   pagePaper: {
     padding: themes.spacing.unit * 4,
     boxShadow: "none"
@@ -36,72 +42,42 @@ const styles = themes => ({
   headerText: {
     color: "#404040"
   },
-  appbar: {
-    boxShadow: "none",
-    justifyContent: "space-between",
-    marginTop: "1px"
-  },
   fontFamily: {
     fontFamily: "open Sans",
     margin: themes.spacing.unit * 0.5,
     fontWeight: "normal",
     fontStyle: "normal",
     fontStretch: "normal"
+  },
+  progress: {
+    margin: "4px",
+    fontSize: "14px",
+    color: "#404040",
+    letterSpacing: "0.3px"
   }
 });
 
-type State = {
-  overview: string
-};
-
-export class ReportComponent extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      overview: this.report.overview
-    };
-  }
-
+export class SubmittedReportComponent extends Component<Props, State> {
   get report(): Report {
     // TODO it's not very efficient to keep calling this
     return (this.props.reports.find(
       report => report.id === parseInt(this.props.match.params.id, 10)
     ): any);
   }
-
-  saveReport = () => {
-    this.props.updateReport({
-      ...this.report,
-      overview: this.state.overview
-    });
-  };
-
-  submitReport = () => {
-    this.props.updateReport({
-      ...this.report,
-      overview: this.state.overview,
-      completed: true
-    });
-
-    this.props.history.push("/");
-  };
-
-  changeReportProgress = (event: Event) => {
-    this.setState({
-      overview: (event.target: window.HTMLInputElement).value
-    });
-  };
-
   render() {
     const { classes, account, logout } = this.props;
     const report = this.report;
+
+    if (!report || !report.completed) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
         <AppBar position="static" color="inherit" className={classes.appbar}>
           <Toolbar>
-            <Grid container justify="space-between" alignItems="center">
+            <Grid container justify="space-between">
               <Grid item container direction="column" xs={3}>
                 <Typography color="textSecondary" variant="caption">
                   Grant
@@ -110,19 +86,21 @@ export class ReportComponent extends Component<Props, State> {
                   {report.grant}
                 </Typography>
               </Grid>
-              <Button
-                data-test-id="report-submit-button"
-                variant="contained"
-                color="primary"
-                disabled={this.state.overview === ""}
-                onClick={() => this.submitReport()}
-              >
-                Submit
-              </Button>
+              <Grid item container direction="column" xs={3}>
+                <Typography
+                  color="textSecondary"
+                  variant="caption"
+                  align="right"
+                >
+                  Submission Date
+                </Typography>
+                <Typography data-test-id="submission-date" align="right">
+                  {moment(report.submissionDate).format("DD/MM/YYYY")}
+                </Typography>
+              </Grid>
             </Grid>
           </Toolbar>
         </AppBar>
-
         <Grid
           container
           spacing={24}
@@ -144,30 +122,12 @@ export class ReportComponent extends Component<Props, State> {
                     </h1>
                   </Grid>
                   <Grid item>
-                    <OutlinedInput
-                      data-test-id="report-progress-input"
-                      fullWidth={true}
-                      id="component-outlined"
-                      placeholder="Please add an overview"
-                      value={this.state.overview}
-                      multiline
-                      rows={10}
-                      rowsMax={100}
-                      labelWidth={0}
-                      onChange={event => this.changeReportProgress(event)}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      data-test-id="report-save-button"
-                      color="primary"
-                      variant="outlined"
-                      disabled={this.state.overview === report.overview}
-                      fullWidth={false}
-                      onClick={() => this.saveReport()}
+                    <Typography
+                      data-test-id="report-progress"
+                      className={classes.progress}
                     >
-                      Save
-                    </Button>
+                      {report.overview}
+                    </Typography>
                   </Grid>
                 </Grid>
               </Paper>
@@ -179,4 +139,4 @@ export class ReportComponent extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(ReportComponent);
+export default withStyles(styles)(SubmittedReportComponent);

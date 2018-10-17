@@ -35,7 +35,8 @@ const styles = theme => ({
     minWidth: "150px"
   },
   userMenu: {
-    textTransform: "none"
+    textTransform: "none",
+    paddingRight: "0px"
   }
 });
 
@@ -63,7 +64,7 @@ export class HeaderComponent extends Component<Props, State> {
       <AppBar position="static" color="inherit" className={classes.header}>
         <Toolbar>
           <Grid container justify="space-between" alignItems="center">
-            <Link to={`/myReports`}>
+            <Link to={`/`}>
               <img
                 data-test-id="logo"
                 src="/logo-wide.png"

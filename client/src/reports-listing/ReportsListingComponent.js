@@ -20,7 +20,8 @@ type Props = {
   logout: () => void,
   account: ?Account,
   reports: ?(Report[]),
-  loadReports: () => void
+  loadReports: () => void,
+  history: any
 };
 
 const moment = require("moment");
@@ -45,6 +46,9 @@ const styles = theme => ({
     margin: "2px",
     borderLeft: "1px solid #d9d9d9",
     paddingLeft: "24px"
+  },
+  row: {
+    cursor: "pointer"
   }
 });
 
@@ -86,6 +90,10 @@ export class ReportsListingComponent extends Component<Props> {
     );
   }
 
+  redirectToSubmittedReportPage(reportId: number) {
+    this.props.history.push(`/submittedReports/${reportId}`);
+  }
+
   reportsTable(classes: any, reports: Report[]) {
     return (
       <Paper className={classes.tablePaper}>
@@ -106,7 +114,12 @@ export class ReportsListingComponent extends Component<Props> {
           <TableBody>
             {reports.map((report: Report) => {
               return (
-                <TableRow data-test-id="report" key={report.id}>
+                <TableRow
+                  data-test-id="report"
+                  key={report.id}
+                  onClick={() => this.redirectToSubmittedReportPage(report.id)}
+                  className={classes.row}
+                >
                   <TableCell data-test-id="report-grant">
                     <div>{report.grant}</div>
                   </TableCell>

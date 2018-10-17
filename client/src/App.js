@@ -8,6 +8,7 @@ import LoginPage from "./authentication/LoginPage";
 import MyReportsPage from "./my-reports/MyReportsPage";
 import ReportPage from "./report/ReportPage";
 import ReportsListingPage from "./reports-listing/ReportsListingPage";
+import SubmittedReportPage from "./submitted-report/SubmittedReportPage";
 
 import type { State } from "./reducers";
 import type { Account } from "./authentication/models";
@@ -39,6 +40,15 @@ export class App extends Component<Props> {
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
+
+            <PrivateRoute
+              path="/submittedReports/:id"
+              allowed={["help-refugees"]}
+              component={SubmittedReportPage}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
+
             <PrivateRoute
               path="/myReports"
               allowed={["implementing-partner"]}
@@ -54,6 +64,7 @@ export class App extends Component<Props> {
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
+
             <Route exact path="/forbidden" component={Forbidden} />
             <Route component={NotFoundPage} />
           </Switch>

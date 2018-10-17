@@ -18,6 +18,7 @@ describe("ReportsListingComponent", () => {
           logout={() => {}}
           reports={[]}
           loadReports={mockLoadReports}
+          history={{}}
         />
       </MemoryRouter>
     );
@@ -44,6 +45,7 @@ describe("ReportsListingComponent", () => {
           logout={() => {}}
           reports={reports}
           loadReports={() => {}}
+          history={{}}
         />
       );
     });
@@ -83,7 +85,11 @@ describe("ReportsListingComponent", () => {
       }
     ];
 
+    let mockHistoryPush;
+
     beforeEach(() => {
+      mockHistoryPush = jest.fn();
+
       wrapper = shallow(
         <ReportsListingComponent
           classes={{}}
@@ -91,6 +97,7 @@ describe("ReportsListingComponent", () => {
           logout={() => {}}
           reports={reports}
           loadReports={() => {}}
+          history={{ push: mockHistoryPush }}
         />
       );
     });
@@ -123,6 +130,14 @@ describe("ReportsListingComponent", () => {
           .render()
           .text()
       ).toContain("15/09/2018");
+    });
+
+    it("redirects to the submitted report details when clicking on a report row", () => {
+      wrapper
+        .find('[data-test-id="submitted-reports"] [data-test-id="report"]')
+        .first()
+        .simulate("click");
+      expect(mockHistoryPush).toHaveBeenCalledWith("/submittedReports/1");
     });
   });
 });

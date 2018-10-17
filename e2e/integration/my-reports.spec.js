@@ -45,7 +45,6 @@ context("My Reports Page", () => {
     });
 
     it("opens and saves an editable report", () => {
-      // TODO we need to clear up the database state before the test
       const details = randomText(16);
       cy.get(
         '[data-test-id="incomplete-reports"] [data-test-id="report"]'
