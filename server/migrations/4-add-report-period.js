@@ -12,7 +12,7 @@ module.exports.up = function(done) {
         $set: {
           reportPeriod: new Date(
             Date.UTC(today.getFullYear(), today.getMonth())
-          )
+          ).toISOString()
         }
       }
     )

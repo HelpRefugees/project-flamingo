@@ -4,7 +4,7 @@
 const dbModule = require("../server/db");
 
 module.exports = async dbUrl => {
-  const reportPeriod = thisMonth(); // '2018-11....'
+  const reportPeriod = thisMonth();
 
   const db = await dbModule.connect(dbUrl);
   const reports = await db
@@ -37,5 +37,5 @@ function getLastReport(db) {
 
 function thisMonth() {
   const now = new Date();
-  return new Date(Date.UTC(now.getFullYear(), now.getMonth()));
+  return new Date(Date.UTC(now.getFullYear(), now.getMonth())).toISOString();
 }

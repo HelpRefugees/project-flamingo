@@ -15,7 +15,8 @@ module.exports = db => {
   router.put("/:id", (req, res) => {
     const report = req.body;
     if (report.completed) {
-      report.submissionDate = new Date();
+      // TODO what if this is being updated post-completion?
+      report.submissionDate = new Date().toISOString();
     }
     db.collection(collection).replaceOne(
       { id: parseInt(req.params.id, 10) },

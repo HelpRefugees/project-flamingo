@@ -68,11 +68,11 @@ describe("Report generation script", () => {
     previousMonth.setMonth(now.getMonth() - 1);
     return new Date(
       Date.UTC(previousMonth.getFullYear(), previousMonth.getMonth())
-    );
+    ).toISOString();
   }
 
   function thisMonth() {
     const now = new Date();
-    return new Date(Date.UTC(now.getFullYear(), now.getMonth()));
+    return new Date(Date.UTC(now.getFullYear(), now.getMonth())).toISOString();
   }
 });
