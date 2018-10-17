@@ -38,11 +38,31 @@ const styles = theme => ({
   tablePaper: {
     boxShadow: "none"
   },
-  paperTitle: {
-    color: theme.palette.primary.main,
-    fontWeight: "bold"
+  tableHead: {
+    height: "25px"
+  },
+  tableCellDiv: {
+    margin: "2px",
+    borderLeft: "1px solid #d9d9d9",
+    paddingLeft: "24px"
   }
 });
+
+const CustomTableHeaderRow = withStyles(theme => ({
+  head: {
+    height: "32px",
+    fontSize: "10px",
+    color: "#757c80",
+    fontWeight: "normal",
+    letterSpacing: "1.5px"
+  }
+}))(TableRow);
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    width: "66%"
+  }
+}))(TableCell);
 
 export class ReportsListingComponent extends Component<Props> {
   componentWillMount() {
@@ -70,25 +90,35 @@ export class ReportsListingComponent extends Component<Props> {
     return (
       <Paper className={classes.tablePaper}>
         <Table data-test-id="submitted-reports">
-          <TableHead>
-            <TableRow>
-              <TableCell>GRANT</TableCell>
-              <TableCell>PERIOD</TableCell>
-              <TableCell>SUBMITTED</TableCell>
-            </TableRow>
+          <TableHead className={classes.tableHead}>
+            <CustomTableHeaderRow>
+              <CustomTableCell>
+                <div>GRANT</div>
+              </CustomTableCell>
+              <TableCell>
+                <div className={classes.tableCellDiv}>PERIOD</div>
+              </TableCell>
+              <TableCell>
+                <div className={classes.tableCellDiv}>SUBMITTED</div>
+              </TableCell>
+            </CustomTableHeaderRow>
           </TableHead>
           <TableBody>
             {reports.map((report: Report) => {
               return (
                 <TableRow data-test-id="report" key={report.id}>
                   <TableCell data-test-id="report-grant">
-                    {report.grant}
+                    <div>{report.grant}</div>
                   </TableCell>
                   <TableCell data-test-id="report-period">
-                    {moment(report.reportPeriod).format("MMMM YYYY")}
+                    <div className={classes.tableCellDiv}>
+                      {moment(report.reportPeriod).format("MMMM YYYY")}
+                    </div>
                   </TableCell>
                   <TableCell data-test-id="report-submitted">
-                    {moment(report.submissionDate).format("DD/MM/YYYY")}
+                    <div className={classes.tableCellDiv}>
+                      {moment(report.submissionDate).format("DD/MM/YYYY")}
+                    </div>
                   </TableCell>
                 </TableRow>
               );
