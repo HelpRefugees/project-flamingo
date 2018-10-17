@@ -62,6 +62,11 @@ describe("Report generation script", () => {
     expect(reports.filter(report => report.id === 2)).toHaveLength(1);
   });
 
+  it("should return the number of reports created", async () => {
+    const count = await reportsGenerator(global.DATABASE_URL);
+    expect(count).toBe(1);
+  });
+
   function lastMonth() {
     const now = new Date();
     const previousMonth = new Date();

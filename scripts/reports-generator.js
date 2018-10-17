@@ -4,6 +4,7 @@
 const dbModule = require("../server/db");
 
 module.exports = async dbUrl => {
+  let insertedDocumentCount = 0;
   const reportPeriod = thisMonth();
 
   const db = await dbModule.connect(dbUrl);
@@ -14,11 +15,13 @@ module.exports = async dbUrl => {
 
   if (reports.length === 0) {
     const lastReport = await getLastReport(db);
-    await db
+    const { result } = await db
       .collection("reports")
-      .insertOne(createReport(reportPeriod, lastReport));
+      .insertMany([createReport(reportPeriod, lastReport)]);
+    insertedDocumentCount = result.n;
   }
   await dbModule.close();
+  return insertedDocumentCount;
 };
 
 function createReport(reportPeriod, lastReport) {
