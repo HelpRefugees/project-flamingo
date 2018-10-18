@@ -126,7 +126,12 @@ export class SubmittedReportComponent extends Component<Props, State> {
                       data-test-id="report-progress"
                       className={classes.progress}
                     >
-                      {report.overview}
+                      {report.overview.split("\n").map((item, index) => (
+                        <span key={index}>
+                          {item}
+                          <br />
+                        </span>
+                      ))}
                     </Typography>
                   </Grid>
                 </Grid>
