@@ -130,7 +130,9 @@ export class ReportsListingComponent extends Component<Props> {
                   </TableCell>
                   <TableCell data-test-id="report-submitted">
                     <div className={classes.tableCellDiv}>
-                      {moment(report.submissionDate).format("DD/MM/YYYY")}
+                      {report.submissionDate
+                        ? moment(report.submissionDate).format("DD/MM/YYYY")
+                        : ""}
                     </div>
                   </TableCell>
                 </TableRow>

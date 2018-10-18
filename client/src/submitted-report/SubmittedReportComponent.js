@@ -95,7 +95,9 @@ export class SubmittedReportComponent extends Component<Props, State> {
                   Submission Date
                 </Typography>
                 <Typography data-test-id="submission-date" align="right">
-                  {moment(report.submissionDate).format("DD/MM/YYYY")}
+                  {report.submissionDate
+                    ? moment(report.submissionDate).format("DD/MM/YYYY")
+                    : ""}
                 </Typography>
               </Grid>
             </Grid>
