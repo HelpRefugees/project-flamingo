@@ -32,12 +32,23 @@ before_deploy:
   - yarn build
 
 deploy:
-  provider: cloudfoundry
-  username: $CF_USERNAME
-  password: $CF_PASSWORD
-  api: https://api.run.pivotal.io
-  organization: digital-coe
-  space: flamingo-dev
+  - provider: cloudfoundry
+    username: $CF_USERNAME
+    password: $CF_PASSWORD
+    api: https://api.run.pivotal.io
+    organization: digital-coe
+    space: flamingo-dev
+    on:
+      tags: false
+
+  - provider: cloudfoundry
+    username: $CF_USERNAME
+    password: $CF_PASSWORD
+    api: https://api.run.pivotal.io
+    organization: digital-coe
+    space: flamingo-prod
+    on:
+      tags: true
 
 after_script:
   - cd client && ../cc-test-reporter format-coverage -o "../coverage/cc.client.json" --add-prefix client && cd ..
