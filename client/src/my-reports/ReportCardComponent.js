@@ -8,11 +8,10 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
+import moment from "moment";
 
 import type { Report } from "../report/models";
 import theme from "../theme";
-
-const moment = require("moment");
 
 const styles = themes => ({
   reportStatus: {
@@ -73,7 +72,12 @@ export class ReportCardComponent extends Component<Props> {
                   {moment(report.reportPeriod).format("MMMM YYYY")}
                 </Typography>
               </Grid>
-              <Grid item container className={`${classes.reportStatus} ${classes.notFullWidth}`} alignItems="center">
+              <Grid
+                item
+                container
+                className={`${classes.reportStatus} ${classes.notFullWidth}`}
+                alignItems="center"
+              >
                 <Chip
                   label={
                     report.completed && report.submissionDate

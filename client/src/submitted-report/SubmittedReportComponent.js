@@ -8,12 +8,12 @@ import {
   Typography,
   Paper
 } from "@material-ui/core";
+import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
+
 import type { Account } from "../authentication/models";
 import type { Report } from "../report/models";
-
-const moment = require("moment");
 
 type Props = {
   classes: any,

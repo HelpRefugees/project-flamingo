@@ -10,6 +10,8 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
+import moment from "moment";
+
 import HeaderComponent from "../page-layout/HeaderComponent";
 
 import type { Account } from "../authentication/models";
@@ -23,8 +25,6 @@ type Props = {
   loadReports: () => void,
   history: any
 };
-
-const moment = require("moment");
 
 const styles = theme => ({
   rowContainer: {
