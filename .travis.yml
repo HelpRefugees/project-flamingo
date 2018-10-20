@@ -52,7 +52,5 @@ deploy:
       tags: true
 
 after_script:
-  - cd client && ../cc-test-reporter format-coverage -o "../coverage/cc.client.json" --add-prefix client && cd ..
-  - cd scripts && ../cc-test-reporter format-coverage -o "../coverage/cc.scripts.json" --add-prefix scripts && cd ..
-  - ./cc-test-reporter sum-coverage coverage/cc.*.json -p 2
+  - ./coverage.sh
   - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi
