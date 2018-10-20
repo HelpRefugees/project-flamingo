@@ -1,6 +1,8 @@
 #! /usr/bin/env bash
 set -e -x
 
+./cc-test-reporter format-coverage -o "./coverage/cc.server.json"
+
 for DIR in client scripts
 do
     pushd $DIR
