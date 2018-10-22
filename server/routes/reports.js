@@ -1,10 +1,12 @@
 const express = require("express");
 
+const { ensureLoggedIn } = require("../auth");
+
 module.exports = db => {
   const collection = "reports";
   const router = new express.Router();
 
-  router.get("/", (req, res) => {
+  router.get("/", ensureLoggedIn, (req, res) => {
     db.collection(collection)
       .find()
       .toArray(async (err, reports) => {
@@ -12,7 +14,7 @@ module.exports = db => {
       });
   });
 
-  router.put("/:id", (req, res) => {
+  router.put("/:id", ensureLoggedIn, (req, res) => {
     const report = req.body;
     if (report.completed) {
       // TODO what if this is being updated post-completion?

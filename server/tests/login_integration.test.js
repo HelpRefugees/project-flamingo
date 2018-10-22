@@ -4,11 +4,12 @@ const bcrypt = require("bcrypt");
 describe("/api/login", async () => {
   let app;
   const route = "/api/login";
+  const password = "flamingo";
   const user = {
     username: "ellen@ip.org",
     name: "Ellen Smith",
     role: "implementing-partner",
-    password: bcrypt.hashSync("flamingo", bcrypt.genSaltSync())
+    password: bcrypt.hashSync(password, bcrypt.genSaltSync())
   };
 
   beforeAll(() => {
@@ -16,19 +17,30 @@ describe("/api/login", async () => {
   });
 
   const safeDrop = async collection => {
-    const collections = await global.DATABASE.collections();
-    if (collections.map(c => c.s.name).indexOf(collection) > -1) {
+    try {
       await global.DATABASE.collection(collection).drop();
+    } catch (err) {
+      // pass
+    }
+  };
+
+  const safeCreate = async collection => {
+    try {
+      await global.DATABASE.createCollection(collection);
+    } catch (err) {
+      // pass
     }
   };
 
   beforeEach(async () => {
+    await safeDrop("_sessions");
+    await safeCreate("_sessions");
     await safeDrop("users");
     await global.DATABASE.collection("users").insertOne(user);
   });
 
   test("returns 200 OK when valid credentials are provided", async () => {
-    const credentials = { username: user.username, password: "flamingo" };
+    const credentials = { username: user.username, password };
 
     const response = await request(app)
       .post(route)
