@@ -21,7 +21,8 @@ type Props = {
   match: any,
   reports: Report[],
   history: any,
-  account: Account
+  account: Account,
+  isLoading: boolean
 };
 
 const styles = themes => ({
@@ -92,36 +93,41 @@ export class ReportComponent extends Component<Props, State> {
     });
   };
 
+  renderToolbar = (classes: any, report: Report, isLoading: boolean) => {
+    return (
+      <AppBar position="static" color="inherit" className={classes.appbar}>
+        <Toolbar>
+          <Grid container justify="space-between" alignItems="center">
+            <Grid item container direction="column" xs={3}>
+              <Typography color="textSecondary" variant="caption">
+                Grant
+              </Typography>
+              <Typography data-test-id="grant-name">{report.grant}</Typography>
+            </Grid>
+            <Button
+              data-test-id="report-submit-button"
+              variant="contained"
+              color="primary"
+              disabled={isLoading || this.state.overview === ""}
+              onClick={() => this.submitReport()}
+            >
+              Submit
+            </Button>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+    );
+  };
+
   render() {
-    const { classes, account, logout } = this.props;
+    const { classes, account, logout, isLoading } = this.props;
     const report = this.report;
 
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
-        <AppBar position="static" color="inherit" className={classes.appbar}>
-          <Toolbar>
-            <Grid container justify="space-between" alignItems="center">
-              <Grid item container direction="column" xs={3}>
-                <Typography color="textSecondary" variant="caption">
-                  Grant
-                </Typography>
-                <Typography data-test-id="grant-name">
-                  {report.grant}
-                </Typography>
-              </Grid>
-              <Button
-                data-test-id="report-submit-button"
-                variant="contained"
-                color="primary"
-                disabled={this.state.overview === ""}
-                onClick={() => this.submitReport()}
-              >
-                Submit
-              </Button>
-            </Grid>
-          </Toolbar>
-        </AppBar>
+
+        {this.renderToolbar(classes, report, isLoading)}
 
         <Grid
           container
@@ -162,7 +168,9 @@ export class ReportComponent extends Component<Props, State> {
                       data-test-id="report-save-button"
                       color="primary"
                       variant="outlined"
-                      disabled={this.state.overview === report.overview}
+                      disabled={
+                        isLoading || this.state.overview === report.overview
+                      }
                       fullWidth={false}
                       onClick={() => this.saveReport()}
                     >

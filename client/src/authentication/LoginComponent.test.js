@@ -15,6 +15,7 @@ describe("LoginComponent", () => {
         classes={{}}
         initializeLogin={() => {}}
         role={undefined}
+        isLoading={false}
       />
     );
   });

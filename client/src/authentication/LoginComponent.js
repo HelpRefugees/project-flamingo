@@ -45,12 +45,13 @@ type State = {
   credentials: Credentials
 };
 
-type Props = {
+export type Props = {
   classes: any,
-  isAuthenticated?: boolean,
+  isAuthenticated?: ?boolean,
   login: (credentials: Credentials) => void,
   initializeLogin: () => void,
-  role: ?string
+  role: ?string,
+  isLoading: boolean
 };
 
 export class LoginComponent extends Component<Props, State> {
@@ -62,7 +63,7 @@ export class LoginComponent extends Component<Props, State> {
         password: ""
       }
     };
-    if (!this.props.isAuthenticated) {
+    if (!this.props.isAuthenticated && !this.props.isLoading) {
       this.props.initializeLogin();
     }
   }
@@ -84,11 +85,16 @@ export class LoginComponent extends Component<Props, State> {
   render() {
     if (
       this.props.isAuthenticated
+      && !this.props.isLoading
       && this.props.role === "implementing-partner"
     ) {
       return <Redirect to="/myReports" />;
     }
-    if (this.props.isAuthenticated && this.props.role === "help-refugees") {
+    if (
+      this.props.isAuthenticated
+      && !this.props.isLoading
+      && this.props.role === "help-refugees"
+    ) {
       return <Redirect to="/reportsListing" />;
     }
     const { classes } = this.props;

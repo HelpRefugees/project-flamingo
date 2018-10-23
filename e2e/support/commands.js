@@ -31,6 +31,7 @@ Cypress.Commands.add("login", (username, password) => {
   cy.get('[data-test-id="password-input"] input').type(password);
   cy.get('[data-test-id="login-button"]').click();
   cy.get('[data-test-id="user-menu"]').should("be.visible");
+  cy.wait(250);
 });
 
 Cypress.Commands.add("logout", () => {

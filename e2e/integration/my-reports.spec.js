@@ -141,8 +141,8 @@ context("My Reports Page", () => {
     });
 
     it("is not able to see the Submit Report page", () => {
+      cy.wait(250);
       cy.visit("/reports/1");
-
       cy.get('[data-test-id="forbidden"]').should(
         "contains.text",
         "403 Sorry! You don’t have permission to access this page."

@@ -3,6 +3,12 @@ import type { Report } from "./report/models";
 import type { Account } from "./authentication/models";
 
 describe("reducers", () => {
+  const account: Account = {
+    username: "steve@email.org",
+    name: "Also Steve",
+    role: "some-role"
+  };
+
   it("should handle initial state", () => {
     expect(
       reducers(undefined, {
@@ -27,13 +33,7 @@ describe("reducers", () => {
     expect(newState.account).toEqual(account);
   });
 
-  it("should handle ADD_REPORTS", () => {
-    const account: Account = {
-      username: "steve@email.org",
-      name: "Also Steve",
-      role: "some-role"
-    };
-
+  it("should handle LOAD_REPORTS_SUCCESS", () => {
     const reports: Report[] = [
       {
         grant: "hugh grant",
@@ -44,46 +44,40 @@ describe("reducers", () => {
       }
     ];
     const startingState: State = {
-      isAuthenticated: true,
-      reports: undefined,
-      savedReport: undefined,
-      account: account
+      ...initialState,
+      account,
+      reports: undefined
     };
     const expectedState: State = {
-      isAuthenticated: true,
-      reports,
-      savedReport: undefined,
-      account: account
+      ...startingState,
+      reports
     };
 
     expect(
       reducers(startingState, {
-        type: "ADD_REPORTS",
+        type: "LOAD_REPORTS_SUCCESS",
         payload: reports
       })
     ).toEqual(expectedState);
   });
 
   it("should handle SET_LOGGED_IN_ERROR", () => {
-    expect(
-      reducers(initialState, {
+    let state = reducers(
+      { ...initialState, account },
+      {
         type: "SET_LOGGED_IN_ERROR"
-      }).isAuthenticated
-    ).toEqual(false);
+      }
+    );
+    expect(state.isAuthenticated).toEqual(false);
+    expect(state.account).toBeUndefined();
   });
 
   it("should handle SET_LOGGED_OUT", () => {
-    const account = {
-      username: "steve@email.org",
-      name: "Also Steve",
-      role: "some-role"
-    };
-
     const startingState: State = {
+      ...initialState,
+      account,
       isAuthenticated: true,
-      reports: undefined,
-      savedReport: undefined,
-      account: account
+      isLoading: false
     };
 
     let newState = reducers(startingState, {
@@ -139,5 +133,20 @@ describe("reducers", () => {
         type: "SAVE_REPORT_FAILURE"
       }).savedReport
     ).toEqual(false);
+  });
+
+  it("should handle SET_LOADING", () => {
+    expect(reducers(initialState, { type: "SET_LOADING" }).isLoading).toBe(
+      true
+    );
+  });
+
+  it("should handle SET_NOT_LOADING", () => {
+    expect(
+      reducers(
+        { ...initialState, isLoading: true },
+        { type: "SET_NOT_LOADING" }
+      ).isLoading
+    ).toBe(false);
   });
 });

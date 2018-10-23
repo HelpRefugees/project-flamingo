@@ -46,6 +46,7 @@ describe("ReportComponent", () => {
         classes={{}}
         history={{ push: mockHistoryPush }}
         account={account}
+        isLoading={false}
       />
     );
   });
@@ -114,5 +115,32 @@ describe("ReportComponent", () => {
 
     expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
     expect(mockHistoryPush).toHaveBeenCalledWith("/");
+  });
+
+  it("disables the submit button while loading", () => {
+    expect(
+      wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
+    ).toBe(false);
+
+    wrapper.setProps({ isLoading: true });
+
+    expect(
+      wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
+    ).toBe(true);
+  });
+
+  it("disables the save button while loading", () => {
+    wrapper
+      .find('[data-test-id="report-progress-input"]')
+      .simulate("change", { target: { value: "Hello there" } });
+    expect(
+      wrapper.find('[data-test-id="report-save-button"]').prop("disabled")
+    ).toBe(false);
+
+    wrapper.setProps({ isLoading: true });
+
+    expect(
+      wrapper.find('[data-test-id="report-save-button"]').prop("disabled")
+    ).toBe(true);
   });
 });

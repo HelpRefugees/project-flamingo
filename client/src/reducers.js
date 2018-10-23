@@ -5,14 +5,16 @@ export type State = {
   isAuthenticated: ?boolean,
   reports: ?(Report[]),
   savedReport: ?boolean,
-  account: ?Account
+  account: ?Account,
+  isLoading: boolean
 };
 
 export const initialState: State = {
   isAuthenticated: undefined,
   reports: undefined,
   savedReport: undefined,
-  account: undefined
+  account: undefined,
+  isLoading: false
 };
 
 type Action = {
@@ -33,7 +35,8 @@ const reducers = (state: State = initialState, action: Action): State => {
     case "SET_LOGGED_IN_ERROR": {
       return {
         ...state,
-        isAuthenticated: false
+        isAuthenticated: false,
+        account: undefined
       };
     }
 
@@ -45,7 +48,7 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
-    case "ADD_REPORTS": {
+    case "LOAD_REPORTS_SUCCESS": {
       return {
         ...state,
         reports: action.payload
@@ -73,6 +76,21 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
+    case "SET_LOADING": {
+      return {
+        ...state,
+        isLoading: true
+      };
+    }
+
+    case "SET_NOT_LOADING": {
+      return {
+        ...state,
+        isLoading: false
+      };
+    }
+
+    case "LOAD_REPORTS_FAILURE":
     default: {
       return state;
     }

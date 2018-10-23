@@ -57,9 +57,13 @@ context("Login Page", () => {
     });
 
     it("prevents access to the login page", () => {
+      cy.get('[data-test-id="user-menu"]').should("be.visible");
+      cy.get('[data-test-id="report"]').should("be.visible");
+
+      cy.wait(500);
       cy.visit("/");
 
-      cy.url().should("include", "/myReports", "should redirect to home page");
+      cy.url().should("include", "/", "should redirect to home page");
     });
   });
 

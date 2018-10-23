@@ -9,43 +9,57 @@ describe("actions", () => {
   let action: (dispatch: Dispatch<any>) => any;
   let mockDispatch;
 
-  it("loginSuccessful should create SET_LOGGED_IN action", () => {
-    const account: Account = {
-      username: "Steve@ip.org",
-      name: "Also Steve",
-      role: "implementing-partner"
-    };
-    expect(actions.loginSuccessful(account)).toEqual({
-      type: "SET_LOGGED_IN",
-      payload: account
-    });
+  beforeEach(() => {
+    mockDispatch = jest.fn();
+    fetch.resetMocks();
   });
 
-  it("loginFailed should create SET_LOGGED_IN_ERROR action", () => {
-    expect(actions.loginFailed()).toEqual({
-      type: "SET_LOGGED_IN_ERROR"
+  describe("simple actions", () => {
+    it("loginSuccessful should create SET_LOGGED_IN action", () => {
+      const account: Account = {
+        username: "Steve@ip.org",
+        name: "Also Steve",
+        role: "implementing-partner"
+      };
+      expect(actions.loginSuccessful(account)).toEqual({
+        type: "SET_LOGGED_IN",
+        payload: account
+      });
     });
-  });
 
-  it("loginInitialized should create SET_LOGGED_OUT action", () => {
-    expect(actions.logout()).toEqual({
-      type: "SET_LOGGED_OUT"
+    it("loginFailed should create SET_LOGGED_IN_ERROR action", () => {
+      expect(actions.loginFailed()).toEqual({
+        type: "SET_LOGGED_IN_ERROR"
+      });
     });
-  });
 
-  it("receiveReports should create ADD_REPORTS action", () => {
-    const reports = [];
-    expect(actions.receivedReports(reports)).toEqual({
-      type: "ADD_REPORTS",
-      payload: reports
+    it("loginInitialized should create SET_LOGGED_OUT action", () => {
+      expect(actions.logout()).toEqual({
+        type: "SET_LOGGED_OUT"
+      });
+    });
+
+    it("receiveReports should create LOAD_REPORTS_SUCCESS action", () => {
+      const reports = [];
+      expect(actions.loadReportsSuccessful(reports)).toEqual({
+        type: "LOAD_REPORTS_SUCCESS",
+        payload: reports
+      });
+    });
+
+    it("requestStarted should create SET_LOADING action", () => {
+      expect(actions.requestStarted()).toEqual({
+        type: "SET_LOADING"
+      });
+    });
+
+    it("requestFinished should create SET_NOT_LOADING action", () => {
+      expect(actions.requestFinished()).toEqual({ type: "SET_NOT_LOADING" });
     });
   });
 
   describe("loadReports", () => {
     beforeEach(() => {
-      mockDispatch = jest.fn();
-      fetch.resetMocks();
-
       action = actions.loadReports();
     });
 
@@ -59,13 +73,35 @@ describe("actions", () => {
       expect(url).toEqual("/api/reports");
     });
 
-    it("dispatches reports when the request succeed", done => {
-      fetch.mockResponseOnce("[]");
+    it("dispatches the request started when calling the backend", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.requestStarted());
+    });
+
+    it("dispatches the request finished when request is done", done => {
+      fetch.mockResponseOnce("{}");
 
       action(mockDispatch);
 
       assertLater(done, () => {
-        expect(mockDispatch).toHaveBeenCalledWith(actions.receivedReports([]));
+        expect(mockDispatch).toHaveBeenCalledWith(actions.requestFinished());
+      });
+    });
+
+    it("dispatches reports when the request succeed", done => {
+      const reports: Report[] = [];
+
+      fetch.mockResponseOnce(JSON.stringify(reports));
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          actions.loadReportsSuccessful(reports)
+        );
       });
     });
   });
@@ -75,9 +111,6 @@ describe("actions", () => {
     const password = "COOKIES!";
 
     beforeEach(() => {
-      mockDispatch = jest.fn();
-      fetch.resetMocks();
-
       action = actions.login({ username, password });
     });
 
@@ -92,6 +125,24 @@ describe("actions", () => {
       expect(options.method).toBe("POST");
       expect(options.headers["content-type"]).toBe("application/json");
       expect(JSON.parse(options.body)).toEqual({ username, password });
+    });
+
+    it("dispatches the request started when calling the backend", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.requestStarted());
+    });
+
+    it("dispatches the request finished when request is done", done => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(actions.requestFinished());
+      });
     });
 
     it("dispatches login success action when the request succeeds", done => {
@@ -143,9 +194,7 @@ describe("actions", () => {
       });
     });
 
-    describe("saveReport", () => {
-      let action;
-      let mockDispatch;
+    describe("updateReport", () => {
       const report: Report = {
         id: 123,
         grant: "Grant title",
@@ -155,9 +204,6 @@ describe("actions", () => {
       };
 
       beforeEach(() => {
-        mockDispatch = jest.fn();
-        fetch.resetMocks();
-
         action = actions.updateReport(report);
       });
 
@@ -172,6 +218,24 @@ describe("actions", () => {
         expect(options.method).toBe("PUT");
         expect(options.headers["content-type"]).toBe("application/json");
         expect(JSON.parse(options.body)).toEqual(report);
+      });
+
+      it("dispatches the request started when calling the backend", () => {
+        fetch.mockResponseOnce("{}");
+
+        action(mockDispatch);
+
+        expect(mockDispatch).toHaveBeenCalledWith(actions.requestStarted());
+      });
+
+      it("dispatches the request finished when request is done", done => {
+        fetch.mockResponseOnce("{}");
+
+        action(mockDispatch);
+
+        assertLater(done, () => {
+          expect(mockDispatch).toHaveBeenCalledWith(actions.requestFinished());
+        });
       });
 
       it("dispatches save report success when the request succeeds", done => {
@@ -196,6 +260,72 @@ describe("actions", () => {
             actions.updateReportFailed()
           );
         });
+      });
+    });
+  });
+
+  describe("makeRequest", () => {
+    const requestUrl = "http://example.org";
+    const requestOptions = { method: "GET" };
+
+    it("makes a request to the backend with URL and options", () => {
+      fetch.mockResponseOnce("{}");
+
+      actions.makeRequest(mockDispatch, requestUrl, requestOptions);
+
+      expect(fetch.mock.calls).toHaveLength(1);
+      const [url, options] = fetch.mock.calls[0];
+      expect(url).toEqual(requestUrl);
+      expect(options).toEqual(requestOptions);
+    });
+
+    it("handles an error from fetch", done => {
+      fetch.mockReject(new Error("fake error message"));
+
+      actions
+        .makeRequest(mockDispatch, requestUrl, requestOptions)
+        .catch(() => {});
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(actions.requestFinished());
+      });
+    });
+
+    it("dispatches the request started when calling the backend", () => {
+      fetch.mockResponseOnce("{}");
+
+      actions.makeRequest(mockDispatch, requestUrl, requestOptions);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.requestStarted());
+    });
+
+    it("should call the callback with the response", done => {
+      const expectedResponse = "{}";
+      fetch.mockResponseOnce(expectedResponse);
+
+      const callback = jest.fn();
+
+      actions.makeRequest(mockDispatch, requestUrl, requestOptions, callback);
+
+      assertLater(done, () => {
+        expect(callback).toHaveBeenCalledTimes(1);
+
+        const givenRequest = callback.mock.calls[0][0];
+        expect(givenRequest.status).toEqual(200);
+        givenRequest.json().then(result => {
+          expect(result).toEqual(JSON.parse(expectedResponse));
+          done();
+        });
+      });
+    });
+
+    it("dispatches the request finished when request is done", done => {
+      fetch.mockResponseOnce("{}");
+
+      actions.makeRequest(mockDispatch, requestUrl, requestOptions);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(actions.requestFinished());
       });
     });
   });

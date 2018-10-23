@@ -31,10 +31,9 @@ export class MyReportsComponent extends Component<Props, State> {
   }
 
   filterReportByCompletion(isCompleted: boolean): Report[] {
-    if (this.props.reports) {
-      return this.props.reports.filter(
-        report => report.completed === isCompleted
-      );
+    const { reports = [] } = this.props;
+    if (reports) {
+      return reports.filter(report => report.completed === isCompleted);
     }
 
     return [];

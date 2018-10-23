@@ -7,7 +7,8 @@ import type { State } from "../reducers";
 
 const mapStateToProps = (state: State): any => ({
   isAuthenticated: state.isAuthenticated,
-  role: state.account ? state.account.role : undefined
+  role: state.account ? state.account.role : undefined,
+  isLoading: state.isLoading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

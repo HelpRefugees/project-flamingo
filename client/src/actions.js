@@ -16,32 +16,61 @@ export const logout = () => ({
   type: "SET_LOGGED_OUT"
 });
 
-export const login = (credentials: Credentials) => (dispatch: Dispatch<any>) =>
-  fetch("/api/login", {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(credentials)
-  }).then(res => {
-    if (res.status === 200) {
-      res.json().then(account => {
-        dispatch(loginSuccessful(account));
-      });
-    } else {
-      dispatch(loginFailed());
-    }
-  });
+export const requestStarted = () => ({
+  type: "SET_LOADING"
+});
 
-export const receivedReports = (reports: Report[]) => ({
-  type: "ADD_REPORTS",
+export const requestFinished = () => ({
+  type: "SET_NOT_LOADING"
+});
+
+export const login = (credentials: Credentials) => (dispatch: Dispatch<any>) =>
+  makeRequest(
+    dispatch,
+    "/api/login",
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(credentials)
+    },
+    res => {
+      if (res.status === 200) {
+        return res.json().then(account => {
+          dispatch(loginSuccessful(account));
+        });
+      } else {
+        dispatch(loginFailed());
+      }
+    }
+  );
+
+export const loadReportsSuccessful = (reports: Report[]) => ({
+  type: "LOAD_REPORTS_SUCCESS",
   payload: reports
 });
 
+export const loadReportsFailed = () => ({
+  type: "LOAD_REPORTS_FAILURE"
+});
+
 export const loadReports = () => (dispatch: Dispatch<any>) => {
-  fetch("/api/reports")
-    .then(res => res.json())
-    .then((reports: any) => {
-      dispatch(receivedReports(reports));
-    });
+  makeRequest(
+    dispatch,
+    "/api/reports",
+    {
+      method: "GET",
+      headers: { "content-type": "application/json" }
+    },
+    res => {
+      if (res.status === 200) {
+        return res.json().then((reports: any) => {
+          dispatch(loadReportsSuccessful(reports));
+        });
+      } else {
+        dispatch(loadReportsFailed());
+      }
+    }
+  );
 };
 
 export const updateReportSuccessful = (report: Report) => ({
@@ -54,15 +83,38 @@ export const updateReportFailed = () => ({
 });
 
 export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
-  fetch(`/api/reports/${report.id}`, {
-    method: "PUT",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(report)
-  }).then(res => {
-    if (res.status === 200) {
-      dispatch(updateReportSuccessful(report));
-    } else {
-      dispatch(updateReportFailed());
+  makeRequest(
+    dispatch,
+    `/api/reports/${report.id}`,
+    {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(report)
+    },
+    res => {
+      if (res.status === 200) {
+        dispatch(updateReportSuccessful(report));
+      } else {
+        dispatch(updateReportFailed());
+      }
     }
-  });
+  );
+};
+
+export const makeRequest = (
+  dispatch: Dispatch<any>,
+  url: string,
+  options?: any = undefined,
+  callback?: any => any = () => {}
+) => {
+  dispatch(requestStarted());
+  return fetch(url, options)
+    .then(res => callback(res))
+    .then(() => {
+      dispatch(requestFinished());
+    })
+    .catch(err => {
+      dispatch(requestFinished());
+      throw err;
+    });
 };
