@@ -1,54 +1,53 @@
-context("Login Page", () => {
-  beforeEach(() => {
-    cy.visit("/");
-  });
+import LoginPage from "../pages/loginPage";
+import MyReportsPage from "../pages/myReportsPage";
+import ReportsListingPage from "../pages/reportsListingPage";
 
-  afterEach(() => {
+context("Login Page", () => {
+  const loginPage = new LoginPage();
+  const myReportsPage = new MyReportsPage();
+  const reportsListingPage = new ReportsListingPage();
+
+  beforeEach(() => {
+    loginPage.visit();
+
     cy.logout();
   });
 
   it("prevents access to the home page when not logged in", () => {
-    cy.visit("/myReports");
-
-    cy.url().should("not.include", "/myReports", "should not go to home page");
+    myReportsPage.visit();
+    myReportsPage.isAt(false);
   });
 
   it("rejects invalid credentials", () => {
-    cy.get('[data-test-id="login-error"]').should("not.exist");
+    loginPage.loginError.should("not.exist");
 
     loginAs("ellen@ip.org", "wrongpassword");
 
-    cy.get('[data-test-id="login-error"]').should(
-      "contains.text",
-      "Invalid credentials"
-    );
+    loginPage.loginError.should("contains.text", "Invalid credentials");
 
     cy.reload();
 
-    cy.get('[data-test-id="login-error"]').should("not.exist");
+    loginPage.loginError.should("not.exist");
   });
 
   it("accepts Ellen's valid credentials", () => {
     loginAs("ellen@ip.org", "flamingo");
 
-    cy.url().should("include", "/myReports", "should redirect to home page");
+    myReportsPage.isAt();
   });
 
   it("accepts Daisy's valid credentials", () => {
     loginAs("daisy@hr.org", "chooselove");
 
-    cy.url().should(
-      "include",
-      "/reportsListing",
-      "should redirect to reports listing page"
-    );
+    reportsListingPage.isAt();
   });
 
   it("redirects to the login page when clicking logout", () => {
     loginAs("ellen@ip.org", "flamingo");
+
     cy.logout();
 
-    cy.get('[data-test-id="login-button"]').should("be.visible");
+    loginPage.loginButton.should("be.visible");
   });
 
   context("Ellen is logged in", () => {
@@ -57,19 +56,19 @@ context("Login Page", () => {
     });
 
     it("prevents access to the login page", () => {
-      cy.get('[data-test-id="user-menu"]').should("be.visible");
-      cy.get('[data-test-id="report"]').should("be.visible");
+      myReportsPage.userMenu.should("be.visible");
+      myReportsPage.reports.should("be.visible");
 
       cy.wait(500);
-      cy.visit("/");
+      loginPage.visit();
 
-      cy.url().should("include", "/", "should redirect to home page");
+      myReportsPage.isAt();
     });
   });
 
   function loginAs(username, password) {
-    cy.get('[data-test-id="username-input"] input').type(username);
-    cy.get('[data-test-id="password-input"] input').type(password);
-    cy.get('[data-test-id="login-button"]').click();
+    loginPage.setUsername(username);
+    loginPage.setPassword(password);
+    loginPage.clickLogin();
   }
 });

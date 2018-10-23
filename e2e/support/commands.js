@@ -24,24 +24,27 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+import LoginPage from "../pages/loginPage";
+import BasePage from "../pages/basePage";
+
+const loginPage = new LoginPage();
+const basePage = new BasePage();
+
 Cypress.Commands.add("login", (username, password) => {
-  cy.visit("/");
+  loginPage.visit();
   cy.logout();
-  cy.get('[data-test-id="username-input"] input').type(username);
-  cy.get('[data-test-id="password-input"] input').type(password);
-  cy.get('[data-test-id="login-button"]').click();
-  cy.get('[data-test-id="user-menu"]').should("be.visible");
+
+  loginPage.setUsername(username);
+  loginPage.setPassword(password);
+  loginPage.clickLogin();
+
+  basePage.userMenu.should("be.visible");
   cy.wait(250);
 });
 
 Cypress.Commands.add("logout", () => {
-  cy.get("body").then($body => {
-    if ($body.find('[data-test-id="user-menu"]').length) {
-      cy.get('[data-test-id="user-menu"]').click();
-      cy.get('[data-test-id="logout-menuitem"]').click();
-    }
-  });
-  cy.get('[data-test-id="username-input"]').should("exist");
+  basePage.logout();
+  loginPage.usernameInput.should("exist");
 });
 
 Cypress.Commands.add("seed", seedFile =>
