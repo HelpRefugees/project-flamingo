@@ -3,13 +3,14 @@ import HeaderComponent from "../page-layout/HeaderComponent";
 import {
   Button,
   Grid,
-  Paper,
   withStyles,
   OutlinedInput,
   AppBar,
   Toolbar,
   Typography
 } from "@material-ui/core";
+
+import ReportSectionComponent from "./ReportSectionComponent";
 
 import type { Report } from "./models";
 import type { Account } from "../authentication/models";
@@ -26,16 +27,9 @@ type Props = {
 };
 
 const styles = themes => ({
-  pagePaper: {
-    padding: themes.spacing.unit * 4,
-    boxShadow: "none"
-  },
   outerContainer: {
     height: "100vh",
     margin: "5%"
-  },
-  headerText: {
-    color: "#404040"
   },
   appbar: {
     boxShadow: "none",
@@ -123,6 +117,9 @@ export class ReportComponent extends Component<Props, State> {
     const { classes, account, logout, isLoading } = this.props;
     const report = this.report;
 
+    const subtitle
+      = "Please give a very brief overview of your project and progress since the last report.";
+
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -137,48 +134,26 @@ export class ReportComponent extends Component<Props, State> {
         >
           <Grid container justify="center">
             <Grid item xs={6}>
-              <Paper justify="center" className={classes.pagePaper}>
-                <Grid container direction="column" spacing={32}>
-                  <Grid item>
-                    <h1
-                      data-test-id="report-details-title"
-                      className={[classes.fontFamily, classes.headerText].join(
-                        " "
-                      )}
-                    >
-                      Grant progress
-                    </h1>
-                  </Grid>
-                  <Grid item>
-                    <OutlinedInput
-                      data-test-id="report-progress-input"
-                      fullWidth={true}
-                      id="component-outlined"
-                      placeholder="Please add an overview"
-                      value={this.state.overview}
-                      multiline
-                      rows={10}
-                      rowsMax={100}
-                      labelWidth={0}
-                      onChange={event => this.changeReportProgress(event)}
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Button
-                      data-test-id="report-save-button"
-                      color="primary"
-                      variant="outlined"
-                      disabled={
-                        isLoading || this.state.overview === report.overview
-                      }
-                      fullWidth={false}
-                      onClick={() => this.saveReport()}
-                    >
-                      Save
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Paper>
+              <ReportSectionComponent
+                data-test-id="grant-progress"
+                title="Grant progress"
+                subtitle={subtitle}
+                disabled={isLoading || this.state.overview === report.overview}
+                onSave={this.saveReport.bind(this)}
+              >
+                <OutlinedInput
+                  data-test-id="report-progress-input"
+                  fullWidth={true}
+                  id="component-outlined"
+                  placeholder="Please add an overview"
+                  value={this.state.overview}
+                  multiline
+                  rows={10}
+                  rowsMax={100}
+                  labelWidth={0}
+                  onChange={event => this.changeReportProgress(event)}
+                />
+              </ReportSectionComponent>
             </Grid>
           </Grid>
         </Grid>

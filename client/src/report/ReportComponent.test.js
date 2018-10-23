@@ -5,6 +5,7 @@ import { ReportComponent } from "./ReportComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "./models";
 import type { Account } from "../authentication/models";
+import ReportSectionComponent from "./ReportSectionComponent";
 
 describe("ReportComponent", () => {
   let wrapper;
@@ -56,91 +57,115 @@ describe("ReportComponent", () => {
     expect(wrapper.find(HeaderComponent).prop("account")).toBe(account);
   });
 
-  it("disables the save button when the overview is unchanged", () => {
-    expect(
-      wrapper.find('[data-test-id="report-save-button"]').prop("disabled")
-    ).toBe(true);
-  });
+  describe("grant progress", () => {
+    let grantProgressSection;
 
-  it("enables the save button when the overview is changed", () => {
-    wrapper
-      .find('[data-test-id="report-progress-input"]')
-      .simulate("change", { target: { value: "Hello there" } });
-
-    expect(
-      wrapper.find('[data-test-id="report-save-button"]').prop("disabled")
-    ).toBe(false);
-  });
-
-  it("updates the displayed text when the overview is changed", () => {
-    const newOverview = "is this thing on?";
-    wrapper
-      .find('[data-test-id="report-progress-input"]')
-      .simulate("change", { target: { value: newOverview } });
-
-    expect(
-      wrapper.find('[data-test-id="report-progress-input"]').prop("value")
-    ).toBe(newOverview);
-  });
-
-  it("calls update report action with the correct arguments when clicking the save button", () => {
-    const overview = "text for report progress";
-    const updatedReport1 = {
-      ...report1,
-      overview
+    const updateSection = () => {
+      grantProgressSection = wrapper.find(ReportSectionComponent).at(0);
     };
 
-    wrapper
-      .find('[data-test-id="report-progress-input"]')
-      .simulate("change", { target: { value: overview } });
+    beforeEach(() => {
+      updateSection();
+    });
 
-    wrapper.find('[data-test-id="report-save-button"]').simulate("click");
+    it("renders the section", () => {
+      expect(grantProgressSection.exists()).toEqual(true);
+      expect(grantProgressSection.prop("title")).toEqual("Grant progress");
+      expect(grantProgressSection.prop("subtitle")).toEqual(
+        "Please give a very brief overview of your project and progress since the last report."
+      );
+    });
 
-    expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+    describe("save button", () => {
+      it("is disabled when the overview is unchanged", () => {
+        expect(grantProgressSection.prop("disabled")).toBe(true);
+      });
+
+      it("disables during loading", () => {
+        grantProgressSection
+          .find('[data-test-id="report-progress-input"]')
+          .simulate("change", { target: { value: "Hello there" } });
+
+        updateSection();
+
+        expect(grantProgressSection.prop("disabled")).toBe(false);
+
+        wrapper.setProps({ isLoading: true });
+
+        updateSection();
+
+        expect(grantProgressSection.prop("disabled")).toBe(true);
+      });
+
+      it("is enabled when the overview is changed", () => {
+        grantProgressSection
+          .find('[data-test-id="report-progress-input"]')
+          .simulate("change", { target: { value: "Hello there" } });
+
+        updateSection();
+
+        expect(grantProgressSection.prop("disabled")).toBe(false);
+      });
+    });
+
+    it("updates the displayed text when the overview is changed", () => {
+      const newOverview = "is this thing on?";
+      wrapper
+        .find('[data-test-id="report-progress-input"]')
+        .simulate("change", { target: { value: newOverview } });
+
+      expect(
+        wrapper.find('[data-test-id="report-progress-input"]').prop("value")
+      ).toBe(newOverview);
+    });
+
+    it("calls update report action with the correct arguments when clicking the save button", () => {
+      const overview = "text for report progress";
+      const updatedReport1 = {
+        ...report1,
+        overview
+      };
+
+      wrapper
+        .find('[data-test-id="report-progress-input"]')
+        .simulate("change", { target: { value: overview } });
+
+      const onSave = grantProgressSection.prop("onSave");
+      onSave();
+
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+    });
   });
 
-  it("calls update report action with the correct arguments and redirects to home when clicking the submit button", () => {
-    const overview = "text for report progress";
-    const updatedReport1 = {
-      ...report1,
-      overview,
-      completed: true
-    };
+  describe("submit", () => {
+    it("calls update report action with the correct arguments and redirects to home on click", () => {
+      const overview = "text for report progress";
+      const updatedReport1 = {
+        ...report1,
+        overview,
+        completed: true
+      };
 
-    wrapper
-      .find('[data-test-id="report-progress-input"]')
-      .simulate("change", { target: { value: overview } });
+      wrapper
+        .find('[data-test-id="report-progress-input"]')
+        .simulate("change", { target: { value: overview } });
 
-    wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
+      wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
-    expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
-    expect(mockHistoryPush).toHaveBeenCalledWith("/");
-  });
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+      expect(mockHistoryPush).toHaveBeenCalledWith("/");
+    });
 
-  it("disables the submit button while loading", () => {
-    expect(
-      wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
-    ).toBe(false);
+    it("is disabled during loading", () => {
+      expect(
+        wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
+      ).toBe(false);
 
-    wrapper.setProps({ isLoading: true });
+      wrapper.setProps({ isLoading: true });
 
-    expect(
-      wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
-    ).toBe(true);
-  });
-
-  it("disables the save button while loading", () => {
-    wrapper
-      .find('[data-test-id="report-progress-input"]')
-      .simulate("change", { target: { value: "Hello there" } });
-    expect(
-      wrapper.find('[data-test-id="report-save-button"]').prop("disabled")
-    ).toBe(false);
-
-    wrapper.setProps({ isLoading: true });
-
-    expect(
-      wrapper.find('[data-test-id="report-save-button"]').prop("disabled")
-    ).toBe(true);
+      expect(
+        wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
+      ).toBe(true);
+    });
   });
 });

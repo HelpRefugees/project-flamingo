@@ -55,18 +55,18 @@ context("My Reports Page", () => {
         "contain.text",
         "Grant Mitchell"
       );
-      cy.get("[data-test-id='report-details-title']").should(
+      cy.get("[data-test-id='section-title']").should(
         "contain.text",
         "Grant progress"
       );
-      cy.get("[data-test-id='report-save-button']").should("attr", "disabled");
+      cy.get("[data-test-id='section-save-button']").should("attr", "disabled");
 
       cy.get('[data-test-id="report-progress-input"] textarea')
         .last()
         .clear()
         .type(details);
 
-      cy.get("[data-test-id='report-save-button']").click();
+      cy.get("[data-test-id='section-save-button']").click();
 
       cy.get("[data-test-id='logo']").click();
       cy.get(
