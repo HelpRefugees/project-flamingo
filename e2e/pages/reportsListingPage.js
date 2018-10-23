@@ -1,12 +1,11 @@
 import BasePage from "./basePage";
+import { testId } from "./helpers";
 
 export default class ReportsListingPage extends BasePage {
   path = "/reportsListing";
-  reportsSelector = this.testId("report");
-  noReportsSelector = this.testId("no-reports-title");
 
   getReports() {
-    return cy.get(this.testId("submitted-reports")).get(this.reportsSelector);
+    return cy.get(testId("submitted-reports")).get(testId("report"));
   }
 
   getFirstReport() {
@@ -14,10 +13,10 @@ export default class ReportsListingPage extends BasePage {
   }
 
   verifyReportData(data) {
-    cy.get(this.testId("report-grant")).should("contains.text", data.grantName);
+    cy.get(testId("report-grant")).should("contains.text", data.grantName);
   }
 
   get noReportsTitle() {
-    return cy.get(this.noReportsSelector);
+    return cy.get(testId("no-reports-title"));
   }
 }

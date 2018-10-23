@@ -1,4 +1,5 @@
 import BasePage from "./basePage";
+import { testId } from "./helpers";
 
 export default class SubmittedReportPage extends BasePage {
   constructor(reportId) {
@@ -11,8 +12,8 @@ export default class SubmittedReportPage extends BasePage {
   }
 
   verifyReportData(data) {
-    cy.get(this.testId("grant-name")).should("contains.text", data.grantName);
-    cy.get(this.testId("submission-date")).should(
+    cy.get(testId("grant-name")).should("contains.text", data.grantName);
+    cy.get(testId("submission-date")).should(
       "contains.text",
       data.submissionDate
     );
@@ -28,10 +29,10 @@ export class ReportSection {
   }
 
   get title() {
-    return cy.get(this.selector).get('[data-test-id="report-details-title"]');
+    return cy.get(this.selector).get(testId("report-details-title"));
   }
 
   get content() {
-    return cy.get(this.selector).get('[data-test-id="report-progress"]');
+    return cy.get(this.selector).get(testId("report-progress"));
   }
 }

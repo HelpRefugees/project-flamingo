@@ -1,27 +1,23 @@
 import BasePage from "./basePage";
+import { testId } from "./helpers";
 
 export default class LoginPage extends BasePage {
   path = "/";
 
-  usernameSelector = '[data-test-id="username-input"] input';
-  passwordSelector = '[data-test-id="password-input"] input';
-  loginButtonSelector = '[data-test-id="login-button"]';
-  loginErrorSelector = '[data-test-id="login-error"]';
-
   setPassword(password) {
-    cy.get(this.passwordSelector).type(password);
+    cy.get(`${testId("password-input")} input`).type(password);
   }
 
   get loginButton() {
-    return cy.get(this.loginButtonSelector);
+    return cy.get(testId("login-button"));
   }
 
   get usernameInput() {
-    return cy.get(this.usernameSelector);
+    return cy.get(`${testId("username-input")} input`);
   }
 
   get loginError() {
-    return cy.get(this.loginErrorSelector);
+    return cy.get(testId("login-error"));
   }
 
   setUsername(username) {

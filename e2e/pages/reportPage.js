@@ -1,9 +1,10 @@
 import BasePage from "./basePage";
+import { testId } from "./helpers";
 
 export default class ReportPage extends BasePage {
-  grantNameSelector = this.testId("grant-name");
-  reportDetailsTitleSelector = this.testId("report-details-title");
-  submitReportSelector = this.testId("report-submit-button");
+  grantNameSelector = testId("grant-name");
+  reportDetailsTitleSelector = testId("report-details-title");
+  submitReportSelector = testId("report-submit-button");
 
   constructor(reportId) {
     super();
@@ -33,17 +34,17 @@ export class ReportSection {
   }
 
   get title() {
-    return cy.get(this.selector).get('[data-test-id="section-title"]');
+    return cy.get(this.selector).get(testId("section-title"));
   }
 
   get saveButton() {
-    return cy.get(this.selector).get("[data-test-id='section-save-button']");
+    return cy.get(this.selector).get(testId("section-save-button"));
   }
 
   get content() {
     return cy
       .get(this.selector)
-      .get('[data-test-id="report-progress-input"] textarea')
+      .get(`${testId("report-progress-input")} textarea`)
       .last();
   }
 

@@ -1,9 +1,7 @@
+import { testId } from "./helpers";
+
 export default class BasePage {
-  userMenuSelector = '[data-test-id="user-menu"]';
-  logoutMenuItemSelector = '[data-test-id="logout-menuitem"]';
-  pageTitleSelector = this.testId("page-title");
-  userNameSelector = this.testId("user-name");
-  logoSelector = this.testId("logo");
+  userMenuSelector = testId("user-menu");
 
   visit() {
     cy.visit(this.path);
@@ -21,17 +19,13 @@ export default class BasePage {
     cy.get("body").then($body => {
       if ($body.find(this.userMenuSelector).length) {
         this.userMenu.click();
-        cy.get(this.logoutMenuItemSelector).click();
+        cy.get(testId("logout-menuitem")).click();
       }
     });
   }
 
-  testId(testIdName) {
-    return `[data-test-id="${testIdName}"]`;
-  }
-
   get userName() {
-    return cy.get(this.userNameSelector);
+    return cy.get(testId("user-name"));
   }
 
   get userMenu() {
@@ -39,10 +33,10 @@ export default class BasePage {
   }
 
   get pageTitle() {
-    return cy.get(this.pageTitleSelector);
+    return cy.get(testId("page-title"));
   }
 
   goToHomePage() {
-    cy.get(this.logoSelector).click();
+    cy.get(testId("logo")).click();
   }
 }
