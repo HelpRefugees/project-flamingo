@@ -1,4 +1,10 @@
+import ReportsListingPage from "../pages/reportsListingPage";
+import SubmittedReportPage from "../pages/submittedReportPage";
+import ForbiddenPage from "../pages/forbiddenPage";
+
 context("Reports Listing Page", () => {
+  const reportsListingPage = new ReportsListingPage();
+
   context("Daisy is logged in", () => {
     context("One completed report", () => {
       beforeEach(() => {
@@ -7,69 +13,57 @@ context("Reports Listing Page", () => {
       });
 
       it("shows her name 'Daisy Jones'", () => {
-        cy.get('[data-test-id="user-name"]').should(
-          "contains.text",
-          "Daisy Jones"
-        );
+        reportsListingPage.userName.should("contains.text", "Daisy Jones");
       });
 
       it("shows the title 'Reports'", () => {
-        cy.get('[data-test-id="page-title"]').should(
-          "contains.text",
-          "Reports"
-        );
+        reportsListingPage.pageTitle.should("contains.text", "Reports");
       });
 
       it("shows a table containing the submitted report", () => {
-        const selector
-          = '[data-test-id="submitted-reports"] [data-test-id="report"]';
-        cy.get(selector)
+        reportsListingPage
+          .getReports()
           .its("length")
           .should("be", 1);
-        cy.get(selector)
-          .first()
+        reportsListingPage
+          .getFirstReport()
           // eslint-disable-next-line no-unused-vars
           .within($report => {
-            cy.get('[data-test-id="report-grant"]').should(
-              "contains.text",
-              "Grant Mitchell"
-            );
+            reportsListingPage.verifyReportData({
+              grantName: "Grant Mitchell"
+            });
           });
       });
 
       it("shows the report details after clicking on a report", () => {
-        cy.get(
-          '[data-test-id="submitted-reports"] [data-test-id="report"]'
-        ).click();
+        reportsListingPage.getFirstReport().click();
 
-        cy.url().should("include", "/submittedReports/1");
-        cy.get("[data-test-id='grant-name']").should(
+        const submittedReportPage = new SubmittedReportPage(1);
+        submittedReportPage.isAt();
+
+        submittedReportPage.verifyReportData({
+          grantName: "Grant Mitchell",
+          submissionDate: "15/09/2018"
+        });
+
+        const grantProgress = submittedReportPage.grantProgress;
+        grantProgress.title.should("contain.text", "Grant progress");
+        grantProgress.content.should(
           "contain.text",
-          "Grant Mitchell"
+          "Mitchell overview completed"
         );
-        cy.get('[data-test-id="submission-date"]').should(
-          "contain.text",
-          "15/09/2018"
-        );
-        cy.get("[data-test-id='report-details-title']").should(
-          "contain.text",
-          "Grant progress"
-        );
-        cy.get('[data-test-id="report-progress"]')
-          .last()
-          .should("contain.text", "Mitchell overview completed");
       });
 
       it("redirects to the Reports Listing page if accessing a details page for an incomplete report", () => {
-        cy.visit("/submittedReports/2");
+        new SubmittedReportPage(2).visit();
 
-        cy.url().should("include", "/reportsListing");
+        reportsListingPage.isAt();
       });
 
-      it("redirects to the Reports Listing page if accessing a details page for a non-existing report", () => {
-        cy.visit("/submittedReports/3");
+      it("redirects to the Reports Listing page if accessing a details page for a non-existent report", () => {
+        new SubmittedReportPage(3).visit();
 
-        cy.url().should("include", "/reportsListing");
+        reportsListingPage.isAt();
       });
     });
 
@@ -80,7 +74,7 @@ context("Reports Listing Page", () => {
       });
 
       it("shows a message saying there are no reports", () => {
-        cy.get('[data-test-id="no-reports-title"]').should(
+        reportsListingPage.noReportsTitle.should(
           "contains.text",
           "No submitted reports yet!"
         );
@@ -89,23 +83,25 @@ context("Reports Listing Page", () => {
   });
 
   context("Ellen is logged in", () => {
+    const forbiddenPage = new ForbiddenPage();
+
     beforeEach(() => {
       cy.login("ellen@ip.org", "flamingo");
     });
 
     it("is not able to see the Reports Listing page", () => {
-      cy.visit("/reportsListing");
+      reportsListingPage.visit();
 
-      cy.get('[data-test-id="forbidden"]').should(
+      forbiddenPage.message.should(
         "contains.text",
         "403 Sorry! You don’t have permission to access this page."
       );
     });
 
     it("is not able to see the Submitted Report page", () => {
-      cy.visit("/submittedReports/1");
+      new SubmittedReportPage(1).visit();
 
-      cy.get('[data-test-id="forbidden"]').should(
+      forbiddenPage.message.should(
         "contains.text",
         "403 Sorry! You don’t have permission to access this page."
       );
