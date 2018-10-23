@@ -1,4 +1,4 @@
-context.only("Not Found Page", () => {
+context("Not Found Page", () => {
   it("shows not found page when navigating to invalid path", () => {
     cy.visit("/invalidpath");
 
