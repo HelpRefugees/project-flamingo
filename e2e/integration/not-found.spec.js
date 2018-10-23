@@ -1,8 +1,12 @@
+import NotFoundPage from "../pages/notFoundPage";
+
 context("Not Found Page", () => {
+  const notFoundPage = new NotFoundPage();
+
   it("shows not found page when navigating to invalid path", () => {
     cy.visit("/invalidpath");
 
-    cy.get('[data-test-id="not-found"]').should(
+    notFoundPage.notFoundMessage.should(
       "contains.text",
       "404 Sorry! Page not found."
     );
@@ -11,9 +15,6 @@ context("Not Found Page", () => {
   it("does not show not found page when navigating to valid path", () => {
     cy.visit("/");
 
-    cy.get('[data-test-id="not-found"]').should(
-      "not.contains.text",
-      "404 Sorry! Page not found."
-    );
+    notFoundPage.notFoundMessage.should("not.exist");
   });
 });

@@ -10,7 +10,7 @@ export default class BasePage {
     cy.url().should(
       assert ? "include" : "not.include",
       this.path,
-      `should${assert ? "" : " not "}go to ${this.path}`
+      `should ${assert ? "" : "not "}go to ${this.path}`
     );
   }
 
