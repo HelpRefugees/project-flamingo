@@ -29,7 +29,7 @@
     "dev": "concurrently -k -s first -n \"client,server\" \"yarn dev:client\" \"yarn dev:server\"",
     "dev:client": "cd client && cross-env PORT=4200 yarn start",
     "dev:server": "nodemon ./server/server.js",
-    "e2e": "cypress run",
+    "e2e": "cypress run --browser=chrome",
     "e2e:dev": "cross-env CYPRESS_BASE_URL=http://localhost:4200 yarn e2e",
     "e2e:ci": "concurrently -k -s first -n \"app,e2e\" \"cross-env PORT=3100 yarn start\" \"yarn e2e:ci:safe\"",
     "e2e:ci:safe": "wait-on -l -t 60000 http-get://localhost:3100 && cross-env CYPRESS_BASE_URL=http://localhost:3100 yarn e2e"

@@ -7,6 +7,9 @@ branches:
 
 cache: yarn
 
+addons:
+  chrome: stable
+
 services:
   - mongodb
 
