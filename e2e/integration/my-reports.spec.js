@@ -1,4 +1,10 @@
+import MyReportsPage from "../pages/myReportsPage";
+import ReportPage from "../pages/reportPage";
+import ForbiddenPage from "../pages/forbiddenPage";
+
 context("My Reports Page", () => {
+  const myReportsPage = new MyReportsPage();
+
   context("Ellen is logged in", () => {
     beforeEach(() => {
       cy.seed("one-incomplete-report.json");
@@ -6,135 +12,101 @@ context("My Reports Page", () => {
     });
 
     it("shows an appropriate title", () => {
-      cy.get('[data-test-id="page-title"]').should(
-        "contains.text",
-        "Monthly Report"
-      );
+      myReportsPage.pageTitle.should("contains.text", "Monthly Report");
     });
 
     it("shows her name 'Ellen Smith'", () => {
-      cy.get('[data-test-id="user-name"]').should(
-        "contains.text",
-        "Ellen Smith"
-      );
+      myReportsPage.userName.should("contains.text", "Ellen Smith");
     });
 
     it("shows an incomplete report", () => {
-      const selector
-        = '[data-test-id="incomplete-reports"] [data-test-id="report"]';
-      cy.get(selector)
+      myReportsPage
+        .getReports("incomplete")
         .its("length")
         .should("be", 1);
-      cy.get(selector)
-        .first()
+      myReportsPage
+        .getFirstReport("incomplete")
         // eslint-disable-next-line no-unused-vars
         .within($report => {
-          cy.get('[data-test-id="grant-name"]').should(
-            "contains.text",
-            "Grant Mitchell"
-          );
-          cy.get('[data-test-id="report-status"]').should(
-            "contains.text",
-            "Incomplete"
-          );
-          cy.get('[data-test-id="report-period"]').should(
-            "contains.text",
-            thisMonth()
-          );
+          myReportsPage.verifyReportData({
+            grantName: "Grant Mitchell",
+            reportStatus: "Incomplete",
+            reportPeriod: thisMonth()
+          });
         });
     });
 
     it("opens and saves an editable report", () => {
       const details = randomText(16);
-      cy.get(
-        '[data-test-id="incomplete-reports"] [data-test-id="report"]'
-      ).click();
+      myReportsPage.getFirstReport("incomplete").click();
 
-      cy.url().should("include", "/reports/1");
-      cy.get("[data-test-id='grant-name']").should(
-        "contain.text",
-        "Grant Mitchell"
-      );
-      cy.get("[data-test-id='section-title']").should(
-        "contain.text",
-        "Grant progress"
-      );
-      cy.get("[data-test-id='section-save-button']").should("attr", "disabled");
+      const reportPage = new ReportPage(1);
+      reportPage.isAt();
+      reportPage.grantName.should("contain.text", "Grant Mitchell");
 
-      cy.get('[data-test-id="report-progress-input"] textarea')
-        .last()
-        .clear()
-        .type(details);
+      const grantProgessSection = reportPage.grantProgress;
+      grantProgessSection.title.should("contain.text", "Grant progress");
+      grantProgessSection.saveButton.should("attr", "disabled");
 
-      cy.get("[data-test-id='section-save-button']").click();
+      grantProgessSection.setContent(details);
+      grantProgessSection.saveButton.click();
 
-      cy.get("[data-test-id='logo']").click();
-      cy.get(
-        '[data-test-id="incomplete-reports"] [data-test-id="report"]'
-      ).click();
-      cy.get('[data-test-id="report-progress-input"] textarea')
-        .last()
-        .should("contain.text", details);
+      myReportsPage.goToHomePage();
+
+      myReportsPage.getFirstReport("incomplete").click();
+      grantProgessSection.content.should("contain.text", details);
     });
 
     it("submits a report", () => {
       const details = randomText(16);
 
-      cy.get(
-        '[data-test-id="incomplete-reports"] [data-test-id="report"]'
-      ).click();
+      myReportsPage.getFirstReport("incomplete").click();
 
-      cy.url().should("include", "/reports/1");
+      const reportPage = new ReportPage(1);
+      reportPage.isAt();
 
-      cy.get('[data-test-id="report-progress-input"] textarea')
-        .last()
-        .clear();
-      cy.get("[data-test-id='report-submit-button']").should(
-        "attr",
-        "disabled"
-      );
+      const grantProgessSection = reportPage.grantProgress;
+      grantProgessSection.content.clear();
+      reportPage.submitButton.should("attr", "disabled");
 
-      cy.get('[data-test-id="report-progress-input"] textarea')
-        .last()
-        .type(details);
-      cy.get("[data-test-id='report-submit-button']").click();
+      grantProgessSection.setContent(details);
+      reportPage.submitButton.click();
 
-      const selector
-        = '[data-test-id="completed-reports"] [data-test-id="report"]';
-      cy.get(selector)
+      myReportsPage
+        .getReports("completed")
         .its("length")
         .should("be", 1);
-      cy.get(selector)
-        .first()
+      myReportsPage
+        .getFirstReport("completed")
         // eslint-disable-next-line no-unused-vars
         .within($report => {
-          cy.get('[data-test-id="grant-name"]').should(
-            "contains.text",
-            "Grant Mitchell"
-          );
-          cy.get('[data-test-id="report-status"]').should(
-            "contains.text",
-            today()
-          );
+          myReportsPage.verifyReportData({
+            grantName: "Grant Mitchell",
+            reportStatus: today(),
+            reportPeriod: thisMonth()
+          });
         });
 
-      cy.get("[data-test-id='report-unsubmit-button']").click();
-      cy.get('[data-test-id="incomplete-reports"] [data-test-id="report"]')
+      myReportsPage.unsubmitReport();
+      myReportsPage
+        .getReports("incomplete")
         .its("length")
         .should("be", 1);
     });
   });
 
   context("Daisy is logged in", () => {
+    const forbiddenPage = new ForbiddenPage();
+
     beforeEach(() => {
       cy.seed("one-incomplete-report.json");
       cy.login("daisy@hr.org", "chooselove");
     });
 
     it("is not able to see the My Reports page", () => {
-      cy.visit("/myReports");
+      myReportsPage.visit();
 
-      cy.get('[data-test-id="forbidden"]').should(
+      forbiddenPage.message.should(
         "contains.text",
         "403 Sorry! You don’t have permission to access this page."
       );
@@ -142,8 +114,9 @@ context("My Reports Page", () => {
 
     it("is not able to see the Submit Report page", () => {
       cy.wait(250);
-      cy.visit("/reports/1");
-      cy.get('[data-test-id="forbidden"]').should(
+      new ReportPage(1).visit();
+
+      forbiddenPage.message.should(
         "contains.text",
         "403 Sorry! You don’t have permission to access this page."
       );

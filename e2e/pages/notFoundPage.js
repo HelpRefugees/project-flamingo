@@ -1,7 +1,7 @@
 import BasePage from "./basePage";
 
 export default class NotFoundPage extends BasePage {
-  get notFoundMessage() {
+  get message() {
     return cy.get('[data-test-id="not-found"]');
   }
 }
