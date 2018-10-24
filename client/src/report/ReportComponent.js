@@ -165,15 +165,15 @@ export class ReportComponent extends Component<Props, State> {
     };
   }
 
-  renderGrantProgressSection() {
+  renderOverviewSection({ key, stateProperty, title, subtitle }: any) {
     const report = this.report;
     const { isLoading } = this.props;
     const isDisabled = isLoading || this.state.overview === report.overview;
     return (
       <ReportSectionComponent
-        data-test-id="grant-progress"
-        title="Grant progress"
-        subtitle="Please give a very brief overview of your project and progress since the last report."
+        data-test-id={key}
+        title={title}
+        subtitle={subtitle}
         disabled={isDisabled}
         onSave={() => this.saveReport()}
       >
@@ -182,12 +182,12 @@ export class ReportComponent extends Component<Props, State> {
           fullWidth={true}
           id="component-outlined"
           placeholder="Please add an overview"
-          value={this.state.overview}
+          value={this.state[stateProperty]}
           multiline
           rows={10}
           rowsMax={100}
           labelWidth={0}
-          onChange={this.onSectionInputChange("overview")}
+          onChange={this.onSectionInputChange(stateProperty)}
         />
       </ReportSectionComponent>
     );
@@ -278,6 +278,15 @@ export class ReportComponent extends Component<Props, State> {
   render() {
     const { classes, account, logout, isLoading } = this.props;
     const report = this.report;
+
+    const grantProgress = {
+      key: "grant-progress",
+      stateProperty: "overview",
+      title: "Grant progress",
+      subtitle:
+        "Please give a very brief overview of your project and progress since the last report."
+    };
+
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -290,7 +299,7 @@ export class ReportComponent extends Component<Props, State> {
         >
           <Grid container justify="center">
             <Grid item xs={6}>
-              {this.renderGrantProgressSection()}
+              {this.renderOverviewSection(grantProgress)}
               {this.renderKeyActivitiesSection()}
             </Grid>
           </Grid>
