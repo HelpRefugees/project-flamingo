@@ -42,7 +42,8 @@ function createReport(reportPeriod, id, user) {
     completed: false,
     reportPeriod,
     owner: user.username,
-    id
+    id,
+    keyActivity: {}
   };
 }
 

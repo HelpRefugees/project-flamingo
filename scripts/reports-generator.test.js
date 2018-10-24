@@ -56,7 +56,8 @@ describe("Report generation script", () => {
           completed: false,
           reportPeriod,
           owner: username,
-          id: 1
+          id: 1,
+          keyActivity: {}
         }
       ]);
     });
@@ -127,7 +128,8 @@ describe("Report generation script", () => {
           completed: false,
           reportPeriod,
           owner: username,
-          id: 13
+          id: 13,
+          keyActivity: {}
         },
         {
           overview: "",
@@ -135,7 +137,8 @@ describe("Report generation script", () => {
           completed: false,
           reportPeriod,
           owner: "helen@ip.org",
-          id: 14
+          id: 14,
+          keyActivity: {}
         }
       ]);
     });
