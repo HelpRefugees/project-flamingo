@@ -2,6 +2,14 @@ const express = require("express");
 
 const { ensureLoggedIn } = require("../auth");
 
+const protectedFields = [
+  "/grant",
+  "/id",
+  "/owner",
+  "/reportPeriod",
+  "/submissionDate"
+];
+
 module.exports = db => {
   const collection = "reports";
   const router = new express.Router();
@@ -20,8 +28,8 @@ module.exports = db => {
       });
   });
 
-  router.put("/:id", ensureLoggedIn, (req, res) => {
-    const updatedReport = req.body;
+  router.patch("/:id", ensureLoggedIn, (req, res) => {
+    const changes = req.body;
     const id = parseInt(req.params.id, 10);
 
     db.collection(collection)
@@ -35,15 +43,47 @@ module.exports = db => {
           return res.sendStatus(403);
         }
 
-        if (updatedReport.completed) {
-          // TODO what if this is being updated post-completion?
-          updatedReport.submissionDate = new Date().toISOString();
+        try {
+          updateReport(res, report, changes);
+        } catch (err) {
+          return res.status(422).send({ message: err });
         }
-        db.collection(collection).replaceOne({ id }, updatedReport, () => {
+
+        db.collection(collection).replaceOne({ id }, report, () => {
           return res.sendStatus(200);
         });
       });
   });
 
   return router;
+};
+
+const replace = (object, path, value) => {
+  if ((path.match(/\//g) || []).length !== 1) {
+    throw new Error("cannot handle nested paths");
+  }
+  object[path.slice(1)] = value;
+};
+
+const updateReport = (res, report, changes) => {
+  for (const { op, path, value } of changes) {
+    if (protectedFields.indexOf(path) !== -1) {
+      throw new Error(`cannot edit ${path}`);
+    }
+
+    switch (op) {
+      case "replace":
+        if (path === "/completed") {
+          if (value && !report.completed) {
+            report.submissionDate = new Date().toISOString();
+          } else if (!value && report.completed) {
+            delete report.submissionDate;
+          }
+        }
+        replace(report, path, value);
+        break;
+      default:
+        throw new Error(`cannot handle ${op} operation`);
+    }
+  }
 };

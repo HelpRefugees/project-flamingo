@@ -244,9 +244,13 @@ describe("actions", () => {
         expect(fetch.mock.calls).toHaveLength(1);
         const [url, options] = fetch.mock.calls[0];
         expect(url).toEqual("/api/reports/123");
-        expect(options.method).toBe("PUT");
+        expect(options.method).toBe("PATCH");
         expect(options.headers["content-type"]).toBe("application/json");
-        expect(JSON.parse(options.body)).toEqual(report);
+        expect(JSON.parse(options.body)).toEqual([
+          { op: "replace", path: "/overview", value: report.overview },
+          { op: "replace", path: "/completed", value: report.completed },
+          { op: "replace", path: "/keyActivity", value: report.keyActivity }
+        ]);
       });
 
       it("dispatches the request started when calling the backend", () => {

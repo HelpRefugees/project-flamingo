@@ -91,13 +91,19 @@ export const updateReportFailed = () => ({
 });
 
 export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
+  const changes = ["overview", "completed", "keyActivity"].map(field => ({
+    op: "replace",
+    path: `/${field}`,
+    value: report[field]
+  }));
+
   makeRequest(
     dispatch,
     `/api/reports/${report.id}`,
     {
-      method: "PUT",
+      method: "PATCH",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(report)
+      body: JSON.stringify(changes)
     },
     res => {
       if (res.status === 200) {

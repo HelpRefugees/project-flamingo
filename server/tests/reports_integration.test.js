@@ -59,6 +59,15 @@ describe("reports endpoint", () => {
         grant: "Hugh Grant",
         owner: "a third person",
         keyActivity: {}
+      },
+      {
+        id: 3,
+        completed: true,
+        overview: "this report is completed",
+        grant: "Grant Mitchell",
+        owner: credentials.username,
+        keyActivity: {},
+        submissionDate: "2018-10-10T10:10:10.101ZZ"
       }
     ]);
 
@@ -84,9 +93,9 @@ describe("reports endpoint", () => {
         .expect(401);
     });
 
-    test("PUT returns unauthorized", async () => {
+    test("PATCH returns unauthorized", async () => {
       await request(app)
-        .put("/api/reports/123")
+        .patch("/api/reports/123")
         .expect(401);
     });
   });
@@ -113,11 +122,20 @@ describe("reports endpoint", () => {
           grant: "Grant Mitchell",
           owner: credentials.username,
           keyActivity: {}
+        },
+        {
+          id: 3,
+          completed: true,
+          overview: "this report is completed",
+          grant: "Grant Mitchell",
+          owner: credentials.username,
+          keyActivity: {},
+          submissionDate: "2018-10-10T10:10:10.101ZZ"
         }
       ]);
     });
 
-    test("PUT updates the report on save", async () => {
+    test("PATCH updates the report on save", async () => {
       const updatedReport = {
         id: 1,
         completed: false,
@@ -133,17 +151,26 @@ describe("reports endpoint", () => {
       };
 
       const response = await agent
-        .put("/api/reports/1")
-        .send(updatedReport)
+        .patch("/api/reports/1")
+        .send([
+          { op: "replace", path: "/overview", value: updatedReport.overview },
+          {
+            op: "replace",
+            path: "/keyActivity",
+            value: updatedReport.keyActivity
+          }
+        ])
         .set("Accept", "application/json");
 
       expect(response.statusCode).toBe(200);
 
       const allReports = await agent.get("/api/reports");
-      expect(allReports.body).toEqual([updatedReport]);
+      expect(allReports.body.filter(report => report.id === 1)).toEqual([
+        updatedReport
+      ]);
     });
 
-    test("PUT updates the report on submit", async () => {
+    test("PATCH updates the report on submit", async () => {
       const submittedReport = {
         id: 1,
         completed: true,
@@ -161,19 +188,66 @@ describe("reports endpoint", () => {
       MockDate.set(new Date(submissionDate));
 
       const response = await agent
-        .put("/api/reports/1")
-        .send(submittedReport)
+        .patch("/api/reports/1")
+        .send([
+          { op: "replace", path: "/overview", value: submittedReport.overview },
+          {
+            op: "replace",
+            path: "/keyActivity",
+            value: submittedReport.keyActivity
+          },
+          { op: "replace", path: "/completed", value: true }
+        ])
         .set("Accept", "application/json");
 
       expect(response.statusCode).toBe(200);
 
       const allReports = await agent.get("/api/reports");
-      expect(allReports.body).toEqual([{ ...submittedReport, submissionDate }]);
+      expect(allReports.body.filter(report => report.id === 1)).toEqual([
+        { ...submittedReport, submissionDate }
+      ]);
     });
 
-    test("PUT returns not found for nonexistent report", async () => {
+    test("PATCH does not update submission date after initial submit", async () => {
+      const newDate = "2018-10-16T10:47:02.404Z";
+      MockDate.set(new Date(newDate));
+
       await agent
-        .put("/api/reports/123")
+        .patch("/api/reports/3")
+        .send([{ op: "replace", path: "/completed", value: true }])
+        .set("Accept", "application/json")
+        .expect(200);
+
+      const allReports = await agent.get("/api/reports");
+      expect(
+        allReports.body.filter(report => report.id === 3)[0].submissionDate
+      ).not.toEqual(newDate);
+    });
+
+    test("PATCH clears submission date on unsubmit", async () => {
+      await agent
+        .patch("/api/reports/3")
+        .send([{ op: "replace", path: "/completed", value: false }])
+        .set("Accept", "application/json")
+        .expect(200);
+
+      const allReports = await agent.get("/api/reports");
+      expect(
+        allReports.body.filter(report => report.id === 3)[0].submissionDate
+      ).toBeUndefined();
+    });
+
+    test("PATCH rejects changes to protected fields", async () => {
+      await agent
+        .patch("/api/reports/3")
+        .send([{ op: "remove", path: "/owner" }])
+        .set("Accept", "application/json")
+        .expect(422);
+    });
+
+    test("PATCH returns not found for nonexistent report", async () => {
+      await agent
+        .patch("/api/reports/123")
         .send({})
         .expect(404);
     });
@@ -196,7 +270,7 @@ describe("reports endpoint", () => {
 
     test("you cannot edit other users' reports", async () => {
       await agent
-        .put("/api/reports/1")
+        .patch("/api/reports/1")
         .send({})
         .expect(403);
     });
