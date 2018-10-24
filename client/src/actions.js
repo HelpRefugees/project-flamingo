@@ -12,9 +12,17 @@ export const loginFailed = () => ({
   type: "SET_LOGGED_IN_ERROR"
 });
 
-export const logout = () => ({
+export const logoutSuccessful = () => ({
   type: "SET_LOGGED_OUT"
 });
+
+export const logout = () => (dispatch: Dispatch<any>) => {
+  makeRequest(dispatch, "/api/login", { method: "DELETE" }, res => {
+    if (res.status === 204) {
+      dispatch(logoutSuccessful());
+    }
+  });
+};
 
 export const requestStarted = () => ({
   type: "SET_LOADING"

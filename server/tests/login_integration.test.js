@@ -76,4 +76,20 @@ describe("/api/login", async () => {
 
     expect(response.statusCode).toBe(401);
   });
+
+  describe("when logged in", () => {
+    test("ends users session on DELETE request", async () => {
+      const credentials = { username: user.username, password };
+      const agent = request.agent(app);
+      await agent
+        .post(route)
+        .send(credentials)
+        .expect(200);
+      await agent.get("/api/reports").expect(200);
+
+      await agent.delete(route).expect(204);
+
+      await agent.get("/api/reports").expect(401);
+    });
+  });
 });

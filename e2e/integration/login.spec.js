@@ -9,13 +9,13 @@ context("Login Page", () => {
 
   beforeEach(() => {
     loginPage.visit();
-
-    cy.logout();
   });
 
-  it("prevents access to the home page when not logged in", () => {
+  it("prevents access to the home pages when not logged in", () => {
     myReportsPage.visit();
     myReportsPage.isAt(false);
+    reportsListingPage.visit();
+    reportsListingPage.isAt(false);
   });
 
   it("rejects invalid credentials", () => {
@@ -42,20 +42,12 @@ context("Login Page", () => {
     reportsListingPage.isAt();
   });
 
-  it("redirects to the login page when clicking logout", () => {
-    loginAs("ellen@ip.org", "flamingo");
-
-    cy.logout();
-
-    loginPage.loginButton.should("be.visible");
-  });
-
   context("Ellen is logged in", () => {
     beforeEach(() => {
       cy.login("ellen@ip.org", "flamingo");
     });
 
-    it("prevents access to the login page", () => {
+    it("prevents Ellen's access to the login page", () => {
       myReportsPage.userMenu.should("be.visible");
       myReportsPage.reports.should("be.visible");
 
@@ -63,6 +55,33 @@ context("Login Page", () => {
       loginPage.visit();
 
       myReportsPage.isAt();
+    });
+
+    it("redirects Ellen to the login page when clicking logout", () => {
+      myReportsPage.logout();
+
+      loginPage.loginButton.should("be.visible");
+    });
+  });
+
+  context("Daisy is logged in", () => {
+    beforeEach(() => {
+      cy.login("daisy@hr.org", "chooselove");
+    });
+
+    it("prevents Daisy's access to the login page", () => {
+      reportsListingPage.userMenu.should("be.visible");
+
+      cy.wait(500);
+      loginPage.visit();
+
+      reportsListingPage.isAt();
+    });
+
+    it("redirects Daisy to the login page when clicking logout", () => {
+      myReportsPage.logout();
+
+      loginPage.loginButton.should("be.visible");
     });
   });
 

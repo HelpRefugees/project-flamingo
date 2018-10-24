@@ -33,8 +33,8 @@ describe("actions", () => {
       });
     });
 
-    it("loginInitialized should create SET_LOGGED_OUT action", () => {
-      expect(actions.logout()).toEqual({
+    it("logoutSuccessful should create SET_LOGGED_OUT action", () => {
+      expect(actions.logoutSuccessful()).toEqual({
         type: "SET_LOGGED_OUT"
       });
     });
@@ -102,6 +102,33 @@ describe("actions", () => {
         expect(mockDispatch).toHaveBeenCalledWith(
           actions.loadReportsSuccessful(reports)
         );
+      });
+    });
+  });
+
+  describe("logout", () => {
+    beforeEach(() => {
+      action = actions.logout();
+    });
+
+    it("makes a request to the backend", () => {
+      fetch.mockResponseOnce();
+
+      action(mockDispatch);
+
+      expect(fetch.mock.calls).toHaveLength(1);
+      const [url, options] = fetch.mock.calls[0];
+      expect(url).toEqual("/api/login");
+      expect(options.method).toBe("DELETE");
+    });
+
+    it("dispatches logoutSuccessful when the request succeeds", done => {
+      fetch.mockResponseOnce("", { status: 204 });
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(actions.logoutSuccessful());
       });
     });
   });
