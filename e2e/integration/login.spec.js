@@ -9,6 +9,8 @@ context("Login Page", () => {
 
   beforeEach(() => {
     loginPage.visit();
+
+    cy.logout();
   });
 
   it("prevents access to the home pages when not logged in", () => {
