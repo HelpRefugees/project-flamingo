@@ -30,12 +30,18 @@ import BasePage from "../pages/basePage";
 const loginPage = new LoginPage();
 const basePage = new BasePage();
 
+const credentials = {
+  "daisy@hr.org": "chooselove",
+  "ellen@ip.org": "flamingo",
+  "helen@ip.org": "eatshrimp"
+};
+
 Cypress.Commands.add("login", (username, password) => {
   loginPage.visit();
   cy.logout();
 
   loginPage.setUsername(username);
-  loginPage.setPassword(password);
+  loginPage.setPassword(password || credentials[username]);
   loginPage.clickLogin();
 
   basePage.userMenu.should("be.visible");

@@ -7,8 +7,14 @@ module.exports = db => {
   const router = new express.Router();
 
   router.get("/", ensureLoggedIn, (req, res) => {
+    const query = {};
+
+    if (req.user.role === "implementing-partner") {
+      query.owner = req.user.username;
+    }
+
     db.collection(collection)
-      .find()
+      .find(query)
       .toArray(async (err, reports) => {
         return res.json(reports.map(({ _id, ...report }) => ({ ...report })));
       });

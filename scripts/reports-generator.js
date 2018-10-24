@@ -1,11 +1,12 @@
 /**
  * Generate a report for the current period, if required.
  */
+const { generateReportPeriod } = require("./utils");
 const dbModule = require("../server/db");
 
 module.exports = async dbUrl => {
   let insertedDocumentCount = 0;
-  const reportPeriod = thisMonth();
+  const reportPeriod = generateReportPeriod(new Date());
 
   const db = await dbModule.connect(dbUrl);
   const reports = await db
@@ -14,31 +15,37 @@ module.exports = async dbUrl => {
     .toArray();
 
   if (reports.length === 0) {
+    const users = await db
+      .collection("users")
+      .find({ role: "implementing-partner" })
+      .toArray();
     const lastReport = await getLastReport(db);
-    const { result } = await db
-      .collection("reports")
-      .insertMany([createReport(reportPeriod, lastReport)]);
+    const newReports = createReports(reportPeriod, lastReport, users);
+    const { result } = await db.collection("reports").insertMany(newReports);
     insertedDocumentCount = result.n;
   }
   await dbModule.close();
   return insertedDocumentCount;
 };
 
-function createReport(reportPeriod, lastReport) {
+function createReports(reportPeriod, lastReport, users) {
+  const firstId = (lastReport ? lastReport.id : 0) + 1;
+  return users.map((user, index) =>
+    createReport(reportPeriod, firstId + index, user)
+  );
+}
+
+function createReport(reportPeriod, id, user) {
   return {
     overview: "",
-    grant: "Grant Mitchell",
+    grant: user.grant,
     completed: false,
     reportPeriod,
-    id: (lastReport ? lastReport.id : 0) + 1
+    owner: user.username,
+    id
   };
 }
 
 function getLastReport(db) {
   return db.collection("reports").findOne({}, { sort: { id: -1 } });
-}
-
-function thisMonth() {
-  const now = new Date();
-  return new Date(Date.UTC(now.getFullYear(), now.getMonth())).toISOString();
 }

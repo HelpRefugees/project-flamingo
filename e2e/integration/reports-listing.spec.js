@@ -21,10 +21,7 @@ context("Reports Listing Page", () => {
       });
 
       it("shows a table containing the submitted report", () => {
-        reportsListingPage
-          .getReports()
-          .its("length")
-          .should("be", 1);
+        reportsListingPage.getReports().should("have.length", 1);
         reportsListingPage
           .getFirstReport()
           // eslint-disable-next-line no-unused-vars

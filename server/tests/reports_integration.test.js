@@ -10,6 +10,11 @@ describe("reports endpoint", () => {
     password: "securityiscool"
   };
 
+  const otherIp = {
+    username: "someone@else.org",
+    password: "irrelevant"
+  };
+
   beforeAll(() => {
     app = require("../app")(global.DATABASE);
   });
@@ -38,18 +43,35 @@ describe("reports endpoint", () => {
     await safeDrop("_sessions");
     await safeCreate("_sessions");
     await safeDrop("reports");
-    await global.DATABASE.collection("reports").insertOne({
-      id: 1,
-      completed: false,
-      overview: "",
-      grant: "Grant Mitchell"
-    });
+    await global.DATABASE.collection("reports").insertMany([
+      {
+        id: 1,
+        completed: false,
+        overview: "",
+        grant: "Grant Mitchell",
+        owner: credentials.username
+      },
+      {
+        id: 2,
+        completed: false,
+        overview: "",
+        grant: "Hugh Grant",
+        owner: "a third person"
+      }
+    ]);
     await safeDrop("users");
-    await global.DATABASE.collection("users").insertOne({
-      username: credentials.username,
-      password: bcrypt.hashSync(credentials.password, bcrypt.genSaltSync()),
-      role: "implementing-partner"
-    });
+    await global.DATABASE.collection("users").insertMany([
+      {
+        username: credentials.username,
+        password: bcrypt.hashSync(credentials.password, bcrypt.genSaltSync()),
+        role: "implementing-partner"
+      },
+      {
+        username: otherIp.username,
+        password: bcrypt.hashSync(otherIp.password, bcrypt.genSaltSync()),
+        role: "implementing-partner"
+      }
+    ]);
   });
 
   describe("when not logged in", () => {
@@ -66,7 +88,7 @@ describe("reports endpoint", () => {
     });
   });
 
-  describe("when logged in as Ellen", () => {
+  describe(`when logged in as ${credentials.username}`, () => {
     let agent;
 
     beforeEach(async () => {
@@ -81,7 +103,13 @@ describe("reports endpoint", () => {
       const response = await agent.get("/api/reports");
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual([
-        { id: 1, completed: false, overview: "", grant: "Grant Mitchell" }
+        {
+          id: 1,
+          completed: false,
+          overview: "",
+          grant: "Grant Mitchell",
+          owner: credentials.username
+        }
       ]);
     });
 
@@ -90,7 +118,8 @@ describe("reports endpoint", () => {
         id: 1,
         completed: false,
         overview: "Our new overview",
-        grant: "Grant Mitchell"
+        grant: "Grant Mitchell",
+        owner: credentials.username
       };
 
       const response = await agent
@@ -109,7 +138,8 @@ describe("reports endpoint", () => {
         id: 1,
         completed: true,
         overview: "Our final overview",
-        grant: "Grant Mitchell"
+        grant: "Grant Mitchell",
+        owner: credentials.username
       };
       const submissionDate = "2018-10-16T10:47:02.404Z";
       MockDate.set(new Date(submissionDate));
@@ -123,6 +153,17 @@ describe("reports endpoint", () => {
 
       const allReports = await agent.get("/api/reports");
       expect(allReports.body).toEqual([{ ...submittedReport, submissionDate }]);
+    });
+  });
+
+  describe(`when logged in as ${otherIp.username}`, () => {
+    test("GET returns an empty list", async () => {
+      const agent = request.agent(app);
+      await agent
+        .post("/api/login")
+        .send(otherIp)
+        .expect(200);
+      await agent.get("/api/reports").expect(200, []);
     });
   });
 });

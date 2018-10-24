@@ -20,10 +20,7 @@ context("My Reports Page", () => {
     });
 
     it("shows an incomplete report", () => {
-      myReportsPage
-        .getReports("incomplete")
-        .its("length")
-        .should("be", 1);
+      myReportsPage.getReports("incomplete").should("have.length", 1);
       myReportsPage
         .getFirstReport("incomplete")
         // eslint-disable-next-line no-unused-vars
@@ -31,7 +28,7 @@ context("My Reports Page", () => {
           myReportsPage.verifyReportData({
             grantName: "Grant Mitchell",
             reportStatus: "Incomplete",
-            reportPeriod: thisMonth()
+            reportPeriod: "August 2018"
           });
         });
     });
@@ -72,10 +69,7 @@ context("My Reports Page", () => {
       grantProgessSection.setContent(details);
       reportPage.submitButton.click();
 
-      myReportsPage
-        .getReports("completed")
-        .its("length")
-        .should("be", 1);
+      myReportsPage.getReports("completed").should("have.length", 1);
       myReportsPage
         .getFirstReport("completed")
         // eslint-disable-next-line no-unused-vars
@@ -83,15 +77,33 @@ context("My Reports Page", () => {
           myReportsPage.verifyReportData({
             grantName: "Grant Mitchell",
             reportStatus: today(),
-            reportPeriod: thisMonth()
+            reportPeriod: "August 2018"
           });
         });
 
       myReportsPage.unsubmitReport();
+      myReportsPage.getReports("incomplete").should("have.length", 1);
+    });
+  });
+
+  context("Helen is logged in", () => {
+    beforeEach(() => {
+      cy.seed("multiple-incomplete-reports.json");
+      cy.login("helen@ip.org");
+    });
+
+    it("only sees her own report", () => {
+      myReportsPage.getReports("incomplete").should("have.length", 1);
       myReportsPage
-        .getReports("incomplete")
-        .its("length")
-        .should("be", 1);
+        .getFirstReport("incomplete")
+        // eslint-disable-next-line no-unused-vars
+        .within($report => {
+          myReportsPage.verifyReportData({
+            grantName: "Hugh Grant",
+            reportStatus: "Incomplete",
+            reportPeriod: "August 2018"
+          });
+        });
     });
   });
 
@@ -131,25 +143,6 @@ context("My Reports Page", () => {
       .padStart(2, "0");
     const month = (now.getMonth() + 1).toString().padStart(2, "0");
     return `${day}/${month}/${now.getFullYear()}`;
-  }
-
-  function thisMonth() {
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
-    ];
-    const now = new Date();
-    return `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
   }
 
   function randomText(length) {

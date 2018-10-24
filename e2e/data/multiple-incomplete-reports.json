@@ -2,11 +2,10 @@
   "reports": [
     {
       "id": 1,
-      "completed": true,
-      "overview": "Mitchell overview completed",
+      "completed": false,
+      "overview": "Mitchell overview",
       "grant": "Grant Mitchell",
       "reportPeriod": "2018-08-01T00:00:00.000Z",
-      "submissionDate": "2018-09-15T03:24:00.000Z",
       "owner": "ellen@ip.org"
     },
     {
@@ -14,7 +13,8 @@
       "completed": false,
       "overview": "Hugh Overview",
       "grant": "Hugh Grant",
-      "owner": "ellen@ip.org"
+      "reportPeriod": "2018-08-01T00:00:00.000Z",
+      "owner": "helen@ip.org"
     }
   ]
 }
