@@ -78,7 +78,7 @@ export class ReportComponent extends Component<Props, State> {
       completed: true
     });
 
-    this.props.history.push("/");
+    this.props.history.push("/myReports");
   };
 
   changeReportProgress = (event: Event) => {

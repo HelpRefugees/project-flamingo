@@ -153,7 +153,7 @@ describe("ReportComponent", () => {
       wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
       expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
-      expect(mockHistoryPush).toHaveBeenCalledWith("/");
+      expect(mockHistoryPush).toHaveBeenCalledWith("/myReports");
     });
 
     it("is disabled during loading", () => {
