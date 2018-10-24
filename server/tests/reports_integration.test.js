@@ -96,13 +96,13 @@ describe("reports endpoint", () => {
 
     beforeEach(async () => {
       agent = request.agent(app);
-    });
-
-    test("GET returns the list of current reports", async () => {
       await agent
         .post("/api/login")
         .send(credentials)
         .expect(200);
+    });
+
+    test("GET returns the list of current reports", async () => {
       const response = await agent.get("/api/reports");
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual([
@@ -132,11 +132,6 @@ describe("reports endpoint", () => {
         }
       };
 
-      await agent
-        .post("/api/login")
-        .send(credentials)
-        .expect(200);
-
       const response = await agent
         .put("/api/reports/1")
         .send(updatedReport)
@@ -165,11 +160,6 @@ describe("reports endpoint", () => {
       const submissionDate = "2018-10-16T10:47:02.404Z";
       MockDate.set(new Date(submissionDate));
 
-      await agent
-        .post("/api/login")
-        .send(credentials)
-        .expect(200);
-
       const response = await agent
         .put("/api/reports/1")
         .send(submittedReport)
@@ -180,16 +170,35 @@ describe("reports endpoint", () => {
       const allReports = await agent.get("/api/reports");
       expect(allReports.body).toEqual([{ ...submittedReport, submissionDate }]);
     });
+
+    test("PUT returns not found for nonexistent report", async () => {
+      await agent
+        .put("/api/reports/123")
+        .send({})
+        .expect(404);
+    });
   });
 
   describe(`when logged in as ${otherIp.username}`, () => {
-    test("GET returns an empty list", async () => {
-      const agent = request.agent(app);
+    let agent;
+
+    beforeEach(async () => {
+      agent = request.agent(app);
       await agent
         .post("/api/login")
         .send(otherIp)
         .expect(200);
+    });
+
+    test("you cannot see other users' reports", async () => {
       await agent.get("/api/reports").expect(200, []);
+    });
+
+    test("you cannot edit other users' reports", async () => {
+      await agent
+        .put("/api/reports/1")
+        .send({})
+        .expect(403);
     });
   });
 });

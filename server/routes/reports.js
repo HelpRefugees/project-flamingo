@@ -21,18 +21,28 @@ module.exports = db => {
   });
 
   router.put("/:id", ensureLoggedIn, (req, res) => {
-    const report = req.body;
-    if (report.completed) {
-      // TODO what if this is being updated post-completion?
-      report.submissionDate = new Date().toISOString();
-    }
-    db.collection(collection).replaceOne(
-      { id: parseInt(req.params.id, 10) },
-      report,
-      () => {
-        return res.sendStatus(200);
-      }
-    );
+    const updatedReport = req.body;
+    const id = parseInt(req.params.id, 10);
+
+    db.collection(collection)
+      .findOne({ id })
+      .then(report => {
+        if (!report) {
+          return res.sendStatus(404);
+        }
+
+        if (report.owner !== req.user.username) {
+          return res.sendStatus(403);
+        }
+
+        if (updatedReport.completed) {
+          // TODO what if this is being updated post-completion?
+          updatedReport.submissionDate = new Date().toISOString();
+        }
+        db.collection(collection).replaceOne({ id }, updatedReport, () => {
+          return res.sendStatus(200);
+        });
+      });
   });
 
   return router;
