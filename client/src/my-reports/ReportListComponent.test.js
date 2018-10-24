@@ -13,21 +13,24 @@ describe("ReportListComponent", () => {
       grant: "Hugh Grant",
       overview: "Hugh",
       completed: false,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     },
     {
       id: 2,
       grant: "Grant Shapps",
       overview: "Shapps",
       completed: true,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     },
     {
       id: 3,
       grant: "Grant Mitchell",
       overview: "Mitchell",
       completed: false,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     }
   ];
   let wrapper;

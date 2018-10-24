@@ -12,32 +12,43 @@ type Props = {
 
 const styles = themes => ({
   headerText: {
-    color: "#404040"
+    color: "#404040",
+    margin: 0,
+    fontWeight: "normal",
+    fontFamily: "open Sans"
   },
   subtitleText: {
     fontSize: "14px",
-    color: "#404040",
-    marginLeft: "4px",
+    color: "#7f7f7f",
     fontWeight: "normal",
     lineHeight: "1.3rem",
-    letterSpacing: "0.1px"
+    letterSpacing: "0.1px",
+    fontFamily: "open Sans",
+    marginBottom: themes.spacing.unit * 2.5
   },
   pagePaper: {
     padding: themes.spacing.unit * 4,
     boxShadow: "none",
     margin: themes.spacing.unit * 2
+  },
+  saveButton: {
+    minWidth: "140px"
   }
 });
 
 class ReportSectionComponent extends Component<Props> {
   render() {
-    const { classes, title, subtitle, onSave, disabled, children } = this.props;
+    const {
+      classes,
+      title,
+      subtitle,
+      onSave,
+      disabled,
+      children,
+      ...others
+    } = this.props;
     return (
-      <Paper
-        justify="center"
-        className={classes.pagePaper}
-        data-test-id="report-section"
-      >
+      <Paper justify="center" className={classes.pagePaper} {...others}>
         <Grid container direction="column" spacing={32}>
           <Grid item>
             <h1
@@ -56,6 +67,7 @@ class ReportSectionComponent extends Component<Props> {
           </Grid>
           <Grid item>
             <Button
+              className={classes.saveButton}
               data-test-id="section-save-button"
               color="primary"
               variant="outlined"

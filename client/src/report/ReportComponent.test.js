@@ -17,14 +17,21 @@ describe("ReportComponent", () => {
     grant: "Hugh Grant",
     overview: "Hugh",
     completed: false,
-    reportPeriod: "2018-10-01T00:00:00.000Z"
+    reportPeriod: "2018-10-01T00:00:00.000Z",
+    keyActivity: {
+      activityName: "activityName",
+      numberOfParticipants: "numberOfParticipants",
+      demographicInfo: "demographicInfo",
+      impactOutcome: "impactOutcome"
+    }
   };
   const report2: Report = {
     id: 2,
     grant: "Grant Shapps",
     overview: "Shapps",
     completed: false,
-    reportPeriod: "2018-10-01T00:00:00.000Z"
+    reportPeriod: "2018-10-01T00:00:00.000Z",
+    keyActivity: {}
   };
   let reports: Report[] = [report1, report2];
   const account: Account = {
@@ -166,6 +173,64 @@ describe("ReportComponent", () => {
       expect(
         wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
       ).toBe(true);
+    });
+  });
+
+  describe("key activites", () => {
+    let keyActivitiesSection;
+
+    const updateSection = () => {
+      keyActivitiesSection = wrapper.find(ReportSectionComponent).at(1);
+    };
+
+    beforeEach(() => {
+      updateSection();
+    });
+
+    it("renders the section", () => {
+      expect(keyActivitiesSection.exists()).toEqual(true);
+      expect(keyActivitiesSection.prop("title")).toEqual("Key Activities");
+      expect(keyActivitiesSection.prop("subtitle")).toEqual(
+        "Please describe the activities you have done this month."
+      );
+    });
+
+    it("renders the section input fields", () => {
+      const fields = [
+        "report-activity-name-input",
+        "report-participants-number-input",
+        "report-demographic-info-input",
+        "report-impact-outcome-input",
+        "report-participants-number-input"
+      ];
+
+      fields.forEach(field =>
+        expect(
+          keyActivitiesSection.find(`[data-test-id='${field}']`).exists()
+        ).toEqual(true)
+      );
+
+      expect(
+        keyActivitiesSection
+          .find("[data-test-id='report-participants-number-input']")
+          .prop("type")
+      ).toEqual("number");
+    });
+
+    describe("save button", () => {
+      it("is disabled when none of the fields is changed", () => {
+        expect(keyActivitiesSection.prop("disabled")).toBe(true);
+      });
+
+      it("is not disabled when any of the fields change", () => {
+        keyActivitiesSection
+          .find('[data-test-id="report-activity-name-input"]')
+          .simulate("change", { target: { value: "cheese" } });
+
+        updateSection();
+
+        expect(keyActivitiesSection.prop("disabled")).toBe(false);
+      });
     });
   });
 });

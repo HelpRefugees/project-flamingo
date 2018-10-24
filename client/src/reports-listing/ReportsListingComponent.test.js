@@ -4,6 +4,8 @@ import { mount, shallow } from "enzyme";
 import { ReportsListingComponent } from "./ReportsListingComponent";
 import { MemoryRouter } from "react-router-dom";
 
+import { type Report } from "../report/models";
+
 describe("ReportsListingComponent", () => {
   let wrapper;
 
@@ -28,13 +30,14 @@ describe("ReportsListingComponent", () => {
 
   describe("with no completed reports", () => {
     beforeEach(() => {
-      const reports = [
+      const reports: Report[] = [
         {
           id: 2,
           completed: false,
           overview: "John Overview",
           grant: "John Grace",
-          reportPeriod: "2018-09-01T00:00:00.000Z"
+          reportPeriod: "2018-09-01T00:00:00.000Z",
+          keyActivity: {}
         }
       ];
 
@@ -74,14 +77,16 @@ describe("ReportsListingComponent", () => {
         overview: "Mitchell Overview completed",
         grant: "Grant Mitchell",
         reportPeriod: "2018-10-01T00:00:00.000Z",
-        submissionDate: "2018-09-15T03:24:00.000Z"
+        submissionDate: "2018-09-15T03:24:00.000Z",
+        keyActivity: {}
       },
       {
         id: 2,
         completed: false,
         overview: "John Overview",
         grant: "John Grace",
-        reportPeriod: "2018-09-01T00:00:00.000Z"
+        reportPeriod: "2018-09-01T00:00:00.000Z",
+        keyActivity: {}
       }
     ];
 

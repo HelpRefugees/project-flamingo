@@ -35,14 +35,16 @@ describe("MyReportsComponent", () => {
       grant: "Hugh Grant",
       overview: "Hugh",
       completed: true,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     };
     const incompleteReport: Report = {
       id: 2,
       grant: "Grant Shapps",
       overview: "Shapps",
       completed: false,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     };
     let reports: Report[] = [completedReport, incompleteReport];
 

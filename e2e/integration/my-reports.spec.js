@@ -34,39 +34,132 @@ context("My Reports Page", () => {
     });
 
     it("opens and saves an editable report", () => {
-      const details = randomText(16);
+      const newReport = {
+        overview: randomAlphaText(16),
+        keyActivity: {
+          activityName: randomAlphaText(16),
+          numberOfParticipants: randomNumericText(16),
+          demographicInfo: randomAlphaText(16),
+          impactOutcome: randomAlphaText(16)
+        }
+      };
+
       myReportsPage.getFirstReport("incomplete").click();
 
-      const reportPage = new ReportPage(1);
+      let reportPage = new ReportPage(1);
       reportPage.isAt();
       reportPage.grantName.should("contain.text", "Grant Mitchell");
 
-      const grantProgessSection = reportPage.grantProgress;
-      grantProgessSection.title.should("contain.text", "Grant progress");
-      grantProgessSection.saveButton.should("attr", "disabled");
+      reportPage.getSection("grant-progress", grantProgessSection => {
+        grantProgessSection.title.should("contain.text", "Grant progress");
+        grantProgessSection.saveButton.should("attr", "disabled");
+        grantProgessSection.setContent(
+          "report-progress-input",
+          newReport.overview
+        );
+        grantProgessSection.saveButton.should("not.have.attr", "disabled");
+        grantProgessSection.saveButton.click();
+      });
 
-      grantProgessSection.setContent(details);
-      grantProgessSection.saveButton.click();
+      reportPage.getSection("key-activities", keyActivitiesSection => {
+        keyActivitiesSection.title.should("contain.text", "Key Activities");
+        keyActivitiesSection.saveButton.should("attr", "disabled");
+        keyActivitiesSection.setContentFieldInput(
+          "report-activity-name-input",
+          newReport.keyActivity.activityName
+        );
+        keyActivitiesSection.setContentFieldInput(
+          "report-participants-number-input",
+          newReport.keyActivity.numberOfParticipants
+        );
+        keyActivitiesSection.setContent(
+          "report-demographic-info-input",
+          newReport.keyActivity.demographicInfo
+        );
+        keyActivitiesSection.setContent(
+          "report-impact-outcome-input",
+          newReport.keyActivity.impactOutcome
+        );
+        keyActivitiesSection.saveButton.should("not.have.attr", "disabled");
+        keyActivitiesSection.saveButton.click();
+      });
 
       myReportsPage.goToHomePage();
-
       myReportsPage.getFirstReport("incomplete").click();
-      grantProgessSection.content.should("contain.text", details);
+
+      reportPage = new ReportPage(1);
+      reportPage.isAt();
+      reportPage.grantName.should("contain.text", "Grant Mitchell");
+
+      reportPage.getSection("grant-progress", grantProgessSection => {
+        grantProgessSection
+          .getContentField("report-progress-input")
+          .should("contain.text", newReport.overview);
+      });
+
+      reportPage.getSection("key-activities", keyActivitiesSection => {
+        keyActivitiesSection
+          .getContentFieldInput("report-activity-name-input")
+          .should("contain.value", newReport.keyActivity.activityName);
+        keyActivitiesSection
+          .getContentFieldInput("report-participants-number-input")
+          .should("contain.value", newReport.keyActivity.numberOfParticipants);
+        keyActivitiesSection
+          .getContentField("report-demographic-info-input")
+          .should("contain.text", newReport.keyActivity.demographicInfo);
+        keyActivitiesSection
+          .getContentField("report-impact-outcome-input")
+          .should("contain.text", newReport.keyActivity.impactOutcome);
+        keyActivitiesSection.saveButton.should("have.attr", "disabled");
+      });
     });
 
     it("submits a report", () => {
-      const details = randomText(16);
+      const newReport = {
+        overview: randomAlphaText(16),
+        keyActivity: {
+          activityName: randomAlphaText(16),
+          numberOfParticipants: randomNumericText(16),
+          demographicInfo: randomAlphaText(16),
+          impactOutcome: randomAlphaText(16)
+        }
+      };
 
       myReportsPage.getFirstReport("incomplete").click();
 
       const reportPage = new ReportPage(1);
       reportPage.isAt();
 
-      const grantProgessSection = reportPage.grantProgress;
-      grantProgessSection.content.clear();
-      reportPage.submitButton.should("attr", "disabled");
+      reportPage.getSection("grant-progress", grantProgessSection => {
+        grantProgessSection.getContentField("report-progress-input");
+        grantProgessSection.setContent(
+          "report-progress-input",
+          newReport.overview
+        );
+      });
 
-      grantProgessSection.setContent(details);
+      reportPage.submitButton.should("have.attr", "disabled");
+
+      reportPage.getSection("key-activities", keyActivitiesSection => {
+        keyActivitiesSection.setContentFieldInput(
+          "report-activity-name-input",
+          newReport.keyActivity.activityName
+        );
+        keyActivitiesSection.setContentFieldInput(
+          "report-participants-number-input",
+          newReport.keyActivity.numberOfParticipants
+        );
+        keyActivitiesSection.setContent(
+          "report-demographic-info-input",
+          newReport.keyActivity.demographicInfo
+        );
+        keyActivitiesSection.setContent(
+          "report-impact-outcome-input",
+          newReport.keyActivity.impactOutcome
+        );
+      });
+
+      reportPage.submitButton.should("not.have.attr", "disabled");
       reportPage.submitButton.click();
 
       myReportsPage.getReports("completed").should("have.length", 1);
@@ -145,15 +238,22 @@ context("My Reports Page", () => {
     return `${day}/${month}/${now.getFullYear()}`;
   }
 
-  function randomText(length) {
+  function randomText(length, source) {
     let text = "";
-    const possible
-      = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
     for (var i = 0; i < length; i++) {
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
+      text += source.charAt(Math.floor(Math.random() * source.length));
     }
-
     return text;
+  }
+
+  function randomAlphaText(length) {
+    return randomText(
+      length,
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    );
+  }
+
+  function randomNumericText(length) {
+    return randomText(length, "0123456789");
   }
 });

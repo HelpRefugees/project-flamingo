@@ -19,8 +19,11 @@ export default class ReportPage extends BasePage {
     return cy.get(this.grantNameSelector);
   }
 
-  get grantProgress() {
-    return new ReportSection("body");
+  getSection(name, callback) {
+    return cy
+      .get(testId(name))
+      .within((...args) => callback(new ReportSection(), ...args))
+      .root();
   }
 
   get submitButton() {
@@ -29,26 +32,31 @@ export default class ReportPage extends BasePage {
 }
 
 export class ReportSection {
-  constructor(selector) {
-    this.selector = selector;
-  }
-
   get title() {
-    return cy.get(this.selector).get(testId("section-title"));
+    return cy.get(testId("section-title"));
   }
 
   get saveButton() {
-    return cy.get(this.selector).get(testId("section-save-button"));
+    return cy.get(testId("section-save-button"));
   }
 
-  get content() {
-    return cy
-      .get(this.selector)
-      .get(`${testId("report-progress-input")} textarea`)
-      .last();
+  getContentField(fieldName) {
+    return cy.get(testId(fieldName) + " textarea").last();
   }
 
-  setContent(newContent) {
-    this.content.clear().type(newContent);
+  setContent(fieldName, newContent) {
+    this.getContentField(fieldName)
+      .clear()
+      .type(newContent);
+  }
+
+  getContentFieldInput(fieldName) {
+    return cy.get(testId(fieldName) + " input").last();
+  }
+
+  setContentFieldInput(fieldName, newContent) {
+    this.getContentFieldInput(fieldName)
+      .clear()
+      .type(newContent);
   }
 }

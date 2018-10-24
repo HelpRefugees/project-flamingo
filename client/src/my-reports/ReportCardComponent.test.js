@@ -11,7 +11,8 @@ describe("ReportCardComponent", () => {
     overview: "Hi!",
     completed: false,
     id: 1,
-    reportPeriod: "2018-10-01T00:00:00.000Z"
+    reportPeriod: "2018-10-01T00:00:00.000Z",
+    keyActivity: {}
   };
 
   beforeEach(() => {
@@ -52,7 +53,8 @@ describe("ReportCardComponent", () => {
       overview: "Hi!",
       completed: false,
       id: 1,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     };
 
     beforeEach(() => {
@@ -82,7 +84,8 @@ describe("ReportCardComponent", () => {
       completed: true,
       submissionDate: "2018-09-15T03:24:00.000Z",
       id: 1,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     };
 
     let mockUpdateReport;
@@ -115,7 +118,8 @@ describe("ReportCardComponent", () => {
         completed: false,
         submissionDate: undefined,
         id: 1,
-        reportPeriod: "2018-10-01T00:00:00.000Z"
+        reportPeriod: "2018-10-01T00:00:00.000Z",
+        keyActivity: {}
       };
 
       wrapper.find('[data-test-id="report-unsubmit-button"]').simulate("click");

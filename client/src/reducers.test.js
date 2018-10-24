@@ -40,7 +40,8 @@ describe("reducers", () => {
         overview: "",
         completed: false,
         id: 1,
-        reportPeriod: "2018-10-01T00:00:00.000Z"
+        reportPeriod: "2018-10-01T00:00:00.000Z",
+        keyActivity: {}
       }
     ];
     const startingState: State = {
@@ -94,7 +95,8 @@ describe("reducers", () => {
       grant: "mitchell",
       overview: "before",
       completed: false,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     };
     const reportAfterEditing: Report = {
       ...reportToBeEdited,
@@ -105,7 +107,8 @@ describe("reducers", () => {
       grant: "shapps",
       overview: "who cares?",
       completed: true,
-      reportPeriod: "2018-10-01T00:00:00.000Z"
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      keyActivity: {}
     };
     const startingState: State = {
       ...initialState,

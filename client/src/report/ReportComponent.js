@@ -7,7 +7,8 @@ import {
   OutlinedInput,
   AppBar,
   Toolbar,
-  Typography
+  Typography,
+  InputLabel
 } from "@material-ui/core";
 
 import ReportSectionComponent from "./ReportSectionComponent";
@@ -27,6 +28,17 @@ type Props = {
 };
 
 const styles = themes => ({
+  input: {
+    marginBottom: themes.spacing.unit * 2
+  },
+  label: {
+    textTransform: "uppercase",
+    fontSize: "10px",
+    marginBottom: themes.spacing.unit,
+    display: "block",
+    marginLeft: 0,
+    fontFamily: "open Sans"
+  },
   outerContainer: {
     height: "100vh",
     margin: "5%"
@@ -38,7 +50,6 @@ const styles = themes => ({
   },
   fontFamily: {
     fontFamily: "open Sans",
-    margin: themes.spacing.unit * 0.5,
     fontWeight: "normal",
     fontStyle: "normal",
     fontStretch: "normal"
@@ -46,14 +57,20 @@ const styles = themes => ({
 });
 
 type State = {
-  overview: string
+  overview: string,
+  keyActivity: {
+    activityName?: string,
+    numberOfParticipants?: string,
+    demographicInfo?: string,
+    impactOutcome?: string
+  }
 };
 
 export class ReportComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      overview: this.report.overview
+      ...this.report
     };
   }
 
@@ -67,17 +84,16 @@ export class ReportComponent extends Component<Props, State> {
   saveReport = () => {
     this.props.updateReport({
       ...this.report,
-      overview: this.state.overview
+      ...this.state
     });
   };
 
   submitReport = () => {
     this.props.updateReport({
       ...this.report,
-      overview: this.state.overview,
+      ...this.state,
       completed: true
     });
-
     this.props.history.push("/myReports");
   };
 
@@ -86,6 +102,22 @@ export class ReportComponent extends Component<Props, State> {
       overview: (event.target: window.HTMLInputElement).value
     });
   };
+
+  isSubmitDisabled() {
+    const { isLoading } = this.props;
+    const allBlank = object =>
+      Object.entries(object).every(([key, value]) => {
+        if (typeof value === "object") {
+          return allBlank(value);
+        }
+        return value === "" || value === undefined;
+      });
+    return (
+      isLoading
+      || this.state.overview === ""
+      || allBlank(this.state.keyActivity)
+    );
+  }
 
   renderToolbar = (classes: any, report: Report, isLoading: boolean) => {
     return (
@@ -102,7 +134,7 @@ export class ReportComponent extends Component<Props, State> {
               data-test-id="report-submit-button"
               variant="contained"
               color="primary"
-              disabled={isLoading || this.state.overview === ""}
+              disabled={this.isSubmitDisabled()}
               onClick={() => this.submitReport()}
             >
               Submit
@@ -113,19 +145,146 @@ export class ReportComponent extends Component<Props, State> {
     );
   };
 
+  onSectionInputChange(
+    key: string,
+    sectionName?: string
+  ): (event: Event) => void {
+    return (event: Event) => {
+      if (sectionName !== undefined) {
+        const section = this.state[sectionName];
+        this.setState({
+          ...this.state,
+          [sectionName]: {
+            ...section,
+            [key]: (event.target: window.HTMLInputElement).value
+          }
+        });
+      } else {
+        this.setState({
+          ...this.state,
+          [key]: (event.target: window.HTMLInputElement).value
+        });
+      }
+    };
+  }
+
+  renderGrantProgressSection() {
+    const report = this.report;
+    const { isLoading } = this.props;
+    const isDisabled = isLoading || this.state.overview === report.overview;
+    return (
+      <ReportSectionComponent
+        data-test-id="grant-progress"
+        title="Grant progress"
+        subtitle="Please give a very brief overview of your project and progress since the last report."
+        disabled={isDisabled}
+        onSave={() => this.saveReport()}
+      >
+        <OutlinedInput
+          data-test-id="report-progress-input"
+          fullWidth={true}
+          id="component-outlined"
+          placeholder="Please add an overview"
+          value={this.state.overview}
+          multiline
+          rows={10}
+          rowsMax={100}
+          labelWidth={0}
+          onChange={this.onSectionInputChange("overview")}
+        />
+      </ReportSectionComponent>
+    );
+  }
+
+  renderKeyActivitiesSection() {
+    const { classes, isLoading } = this.props;
+    const fields = [
+      "activityName",
+      "numberOfParticipants",
+      "demographicInfo",
+      "impactOutcome"
+    ];
+
+    const report = this.report;
+    const hasChanged = fields.some(
+      (field: string) =>
+        this.state.keyActivity[field] !== report.keyActivity[field]
+    );
+
+    const isDisabled = isLoading || !hasChanged;
+
+    return (
+      <ReportSectionComponent
+        data-test-id="key-activities"
+        title="Key Activities"
+        subtitle="Please describe the activities you have done this month."
+        disabled={isDisabled}
+        onSave={this.saveReport.bind(this)}
+      >
+        <InputLabel className={classes.label}>Name of the activity</InputLabel>
+        <OutlinedInput
+          onChange={this.onSectionInputChange("activityName", "keyActivity")}
+          className={classes.input}
+          value={this.state.keyActivity.activityName}
+          fullWidth={true}
+          labelWidth={0}
+          placeholder="Add a title"
+          data-test-id="report-activity-name-input"
+        />
+        <InputLabel className={classes.label}>
+          Avarege number of participants
+        </InputLabel>
+        <OutlinedInput
+          onChange={this.onSectionInputChange(
+            "numberOfParticipants",
+            "keyActivity"
+          )}
+          className={classes.input}
+          value={this.state.keyActivity.numberOfParticipants}
+          fullWidth={true}
+          labelWidth={0}
+          placeholder="Add a number of participants"
+          data-test-id="report-participants-number-input"
+          type="number"
+        />
+        <InputLabel className={classes.label}>Demographic info</InputLabel>
+        <OutlinedInput
+          onChange={this.onSectionInputChange("demographicInfo", "keyActivity")}
+          className={classes.input}
+          value={this.state.keyActivity.demographicInfo}
+          fullWidth={true}
+          labelWidth={0}
+          multiline
+          rows={2}
+          placeholder="Please add an overview"
+          data-test-id="report-demographic-info-input"
+        />
+        <InputLabel className={classes.label}>
+          Positive Impacts & outcome
+        </InputLabel>
+        <OutlinedInput
+          onChange={this.onSectionInputChange("impactOutcome", "keyActivity")}
+          className={classes.input}
+          value={this.state.keyActivity.impactOutcome}
+          fullWidth={true}
+          labelWidth={0}
+          multiline
+          rows={10}
+          rowsMax={20}
+          placeholder="Please add an overview"
+          data-test-id="report-impact-outcome-input"
+        />
+      </ReportSectionComponent>
+    );
+  }
+
   render() {
     const { classes, account, logout, isLoading } = this.props;
     const report = this.report;
-
-    const subtitle
-      = "Please give a very brief overview of your project and progress since the last report.";
-
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
-
         {this.renderToolbar(classes, report, isLoading)}
-
         <Grid
           container
           spacing={24}
@@ -134,26 +293,8 @@ export class ReportComponent extends Component<Props, State> {
         >
           <Grid container justify="center">
             <Grid item xs={6}>
-              <ReportSectionComponent
-                data-test-id="grant-progress"
-                title="Grant progress"
-                subtitle={subtitle}
-                disabled={isLoading || this.state.overview === report.overview}
-                onSave={this.saveReport.bind(this)}
-              >
-                <OutlinedInput
-                  data-test-id="report-progress-input"
-                  fullWidth={true}
-                  id="component-outlined"
-                  placeholder="Please add an overview"
-                  value={this.state.overview}
-                  multiline
-                  rows={10}
-                  rowsMax={100}
-                  labelWidth={0}
-                  onChange={event => this.changeReportProgress(event)}
-                />
-              </ReportSectionComponent>
+              {this.renderGrantProgressSection()}
+              {this.renderKeyActivitiesSection()}
             </Grid>
           </Grid>
         </Grid>

@@ -49,16 +49,19 @@ describe("reports endpoint", () => {
         completed: false,
         overview: "",
         grant: "Grant Mitchell",
-        owner: credentials.username
+        owner: credentials.username,
+        keyActivity: {}
       },
       {
         id: 2,
         completed: false,
         overview: "",
         grant: "Hugh Grant",
-        owner: "a third person"
+        owner: "a third person",
+        keyActivity: {}
       }
     ]);
+
     await safeDrop("users");
     await global.DATABASE.collection("users").insertMany([
       {
@@ -93,13 +96,13 @@ describe("reports endpoint", () => {
 
     beforeEach(async () => {
       agent = request.agent(app);
+    });
+
+    test("GET returns the list of current reports", async () => {
       await agent
         .post("/api/login")
         .send(credentials)
         .expect(200);
-    });
-
-    test("GET returns the list of current reports", async () => {
       const response = await agent.get("/api/reports");
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual([
@@ -108,7 +111,8 @@ describe("reports endpoint", () => {
           completed: false,
           overview: "",
           grant: "Grant Mitchell",
-          owner: credentials.username
+          owner: credentials.username,
+          keyActivity: {}
         }
       ]);
     });
@@ -119,8 +123,19 @@ describe("reports endpoint", () => {
         completed: false,
         overview: "Our new overview",
         grant: "Grant Mitchell",
-        owner: credentials.username
+        owner: credentials.username,
+        keyActivity: {
+          activityName: "activityName",
+          numberOfParticipants: "numberOfParticipants",
+          demographicInfo: "demographicInfo",
+          impactOutcome: "impactOutcome"
+        }
       };
+
+      await agent
+        .post("/api/login")
+        .send(credentials)
+        .expect(200);
 
       const response = await agent
         .put("/api/reports/1")
@@ -139,10 +154,21 @@ describe("reports endpoint", () => {
         completed: true,
         overview: "Our final overview",
         grant: "Grant Mitchell",
-        owner: credentials.username
+        owner: credentials.username,
+        keyActivity: {
+          activityName: "activityName",
+          numberOfParticipants: "numberOfParticipants",
+          demographicInfo: "demographicInfo",
+          impactOutcome: "impactOutcome"
+        }
       };
       const submissionDate = "2018-10-16T10:47:02.404Z";
       MockDate.set(new Date(submissionDate));
+
+      await agent
+        .post("/api/login")
+        .send(credentials)
+        .expect(200);
 
       const response = await agent
         .put("/api/reports/1")

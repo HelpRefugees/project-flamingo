@@ -16,14 +16,16 @@ describe("SubmittedReportComponent", () => {
     overview: "Hugh Overview",
     completed: true,
     reportPeriod: "2018-09-01T00:00:00.000Z",
-    submissionDate: "2018-10-03T00:00:00.000Z"
+    submissionDate: "2018-10-03T00:00:00.000Z",
+    keyActivity: {}
   };
   const report2: Report = {
     id: 2,
     grant: "Grant Shapps",
     overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
     completed: true,
-    reportPeriod: "2018-10-01T00:00:00.000Z"
+    reportPeriod: "2018-10-01T00:00:00.000Z",
+    keyActivity: {}
   };
   let reports: Report[] = [report1, report2];
 

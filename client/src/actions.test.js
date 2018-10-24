@@ -207,7 +207,8 @@ describe("actions", () => {
         grant: "mitchell",
         overview: "everything is fine",
         completed: false,
-        reportPeriod: "2018-10-01T00:00:00.000Z"
+        reportPeriod: "2018-10-01T00:00:00.000Z",
+        keyActivity: {}
       };
       expect(actions.updateReportSuccessful(report)).toEqual({
         type: "SAVE_REPORT_SUCCESS",
@@ -227,7 +228,8 @@ describe("actions", () => {
         grant: "Grant title",
         overview: "My report overview",
         completed: false,
-        reportPeriod: "2018-10-01T00:00:00.000Z"
+        reportPeriod: "2018-10-01T00:00:00.000Z",
+        keyActivity: {}
       };
 
       beforeEach(() => {
