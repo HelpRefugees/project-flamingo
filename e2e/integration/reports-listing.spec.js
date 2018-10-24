@@ -43,11 +43,35 @@ context("Reports Listing Page", () => {
           submissionDate: "15/09/2018"
         });
 
-        const grantProgress = submittedReportPage.grantProgress;
-        grantProgress.title.should("contain.text", "Grant progress");
-        grantProgress.content.should(
-          "contain.text",
-          "Mitchell overview completed"
+        submittedReportPage.getSection(
+          "grant-progress",
+          grantProgressSection => {
+            grantProgressSection.title.should("contain.text", "Grant overview");
+            grantProgressSection
+              .contentFor("report-progress")
+              .should("contain.text", "Mitchell overview completed");
+          }
+        );
+        submittedReportPage.getSection(
+          "grant-key-activities",
+          grantProgressSection => {
+            grantProgressSection.title.should(
+              "contain.text",
+              "Key activities & impact"
+            );
+            grantProgressSection
+              .contentFor("report-key-activity-name")
+              .should("contain.text", "activityName");
+            grantProgressSection
+              .contentFor("report-number-of-participants")
+              .should("contain.text", "numberOfParticipants");
+            grantProgressSection
+              .contentFor("report-demographic-info")
+              .should("contain.text", "demographicInfo");
+            grantProgressSection
+              .contentFor("report-impact-outcome")
+              .should("contain.text", "impactOutcome");
+          }
         );
       });
 

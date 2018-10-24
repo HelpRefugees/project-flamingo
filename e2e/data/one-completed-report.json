@@ -8,7 +8,12 @@
       "reportPeriod": "2018-08-01T00:00:00.000Z",
       "submissionDate": "2018-09-15T03:24:00.000Z",
       "owner": "ellen@ip.org",
-      "keyActivity": {}
+      "keyActivity": {
+        "activityName": "activityName",
+        "numberOfParticipants": "numberOfParticipants",
+        "demographicInfo": "demographicInfo",
+        "impactOutcome": "impactOutcome"
+      }
     },
     {
       "id": 2,

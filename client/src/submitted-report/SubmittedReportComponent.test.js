@@ -17,7 +17,12 @@ describe("SubmittedReportComponent", () => {
     completed: true,
     reportPeriod: "2018-09-01T00:00:00.000Z",
     submissionDate: "2018-10-03T00:00:00.000Z",
-    keyActivity: {}
+    keyActivity: {
+      activityName: "Test activity",
+      numberOfParticipants: "200",
+      demographicInfo: "any value",
+      impactOutcome: "impact"
+    }
   };
   const report2: Report = {
     id: 2,
@@ -62,31 +67,25 @@ describe("SubmittedReportComponent", () => {
       );
     });
 
-    it("renders the grant name", () => {
-      expect(
-        wrapper
-          .find('[data-test-id="grant-name"]')
-          .render()
-          .text()
-      ).toContain("Hugh Grant");
-    });
+    const fields = {
+      "grant-name": "Hugh Grant",
+      "submission-date": "03/10/2018",
+      "report-progress": report1.overview,
+      "report-key-activity-name": report1.keyActivity.activityName,
+      "report-number-of-participants": report1.keyActivity.numberOfParticipants,
+      "report-demographic-info": report1.keyActivity.demographicInfo,
+      "report-impact-outcome": report1.keyActivity.impactOutcome
+    };
 
-    it("renders the grant submission date", () => {
-      expect(
-        wrapper
-          .find('[data-test-id="submission-date"]')
-          .render()
-          .text()
-      ).toContain("03/10/2018");
-    });
-
-    it("renders the grant overview", () => {
-      expect(
-        wrapper
-          .find('[data-test-id="report-progress"]')
-          .render()
-          .text()
-      ).toContain(report1.overview);
+    Object.entries(fields).forEach(([name, expectedContent]) => {
+      it(`renders the grant ${name.replace("-", " ")}`, () => {
+        expect(
+          wrapper
+            .find(`[data-test-id="${name}"]`)
+            .render()
+            .text()
+        ).toContain(expectedContent);
+      });
     });
   });
 

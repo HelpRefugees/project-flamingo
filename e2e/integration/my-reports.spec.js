@@ -138,7 +138,7 @@ context("My Reports Page", () => {
         );
       });
 
-      reportPage.submitButton.should("have.attr", "disabled");
+      reportPage.submitButton.should("not.have.attr", "disabled");
 
       reportPage.getSection("key-activities", keyActivitiesSection => {
         keyActivitiesSection.setContentFieldInput(

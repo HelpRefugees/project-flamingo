@@ -105,6 +105,7 @@ export class ReportComponent extends Component<Props, State> {
 
   isSubmitDisabled() {
     const { isLoading } = this.props;
+    const validate = ({ overview }) => ({ overview });
     const allBlank = object =>
       Object.entries(object).every(([key, value]) => {
         if (typeof value === "object") {
@@ -112,11 +113,7 @@ export class ReportComponent extends Component<Props, State> {
         }
         return value === "" || value === undefined;
       });
-    return (
-      isLoading
-      || this.state.overview === ""
-      || allBlank(this.state.keyActivity)
-    );
+    return isLoading || allBlank(validate(this.state));
   }
 
   renderToolbar = (classes: any, report: Report, isLoading: boolean) => {
