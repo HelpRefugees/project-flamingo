@@ -52,6 +52,10 @@ export const login = (credentials: Credentials) => (dispatch: Dispatch<any>) =>
     }
   );
 
+export const loadReportsStarted = () => ({
+  type: "LOAD_REPORTS_STARTED"
+});
+
 export const loadReportsSuccessful = (reports: Report[]) => ({
   type: "LOAD_REPORTS_SUCCESS",
   payload: reports
@@ -62,6 +66,7 @@ export const loadReportsFailed = () => ({
 });
 
 export const loadReports = () => (dispatch: Dispatch<any>) => {
+  dispatch(loadReportsStarted());
   makeRequest(
     dispatch,
     "/api/reports",

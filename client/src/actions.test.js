@@ -39,6 +39,12 @@ describe("actions", () => {
       });
     });
 
+    it("loadReportsStarted should create LOAD_REPORTS_STARTED action", () => {
+      expect(actions.loadReportsStarted()).toEqual({
+        type: "LOAD_REPORTS_STARTED"
+      });
+    });
+
     it("receiveReports should create LOAD_REPORTS_SUCCESS action", () => {
       const reports = [];
       expect(actions.loadReportsSuccessful(reports)).toEqual({
@@ -77,6 +83,14 @@ describe("actions", () => {
       expect(fetch.mock.calls).toHaveLength(1);
       const [url] = fetch.mock.calls[0];
       expect(url).toEqual("/api/reports");
+    });
+
+    it("dispatches the loadReportsStarted", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.loadReportsStarted());
     });
 
     it("dispatches the request started when calling the backend", () => {
