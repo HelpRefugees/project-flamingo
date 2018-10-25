@@ -229,7 +229,7 @@ export class ReportComponent extends Component<Props, State> {
           data-test-id="report-activity-name-input"
         />
         <InputLabel className={classes.label}>
-          Avarege number of participants
+          Average number of participants
         </InputLabel>
         <OutlinedInput
           onChange={this.onSectionInputChange(

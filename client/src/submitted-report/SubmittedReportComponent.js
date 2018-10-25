@@ -167,7 +167,7 @@ export class SubmittedReportComponent extends Component<Props, State> {
             </Typography>
             <dl>
               <dt className={classes.definitionListTitle}>
-                Avarege number of participants
+                Average number of participants
               </dt>
               <dd
                 data-test-id="report-number-of-participants"
