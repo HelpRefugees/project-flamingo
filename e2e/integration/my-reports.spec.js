@@ -1,5 +1,5 @@
 import MyReportsPage from "../pages/myReportsPage";
-import ReportPage from "../pages/reportPage";
+import ReportPage, { ReportSection } from "../pages/reportPage";
 import ForbiddenPage from "../pages/forbiddenPage";
 
 context("My Reports Page", () => {
@@ -53,8 +53,8 @@ context("My Reports Page", () => {
       reportPage.getSection("grant-progress", grantProgessSection => {
         grantProgessSection.title.should("contain.text", "Grant progress");
         grantProgessSection.saveButton.should("attr", "disabled");
-        grantProgessSection.setContent(
-          "report-progress-input",
+        grantProgessSection.setContentField(
+          ReportSection.sections.grantProgress.progress,
           newReport.overview
         );
         grantProgessSection.saveButton.should("not.have.attr", "disabled");
@@ -64,20 +64,20 @@ context("My Reports Page", () => {
       reportPage.getSection("key-activities", keyActivitiesSection => {
         keyActivitiesSection.title.should("contain.text", "Key Activities");
         keyActivitiesSection.saveButton.should("attr", "disabled");
-        keyActivitiesSection.setContentFieldInput(
-          "report-activity-name-input",
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.name,
           newReport.keyActivity.activityName
         );
-        keyActivitiesSection.setContentFieldInput(
-          "report-participants-number-input",
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.numberOfParticipants,
           newReport.keyActivity.numberOfParticipants
         );
-        keyActivitiesSection.setContent(
-          "report-demographic-info-input",
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.demographicInfo,
           newReport.keyActivity.demographicInfo
         );
-        keyActivitiesSection.setContent(
-          "report-impact-outcome-input",
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.impactOutcome,
           newReport.keyActivity.impactOutcome
         );
         keyActivitiesSection.saveButton.should("not.have.attr", "disabled");
@@ -93,22 +93,24 @@ context("My Reports Page", () => {
 
       reportPage.getSection("grant-progress", grantProgessSection => {
         grantProgessSection
-          .getContentField("report-progress-input")
+          .getContentField(ReportSection.sections.grantProgress.progress)
           .should("contain.text", newReport.overview);
       });
 
       reportPage.getSection("key-activities", keyActivitiesSection => {
         keyActivitiesSection
-          .getContentFieldInput("report-activity-name-input")
+          .getContentField(ReportSection.sections.keyActivities.name)
           .should("contain.value", newReport.keyActivity.activityName);
         keyActivitiesSection
-          .getContentFieldInput("report-participants-number-input")
+          .getContentField(
+            ReportSection.sections.keyActivities.numberOfParticipants
+          )
           .should("contain.value", newReport.keyActivity.numberOfParticipants);
         keyActivitiesSection
-          .getContentField("report-demographic-info-input")
+          .getContentField(ReportSection.sections.keyActivities.demographicInfo)
           .should("contain.text", newReport.keyActivity.demographicInfo);
         keyActivitiesSection
-          .getContentField("report-impact-outcome-input")
+          .getContentField(ReportSection.sections.keyActivities.impactOutcome)
           .should("contain.text", newReport.keyActivity.impactOutcome);
         keyActivitiesSection.saveButton.should("have.attr", "disabled");
       });
@@ -131,9 +133,8 @@ context("My Reports Page", () => {
       reportPage.isAt();
 
       reportPage.getSection("grant-progress", grantProgessSection => {
-        grantProgessSection.getContentField("report-progress-input");
-        grantProgessSection.setContent(
-          "report-progress-input",
+        grantProgessSection.setContentField(
+          ReportSection.sections.grantProgress.progress,
           newReport.overview
         );
       });
@@ -141,20 +142,20 @@ context("My Reports Page", () => {
       reportPage.submitButton.should("not.have.attr", "disabled");
 
       reportPage.getSection("key-activities", keyActivitiesSection => {
-        keyActivitiesSection.setContentFieldInput(
-          "report-activity-name-input",
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.name,
           newReport.keyActivity.activityName
         );
-        keyActivitiesSection.setContentFieldInput(
-          "report-participants-number-input",
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.numberOfParticipants,
           newReport.keyActivity.numberOfParticipants
         );
-        keyActivitiesSection.setContent(
-          "report-demographic-info-input",
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.demographicInfo,
           newReport.keyActivity.demographicInfo
         );
-        keyActivitiesSection.setContent(
-          "report-impact-outcome-input",
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.impactOutcome,
           newReport.keyActivity.impactOutcome
         );
       });

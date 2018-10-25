@@ -32,6 +32,33 @@ export default class ReportPage extends BasePage {
 }
 
 export class ReportSection {
+  static sections = {
+    grantProgress: {
+      progress: {
+        selector: "report-progress-input",
+        type: "textarea"
+      }
+    },
+    keyActivities: {
+      name: {
+        selector: "report-activity-name-input",
+        type: "input"
+      },
+      numberOfParticipants: {
+        selector: "report-participants-number-input",
+        type: "input"
+      },
+      demographicInfo: {
+        selector: "report-demographic-info-input",
+        type: "textarea"
+      },
+      impactOutcome: {
+        selector: "report-impact-outcome-input",
+        type: "textarea"
+      }
+    }
+  };
+
   get title() {
     return cy.get(testId("section-title"));
   }
@@ -40,22 +67,12 @@ export class ReportSection {
     return cy.get(testId("section-save-button"));
   }
 
-  getContentField(fieldName) {
-    return cy.get(testId(fieldName) + " textarea").last();
+  getContentField({ selector, type }) {
+    return cy.get(testId(selector) + " " + type).last();
   }
 
-  setContent(fieldName, newContent) {
-    this.getContentField(fieldName)
-      .clear()
-      .type(newContent);
-  }
-
-  getContentFieldInput(fieldName) {
-    return cy.get(testId(fieldName) + " input").last();
-  }
-
-  setContentFieldInput(fieldName, newContent) {
-    this.getContentFieldInput(fieldName)
+  setContentField(field, newContent) {
+    this.getContentField(field)
       .clear()
       .type(newContent);
   }
