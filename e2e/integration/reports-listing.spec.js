@@ -1,6 +1,7 @@
 import ReportsListingPage from "../pages/reportsListingPage";
 import SubmittedReportPage from "../pages/submittedReportPage";
 import ForbiddenPage from "../pages/forbiddenPage";
+import NotFoundPage from "../pages/notFoundPage";
 
 context("Reports Listing Page", () => {
   const reportsListingPage = new ReportsListingPage();
@@ -75,16 +76,13 @@ context("Reports Listing Page", () => {
         );
       });
 
-      it("redirects to the Reports Listing page if accessing a details page for an incomplete report", () => {
-        new SubmittedReportPage(2).visit();
+      it("redirects to the not found page if accessing a details page for a non-existent report", () => {
+        new SubmittedReportPage(123).visit();
 
-        reportsListingPage.isAt();
-      });
-
-      it("redirects to the Reports Listing page if accessing a details page for a non-existent report", () => {
-        new SubmittedReportPage(3).visit();
-
-        reportsListingPage.isAt();
+        new NotFoundPage().message.should(
+          "contains.text",
+          "404 Sorry! Page not found."
+        );
       });
     });
 

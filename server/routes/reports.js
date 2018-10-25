@@ -12,6 +12,8 @@ module.exports = db => {
 
     if (req.user.role === "implementing-partner") {
       query.owner = req.user.username;
+    } else {
+      query.completed = true;
     }
 
     db.collection(collection)

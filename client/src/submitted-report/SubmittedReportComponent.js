@@ -203,8 +203,8 @@ export class SubmittedReportComponent extends Component<Props, State> {
   render() {
     const { classes, account, logout } = this.props;
     const report = this.report;
-    if (!report || !report.completed) {
-      return <Redirect to="/" />;
+    if (!report) {
+      return <Redirect to="/notFound" />;
     }
     return (
       <Fragment>

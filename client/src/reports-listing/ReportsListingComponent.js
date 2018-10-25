@@ -146,12 +146,10 @@ export class ReportsListingComponent extends Component<Props> {
 
   render() {
     const { classes, logout, account, reports } = this.props;
-    let completedReports = reports
-      ? reports.filter(report => report.completed)
-      : [];
+
     const pageContent
-      = completedReports.length > 0
-        ? this.reportsTable(classes, completedReports)
+      = reports && reports.length > 0
+        ? this.reportsTable(classes, reports)
         : this.noReportsMessage(classes);
 
     return (

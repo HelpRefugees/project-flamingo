@@ -5,14 +5,19 @@ const bcrypt = require("bcrypt");
 describe("reports endpoint", () => {
   let app;
 
-  const credentials = {
+  const implementingPartner = {
     username: "user@flamingo.life",
     password: "securityiscool"
   };
 
-  const otherIp = {
+  const otherImplementingPartner = {
     username: "someone@else.org",
     password: "irrelevant"
+  };
+
+  const helpRefugees = {
+    username: "daisy@hr.org",
+    password: "helpingrefugees"
   };
 
   beforeEach(() => {
@@ -42,7 +47,7 @@ describe("reports endpoint", () => {
         completed: false,
         overview: "",
         grant: "Grant Mitchell",
-        owner: credentials.username,
+        owner: implementingPartner.username,
         keyActivity: {}
       },
       {
@@ -58,7 +63,7 @@ describe("reports endpoint", () => {
         completed: true,
         overview: "this report is completed",
         grant: "Grant Mitchell",
-        owner: credentials.username,
+        owner: implementingPartner.username,
         keyActivity: {},
         submissionDate: "2018-10-10T10:10:10.101ZZ"
       }
@@ -67,13 +72,24 @@ describe("reports endpoint", () => {
     await safeDrop("users");
     await global.DATABASE.collection("users").insertMany([
       {
-        username: credentials.username,
-        password: bcrypt.hashSync(credentials.password, bcrypt.genSaltSync()),
+        username: implementingPartner.username,
+        password: bcrypt.hashSync(
+          implementingPartner.password,
+          bcrypt.genSaltSync()
+        ),
         role: "implementing-partner"
       },
       {
-        username: otherIp.username,
-        password: bcrypt.hashSync(otherIp.password, bcrypt.genSaltSync()),
+        username: helpRefugees.username,
+        password: bcrypt.hashSync(helpRefugees.password, bcrypt.genSaltSync()),
+        role: "help-refugees"
+      },
+      {
+        username: otherImplementingPartner.username,
+        password: bcrypt.hashSync(
+          otherImplementingPartner.password,
+          bcrypt.genSaltSync()
+        ),
         role: "implementing-partner"
       }
     ]);
@@ -93,14 +109,14 @@ describe("reports endpoint", () => {
     });
   });
 
-  describe(`when logged in as ${credentials.username}`, () => {
+  describe(`when logged in as ${implementingPartner.username}`, () => {
     let agent;
 
     beforeEach(async () => {
       agent = request.agent(app);
       await agent
         .post("/api/login")
-        .send(credentials)
+        .send(implementingPartner)
         .expect(200);
     });
 
@@ -113,7 +129,7 @@ describe("reports endpoint", () => {
           completed: false,
           overview: "",
           grant: "Grant Mitchell",
-          owner: credentials.username,
+          owner: implementingPartner.username,
           keyActivity: {}
         },
         {
@@ -121,7 +137,7 @@ describe("reports endpoint", () => {
           completed: true,
           overview: "this report is completed",
           grant: "Grant Mitchell",
-          owner: credentials.username,
+          owner: implementingPartner.username,
           keyActivity: {},
           submissionDate: "2018-10-10T10:10:10.101ZZ"
         }
@@ -134,7 +150,7 @@ describe("reports endpoint", () => {
         completed: true,
         overview: "Our final overview",
         grant: "Grant Mitchell",
-        owner: credentials.username,
+        owner: implementingPartner.username,
         submissionDate: "2018-10-16T10:47:02.404Z",
         keyActivity: {
           activityName: "activityName",
@@ -183,14 +199,14 @@ describe("reports endpoint", () => {
     });
   });
 
-  describe(`when logged in as ${otherIp.username}`, () => {
+  describe(`when logged in as ${otherImplementingPartner.username}`, () => {
     let agent;
 
     beforeEach(async () => {
       agent = request.agent(app);
       await agent
         .post("/api/login")
-        .send(otherIp)
+        .send(otherImplementingPartner)
         .expect(200);
     });
 
@@ -203,6 +219,34 @@ describe("reports endpoint", () => {
         .patch("/api/reports/1")
         .send({})
         .expect(403);
+    });
+  });
+
+  describe(`when logged in as ${helpRefugees.username}`, () => {
+    let agent;
+
+    beforeEach(async () => {
+      agent = request.agent(app);
+      await agent
+        .post("/api/login")
+        .send(helpRefugees)
+        .expect(200);
+    });
+
+    test("you cannot see unsubmitted reports", async () => {
+      const response = await agent.get("/api/reports").expect(200);
+
+      expect(response.body).toEqual([
+        {
+          id: 3,
+          completed: true,
+          overview: "this report is completed",
+          grant: "Grant Mitchell",
+          owner: implementingPartner.username,
+          keyActivity: {},
+          submissionDate: "2018-10-10T10:10:10.101ZZ"
+        }
+      ]);
     });
   });
 });
