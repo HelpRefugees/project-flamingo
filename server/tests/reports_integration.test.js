@@ -15,8 +15,11 @@ describe("reports endpoint", () => {
     password: "irrelevant"
   };
 
-  beforeAll(() => {
-    app = require("../app")(global.DATABASE);
+  beforeEach(() => {
+    app = require("../app")(
+      global.DATABASE,
+      session => new session.MemoryStore()
+    );
   });
 
   afterEach(() => {
@@ -31,17 +34,7 @@ describe("reports endpoint", () => {
     }
   };
 
-  const safeCreate = async collection => {
-    try {
-      await global.DATABASE.createCollection(collection);
-    } catch (err) {
-      // pass
-    }
-  };
-
   beforeEach(async () => {
-    await safeDrop("_sessions");
-    await safeCreate("_sessions");
     await safeDrop("reports");
     await global.DATABASE.collection("reports").insertMany([
       {

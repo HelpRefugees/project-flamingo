@@ -12,8 +12,11 @@ describe("/api/login", async () => {
     password: bcrypt.hashSync(password, bcrypt.genSaltSync())
   };
 
-  beforeAll(() => {
-    app = require("../app")(global.DATABASE);
+  beforeEach(() => {
+    app = require("../app")(
+      global.DATABASE,
+      session => new session.MemoryStore()
+    );
   });
 
   const safeDrop = async collection => {
@@ -24,17 +27,7 @@ describe("/api/login", async () => {
     }
   };
 
-  const safeCreate = async collection => {
-    try {
-      await global.DATABASE.createCollection(collection);
-    } catch (err) {
-      // pass
-    }
-  };
-
   beforeEach(async () => {
-    await safeDrop("_sessions");
-    await safeCreate("_sessions");
     await safeDrop("users");
     await global.DATABASE.collection("users").insertOne(user);
   });

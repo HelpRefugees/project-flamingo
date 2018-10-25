@@ -1,5 +1,4 @@
 const bodyParser = require("body-parser");
-const connectMongo = require("connect-mongo");
 const express = require("express");
 const session = require("express-session");
 const morgan = require("morgan");
@@ -10,10 +9,9 @@ const { configureAuth } = require("./auth");
 const loginRouterFactory = require("./routes/login");
 const reportsRouterFactory = require("./routes/reports");
 
-const appFactory = db => {
+const appFactory = (db, sessionStoreProvider) => {
   const app = express();
   const API_ROOT_PATH = "/api";
-  const MongoStore = connectMongo(session);
 
   app.use(express.json());
   app.use(morgan("dev"));
@@ -26,7 +24,7 @@ const appFactory = db => {
       secret: process.env.SESSION_SECRET || "randomsecret",
       resave: false,
       saveUninitialized: true,
-      store: new MongoStore({ db, collection: "_sessions" })
+      store: sessionStoreProvider(session)
     })
   );
 

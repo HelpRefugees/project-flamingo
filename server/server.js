@@ -1,3 +1,4 @@
+const connectMongo = require("connect-mongo");
 const debug = require("debug")("server");
 const http = require("http");
 
@@ -17,7 +18,10 @@ dbModule.connect(
       return process.exit(1);
     }
 
-    let app = require("./app")(db);
+    let app = require("./app")(db, session => {
+      const MongoStore = connectMongo(session);
+      return new MongoStore({ db, collection: "_sessions" });
+    });
     app.set("port", port);
 
     server = http.createServer(app);
