@@ -10,7 +10,8 @@ const mapStateToProps = (state: State): $Shape<State> => ({
   isAuthenticated: state.isAuthenticated,
   reports: state.reports,
   account: state.account,
-  submittedReport: state.submittedReport
+  submittedReport: state.submittedReport,
+  isLoading: state.isLoading
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
