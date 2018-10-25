@@ -163,6 +163,7 @@ describe("reports endpoint", () => {
         .set("Accept", "application/json");
 
       expect(response.statusCode).toBe(200);
+      expect(response.body).toEqual(updatedReport);
 
       const allReports = await agent.get("/api/reports");
       expect(allReports.body.filter(report => report.id === 1)).toEqual([
@@ -177,6 +178,7 @@ describe("reports endpoint", () => {
         overview: "Our final overview",
         grant: "Grant Mitchell",
         owner: credentials.username,
+        submissionDate: "2018-10-16T10:47:02.404Z",
         keyActivity: {
           activityName: "activityName",
           numberOfParticipants: "numberOfParticipants",
@@ -184,8 +186,7 @@ describe("reports endpoint", () => {
           impactOutcome: "impactOutcome"
         }
       };
-      const submissionDate = "2018-10-16T10:47:02.404Z";
-      MockDate.set(new Date(submissionDate));
+      MockDate.set(new Date(submittedReport.submissionDate));
 
       const response = await agent
         .patch("/api/reports/1")
@@ -201,10 +202,11 @@ describe("reports endpoint", () => {
         .set("Accept", "application/json");
 
       expect(response.statusCode).toBe(200);
+      expect(response.body).toEqual(submittedReport);
 
       const allReports = await agent.get("/api/reports");
       expect(allReports.body.filter(report => report.id === 1)).toEqual([
-        { ...submittedReport, submissionDate }
+        submittedReport
       ]);
     });
 

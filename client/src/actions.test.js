@@ -272,13 +272,16 @@ describe("actions", () => {
       });
 
       it("dispatches save report success when the request succeeds", done => {
-        fetch.mockResponseOnce("{}");
+        const updatedReport: any = {
+          grant: "Hugh Grant"
+        };
+        fetch.mockResponseOnce(JSON.stringify(updatedReport));
 
         action(mockDispatch);
 
         assertLater(done, () => {
           expect(mockDispatch).toHaveBeenCalledWith(
-            actions.updateReportSuccessful(report)
+            actions.updateReportSuccessful(updatedReport)
           );
         });
       });

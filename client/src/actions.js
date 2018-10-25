@@ -107,7 +107,9 @@ export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
     },
     res => {
       if (res.status === 200) {
-        dispatch(updateReportSuccessful(report));
+        res.json().then(updatedReport => {
+          dispatch(updateReportSuccessful(updatedReport));
+        });
       } else {
         dispatch(updateReportFailed());
       }

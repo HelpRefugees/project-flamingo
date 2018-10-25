@@ -50,7 +50,8 @@ module.exports = db => {
         }
 
         db.collection(collection).replaceOne({ id }, report, () => {
-          return res.sendStatus(200);
+          const { _id, ...updatedReport } = report;
+          return res.send(updatedReport);
         });
       });
   });
