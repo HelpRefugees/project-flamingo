@@ -135,43 +135,7 @@ describe("reports endpoint", () => {
       ]);
     });
 
-    test("PATCH updates the report on save", async () => {
-      const updatedReport = {
-        id: 1,
-        completed: false,
-        overview: "Our new overview",
-        grant: "Grant Mitchell",
-        owner: credentials.username,
-        keyActivity: {
-          activityName: "activityName",
-          numberOfParticipants: "numberOfParticipants",
-          demographicInfo: "demographicInfo",
-          impactOutcome: "impactOutcome"
-        }
-      };
-
-      const response = await agent
-        .patch("/api/reports/1")
-        .send([
-          { op: "replace", path: "/overview", value: updatedReport.overview },
-          {
-            op: "replace",
-            path: "/keyActivity",
-            value: updatedReport.keyActivity
-          }
-        ])
-        .set("Accept", "application/json");
-
-      expect(response.statusCode).toBe(200);
-      expect(response.body).toEqual(updatedReport);
-
-      const allReports = await agent.get("/api/reports");
-      expect(allReports.body.filter(report => report.id === 1)).toEqual([
-        updatedReport
-      ]);
-    });
-
-    test("PATCH updates the report on submit", async () => {
+    test("PATCH updates the report", async () => {
       const submittedReport = {
         id: 1,
         completed: true,
@@ -208,35 +172,6 @@ describe("reports endpoint", () => {
       expect(allReports.body.filter(report => report.id === 1)).toEqual([
         submittedReport
       ]);
-    });
-
-    test("PATCH does not update submission date after initial submit", async () => {
-      const newDate = "2018-10-16T10:47:02.404Z";
-      MockDate.set(new Date(newDate));
-
-      await agent
-        .patch("/api/reports/3")
-        .send([{ op: "replace", path: "/completed", value: true }])
-        .set("Accept", "application/json")
-        .expect(200);
-
-      const allReports = await agent.get("/api/reports");
-      expect(
-        allReports.body.filter(report => report.id === 3)[0].submissionDate
-      ).not.toEqual(newDate);
-    });
-
-    test("PATCH clears submission date on unsubmit", async () => {
-      await agent
-        .patch("/api/reports/3")
-        .send([{ op: "replace", path: "/completed", value: false }])
-        .set("Accept", "application/json")
-        .expect(200);
-
-      const allReports = await agent.get("/api/reports");
-      expect(
-        allReports.body.filter(report => report.id === 3)[0].submissionDate
-      ).toBeUndefined();
     });
 
     test("PATCH rejects changes to protected fields", async () => {

@@ -1,14 +1,7 @@
 const express = require("express");
 
 const { ensureLoggedIn } = require("../auth");
-
-const protectedFields = [
-  "/grant",
-  "/id",
-  "/owner",
-  "/reportPeriod",
-  "/submissionDate"
-];
+const reportsService = require("../services/reports_service");
 
 module.exports = db => {
   const collection = "reports";
@@ -44,7 +37,7 @@ module.exports = db => {
         }
 
         try {
-          updateReport(res, report, changes);
+          reportsService.updateReport(report, changes);
         } catch (err) {
           return res.status(422).send({ message: err });
         }
@@ -57,34 +50,4 @@ module.exports = db => {
   });
 
   return router;
-};
-
-const replace = (object, path, value) => {
-  if ((path.match(/\//g) || []).length !== 1) {
-    throw new Error("cannot handle nested paths");
-  }
-  object[path.slice(1)] = value;
-};
-
-const updateReport = (res, report, changes) => {
-  for (const { op, path, value } of changes) {
-    if (protectedFields.indexOf(path) !== -1) {
-      throw new Error(`cannot edit ${path}`);
-    }
-
-    switch (op) {
-      case "replace":
-        if (path === "/completed") {
-          if (value && !report.completed) {
-            report.submissionDate = new Date().toISOString();
-          } else if (!value && report.completed) {
-            delete report.submissionDate;
-          }
-        }
-        replace(report, path, value);
-        break;
-      default:
-        throw new Error(`cannot handle ${op} operation`);
-    }
-  }
 };
