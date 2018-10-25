@@ -22,7 +22,8 @@ describe("SubmittedReportComponent", () => {
       numberOfParticipants: "200",
       demographicInfo: "any value",
       impactOutcome: "impact"
-    }
+    },
+    operatingEnvironment: ""
   };
   const report2: Report = {
     id: 2,
@@ -30,7 +31,8 @@ describe("SubmittedReportComponent", () => {
     overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
     completed: true,
     reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivity: {}
+    keyActivity: {},
+    operatingEnvironment: ""
   };
   let reports: Report[] = [report1, report2];
 

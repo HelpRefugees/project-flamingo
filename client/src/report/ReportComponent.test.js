@@ -23,7 +23,8 @@ describe("ReportComponent", () => {
       numberOfParticipants: "numberOfParticipants",
       demographicInfo: "demographicInfo",
       impactOutcome: "impactOutcome"
-    }
+    },
+    operatingEnvironment: ""
   };
   const report2: Report = {
     id: 2,
@@ -31,7 +32,8 @@ describe("ReportComponent", () => {
     overview: "Shapps",
     completed: false,
     reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivity: {}
+    keyActivity: {},
+    operatingEnvironment: ""
   };
   let reports: Report[] = [report1, report2];
   const account: Account = {
@@ -151,34 +153,86 @@ describe("ReportComponent", () => {
     });
   });
 
-  describe("submit", () => {
-    it("calls update report action with the correct arguments on click", () => {
+  describe("operating environment", () => {
+    let operatingEnvironmentSection;
+
+    const updateSection = () => {
+      operatingEnvironmentSection = wrapper.find(ReportSectionComponent).at(1);
+    };
+
+    beforeEach(() => {
+      updateSection();
+    });
+
+    it("renders the section", () => {
+      expect(operatingEnvironmentSection.exists()).toEqual(true);
+      expect(operatingEnvironmentSection.prop("title")).toEqual(
+        "Operating environment"
+      );
+      expect(operatingEnvironmentSection.prop("subtitle")).toEqual(
+        "Outline any notable changes you have experienced to the context in which you work."
+      );
+      expect(operatingEnvironmentSection.prop("optional")).toEqual(true);
+    });
+
+    describe("save button", () => {
+      it("is disabled when the operating environment is unchanged", () => {
+        expect(operatingEnvironmentSection.prop("disabled")).toBe(true);
+      });
+
+      it("disables during loading", () => {
+        operatingEnvironmentSection
+          .find('[data-test-id="operating-environment-input"]')
+          .simulate("change", { target: { value: "Hello there" } });
+
+        updateSection();
+
+        expect(operatingEnvironmentSection.prop("disabled")).toBe(false);
+
+        wrapper.setProps({ isLoading: true });
+
+        updateSection();
+
+        expect(operatingEnvironmentSection.prop("disabled")).toBe(true);
+      });
+
+      it("is enabled when the operating environment is changed", () => {
+        operatingEnvironmentSection
+          .find('[data-test-id="operating-environment-input"]')
+          .simulate("change", { target: { value: "Hello there" } });
+
+        updateSection();
+
+        expect(operatingEnvironmentSection.prop("disabled")).toBe(false);
+      });
+    });
+
+    it("updates the displayed text when the overview is changed", () => {
+      const newOverview = "is this thing on?";
+      wrapper
+        .find('[data-test-id="report-progress-input"]')
+        .simulate("change", { target: { value: newOverview } });
+
+      expect(
+        wrapper.find('[data-test-id="report-progress-input"]').prop("value")
+      ).toBe(newOverview);
+    });
+
+    it("calls update report action with the correct arguments when clicking the save button", () => {
       const overview = "text for report progress";
       const updatedReport1 = {
         ...report1,
-        overview,
-        completed: true
+        overview
       };
 
       wrapper
         .find('[data-test-id="report-progress-input"]')
         .simulate("change", { target: { value: overview } });
 
-      wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
+      const onSave = operatingEnvironmentSection.prop("onSave");
+      onSave();
 
       expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
-    });
-
-    it("is disabled during loading", () => {
-      expect(
-        wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
-      ).toBe(false);
-
-      wrapper.setProps({ isLoading: true });
-
-      expect(
-        wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
-      ).toBe(true);
     });
   });
 
@@ -186,7 +240,7 @@ describe("ReportComponent", () => {
     let keyActivitiesSection;
 
     const updateSection = () => {
-      keyActivitiesSection = wrapper.find(ReportSectionComponent).at(1);
+      keyActivitiesSection = wrapper.find(ReportSectionComponent).at(2);
     };
 
     beforeEach(() => {
@@ -237,6 +291,37 @@ describe("ReportComponent", () => {
 
         expect(keyActivitiesSection.prop("disabled")).toBe(false);
       });
+    });
+  });
+
+  describe("submit", () => {
+    it("calls update report action with the correct arguments on click", () => {
+      const overview = "text for report progress";
+      const updatedReport1 = {
+        ...report1,
+        overview,
+        completed: true
+      };
+
+      wrapper
+        .find('[data-test-id="report-progress-input"]')
+        .simulate("change", { target: { value: overview } });
+
+      wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
+
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+    });
+
+    it("is disabled during loading", () => {
+      expect(
+        wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
+      ).toBe(false);
+
+      wrapper.setProps({ isLoading: true });
+
+      expect(
+        wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
+      ).toBe(true);
     });
   });
 });

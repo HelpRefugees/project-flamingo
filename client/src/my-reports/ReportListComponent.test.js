@@ -14,7 +14,8 @@ describe("ReportListComponent", () => {
       overview: "Hugh",
       completed: false,
       reportPeriod: "2018-10-01T00:00:00.000Z",
-      keyActivity: {}
+      keyActivity: {},
+      operatingEnvironment: ""
     },
     {
       id: 2,
@@ -22,7 +23,8 @@ describe("ReportListComponent", () => {
       overview: "Shapps",
       completed: true,
       reportPeriod: "2018-10-01T00:00:00.000Z",
-      keyActivity: {}
+      keyActivity: {},
+      operatingEnvironment: ""
     },
     {
       id: 3,
@@ -30,7 +32,8 @@ describe("ReportListComponent", () => {
       overview: "Mitchell",
       completed: false,
       reportPeriod: "2018-10-01T00:00:00.000Z",
-      keyActivity: {}
+      keyActivity: {},
+      operatingEnvironment: ""
     }
   ];
   let wrapper;

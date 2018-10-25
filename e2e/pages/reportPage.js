@@ -39,6 +39,12 @@ export class ReportSection {
         type: "textarea"
       }
     },
+    operatingEnvironment: {
+      progress: {
+        selector: "operating-environment-input",
+        type: "textarea"
+      }
+    },
     keyActivities: {
       name: {
         selector: "report-activity-name-input",

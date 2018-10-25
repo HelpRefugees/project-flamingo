@@ -36,6 +36,7 @@ context("My Reports Page", () => {
     it("opens and saves an editable report", () => {
       const newReport = {
         overview: randomAlphaText(16),
+        operatingEnvironment: randomAlphaText(16),
         keyActivity: {
           activityName: randomAlphaText(16),
           numberOfParticipants: randomNumericText(16),
@@ -60,6 +61,26 @@ context("My Reports Page", () => {
         grantProgessSection.saveButton.should("not.have.attr", "disabled");
         grantProgessSection.saveButton.click();
       });
+
+      reportPage.getSection(
+        "operating-environment",
+        operatingEnvironmentSection => {
+          operatingEnvironmentSection.title.should(
+            "contain.text",
+            "Operating environment"
+          );
+          operatingEnvironmentSection.saveButton.should("attr", "disabled");
+          operatingEnvironmentSection.setContentField(
+            ReportSection.sections.operatingEnvironment.progress,
+            newReport.operatingEnvironment
+          );
+          operatingEnvironmentSection.saveButton.should(
+            "not.have.attr",
+            "disabled"
+          );
+          operatingEnvironmentSection.saveButton.click();
+        }
+      );
 
       reportPage.getSection("key-activities", keyActivitiesSection => {
         keyActivitiesSection.title.should("contain.text", "Key Activities");
@@ -96,6 +117,17 @@ context("My Reports Page", () => {
           .getContentField(ReportSection.sections.grantProgress.progress)
           .should("contain.text", newReport.overview);
       });
+
+      reportPage.getSection(
+        "operating-environment",
+        operatingEnvironmentSection => {
+          operatingEnvironmentSection
+            .getContentField(
+              ReportSection.sections.operatingEnvironment.progress
+            )
+            .should("contain.text", newReport.operatingEnvironment);
+        }
+      );
 
       reportPage.getSection("key-activities", keyActivitiesSection => {
         keyActivitiesSection

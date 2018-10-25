@@ -19,7 +19,8 @@ describe("reports service", () => {
         overview: "",
         grant: "Grant Mitchell",
         owner: "user@flamingo.life",
-        keyActivity: {}
+        keyActivity: {},
+        operatingEnvironment: ""
       };
 
       const updatedReport = {
@@ -33,7 +34,8 @@ describe("reports service", () => {
           numberOfParticipants: "numberOfParticipants",
           demographicInfo: "demographicInfo",
           impactOutcome: "impactOutcome"
-        }
+        },
+        operatingEnvironment: "changes in the operating environment"
       };
 
       const changes = [
@@ -42,6 +44,11 @@ describe("reports service", () => {
           op: "replace",
           path: "/keyActivity",
           value: updatedReport.keyActivity
+        },
+        {
+          op: "replace",
+          path: "/operatingEnvironment",
+          value: updatedReport.operatingEnvironment
         }
       ];
 

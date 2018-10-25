@@ -100,7 +100,12 @@ export const updateReportFailed = () => ({
 });
 
 export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
-  const changes = ["overview", "completed", "keyActivity"].map(field => ({
+  const changes = [
+    "overview",
+    "completed",
+    "keyActivity",
+    "operatingEnvironment"
+  ].map(field => ({
     op: "replace",
     path: `/${field}`,
     value: report[field]

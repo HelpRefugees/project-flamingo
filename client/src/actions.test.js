@@ -228,7 +228,8 @@ describe("actions", () => {
         overview: "everything is fine",
         completed: false,
         reportPeriod: "2018-10-01T00:00:00.000Z",
-        keyActivity: {}
+        keyActivity: {},
+        operatingEnvironment: ""
       };
       expect(actions.updateReportSuccessful(report)).toEqual({
         type: "SAVE_REPORT_SUCCESS",
@@ -242,14 +243,15 @@ describe("actions", () => {
       });
     });
 
-    describe("updateReport", () => {
+    describe("update report", () => {
       const report: Report = {
         id: 123,
         grant: "Grant title",
         overview: "My report overview",
         completed: false,
         reportPeriod: "2018-10-01T00:00:00.000Z",
-        keyActivity: {}
+        keyActivity: {},
+        operatingEnvironment: "Changes in operating environment"
       };
 
       beforeEach(() => {
@@ -279,7 +281,12 @@ describe("actions", () => {
         expect(JSON.parse(options.body)).toEqual([
           { op: "replace", path: "/overview", value: report.overview },
           { op: "replace", path: "/completed", value: report.completed },
-          { op: "replace", path: "/keyActivity", value: report.keyActivity }
+          { op: "replace", path: "/keyActivity", value: report.keyActivity },
+          {
+            op: "replace",
+            path: "/operatingEnvironment",
+            value: report.operatingEnvironment
+          }
         ]);
       });
 

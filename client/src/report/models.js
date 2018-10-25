@@ -7,6 +7,7 @@ export type Report = {
     demographicInfo?: string,
     impactOutcome?: string
   },
+  operatingEnvironment: string,
   grant: string,
   completed: boolean,
   reportPeriod: string,

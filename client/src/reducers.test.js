@@ -41,7 +41,8 @@ describe("reducers", () => {
         completed: false,
         id: 1,
         reportPeriod: "2018-10-01T00:00:00.000Z",
-        keyActivity: {}
+        keyActivity: {},
+        operatingEnvironment: ""
       }
     ];
     const startingState: State = {
@@ -109,7 +110,8 @@ describe("reducers", () => {
       overview: "before",
       completed: false,
       reportPeriod: "2018-10-01T00:00:00.000Z",
-      keyActivity: {}
+      keyActivity: {},
+      operatingEnvironment: ""
     };
     const reportAfterEditing: Report = {
       ...reportToBeEdited,
@@ -121,7 +123,8 @@ describe("reducers", () => {
       overview: "who cares?",
       completed: true,
       reportPeriod: "2018-10-01T00:00:00.000Z",
-      keyActivity: {}
+      keyActivity: {},
+      operatingEnvironment: ""
     };
     const startingState: State = {
       ...initialState,

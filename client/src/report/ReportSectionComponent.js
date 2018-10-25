@@ -7,7 +7,8 @@ type Props = {
   subtitle: string,
   onSave: () => void,
   disabled: boolean,
-  children?: ?any
+  children?: ?any,
+  optional: boolean
 };
 
 const styles = themes => ({
@@ -16,6 +17,13 @@ const styles = themes => ({
     margin: 0,
     fontWeight: "normal",
     fontFamily: "open Sans"
+  },
+  optionalSubtitleText: {
+    fontSize: "14px",
+    color: "#7f7f7f",
+    fontFamily: "open Sans",
+    marginBottom: 0,
+    marginLeft: "5px"
   },
   subtitleText: {
     fontSize: "14px",
@@ -45,18 +53,29 @@ class ReportSectionComponent extends Component<Props> {
       onSave,
       disabled,
       children,
+      optional,
       ...others
     } = this.props;
     return (
       <Paper justify="center" className={classes.pagePaper} {...others}>
         <Grid container direction="column" spacing={32}>
           <Grid item>
-            <h1
-              data-test-id="section-title"
-              className={[classes.fontFamily, classes.headerText].join(" ")}
-            >
-              {title}
-            </h1>
+            <Grid container justify="flex-start" alignItems="center">
+              <h1
+                data-test-id="section-title"
+                className={[classes.fontFamily, classes.headerText].join(" ")}
+              >
+                {title}
+              </h1>
+              {optional && (
+                <h2
+                  data-test-id="optional-title"
+                  className={classes.optionalSubtitleText}
+                >
+                  - Optional
+                </h2>
+              )}
+            </Grid>
             <h2
               className={classes.subtitleText}
               data-test-id="section-subtitle"

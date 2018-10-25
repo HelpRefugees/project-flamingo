@@ -20,6 +20,7 @@ describe("ReportSectionComponent", () => {
       <ReportSectionComponent
         title={section.title}
         subtitle={section.subtitle}
+        optional={true}
         onSave={onSave}
       >
         <TestComponent />
@@ -36,6 +37,12 @@ describe("ReportSectionComponent", () => {
   it("renders the subtitle", () => {
     expect(wrapper.find('[data-test-id="section-subtitle"]').text()).toEqual(
       section.subtitle
+    );
+  });
+
+  it("renders the optinal text if optional is set to true", () => {
+    expect(wrapper.find('[data-test-id="optional-title"]').text()).toEqual(
+      "- Optional"
     );
   });
 

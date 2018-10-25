@@ -64,7 +64,8 @@ type State = {
     numberOfParticipants?: string,
     demographicInfo?: string,
     impactOutcome?: string
-  }
+  },
+  operatingEnvironment?: string
 };
 
 export class ReportComponent extends Component<Props, State> {
@@ -111,7 +112,7 @@ export class ReportComponent extends Component<Props, State> {
 
   isSubmitDisabled() {
     const { isLoading } = this.props;
-    const validate = ({ overview }) => ({ overview });
+    const requiredFields = ({ overview }) => ({ overview });
     const allBlank = object =>
       Object.entries(object).every(([key, value]) => {
         if (typeof value === "object") {
@@ -119,7 +120,8 @@ export class ReportComponent extends Component<Props, State> {
         }
         return value === "" || value === undefined;
       });
-    return isLoading || allBlank(validate(this.state));
+
+    return isLoading || allBlank(requiredFields(this.state));
   }
 
   renderToolbar = (classes: any, report: Report, isLoading: boolean) => {
@@ -171,10 +173,21 @@ export class ReportComponent extends Component<Props, State> {
     };
   }
 
-  renderOverviewSection({ key, stateProperty, title, subtitle }: any) {
+  renderTextareaSection({
+    key,
+    stateProperty,
+    title,
+    subtitle,
+    inputKey,
+    placeholder,
+    optional
+  }: any) {
     const report = this.report;
     const { isLoading } = this.props;
-    const isDisabled = isLoading || this.state.overview === report.overview;
+    const isDisabled
+      = isLoading
+      || isLoading
+      || this.state[stateProperty] === report[stateProperty];
     return (
       <ReportSectionComponent
         data-test-id={key}
@@ -182,12 +195,13 @@ export class ReportComponent extends Component<Props, State> {
         subtitle={subtitle}
         disabled={isDisabled}
         onSave={() => this.saveReport()}
+        optional={optional}
       >
         <OutlinedInput
-          data-test-id="report-progress-input"
+          data-test-id={inputKey}
           fullWidth={true}
           id="component-outlined"
-          placeholder="Please add an overview"
+          placeholder={placeholder}
           value={this.state[stateProperty]}
           multiline
           rows={10}
@@ -290,7 +304,21 @@ export class ReportComponent extends Component<Props, State> {
       stateProperty: "overview",
       title: "Grant progress",
       subtitle:
-        "Please give a very brief overview of your project and progress since the last report."
+        "Please give a very brief overview of your project and progress since the last report.",
+      inputKey: "report-progress-input",
+      placeholder: "Please add an overview",
+      optional: false
+    };
+
+    const operatingEnvironment = {
+      key: "operating-environment",
+      stateProperty: "operatingEnvironment",
+      title: "Operating environment",
+      subtitle:
+        "Outline any notable changes you have experienced to the context in which you work.",
+      inputKey: "operating-environment-input",
+      placeholder: "Please add an overview",
+      optional: true
     };
 
     return (
@@ -305,7 +333,8 @@ export class ReportComponent extends Component<Props, State> {
         >
           <Grid container justify="center">
             <Grid item xs={6}>
-              {this.renderOverviewSection(grantProgress)}
+              {this.renderTextareaSection(grantProgress)}
+              {this.renderTextareaSection(operatingEnvironment)}
               {this.renderKeyActivitiesSection()}
             </Grid>
           </Grid>

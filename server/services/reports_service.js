@@ -1,9 +1,8 @@
-const protectedFields = [
-  "/grant",
-  "/id",
-  "/owner",
-  "/reportPeriod",
-  "/submissionDate"
+const editableFields = [
+  "/overview",
+  "/operatingEnvironment",
+  "/keyActivity",
+  "/completed"
 ];
 
 const replace = (object, path, value) => {
@@ -15,7 +14,7 @@ const replace = (object, path, value) => {
 
 exports.updateReport = (report, changes) => {
   for (const { op, path, value } of changes) {
-    if (protectedFields.indexOf(path) !== -1) {
+    if (editableFields.indexOf(path) === -1) {
       throw new Error(`cannot edit ${path}`);
     }
 
