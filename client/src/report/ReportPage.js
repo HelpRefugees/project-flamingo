@@ -6,10 +6,11 @@ import { logout, updateReport } from "../actions";
 import type { State } from "../reducers";
 import type { Report } from "./models";
 
-const mapStateToProps = (state: State): any => ({
+const mapStateToProps = (state: State): $Shape<State> => ({
   isAuthenticated: state.isAuthenticated,
   reports: state.reports,
-  account: state.account
+  account: state.account,
+  submittedReport: state.submittedReport
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({

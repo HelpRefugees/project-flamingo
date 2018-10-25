@@ -24,7 +24,8 @@ type Props = {
   reports: Report[],
   history: any,
   account: Account,
-  isLoading: boolean
+  isLoading: boolean,
+  submittedReport: boolean
 };
 
 const styles = themes => ({
@@ -74,6 +75,12 @@ export class ReportComponent extends Component<Props, State> {
     };
   }
 
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.submittedReport) {
+      this.props.history.push("/myReports");
+    }
+  }
+
   get report(): Report {
     // TODO it's not very efficient to keep calling this
     return (this.props.reports.find(
@@ -94,7 +101,6 @@ export class ReportComponent extends Component<Props, State> {
       ...this.state,
       completed: true
     });
-    this.props.history.push("/myReports");
   };
 
   changeReportProgress = (event: Event) => {

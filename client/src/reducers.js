@@ -6,7 +6,8 @@ export type State = {
   reports: ?(Report[]),
   savedReport: ?boolean,
   account: ?Account,
-  isLoading: boolean
+  isLoading: boolean,
+  submittedReport: boolean
 };
 
 export const initialState: State = {
@@ -14,7 +15,8 @@ export const initialState: State = {
   reports: undefined,
   savedReport: undefined,
   account: undefined,
-  isLoading: false
+  isLoading: false,
+  submittedReport: false
 };
 
 type Action = {
@@ -55,14 +57,22 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
-    case "SAVE_REPORT_SUCCESS": {
-      const editedReport: Report = (action.payload: any);
+    case "SAVE_REPORT_START": {
       return {
         ...state,
+        submittedReport: false
+      };
+    }
+
+    case "SAVE_REPORT_SUCCESS": {
+      const updatedReport: Report = (action.payload: any);
+      return {
+        ...state,
+        submittedReport: updatedReport.completed,
         savedReport: true,
         reports: (state.reports || []).map(report => {
-          if (report.id === editedReport.id) {
-            return editedReport;
+          if (report.id === updatedReport.id) {
+            return updatedReport;
           }
           return report;
         })

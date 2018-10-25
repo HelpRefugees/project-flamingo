@@ -89,6 +89,19 @@ describe("reducers", () => {
     expect(newState.account).toBeUndefined();
   });
 
+  it("should handle SAVE_REPORT_START", () => {
+    const startingState: State = {
+      ...initialState,
+      submittedReport: true
+    };
+
+    const finishingState = reducers(startingState, {
+      type: "SAVE_REPORT_START"
+    });
+
+    expect(finishingState.submittedReport).toBe(false);
+  });
+
   it("should handle SAVE_REPORT_SUCCESS", () => {
     const reportToBeEdited: Report = {
       id: 123,
@@ -128,6 +141,25 @@ describe("reducers", () => {
     expect(
       newReports.find(report => report.id === reportNotToBeEdited.id)
     ).toEqual(reportNotToBeEdited);
+  });
+
+  it("should handle SAVE_REPORT_SUCCESS for submitted report", () => {
+    const reportToBeSubmitted: $Shape<Report> = {
+      id: 1,
+      completed: false
+    };
+
+    const startingState: State = {
+      ...initialState,
+      reports: [reportToBeSubmitted]
+    };
+
+    const finishingState = reducers(startingState, {
+      type: "SAVE_REPORT_SUCCESS",
+      payload: { ...reportToBeSubmitted, completed: true }
+    });
+
+    expect(finishingState.submittedReport).toBe(true);
   });
 
   it("should handle SAVE_REPORT_FAILURE", () => {

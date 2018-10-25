@@ -56,6 +56,12 @@ describe("actions", () => {
     it("requestFinished should create SET_NOT_LOADING action", () => {
       expect(actions.requestFinished()).toEqual({ type: "SET_NOT_LOADING" });
     });
+
+    it("updateReportStarted should create SAVE_REPORT_START action", () => {
+      expect(actions.updateReportStarted()).toEqual({
+        type: "SAVE_REPORT_START"
+      });
+    });
   });
 
   describe("loadReports", () => {
@@ -234,6 +240,16 @@ describe("actions", () => {
 
       beforeEach(() => {
         action = actions.updateReport(report);
+      });
+
+      it("dispatches updateReportStarted action", () => {
+        fetch.mockResponseOnce("{}");
+
+        action(mockDispatch);
+
+        expect(mockDispatch).toHaveBeenCalledWith(
+          actions.updateReportStarted()
+        );
       });
 
       it("makes a request to the backend with report progress status", () => {

@@ -81,6 +81,10 @@ export const loadReports = () => (dispatch: Dispatch<any>) => {
   );
 };
 
+export const updateReportStarted = () => ({
+  type: "SAVE_REPORT_START"
+});
+
 export const updateReportSuccessful = (report: Report) => ({
   type: "SAVE_REPORT_SUCCESS",
   payload: report
@@ -96,6 +100,7 @@ export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
     path: `/${field}`,
     value: report[field]
   }));
+  dispatch(updateReportStarted());
 
   makeRequest(
     dispatch,

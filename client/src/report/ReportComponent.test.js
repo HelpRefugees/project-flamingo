@@ -55,6 +55,7 @@ describe("ReportComponent", () => {
         history={{ push: mockHistoryPush }}
         account={account}
         isLoading={false}
+        submittedReport={false}
       />
     );
   });
@@ -81,6 +82,12 @@ describe("ReportComponent", () => {
       expect(grantProgressSection.prop("subtitle")).toEqual(
         "Please give a very brief overview of your project and progress since the last report."
       );
+    });
+
+    it("redirects to myReports page when report submitted successfully", () => {
+      wrapper.setProps({ submittedReport: true });
+
+      expect(mockHistoryPush).toHaveBeenCalledWith("/myReports");
     });
 
     describe("save button", () => {
@@ -145,7 +152,7 @@ describe("ReportComponent", () => {
   });
 
   describe("submit", () => {
-    it("calls update report action with the correct arguments and redirects to home on click", () => {
+    it("calls update report action with the correct arguments on click", () => {
       const overview = "text for report progress";
       const updatedReport1 = {
         ...report1,
@@ -160,7 +167,6 @@ describe("ReportComponent", () => {
       wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
       expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
-      expect(mockHistoryPush).toHaveBeenCalledWith("/myReports");
     });
 
     it("is disabled during loading", () => {
