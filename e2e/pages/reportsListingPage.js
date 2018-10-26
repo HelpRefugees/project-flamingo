@@ -16,6 +16,19 @@ export default class ReportsListingPage extends BasePage {
     cy.get(testId("report-grant")).should("contains.text", data.grantName);
   }
 
+  filterBy(name) {
+    cy.get(testId("grant-name-filter")).within(() => {
+      cy.get("input").type(`${name}{enter}`, { force: true });
+    });
+  }
+
+  clearFilter() {
+    cy.get(testId("grant-name-filter")).within(() => {
+      cy.get("svg")
+        .first()
+        .click();
+    });
+  }
   get noReportsTitle() {
     return cy.get(testId("no-reports-title"));
   }

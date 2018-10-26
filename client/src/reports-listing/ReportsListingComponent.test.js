@@ -56,7 +56,7 @@ describe("ReportsListingComponent", () => {
     });
   });
 
-  describe("with reports", () => {
+  describe("with one report", () => {
     const reports = [
       {
         id: 1,
@@ -123,6 +123,98 @@ describe("ReportsListingComponent", () => {
         .first()
         .simulate("click");
       expect(mockHistoryPush).toHaveBeenCalledWith("/submittedReports/1");
+    });
+
+    it("passes the grant name to the filter control", () => {
+      expect(
+        wrapper
+          .find('[data-test-id="grant-name-filter"]')
+          .children()
+          .first()
+          .props().options
+      ).toEqual([{ value: "Grant Mitchell", label: "Grant Mitchell" }]);
+    });
+  });
+
+  describe("with many reports from different grants", () => {
+    const reports = [
+      {
+        id: 3,
+        completed: true,
+        overview: "Hugh Overview completed",
+        grant: "Hugh Grant",
+        reportPeriod: "2018-11-01T00:00:00.000Z",
+        submissionDate: "2018-10-15T03:24:00.000Z",
+        keyActivity: {},
+        operatingEnvironment: ""
+      },
+      {
+        id: 1,
+        completed: true,
+        overview: "Mitchell Overview completed",
+        grant: "Grant Mitchell",
+        reportPeriod: "2018-10-01T00:00:00.000Z",
+        submissionDate: "2018-09-15T03:24:00.000Z",
+        keyActivity: {},
+        operatingEnvironment: ""
+      },
+      {
+        id: 2,
+        completed: true,
+        overview: "Mitchell Overview completed",
+        grant: "Grant Mitchell",
+        reportPeriod: "2018-11-01T00:00:00.000Z",
+        submissionDate: "2018-10-15T03:24:00.000Z",
+        keyActivity: {},
+        operatingEnvironment: ""
+      }
+    ];
+
+    let mockHistoryPush;
+
+    beforeEach(() => {
+      mockHistoryPush = jest.fn();
+
+      wrapper = shallow(
+        <ReportsListingComponent
+          classes={{}}
+          account={undefined}
+          logout={() => {}}
+          reports={reports}
+          loadReports={() => {}}
+          history={{ push: mockHistoryPush }}
+        />
+      );
+    });
+
+    it("passes the unique grant name list sorted alphabetically to filter control", () => {
+      expect(
+        wrapper
+          .find('[data-test-id="grant-name-filter"]')
+          .children()
+          .first()
+          .props().options
+      ).toEqual([
+        { value: "Grant Mitchell", label: "Grant Mitchell" },
+        { value: "Hugh Grant", label: "Hugh Grant" }
+      ]);
+    });
+
+    it("shows only the filtered reports when selecting a grant name", () => {
+      wrapper
+        .find('[data-test-id="grant-name-filter"]')
+        .children()
+        .first()
+        .simulate("change", {
+          label: "Grant Mitchell",
+          value: "Grant Mitchell"
+        });
+
+      expect(
+        wrapper.find(
+          '[data-test-id="submitted-reports"] [data-test-id="report"]'
+        )
+      ).toHaveLength(2);
     });
   });
 });

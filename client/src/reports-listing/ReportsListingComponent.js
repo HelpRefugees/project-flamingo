@@ -11,6 +11,8 @@ import {
   withStyles
 } from "@material-ui/core";
 import moment from "moment";
+// $FlowIgnore: react-select types don't seem to work
+import Select from "react-select";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 
@@ -68,9 +70,45 @@ const CustomTableCell = withStyles(theme => ({
   }
 }))(TableCell);
 
-export class ReportsListingComponent extends Component<Props> {
+export class ReportsListingComponent extends Component<
+  Props,
+  { filter?: string }
+> {
+  constructor() {
+    super();
+    this.state = {
+      filter: undefined
+    };
+  }
   componentWillMount() {
     this.props.loadReports();
+  }
+
+  getFilteredReports(reports: Report[]): Report[] {
+    return this.state.filter
+      ? reports.filter((report: Report) => report.grant === this.state.filter)
+      : reports;
+  }
+  getFilterOptions(): any[] {
+    const uniqueGrantNames = [];
+    (this.props.reports || []).forEach(({ grant }) => {
+      if (uniqueGrantNames.indexOf(grant) === -1) {
+        uniqueGrantNames.push(grant);
+      }
+    });
+    return uniqueGrantNames
+      .sort()
+      .map(grant => ({ value: grant, label: grant }));
+  }
+
+  updateFilter = (selection: { label: string, value: string }) => {
+    this.setState({
+      filter: selection ? selection.value : undefined
+    });
+  };
+
+  redirectToSubmittedReportPage(reportId: number) {
+    this.props.history.push(`/submittedReports/${reportId}`);
   }
 
   noReportsMessage(classes: any) {
@@ -90,13 +128,17 @@ export class ReportsListingComponent extends Component<Props> {
     );
   }
 
-  redirectToSubmittedReportPage(reportId: number) {
-    this.props.history.push(`/submittedReports/${reportId}`);
-  }
-
   reportsTable(classes: any, reports: Report[]) {
     return (
       <Paper className={classes.tablePaper}>
+        <div data-test-id="grant-name-filter">
+          <Select
+            options={this.getFilterOptions()}
+            onChange={this.updateFilter}
+            isClearable
+            placeholder="Filter grant name"
+          />
+        </div>
         <Table data-test-id="submitted-reports">
           <TableHead className={classes.tableHead}>
             <CustomTableHeaderRow>
@@ -149,7 +191,7 @@ export class ReportsListingComponent extends Component<Props> {
 
     const pageContent
       = reports && reports.length > 0
-        ? this.reportsTable(classes, reports)
+        ? this.reportsTable(classes, this.getFilteredReports(reports))
         : this.noReportsMessage(classes);
 
     return (

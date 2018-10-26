@@ -99,6 +99,25 @@ context("Reports Listing Page", () => {
         );
       });
     });
+
+    context("Multiple completed reports", () => {
+      beforeEach(() => {
+        cy.seed("multiple-completed-reports.json"); // TODO from different grants
+        cy.login("daisy@hr.org", "chooselove");
+      });
+
+      it("allows filtering by grant", () => {
+        reportsListingPage.getReports().should("have.length", 2);
+
+        reportsListingPage.filterBy("mitch");
+
+        reportsListingPage.getReports().should("have.length", 1);
+
+        reportsListingPage.clearFilter();
+
+        reportsListingPage.getReports().should("have.length", 2);
+      });
+    });
   });
 
   context("Ellen is logged in", () => {
