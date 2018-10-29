@@ -1,7 +1,9 @@
 {
-  "flow.useNPMPackagedFlow": true,
+  "editor.formatOnSave": true,
+  "flow.pathToFlow": "${workspaceRoot}/client/node_modules/.bin/flow",
   "flow.runOnAllFiles": true,
+  "flow.useNPMPackagedFlow": true,
   "javascript.validate.enable": false,
   "prettier.eslintIntegration": true,
-  "flow.pathToFlow": "${workspaceRoot}/client/node_modules/.bin/flow"
+  "prettier.proseWrap": "always"
 }
