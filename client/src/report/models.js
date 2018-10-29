@@ -9,6 +9,7 @@ export type Report = {
   },
   operatingEnvironment: string,
   beneficiaryFeedback: string,
+  challengesFaced: string,
   grant: string,
   completed: boolean,
   reportPeriod: string,

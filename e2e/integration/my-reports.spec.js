@@ -41,7 +41,8 @@ context("My Reports Page", () => {
           demographicInfo: randomAlphaText(16),
           impactOutcome: randomAlphaText(16)
         },
-        beneficiaryFeedback: randomAlphaText(16)
+        beneficiaryFeedback: randomAlphaText(16),
+        challengesFaced: randomAlphaText(16)
       };
 
       myReportsPage.getFirstReport("incomplete").click();
@@ -104,6 +105,13 @@ context("My Reports Page", () => {
         value: newReport.beneficiaryFeedback
       });
 
+      completeAndSaveSection({
+        key: "challenges-faced",
+        title: "Challenges faced",
+        selector: ReportSection.sections.challengesFaced.challenges,
+        value: newReport.challengesFaced
+      });
+
       myReportsPage.goToHomePage();
       myReportsPage.getFirstReport("incomplete").click();
 
@@ -111,33 +119,23 @@ context("My Reports Page", () => {
       reportPage.isAt();
       reportPage.grantName.should("contain.text", "Grant Mitchell");
 
-      reportPage.getSection("grant-progress", grantProgessSection => {
-        grantProgessSection
-          .getContentField(ReportSection.sections.grantProgress.progress)
-          .should("contain.text", newReport.overview);
+      const assertReportSectionInputValue = ({ name, selector, value }) => {
+        reportPage.getSection(name, section => {
+          section.getContentField(selector).should("contain.text", value);
+        });
+      };
+
+      assertReportSectionInputValue({
+        name: "grant-progress",
+        selector: ReportSection.sections.grantProgress.progress,
+        value: newReport.overview
       });
 
-      reportPage.getSection(
-        "operating-environment",
-        operatingEnvironmentSection => {
-          operatingEnvironmentSection
-            .getContentField(
-              ReportSection.sections.operatingEnvironment.progress
-            )
-            .should("contain.text", newReport.operatingEnvironment);
-        }
-      );
-
-      reportPage.getSection(
-        "beneficiary-feedback",
-        beneficiaryFeedbackSection => {
-          beneficiaryFeedbackSection
-            .getContentField(
-              ReportSection.sections.beneficiaryFeedback.feedback
-            )
-            .should("contain.text", newReport.beneficiaryFeedback);
-        }
-      );
+      assertReportSectionInputValue({
+        name: "operating-environment",
+        selector: ReportSection.sections.operatingEnvironment.progress,
+        value: newReport.operatingEnvironment
+      });
 
       reportPage.getSection("key-activities", keyActivitiesSection => {
         keyActivitiesSection
@@ -155,6 +153,18 @@ context("My Reports Page", () => {
           .getContentField(ReportSection.sections.keyActivities.impactOutcome)
           .should("contain.text", newReport.keyActivity.impactOutcome);
         keyActivitiesSection.saveButton.should("have.attr", "disabled");
+      });
+
+      assertReportSectionInputValue({
+        name: "beneficiary-feedback",
+        selector: ReportSection.sections.beneficiaryFeedback.feedback,
+        value: newReport.beneficiaryFeedback
+      });
+
+      assertReportSectionInputValue({
+        name: "challenges-faced",
+        selector: ReportSection.sections.challengesFaced.challenges,
+        value: newReport.challengesFaced
       });
     });
 

@@ -68,7 +68,8 @@ describe("ReportsListingComponent", () => {
         submissionDate: "2018-09-15T03:24:00.000Z",
         keyActivity: {},
         operatingEnvironment: "",
-        beneficiaryFeedback: ""
+        beneficiaryFeedback: "",
+        challengesFaced: ""
       }
     ];
 
@@ -149,7 +150,8 @@ describe("ReportsListingComponent", () => {
         submissionDate: "2018-10-15T03:24:00.000Z",
         keyActivity: {},
         operatingEnvironment: "",
-        beneficiaryFeedback: ""
+        beneficiaryFeedback: "",
+        challengesFaced: ""
       },
       {
         id: 1,
@@ -160,7 +162,8 @@ describe("ReportsListingComponent", () => {
         submissionDate: "2018-09-15T03:24:00.000Z",
         keyActivity: {},
         operatingEnvironment: "",
-        beneficiaryFeedback: ""
+        beneficiaryFeedback: "",
+        challengesFaced: ""
       },
       {
         id: 2,
@@ -171,7 +174,8 @@ describe("ReportsListingComponent", () => {
         submissionDate: "2018-10-15T03:24:00.000Z",
         keyActivity: {},
         operatingEnvironment: "",
-        beneficiaryFeedback: ""
+        beneficiaryFeedback: "",
+        challengesFaced: ""
       }
     ];
 

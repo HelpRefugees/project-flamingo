@@ -38,7 +38,8 @@ describe("MyReportsComponent", () => {
       reportPeriod: "2018-10-01T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      challengesFaced: ""
     };
     const incompleteReport: $Shape<Report> = {
       id: 2,
@@ -48,7 +49,8 @@ describe("MyReportsComponent", () => {
       reportPeriod: "2018-10-01T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      challengesFaced: ""
     };
     let reports: Report[] = [completedReport, incompleteReport];
 

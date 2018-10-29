@@ -68,6 +68,12 @@ export class ReportSection {
         selector: "beneficiary-feedback-input",
         type: "textarea"
       }
+    },
+    challengesFaced: {
+      challenges: {
+        selector: "challenges-faced-input",
+        type: "textarea"
+      }
     }
   };
 

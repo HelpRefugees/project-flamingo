@@ -25,7 +25,8 @@ describe("ReportComponent", () => {
       impactOutcome: "impactOutcome"
     },
     operatingEnvironment: "",
-    beneficiaryFeedback: ""
+    beneficiaryFeedback: "",
+    challengesFaced: ""
   };
   const report2: $Shape<Report> = {
     id: 2,
@@ -35,7 +36,8 @@ describe("ReportComponent", () => {
     reportPeriod: "2018-10-01T00:00:00.000Z",
     keyActivity: {},
     operatingEnvironment: "",
-    beneficiaryFeedback: ""
+    beneficiaryFeedback: "",
+    challengesFaced: ""
   };
   let reports: $Shape<Report>[] = [report1, report2];
   const account: Account = {
@@ -197,176 +199,6 @@ describe("ReportComponent", () => {
     });
   });
 
-  describe("beneficiary feedback", () => {
-    let beneficiaryFeedbackSection;
-
-    const updateSection = () => {
-      beneficiaryFeedbackSection = wrapper.find(ReportSectionComponent).at(3);
-    };
-
-    beforeEach(() => {
-      updateSection();
-    });
-
-    it("renders the section", () => {
-      expect(beneficiaryFeedbackSection.exists()).toEqual(true);
-      expect(beneficiaryFeedbackSection.prop("title")).toEqual(
-        "Beneficiary Feedback"
-      );
-      expect(beneficiaryFeedbackSection.prop("subtitle")).toEqual(
-        "Have you had any feedback from beneficiaries about the service/activities you offer?"
-      );
-      expect(beneficiaryFeedbackSection.prop("optional")).toEqual(true);
-    });
-
-    describe("save button", () => {
-      it("is disabled when the beneficiary feedback is unchanged", () => {
-        expect(beneficiaryFeedbackSection.prop("disabled")).toBe(true);
-      });
-
-      it("disables during loading", () => {
-        beneficiaryFeedbackSection
-          .find('[data-test-id="beneficiary-feedback-input"]')
-          .simulate("change", { target: { value: "Hello there" } });
-
-        updateSection();
-
-        expect(beneficiaryFeedbackSection.prop("disabled")).toBe(false);
-
-        wrapper.setProps({ isLoading: true });
-
-        updateSection();
-
-        expect(beneficiaryFeedbackSection.prop("disabled")).toBe(true);
-      });
-
-      it("is enabled when the beneficiary feedback is changed", () => {
-        beneficiaryFeedbackSection
-          .find('[data-test-id="beneficiary-feedback-input"]')
-          .simulate("change", { target: { value: "Hello there" } });
-
-        updateSection();
-
-        expect(beneficiaryFeedbackSection.prop("disabled")).toBe(false);
-      });
-    });
-
-    it("updates the displayed text when the beneficiary feedback is changed", () => {
-      const newOverview = "is this thing on?";
-      wrapper
-        .find('[data-test-id="beneficiary-feedback-input"]')
-        .simulate("change", { target: { value: newOverview } });
-
-      expect(
-        wrapper
-          .find('[data-test-id="beneficiary-feedback-input"]')
-          .prop("value")
-      ).toBe(newOverview);
-    });
-
-    it("calls update report action with the correct arguments when clicking the save button", () => {
-      const beneficiaryFeedback = "text for beneficiary feedback";
-      const updatedReport1 = {
-        ...report1,
-        beneficiaryFeedback
-      };
-
-      wrapper
-        .find('[data-test-id="beneficiary-feedback-input"]')
-        .simulate("change", { target: { value: beneficiaryFeedback } });
-
-      const onSave = beneficiaryFeedbackSection.prop("onSave");
-      onSave();
-
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
-    });
-  });
-
-  describe("operating environment", () => {
-    let operatingEnvironmentSection;
-
-    const updateSection = () => {
-      operatingEnvironmentSection = wrapper.find(ReportSectionComponent).at(1);
-    };
-
-    beforeEach(() => {
-      updateSection();
-    });
-
-    it("renders the section", () => {
-      expect(operatingEnvironmentSection.exists()).toEqual(true);
-      expect(operatingEnvironmentSection.prop("title")).toEqual(
-        "Operating environment"
-      );
-      expect(operatingEnvironmentSection.prop("subtitle")).toEqual(
-        "Outline any notable changes you have experienced to the context in which you work."
-      );
-      expect(operatingEnvironmentSection.prop("optional")).toEqual(true);
-    });
-
-    describe("save button", () => {
-      it("is disabled when the operating environment is unchanged", () => {
-        expect(operatingEnvironmentSection.prop("disabled")).toBe(true);
-      });
-
-      it("disables during loading", () => {
-        operatingEnvironmentSection
-          .find('[data-test-id="operating-environment-input"]')
-          .simulate("change", { target: { value: "Hello there" } });
-
-        updateSection();
-
-        expect(operatingEnvironmentSection.prop("disabled")).toBe(false);
-
-        wrapper.setProps({ isLoading: true });
-
-        updateSection();
-
-        expect(operatingEnvironmentSection.prop("disabled")).toBe(true);
-      });
-
-      it("is enabled when the operating environment is changed", () => {
-        operatingEnvironmentSection
-          .find('[data-test-id="operating-environment-input"]')
-          .simulate("change", { target: { value: "Hello there" } });
-
-        updateSection();
-
-        expect(operatingEnvironmentSection.prop("disabled")).toBe(false);
-      });
-    });
-
-    it("updates the displayed text when the operating environment is changed", () => {
-      const newOverview = "is this thing on?";
-      wrapper
-        .find('[data-test-id="operating-environment-input"]')
-        .simulate("change", { target: { value: newOverview } });
-
-      expect(
-        wrapper
-          .find('[data-test-id="operating-environment-input"]')
-          .prop("value")
-      ).toBe(newOverview);
-    });
-
-    it("calls update report action with the correct arguments when clicking the save button", () => {
-      const operatingEnvironment = "text for operating environment";
-      const updatedReport1 = {
-        ...report1,
-        operatingEnvironment
-      };
-
-      wrapper
-        .find('[data-test-id="operating-environment-input"]')
-        .simulate("change", { target: { value: operatingEnvironment } });
-
-      const onSave = operatingEnvironmentSection.prop("onSave");
-      onSave();
-
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
-    });
-  });
-
   describe("key activites", () => {
     let keyActivitiesSection;
 
@@ -453,6 +285,130 @@ describe("ReportComponent", () => {
       expect(
         wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
       ).toBe(true);
+    });
+  });
+
+  const itIsATextareaSection = ({
+    sectionIndex,
+    title,
+    subtitle,
+    optional,
+    inputSelector,
+    reportProperty
+  }) => {
+    let section;
+
+    const updateSection = () => {
+      section = wrapper.find(ReportSectionComponent).at(sectionIndex);
+    };
+
+    beforeEach(() => {
+      updateSection();
+    });
+
+    it("renders the section", () => {
+      expect(section.exists()).toEqual(true);
+      expect(section.prop("title")).toEqual(title);
+      expect(section.prop("subtitle")).toEqual(subtitle);
+      expect(section.prop("optional")).toEqual(optional);
+    });
+
+    describe("save button", () => {
+      it("is disabled when the operating environment is unchanged", () => {
+        expect(section.prop("disabled")).toBe(true);
+      });
+
+      it("disables during loading", () => {
+        section
+          .find(`[data-test-id="${inputSelector}"]`)
+          .simulate("change", { target: { value: "Hello there" } });
+
+        updateSection();
+
+        expect(section.prop("disabled")).toBe(false);
+
+        wrapper.setProps({ isLoading: true });
+
+        updateSection();
+
+        expect(section.prop("disabled")).toBe(true);
+      });
+
+      it("is enabled when the operating environment is changed", () => {
+        section
+          .find(`[data-test-id="${inputSelector}"]`)
+          .simulate("change", { target: { value: "Hello there" } });
+
+        updateSection();
+
+        expect(section.prop("disabled")).toBe(false);
+      });
+    });
+
+    it("updates the displayed text when the operating environment is changed", () => {
+      const newValue = "is this thing on?";
+
+      wrapper
+        .find(`[data-test-id="${inputSelector}"]`)
+        .simulate("change", { target: { value: newValue } });
+
+      expect(
+        wrapper.find(`[data-test-id="${inputSelector}"]`).prop("value")
+      ).toBe(newValue);
+    });
+
+    it("calls update report action with the correct arguments when clicking the save button", () => {
+      const newValue = `new value for ${reportProperty}`;
+
+      const updatedReport1 = {
+        ...report1,
+        [reportProperty]: newValue
+      };
+
+      wrapper
+        .find(`[data-test-id="${inputSelector}"]`)
+        .simulate("change", { target: { value: newValue } });
+
+      const onSave = section.prop("onSave");
+      onSave();
+
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+    });
+  };
+
+  describe("operating environment", () => {
+    itIsATextareaSection({
+      sectionIndex: 1,
+      title: "Operating environment",
+      subtitle:
+        "Outline any notable changes you have experienced to the context in which you work.",
+      optional: true,
+      inputSelector: "operating-environment-input",
+      reportProperty: "operatingEnvironment"
+    });
+  });
+
+  describe("beneficiary feedback", () => {
+    itIsATextareaSection({
+      sectionIndex: 3,
+      title: "Beneficiary Feedback",
+      subtitle:
+        "Have you had any feedback from beneficiaries about the service/activities you offer?",
+      optional: true,
+      inputSelector: "beneficiary-feedback-input",
+      reportProperty: "beneficiaryFeedback"
+    });
+  });
+
+  describe("challenges faced", () => {
+    itIsATextareaSection({
+      sectionIndex: 4,
+      title: "Challenges faced",
+      subtitle:
+        "Please use this section to describe any other challenges you may have faced in the last month e.g. legal, financial etc...",
+      optional: true,
+      inputSelector: "challenges-faced-input",
+      reportProperty: "challengesFaced"
     });
   });
 });

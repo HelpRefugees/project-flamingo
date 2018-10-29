@@ -3,7 +3,8 @@ const editableFields = [
   "/operatingEnvironment",
   "/keyActivity",
   "/completed",
-  "/beneficiaryFeedback"
+  "/beneficiaryFeedback",
+  "/challengesFaced"
 ];
 
 const replace = (object, path, value) => {

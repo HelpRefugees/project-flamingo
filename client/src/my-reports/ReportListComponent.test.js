@@ -16,7 +16,8 @@ describe("ReportListComponent", () => {
       reportPeriod: "2018-10-01T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      challengesFaced: ""
     },
     {
       id: 2,
@@ -26,7 +27,8 @@ describe("ReportListComponent", () => {
       reportPeriod: "2018-10-01T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      challengesFaced: ""
     },
     {
       id: 3,
@@ -36,7 +38,8 @@ describe("ReportListComponent", () => {
       reportPeriod: "2018-10-01T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      challengesFaced: ""
     }
   ];
   let wrapper;

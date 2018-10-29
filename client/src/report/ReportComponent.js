@@ -342,6 +342,17 @@ export class ReportComponent extends Component<Props, State> {
       optional: true
     };
 
+    const challengesFaced = {
+      key: "challenges-faced",
+      stateProperty: "challengesFaced",
+      title: "Challenges faced",
+      subtitle:
+        "Please use this section to describe any other challenges you may have faced in the last month e.g. legal, financial etc...",
+      inputKey: "challenges-faced-input",
+      placeholder: "Please add an overview",
+      optional: true
+    };
+
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -358,6 +369,7 @@ export class ReportComponent extends Component<Props, State> {
               {this.renderTextareaSection(operatingEnvironment)}
               {this.renderKeyActivitiesSection()}
               {this.renderTextareaSection(beneficiaryFeedback)}
+              {this.renderTextareaSection(challengesFaced)}
             </Grid>
           </Grid>
         </Grid>

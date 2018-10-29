@@ -16,7 +16,8 @@ describe("ReportCardComponent", () => {
     dueDate: "2018-11-07T00:00:00.000Z",
     keyActivity: {},
     operatingEnvironment: "",
-    beneficiaryFeedback: ""
+    beneficiaryFeedback: "",
+    challengesFaced: ""
   };
 
   beforeEach(() => {
@@ -133,7 +134,8 @@ describe("ReportCardComponent", () => {
       dueDate: "2018-11-07T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      challengesFaced: ""
     };
 
     beforeEach(() => {
@@ -168,7 +170,8 @@ describe("ReportCardComponent", () => {
       dueDate: "2018-11-07T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      challengesFaced: ""
     };
 
     let mockUpdateReport;
@@ -205,7 +208,8 @@ describe("ReportCardComponent", () => {
         dueDate: "2018-11-07T00:00:00.000Z",
         keyActivity: {},
         operatingEnvironment: "",
-        beneficiaryFeedback: ""
+        beneficiaryFeedback: "",
+        challengesFaced: ""
       };
 
       wrapper.find('[data-test-id="report-unsubmit-button"]').simulate("click");
