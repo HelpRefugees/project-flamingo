@@ -21,6 +21,16 @@ const styles = themes => ({
   },
   notFullWidth: {
     width: "initial"
+  },
+  cardContent: {
+    // required to override :last-child rule on CardContent
+    paddingBottom: `${theme.spacing.unit * 2}px !important`
+  },
+  dueDateLabel: {
+    color: "#757c80"
+  },
+  dueDateOutlined: {
+    borderColor: "#757c80"
   }
 });
 
@@ -44,7 +54,7 @@ export class ReportCardComponent extends Component<Props> {
 
     return (
       <Card data-test-id="report">
-        <CardContent>
+        <CardContent className={classes.cardContent}>
           <Grid container justify="space-between">
             <Grid
               item
@@ -82,10 +92,13 @@ export class ReportCardComponent extends Component<Props> {
                   label={
                     report.completed && report.submissionDate
                       ? moment(report.submissionDate).format("DD/MM/YYYY")
-                      : "Incomplete"
+                      : moment(report.dueDate).format("DD/MM/YYYY")
                   }
+                  classes={{
+                    label: classes.dueDateLabel,
+                    outlined: classes.dueDateOutlined
+                  }}
                   variant="outlined"
-                  color="secondary"
                   data-test-id="report-status"
                 />
                 {report.completed && (

@@ -1,4 +1,10 @@
+const stringifyDate = date => new Date(date).toISOString();
+
 module.exports = {
   generateReportPeriod: date =>
-    new Date(Date.UTC(date.getFullYear(), date.getMonth())).toISOString()
+    stringifyDate(Date.UTC(date.getFullYear(), date.getMonth())),
+  generateDueDate: reportPeriod => {
+    const date = new Date(reportPeriod);
+    return stringifyDate(Date.UTC(date.getFullYear(), date.getMonth() + 1, 7));
+  }
 };

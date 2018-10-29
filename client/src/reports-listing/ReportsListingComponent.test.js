@@ -1,8 +1,9 @@
-import React from "react";
 import { mount, shallow } from "enzyme";
+import React from "react";
+import { MemoryRouter } from "react-router-dom";
 
 import { ReportsListingComponent } from "./ReportsListingComponent";
-import { MemoryRouter } from "react-router-dom";
+import type { Report } from "../report/models";
 
 describe("ReportsListingComponent", () => {
   let wrapper;
@@ -57,7 +58,7 @@ describe("ReportsListingComponent", () => {
   });
 
   describe("with one report", () => {
-    const reports = [
+    const reports: $Shape<Report>[] = [
       {
         id: 1,
         completed: true,
@@ -138,7 +139,7 @@ describe("ReportsListingComponent", () => {
   });
 
   describe("with many reports from different grants", () => {
-    const reports = [
+    const reports: $Shape<Report>[] = [
       {
         id: 3,
         completed: true,

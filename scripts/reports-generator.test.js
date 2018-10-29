@@ -1,4 +1,5 @@
 const reportsGenerator = require("./reports-generator");
+const { generateDueDate, generateReportPeriod } = require("./utils");
 
 const safeDrop = async collection => {
   try {
@@ -55,6 +56,7 @@ describe("Report generation script", () => {
           grant: "Grant Mitchell",
           completed: false,
           reportPeriod,
+          dueDate: generateDueDate(reportPeriod),
           owner: username,
           id: 1,
           keyActivity: {}
@@ -127,6 +129,7 @@ describe("Report generation script", () => {
           grant: "Grant Mitchell",
           completed: false,
           reportPeriod,
+          dueDate: generateDueDate(reportPeriod),
           owner: username,
           id: 13,
           keyActivity: {}
@@ -136,6 +139,7 @@ describe("Report generation script", () => {
           grant: "Hugh Grant",
           completed: false,
           reportPeriod,
+          dueDate: generateDueDate(reportPeriod),
           owner: "helen@ip.org",
           id: 14,
           keyActivity: {}
@@ -148,13 +152,10 @@ describe("Report generation script", () => {
     const now = new Date();
     const previousMonth = new Date();
     previousMonth.setMonth(now.getMonth() - 1);
-    return new Date(
-      Date.UTC(previousMonth.getFullYear(), previousMonth.getMonth())
-    ).toISOString();
+    return generateReportPeriod(previousMonth);
   }
 
   function thisMonth() {
-    const now = new Date();
-    return new Date(Date.UTC(now.getFullYear(), now.getMonth())).toISOString();
+    return generateReportPeriod(new Date());
   }
 });

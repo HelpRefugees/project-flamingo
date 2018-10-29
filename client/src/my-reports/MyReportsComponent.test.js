@@ -30,7 +30,7 @@ describe("MyReportsComponent", () => {
   describe("after reports have been requested", () => {
     let wrapper;
 
-    const completedReport: Report = {
+    const completedReport: $Shape<Report> = {
       id: 1,
       grant: "Hugh Grant",
       overview: "Hugh",
@@ -40,7 +40,7 @@ describe("MyReportsComponent", () => {
       operatingEnvironment: "",
       beneficiaryFeedback: ""
     };
-    const incompleteReport: Report = {
+    const incompleteReport: $Shape<Report> = {
       id: 2,
       grant: "Grant Shapps",
       overview: "Shapps",

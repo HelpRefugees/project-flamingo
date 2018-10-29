@@ -34,7 +34,7 @@ describe("reducers", () => {
   });
 
   it("should handle LOAD_REPORTS_SUCCESS", () => {
-    const reports: Report[] = [
+    const reports: $Shape<Report>[] = [
       {
         grant: "hugh grant",
         overview: "",
@@ -105,7 +105,7 @@ describe("reducers", () => {
   });
 
   it("should handle SAVE_REPORT_SUCCESS", () => {
-    const reportToBeEdited: Report = {
+    const reportToBeEdited: $Shape<Report> = {
       id: 123,
       grant: "mitchell",
       overview: "before",
@@ -119,7 +119,7 @@ describe("reducers", () => {
       ...reportToBeEdited,
       overview: "after"
     };
-    const reportNotToBeEdited: Report = {
+    const reportNotToBeEdited: $Shape<Report> = {
       id: 456,
       grant: "shapps",
       overview: "who cares?",

@@ -12,5 +12,6 @@ export type Report = {
   grant: string,
   completed: boolean,
   reportPeriod: string,
+  dueDate: string,
   submissionDate?: string
 };

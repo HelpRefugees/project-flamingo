@@ -10,7 +10,7 @@ describe("SubmittedReportComponent", () => {
   let wrapper;
   let mockLogout;
 
-  const report1: Report = {
+  const report1: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
     overview: "Hugh Overview",
@@ -26,7 +26,7 @@ describe("SubmittedReportComponent", () => {
     operatingEnvironment: "",
     beneficiaryFeedback: ""
   };
-  const report2: Report = {
+  const report2: $Shape<Report> = {
     id: 2,
     grant: "Grant Shapps",
     overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",

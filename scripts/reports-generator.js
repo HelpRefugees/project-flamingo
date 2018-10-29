@@ -1,7 +1,7 @@
 /**
  * Generate a report for the current period, if required.
  */
-const { generateReportPeriod } = require("./utils");
+const { generateDueDate, generateReportPeriod } = require("./utils");
 const dbModule = require("../server/db");
 
 module.exports = async dbUrl => {
@@ -41,6 +41,7 @@ function createReport(reportPeriod, id, user) {
     grant: user.grant,
     completed: false,
     reportPeriod,
+    dueDate: generateDueDate(reportPeriod),
     owner: user.username,
     id,
     keyActivity: {}

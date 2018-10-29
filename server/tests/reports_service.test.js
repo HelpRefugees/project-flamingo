@@ -150,7 +150,8 @@ describe("reports service", () => {
       "/id",
       "/owner",
       "/reportPeriod",
-      "/submissionDate"
+      "/submissionDate",
+      "/dueDate"
     ];
 
     for (let index in expectedProtectedFields) {

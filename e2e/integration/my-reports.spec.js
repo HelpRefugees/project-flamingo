@@ -27,7 +27,7 @@ context("My Reports Page", () => {
         .within($report => {
           myReportsPage.verifyReportData({
             grantName: "Grant Mitchell",
-            reportStatus: "Incomplete",
+            reportStatus: "07/09/2018",
             reportPeriod: "August 2018"
           });
         });
@@ -238,7 +238,7 @@ context("My Reports Page", () => {
         .within($report => {
           myReportsPage.verifyReportData({
             grantName: "Hugh Grant",
-            reportStatus: "Incomplete",
+            reportStatus: "07/09/2018",
             reportPeriod: "August 2018"
           });
         });

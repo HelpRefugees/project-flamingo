@@ -12,6 +12,7 @@ describe("ReportCardComponent", () => {
     completed: false,
     id: 1,
     reportPeriod: "2018-10-01T00:00:00.000Z",
+    dueDate: "2018-11-07T00:00:00.000Z",
     keyActivity: {},
     operatingEnvironment: "",
     beneficiaryFeedback: ""
@@ -56,6 +57,7 @@ describe("ReportCardComponent", () => {
       completed: false,
       id: 1,
       reportPeriod: "2018-10-01T00:00:00.000Z",
+      dueDate: "2018-11-07T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
       beneficiaryFeedback: ""
@@ -71,13 +73,13 @@ describe("ReportCardComponent", () => {
       );
     });
 
-    it("shows the report status as incomplete", () => {
+    it("shows the report status as the due date", () => {
       expect(
         wrapper
           .find('[data-test-id="report-status"]')
           .render()
           .text()
-      ).toContain("Incomplete");
+      ).toContain("07/11/2018");
     });
   });
 
@@ -89,6 +91,7 @@ describe("ReportCardComponent", () => {
       submissionDate: "2018-09-15T03:24:00.000Z",
       id: 1,
       reportPeriod: "2018-10-01T00:00:00.000Z",
+      dueDate: "2018-11-07T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
       beneficiaryFeedback: ""
@@ -125,6 +128,7 @@ describe("ReportCardComponent", () => {
         submissionDate: undefined,
         id: 1,
         reportPeriod: "2018-10-01T00:00:00.000Z",
+        dueDate: "2018-11-07T00:00:00.000Z",
         keyActivity: {},
         operatingEnvironment: "",
         beneficiaryFeedback: ""

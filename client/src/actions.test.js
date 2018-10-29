@@ -222,7 +222,7 @@ describe("actions", () => {
 
   describe("save reports", () => {
     it("saveReportSuccessful should create SAVE_REPORT_SUCCESS action with payload", () => {
-      const report: Report = {
+      const report: $Shape<Report> = {
         id: 123,
         grant: "mitchell",
         overview: "everything is fine",
@@ -245,7 +245,7 @@ describe("actions", () => {
     });
 
     describe("update report", () => {
-      const report: Report = {
+      const report: $Shape<Report> = {
         id: 123,
         grant: "Grant title",
         overview: "My report overview",

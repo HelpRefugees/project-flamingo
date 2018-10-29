@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import type { Report } from "../report/models";
 
 describe("ReportListComponent", () => {
-  const reports: Report[] = [
+  const reports: $Shape<Report>[] = [
     {
       id: 1,
       grant: "Hugh Grant",

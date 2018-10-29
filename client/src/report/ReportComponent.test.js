@@ -12,7 +12,7 @@ describe("ReportComponent", () => {
   let mockUpdateReport;
   let mockLogout;
   let mockHistoryPush;
-  const report1: Report = {
+  const report1: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
     overview: "Hugh",
@@ -27,7 +27,7 @@ describe("ReportComponent", () => {
     operatingEnvironment: "",
     beneficiaryFeedback: ""
   };
-  const report2: Report = {
+  const report2: $Shape<Report> = {
     id: 2,
     grant: "Grant Shapps",
     overview: "Shapps",
@@ -37,7 +37,7 @@ describe("ReportComponent", () => {
     operatingEnvironment: "",
     beneficiaryFeedback: ""
   };
-  let reports: Report[] = [report1, report2];
+  let reports: $Shape<Report>[] = [report1, report2];
   const account: Account = {
     username: "Steve@ip.org",
     name: "Also Steve",
