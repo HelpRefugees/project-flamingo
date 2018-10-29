@@ -28,7 +28,62 @@ type Props = {
   history: any
 };
 
+const grantNameFilterControlStyles = {
+  control: styles => {
+    return {
+      ...styles,
+      backgroundColor: "#f5f5f5",
+      border: "none",
+      boxShadow: "none"
+    };
+  },
+  option: (styles, props) => {
+    return {
+      ...styles,
+      backgroundColor: props.isSelected
+        ? "#00857b"
+        : props.isFocused
+          ? "#f5f5f5"
+          : "white",
+      color: props.isSelected ? "white" : "black",
+      ":active": {
+        backgroundColor: props.isSelected ? null : "#f5f5f5"
+      }
+    };
+  }
+};
+
 const styles = theme => ({
+  reactSelectContainer: {
+    backgroud: "yellow",
+    reactSelect__control: {
+      background: "yellow"
+    }
+  },
+  reactSelect: {
+    background: "yellow"
+  },
+  grantNameFilter: {
+    minWidth: theme.spacing.unit * 35,
+    paddingRight: theme.spacing.unit * 3.5,
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    borderRadius: theme.spacing.unit / 2
+  },
+  tabHeader: {
+    textTransform: "uppercase",
+    fontFamily: "Open Sans",
+    fontWeight: "bold",
+    letterSpacing: 0.1,
+    paddingLeft: theme.spacing.unit * 7,
+    paddingRight: theme.spacing.unit * 7,
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    color: "#00857b",
+    borderBottom: "solid",
+    fontSize: "14px",
+    margin: "0"
+  },
   rowContainer: {
     marginTop: theme.spacing.unit * 4
   },
@@ -56,17 +111,21 @@ const styles = theme => ({
 
 const CustomTableHeaderRow = withStyles(theme => ({
   head: {
-    height: "32px",
-    fontSize: "10px",
-    color: "#757c80",
-    fontWeight: "normal",
-    letterSpacing: "1.5px"
+    height: "32px"
   }
 }))(TableRow);
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    width: "66%"
+    width: "66%",
+    color: "#757c80",
+    letterSpacing: "1.5px",
+    fontFamily: "Open Sans",
+    fontSize: "10px",
+    fontWeight: "bold",
+    fontStyle: "normal",
+    fontStretch: "normal",
+    lineHeight: "1.6"
   }
 }))(TableCell);
 
@@ -89,6 +148,7 @@ export class ReportsListingComponent extends Component<
       ? reports.filter((report: Report) => report.grant === this.state.filter)
       : reports;
   }
+
   getFilterOptions(): any[] {
     const uniqueGrantNames = [];
     (this.props.reports || []).forEach(({ grant }) => {
@@ -131,14 +191,24 @@ export class ReportsListingComponent extends Component<
   reportsTable(classes: any, reports: Report[]) {
     return (
       <Paper className={classes.tablePaper}>
-        <div data-test-id="grant-name-filter">
-          <Select
-            options={this.getFilterOptions()}
-            onChange={this.updateFilter}
-            isClearable
-            placeholder="Filter grant name"
-          />
-        </div>
+        <Grid container justify="space-between">
+          <Grid item>
+            <h3 className={classes.tabHeader}>submitted reports</h3>
+          </Grid>
+          <Grid
+            item
+            data-test-id="grant-name-filter"
+            className={classes.grantNameFilter}
+          >
+            <Select
+              styles={grantNameFilterControlStyles}
+              options={this.getFilterOptions()}
+              onChange={this.updateFilter}
+              isClearable
+              placeholder="Filter grant name"
+            />
+          </Grid>
+        </Grid>
         <Table data-test-id="submitted-reports">
           <TableHead className={classes.tableHead}>
             <CustomTableHeaderRow>

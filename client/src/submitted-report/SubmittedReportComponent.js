@@ -163,7 +163,7 @@ export class SubmittedReportComponent extends Component<Props, State> {
               data-test-id="report-key-activity-name"
               className={classes.activityName}
             >
-              {report.keyActivity.activityName}
+              {report.keyActivity ? report.keyActivity.activityName : ""}
             </Typography>
             <dl>
               <dt className={classes.definitionListTitle}>
@@ -173,7 +173,9 @@ export class SubmittedReportComponent extends Component<Props, State> {
                 data-test-id="report-number-of-participants"
                 className={classes.definitonListItem}
               >
-                {report.keyActivity.numberOfParticipants}
+                {report.keyActivity
+                  ? report.keyActivity.numberOfParticipants
+                  : ""}
               </dd>
               <dt className={classes.definitionListTitle}>
                 Demographic information
@@ -182,7 +184,7 @@ export class SubmittedReportComponent extends Component<Props, State> {
                 data-test-id="report-demographic-info"
                 className={classes.definitonListItem}
               >
-                {report.keyActivity.demographicInfo}
+                {report.keyActivity ? report.keyActivity.demographicInfo : ""}
               </dd>
               <dt className={classes.definitionListTitle}>
                 Positive impacts and outcome
@@ -191,7 +193,9 @@ export class SubmittedReportComponent extends Component<Props, State> {
                 data-test-id="report-impact-outcome"
                 className={classes.definitonListItem}
               >
-                {this.formatParagraph(report.keyActivity.impactOutcome)}
+                {report.keyActivity
+                  ? this.formatParagraph(report.keyActivity.impactOutcome)
+                  : ""}
               </dd>
             </dl>
           </Grid>
