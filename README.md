@@ -8,24 +8,8 @@ Impact tracking tool for Help Refugees.
 
 ## Setup
 
-For basic machine setup, we are using Pivotal's workstation scripts: see
-https://github.com/pivotal/workstation-setup and run `./setup.sh node`. If you
-are setting up your machine separately, install the following:
-
-- We recommend using [NVM](https://github.com/creationix/nvm) to handle Node
-  versions; we're using version 10.12 (see `.nvmrc`).
-- Use [Direnv](https://direnv.net/) to load appropriate environment variables
-  for the project directory.
-- When pairing, you can use [`git-duet`](https://github.com/git-duet/git-duet)
-  to ensure all coders are included in commit messages.
-- We are using Yarn as the package manager, to install this run:
-
-  ```bash
-  npm install -g yarn
-  ```
-
-  Inside the project directory, you can then run `yarn install:all` to install
-  the dependencies for both parts of the application.
+See the installation instructions
+[in the wiki](https://github.com/HelpRefugees/project-flamingo/wiki/Installation).
 
 ## Project structure
 
