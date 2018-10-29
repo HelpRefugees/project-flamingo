@@ -231,7 +231,8 @@ describe("actions", () => {
         keyActivity: {},
         operatingEnvironment: "",
         beneficiaryFeedback: "",
-        challengesFaced: ""
+        challengesFaced: "",
+        incidents: ""
       };
       expect(actions.updateReportSuccessful(report)).toEqual({
         type: "SAVE_REPORT_SUCCESS",
@@ -255,7 +256,8 @@ describe("actions", () => {
         keyActivity: {},
         operatingEnvironment: "Changes in operating environment",
         beneficiaryFeedback: "beneficiaryFeedback",
-        challengesFaced: ""
+        challengesFaced: "",
+        incidents: ""
       };
 
       beforeEach(() => {
@@ -300,6 +302,11 @@ describe("actions", () => {
             op: "replace",
             path: "/challengesFaced",
             value: report.challengesFaced
+          },
+          {
+            op: "replace",
+            path: "/incidents",
+            value: report.incidents
           }
         ]);
       });

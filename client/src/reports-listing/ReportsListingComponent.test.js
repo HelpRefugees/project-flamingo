@@ -69,7 +69,8 @@ describe("ReportsListingComponent", () => {
         keyActivity: {},
         operatingEnvironment: "",
         beneficiaryFeedback: "",
-        challengesFaced: ""
+        challengesFaced: "",
+        incidents: ""
       }
     ];
 
@@ -151,7 +152,8 @@ describe("ReportsListingComponent", () => {
         keyActivity: {},
         operatingEnvironment: "",
         beneficiaryFeedback: "",
-        challengesFaced: ""
+        challengesFaced: "",
+        incidents: ""
       },
       {
         id: 1,
@@ -163,7 +165,8 @@ describe("ReportsListingComponent", () => {
         keyActivity: {},
         operatingEnvironment: "",
         beneficiaryFeedback: "",
-        challengesFaced: ""
+        challengesFaced: "",
+        incidents: ""
       },
       {
         id: 2,
@@ -175,7 +178,8 @@ describe("ReportsListingComponent", () => {
         keyActivity: {},
         operatingEnvironment: "",
         beneficiaryFeedback: "",
-        challengesFaced: ""
+        challengesFaced: "",
+        incidents: ""
       }
     ];
 

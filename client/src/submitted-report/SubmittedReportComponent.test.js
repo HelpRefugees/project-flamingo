@@ -25,7 +25,8 @@ describe("SubmittedReportComponent", () => {
     },
     operatingEnvironment: "",
     beneficiaryFeedback: "",
-    challengesFaced: ""
+    challengesFaced: "",
+    incidents: ""
   };
   const report2: $Shape<Report> = {
     id: 2,
@@ -36,7 +37,8 @@ describe("SubmittedReportComponent", () => {
     keyActivity: {},
     operatingEnvironment: "",
     beneficiaryFeedback: "",
-    challengesFaced: ""
+    challengesFaced: "",
+    incidents: ""
   };
   let reports: Report[] = [report1, report2];
 

@@ -17,7 +17,8 @@ describe("ReportCardComponent", () => {
     keyActivity: {},
     operatingEnvironment: "",
     beneficiaryFeedback: "",
-    challengesFaced: ""
+    challengesFaced: "",
+    incidents: ""
   };
 
   beforeEach(() => {
@@ -135,7 +136,8 @@ describe("ReportCardComponent", () => {
       keyActivity: {},
       operatingEnvironment: "",
       beneficiaryFeedback: "",
-      challengesFaced: ""
+      challengesFaced: "",
+      incidents: ""
     };
 
     beforeEach(() => {
@@ -171,7 +173,8 @@ describe("ReportCardComponent", () => {
       keyActivity: {},
       operatingEnvironment: "",
       beneficiaryFeedback: "",
-      challengesFaced: ""
+      challengesFaced: "",
+      incidents: ""
     };
 
     let mockUpdateReport;
@@ -209,7 +212,8 @@ describe("ReportCardComponent", () => {
         keyActivity: {},
         operatingEnvironment: "",
         beneficiaryFeedback: "",
-        challengesFaced: ""
+        challengesFaced: "",
+        incidents: ""
       };
 
       wrapper.find('[data-test-id="report-unsubmit-button"]').simulate("click");

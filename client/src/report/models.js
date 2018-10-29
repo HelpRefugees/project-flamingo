@@ -10,6 +10,7 @@ export type Report = {
   operatingEnvironment: string,
   beneficiaryFeedback: string,
   challengesFaced: string,
+  incidents: string,
   grant: string,
   completed: boolean,
   reportPeriod: string,

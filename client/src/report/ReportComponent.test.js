@@ -26,7 +26,8 @@ describe("ReportComponent", () => {
     },
     operatingEnvironment: "",
     beneficiaryFeedback: "",
-    challengesFaced: ""
+    challengesFaced: "",
+    incidents: ""
   };
   const report2: $Shape<Report> = {
     id: 2,
@@ -37,7 +38,8 @@ describe("ReportComponent", () => {
     keyActivity: {},
     operatingEnvironment: "",
     beneficiaryFeedback: "",
-    challengesFaced: ""
+    challengesFaced: "",
+    incidents: ""
   };
   let reports: $Shape<Report>[] = [report1, report2];
   const account: Account = {
@@ -409,6 +411,18 @@ describe("ReportComponent", () => {
       optional: true,
       inputSelector: "challenges-faced-input",
       reportProperty: "challengesFaced"
+    });
+  });
+
+  describe("incidents and near misses", () => {
+    itIsATextareaSection({
+      sectionIndex: 5,
+      title: "Incidents and near misses",
+      subtitle:
+        "Please describe any incidents or near misses that may have occurred related to health & safety, safeguarding, protection or security. How was the incident resolved and what policy or procedure is in place to avoid this reoccurring?",
+      optional: true,
+      inputSelector: "incidents-input",
+      reportProperty: "incidents"
     });
   });
 });

@@ -17,7 +17,8 @@ describe("ReportListComponent", () => {
       keyActivity: {},
       operatingEnvironment: "",
       beneficiaryFeedback: "",
-      challengesFaced: ""
+      challengesFaced: "",
+      incidents: ""
     },
     {
       id: 2,
@@ -28,7 +29,8 @@ describe("ReportListComponent", () => {
       keyActivity: {},
       operatingEnvironment: "",
       beneficiaryFeedback: "",
-      challengesFaced: ""
+      challengesFaced: "",
+      incidents: ""
     },
     {
       id: 3,
@@ -39,7 +41,8 @@ describe("ReportListComponent", () => {
       keyActivity: {},
       operatingEnvironment: "",
       beneficiaryFeedback: "",
-      challengesFaced: ""
+      challengesFaced: "",
+      incidents: ""
     }
   ];
   let wrapper;

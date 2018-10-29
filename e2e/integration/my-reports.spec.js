@@ -42,7 +42,8 @@ context("My Reports Page", () => {
           impactOutcome: randomAlphaText(16)
         },
         beneficiaryFeedback: randomAlphaText(16),
-        challengesFaced: randomAlphaText(16)
+        challengesFaced: randomAlphaText(16),
+        incidents: randomAlphaText(16)
       };
 
       myReportsPage.getFirstReport("incomplete").click();
@@ -112,6 +113,13 @@ context("My Reports Page", () => {
         value: newReport.challengesFaced
       });
 
+      completeAndSaveSection({
+        key: "incidents",
+        title: "Incidents and near misses",
+        selector: ReportSection.sections.incidents.incidents,
+        value: newReport.incidents
+      });
+
       myReportsPage.goToHomePage();
       myReportsPage.getFirstReport("incomplete").click();
 
@@ -165,6 +173,12 @@ context("My Reports Page", () => {
         name: "challenges-faced",
         selector: ReportSection.sections.challengesFaced.challenges,
         value: newReport.challengesFaced
+      });
+
+      assertReportSectionInputValue({
+        name: "incidents",
+        selector: ReportSection.sections.incidents.incidents,
+        value: newReport.incidents
       });
     });
 

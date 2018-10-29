@@ -74,6 +74,12 @@ export class ReportSection {
         selector: "challenges-faced-input",
         type: "textarea"
       }
+    },
+    incidents: {
+      incidents: {
+        selector: "incidents-input",
+        type: "textarea"
+      }
     }
   };
 

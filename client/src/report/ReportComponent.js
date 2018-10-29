@@ -353,6 +353,17 @@ export class ReportComponent extends Component<Props, State> {
       optional: true
     };
 
+    const incidents = {
+      key: "incidents",
+      stateProperty: "incidents",
+      title: "Incidents and near misses",
+      subtitle:
+        "Please describe any incidents or near misses that may have occurred related to health & safety, safeguarding, protection or security. How was the incident resolved and what policy or procedure is in place to avoid this reoccurring?",
+      inputKey: "incidents-input",
+      placeholder: "Please add an overview",
+      optional: true
+    };
+
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -370,6 +381,7 @@ export class ReportComponent extends Component<Props, State> {
               {this.renderKeyActivitiesSection()}
               {this.renderTextareaSection(beneficiaryFeedback)}
               {this.renderTextareaSection(challengesFaced)}
+              {this.renderTextareaSection(incidents)}
             </Grid>
           </Grid>
         </Grid>
