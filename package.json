@@ -18,6 +18,7 @@
     "test:scripts:watch": "yarn test:scripts --watch",
     "prebuild": "rimraf ./server/static/*",
     "generate-reports": "node ./scripts/generate-reports",
+    "hash-password": "node ./scripts/hash-password",
     "build": "cd client && yarn build",
     "postbuild": "copy \"./client/build/**/*\" ./server/static",
     "start": "yarn build && yarn start:server",
