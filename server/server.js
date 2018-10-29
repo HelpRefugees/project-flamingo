@@ -2,8 +2,8 @@ const connectMongo = require("connect-mongo");
 const debug = require("debug")("server");
 const http = require("http");
 
-const databaseUrl
-  = process.env.DATABASE_URL || "mongodb://localhost:27017/flamingo";
+const { getDatabaseUrl } = require("../scripts/utils");
+
 const port = normalizePort(process.env.PORT || "3000");
 
 const dbModule = require("./db");
@@ -11,7 +11,7 @@ const dbModule = require("./db");
 let server;
 
 dbModule.connect(
-  databaseUrl,
+  getDatabaseUrl(),
   (err, db) => {
     if (err) {
       debug("Unable to connect to Mongo", err);

@@ -3,10 +3,9 @@
 /* eslint-disable no-console */
 
 const reportGenerator = require("./reports-generator");
-const databaseUrl
-  = process.env.DATABASE_URL || "mongodb://localhost:27017/flamingo";
+const { getDatabaseUrl } = require("./utils");
 
-reportGenerator(databaseUrl)
+reportGenerator(getDatabaseUrl())
   .then(insertedDocumentCount => {
     console.log(`generated ${insertedDocumentCount} reports`);
     process.exit(0);
