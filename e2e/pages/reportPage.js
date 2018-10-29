@@ -62,6 +62,12 @@ export class ReportSection {
         selector: "report-impact-outcome-input",
         type: "textarea"
       }
+    },
+    beneficiaryFeedback: {
+      feedback: {
+        selector: "beneficiary-feedback-input",
+        type: "textarea"
+      }
     }
   };
 

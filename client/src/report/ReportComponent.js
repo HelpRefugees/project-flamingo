@@ -65,7 +65,8 @@ type State = {
     demographicInfo?: string,
     impactOutcome?: string
   },
-  operatingEnvironment?: string
+  operatingEnvironment?: string,
+  beneficiaryFeedback?: string
 };
 
 export class ReportComponent extends Component<Props, State> {
@@ -173,6 +174,14 @@ export class ReportComponent extends Component<Props, State> {
     };
   }
 
+  isSaveButtonDisabled({
+    reportPropertyValue,
+    statePropertyValue,
+    isLoading
+  }: any) {
+    return isLoading || statePropertyValue === reportPropertyValue;
+  }
+
   renderTextareaSection({
     key,
     stateProperty,
@@ -184,10 +193,11 @@ export class ReportComponent extends Component<Props, State> {
   }: any) {
     const report = this.report;
     const { isLoading } = this.props;
-    const isDisabled
-      = isLoading
-      || isLoading
-      || this.state[stateProperty] === report[stateProperty];
+    const isDisabled = this.isSaveButtonDisabled({
+      reportPropertyValue: report[stateProperty],
+      statePropertyValue: this.state[stateProperty],
+      isLoading
+    });
     return (
       <ReportSectionComponent
         data-test-id={key}
@@ -321,6 +331,17 @@ export class ReportComponent extends Component<Props, State> {
       optional: true
     };
 
+    const beneficiaryFeedback = {
+      key: "beneficiary-feedback",
+      stateProperty: "beneficiaryFeedback",
+      title: "Beneficiary Feedback",
+      subtitle:
+        "Have you had any feedback from beneficiaries about the service/activities you offer?",
+      inputKey: "beneficiary-feedback-input",
+      placeholder: "Please add an overview",
+      optional: true
+    };
+
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -336,6 +357,7 @@ export class ReportComponent extends Component<Props, State> {
               {this.renderTextareaSection(grantProgress)}
               {this.renderTextareaSection(operatingEnvironment)}
               {this.renderKeyActivitiesSection()}
+              {this.renderTextareaSection(beneficiaryFeedback)}
             </Grid>
           </Grid>
         </Grid>

@@ -37,7 +37,8 @@ describe("MyReportsComponent", () => {
       completed: true,
       reportPeriod: "2018-10-01T00:00:00.000Z",
       keyActivity: {},
-      operatingEnvironment: ""
+      operatingEnvironment: "",
+      beneficiaryFeedback: ""
     };
     const incompleteReport: Report = {
       id: 2,
@@ -46,7 +47,8 @@ describe("MyReportsComponent", () => {
       completed: false,
       reportPeriod: "2018-10-01T00:00:00.000Z",
       keyActivity: {},
-      operatingEnvironment: ""
+      operatingEnvironment: "",
+      beneficiaryFeedback: ""
     };
     let reports: Report[] = [completedReport, incompleteReport];
 

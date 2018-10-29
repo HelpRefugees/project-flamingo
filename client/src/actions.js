@@ -104,7 +104,8 @@ export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
     "overview",
     "completed",
     "keyActivity",
-    "operatingEnvironment"
+    "operatingEnvironment",
+    "beneficiaryFeedback"
   ].map(field => ({
     op: "replace",
     path: `/${field}`,

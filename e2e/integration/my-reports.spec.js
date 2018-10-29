@@ -42,7 +42,8 @@ context("My Reports Page", () => {
           numberOfParticipants: randomNumericText(16),
           demographicInfo: randomAlphaText(16),
           impactOutcome: randomAlphaText(16)
-        }
+        },
+        beneficiaryFeedback: randomAlphaText(16)
       };
 
       myReportsPage.getFirstReport("incomplete").click();
@@ -51,36 +52,29 @@ context("My Reports Page", () => {
       reportPage.isAt();
       reportPage.grantName.should("contain.text", "Grant Mitchell");
 
-      reportPage.getSection("grant-progress", grantProgessSection => {
-        grantProgessSection.title.should("contain.text", "Grant progress");
-        grantProgessSection.saveButton.should("attr", "disabled");
-        grantProgessSection.setContentField(
-          ReportSection.sections.grantProgress.progress,
-          newReport.overview
-        );
-        grantProgessSection.saveButton.should("not.have.attr", "disabled");
-        grantProgessSection.saveButton.click();
+      const completeAndSaveSection = ({ key, title, selector, value }) => {
+        reportPage.getSection(key, reportSection => {
+          reportSection.title.should("contain.text", title);
+          reportSection.saveButton.should("attr", "disabled");
+          reportSection.setContentField(selector, value);
+          reportSection.saveButton.should("not.have.attr", "disabled");
+          reportSection.saveButton.click();
+        });
+      };
+
+      completeAndSaveSection({
+        key: "grant-progress",
+        title: "Grant progress",
+        selector: ReportSection.sections.grantProgress.progress,
+        value: newReport.overview
       });
 
-      reportPage.getSection(
-        "operating-environment",
-        operatingEnvironmentSection => {
-          operatingEnvironmentSection.title.should(
-            "contain.text",
-            "Operating environment"
-          );
-          operatingEnvironmentSection.saveButton.should("attr", "disabled");
-          operatingEnvironmentSection.setContentField(
-            ReportSection.sections.operatingEnvironment.progress,
-            newReport.operatingEnvironment
-          );
-          operatingEnvironmentSection.saveButton.should(
-            "not.have.attr",
-            "disabled"
-          );
-          operatingEnvironmentSection.saveButton.click();
-        }
-      );
+      completeAndSaveSection({
+        key: "operating-environment",
+        title: "Operating environment",
+        selector: ReportSection.sections.operatingEnvironment.progress,
+        value: newReport.operatingEnvironment
+      });
 
       reportPage.getSection("key-activities", keyActivitiesSection => {
         keyActivitiesSection.title.should("contain.text", "Key Activities");
@@ -105,6 +99,13 @@ context("My Reports Page", () => {
         keyActivitiesSection.saveButton.click();
       });
 
+      completeAndSaveSection({
+        key: "beneficiary-feedback",
+        title: "Beneficiary Feedback",
+        selector: ReportSection.sections.beneficiaryFeedback.feedback,
+        value: newReport.beneficiaryFeedback
+      });
+
       myReportsPage.goToHomePage();
       myReportsPage.getFirstReport("incomplete").click();
 
@@ -126,6 +127,17 @@ context("My Reports Page", () => {
               ReportSection.sections.operatingEnvironment.progress
             )
             .should("contain.text", newReport.operatingEnvironment);
+        }
+      );
+
+      reportPage.getSection(
+        "beneficiary-feedback",
+        beneficiaryFeedbackSection => {
+          beneficiaryFeedbackSection
+            .getContentField(
+              ReportSection.sections.beneficiaryFeedback.feedback
+            )
+            .should("contain.text", newReport.beneficiaryFeedback);
         }
       );
 

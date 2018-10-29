@@ -66,7 +66,8 @@ describe("ReportsListingComponent", () => {
         reportPeriod: "2018-10-01T00:00:00.000Z",
         submissionDate: "2018-09-15T03:24:00.000Z",
         keyActivity: {},
-        operatingEnvironment: ""
+        operatingEnvironment: "",
+        beneficiaryFeedback: ""
       }
     ];
 
@@ -146,7 +147,8 @@ describe("ReportsListingComponent", () => {
         reportPeriod: "2018-11-01T00:00:00.000Z",
         submissionDate: "2018-10-15T03:24:00.000Z",
         keyActivity: {},
-        operatingEnvironment: ""
+        operatingEnvironment: "",
+        beneficiaryFeedback: ""
       },
       {
         id: 1,
@@ -156,7 +158,8 @@ describe("ReportsListingComponent", () => {
         reportPeriod: "2018-10-01T00:00:00.000Z",
         submissionDate: "2018-09-15T03:24:00.000Z",
         keyActivity: {},
-        operatingEnvironment: ""
+        operatingEnvironment: "",
+        beneficiaryFeedback: ""
       },
       {
         id: 2,
@@ -166,7 +169,8 @@ describe("ReportsListingComponent", () => {
         reportPeriod: "2018-11-01T00:00:00.000Z",
         submissionDate: "2018-10-15T03:24:00.000Z",
         keyActivity: {},
-        operatingEnvironment: ""
+        operatingEnvironment: "",
+        beneficiaryFeedback: ""
       }
     ];
 

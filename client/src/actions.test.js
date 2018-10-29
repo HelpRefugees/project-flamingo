@@ -229,7 +229,8 @@ describe("actions", () => {
         completed: false,
         reportPeriod: "2018-10-01T00:00:00.000Z",
         keyActivity: {},
-        operatingEnvironment: ""
+        operatingEnvironment: "",
+        beneficiaryFeedback: ""
       };
       expect(actions.updateReportSuccessful(report)).toEqual({
         type: "SAVE_REPORT_SUCCESS",
@@ -251,7 +252,8 @@ describe("actions", () => {
         completed: false,
         reportPeriod: "2018-10-01T00:00:00.000Z",
         keyActivity: {},
-        operatingEnvironment: "Changes in operating environment"
+        operatingEnvironment: "Changes in operating environment",
+        beneficiaryFeedback: "beneficiaryFeedback"
       };
 
       beforeEach(() => {
@@ -286,6 +288,11 @@ describe("actions", () => {
             op: "replace",
             path: "/operatingEnvironment",
             value: report.operatingEnvironment
+          },
+          {
+            op: "replace",
+            path: "/beneficiaryFeedback",
+            value: report.beneficiaryFeedback
           }
         ]);
       });

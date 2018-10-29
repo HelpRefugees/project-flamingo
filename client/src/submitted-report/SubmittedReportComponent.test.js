@@ -23,7 +23,8 @@ describe("SubmittedReportComponent", () => {
       demographicInfo: "any value",
       impactOutcome: "impact"
     },
-    operatingEnvironment: ""
+    operatingEnvironment: "",
+    beneficiaryFeedback: ""
   };
   const report2: Report = {
     id: 2,
@@ -32,7 +33,8 @@ describe("SubmittedReportComponent", () => {
     completed: true,
     reportPeriod: "2018-10-01T00:00:00.000Z",
     keyActivity: {},
-    operatingEnvironment: ""
+    operatingEnvironment: "",
+    beneficiaryFeedback: ""
   };
   let reports: Report[] = [report1, report2];
 
