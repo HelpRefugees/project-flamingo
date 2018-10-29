@@ -13,26 +13,44 @@ import moment from "moment";
 import type { Report } from "../report/models";
 import theme from "../theme";
 
-const styles = themes => ({
-  reportStatus: {
-    borderLeft: "1px solid #d9d9d9",
-    paddingLeft: theme.spacing.unit * 2,
-    marginLeft: theme.spacing.unit * 2
-  },
-  notFullWidth: {
-    width: "initial"
-  },
-  cardContent: {
-    // required to override :last-child rule on CardContent
-    paddingBottom: `${theme.spacing.unit * 2}px !important`
-  },
-  dueDateLabel: {
-    color: "#757c80"
-  },
-  dueDateOutlined: {
-    borderColor: "#757c80"
-  }
-});
+const styles = themes => {
+  const normalColour = "#757c80";
+  const dueColour = "#e68e00";
+  const lateColour = "#ea1024";
+
+  return {
+    reportStatus: {
+      borderLeft: "1px solid #d9d9d9",
+      paddingLeft: theme.spacing.unit * 2,
+      marginLeft: theme.spacing.unit * 2
+    },
+    notFullWidth: {
+      width: "initial"
+    },
+    cardContent: {
+      // required to override :last-child rule on CardContent
+      paddingBottom: `${theme.spacing.unit * 2}px !important`
+    },
+    statusLabel: {
+      color: normalColour
+    },
+    statusOutlined: {
+      borderColor: normalColour
+    },
+    lateStatusLabel: {
+      color: lateColour
+    },
+    lateStatusOutlined: {
+      borderColor: lateColour
+    },
+    dueStatusLabel: {
+      color: dueColour
+    },
+    dueStatusOutlined: {
+      borderColor: dueColour
+    }
+  };
+};
 
 type Props = {
   classes: any,
@@ -48,6 +66,43 @@ export class ReportCardComponent extends Component<Props> {
       submissionDate: undefined
     });
   };
+
+  renderReportStatus(report: Report, classes: any) {
+    let status: string;
+    let chipClasses = {
+      label: classes.statusLabel,
+      outlined: classes.statusOutlined
+    };
+    const dueDate = moment(report.dueDate);
+    const delta = dueDate.diff(moment(), "days");
+
+    if (report.completed && report.submissionDate) {
+      status = moment(report.submissionDate).format("DD/MM/YYYY");
+    } else if (delta < 0) {
+      status = `${dueDate.fromNow(true)} late`;
+      chipClasses = {
+        label: classes.lateStatusLabel,
+        outlined: classes.lateStatusOutlined
+      };
+    } else if (delta < 8) {
+      status = `Due in ${dueDate.fromNow(true)}`;
+      chipClasses = {
+        label: classes.dueStatusLabel,
+        outlined: classes.dueStatusOutlined
+      };
+    } else {
+      status = moment(report.dueDate).format("DD/MM/YYYY");
+    }
+
+    return (
+      <Chip
+        label={status}
+        classes={chipClasses}
+        variant="outlined"
+        data-test-id="report-status"
+      />
+    );
+  }
 
   render() {
     const { report, classes } = this.props;
@@ -88,19 +143,7 @@ export class ReportCardComponent extends Component<Props> {
                 className={`${classes.reportStatus} ${classes.notFullWidth}`}
                 alignItems="center"
               >
-                <Chip
-                  label={
-                    report.completed && report.submissionDate
-                      ? moment(report.submissionDate).format("DD/MM/YYYY")
-                      : moment(report.dueDate).format("DD/MM/YYYY")
-                  }
-                  classes={{
-                    label: classes.dueDateLabel,
-                    outlined: classes.dueDateOutlined
-                  }}
-                  variant="outlined"
-                  data-test-id="report-status"
-                />
+                {this.renderReportStatus(report, classes)}
                 {report.completed && (
                   <Button
                     data-test-id="report-unsubmit-button"
