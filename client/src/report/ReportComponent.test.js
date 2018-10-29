@@ -27,7 +27,8 @@ describe("ReportComponent", () => {
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
-    incidents: ""
+    incidents: "",
+    otherIssues: ""
   };
   const report2: $Shape<Report> = {
     id: 2,
@@ -39,7 +40,8 @@ describe("ReportComponent", () => {
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
-    incidents: ""
+    incidents: "",
+    otherIssues: ""
   };
   let reports: $Shape<Report>[] = [report1, report2];
   const account: Account = {
@@ -423,6 +425,19 @@ describe("ReportComponent", () => {
       optional: true,
       inputSelector: "incidents-input",
       reportProperty: "incidents"
+    });
+  });
+
+  describe("other issues", () => {
+    itIsATextareaSection({
+      sectionIndex: 6,
+      title:
+        "Is there anything you would like to use our platform to speak about?",
+      subtitle:
+        "Are there any issues, news or recent developments that you would like to amplify through our networks? We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
+      optional: true,
+      inputSelector: "other-issues-input",
+      reportProperty: "otherIssues"
     });
   });
 });

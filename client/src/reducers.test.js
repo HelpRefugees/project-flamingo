@@ -45,7 +45,8 @@ describe("reducers", () => {
         operatingEnvironment: "",
         beneficiaryFeedback: "",
         challengesFaced: "",
-        incidents: ""
+        incidents: "",
+        otherIssues: ""
       }
     ];
     const startingState: State = {
@@ -117,7 +118,8 @@ describe("reducers", () => {
       operatingEnvironment: "",
       beneficiaryFeedback: "",
       challengesFaced: "",
-      incidents: ""
+      incidents: "",
+      otherIssues: ""
     };
     const reportAfterEditing: Report = {
       ...reportToBeEdited,
@@ -133,7 +135,8 @@ describe("reducers", () => {
       operatingEnvironment: "",
       beneficiaryFeedback: "",
       challengesFaced: "",
-      incidents: ""
+      incidents: "",
+      otherIssues: ""
     };
     const startingState: State = {
       ...initialState,

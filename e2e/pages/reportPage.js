@@ -80,6 +80,12 @@ export class ReportSection {
         selector: "incidents-input",
         type: "textarea"
       }
+    },
+    otherIssues: {
+      issues: {
+        selector: "other-issues-input",
+        type: "textarea"
+      }
     }
   };
 

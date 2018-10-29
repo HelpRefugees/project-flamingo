@@ -364,6 +364,18 @@ export class ReportComponent extends Component<Props, State> {
       optional: true
     };
 
+    const otherIssues = {
+      key: "other-issues",
+      stateProperty: "otherIssues",
+      title:
+        "Is there anything you would like to use our platform to speak about?",
+      subtitle:
+        "Are there any issues, news or recent developments that you would like to amplify through our networks? We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
+      inputKey: "other-issues-input",
+      placeholder: "Please add an overview",
+      optional: true
+    };
+
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -382,6 +394,7 @@ export class ReportComponent extends Component<Props, State> {
               {this.renderTextareaSection(beneficiaryFeedback)}
               {this.renderTextareaSection(challengesFaced)}
               {this.renderTextareaSection(incidents)}
+              {this.renderTextareaSection(otherIssues)}
             </Grid>
           </Grid>
         </Grid>

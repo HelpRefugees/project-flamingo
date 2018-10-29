@@ -43,7 +43,8 @@ context("My Reports Page", () => {
         },
         beneficiaryFeedback: randomAlphaText(16),
         challengesFaced: randomAlphaText(16),
-        incidents: randomAlphaText(16)
+        incidents: randomAlphaText(16),
+        otherIssues: randomAlphaText(16)
       };
 
       myReportsPage.getFirstReport("incomplete").click();
@@ -120,6 +121,14 @@ context("My Reports Page", () => {
         value: newReport.incidents
       });
 
+      completeAndSaveSection({
+        key: "other-issues",
+        title:
+          "Is there anything you would like to use our platform to speak about?",
+        selector: ReportSection.sections.otherIssues.issues,
+        value: newReport.otherIssues
+      });
+
       myReportsPage.goToHomePage();
       myReportsPage.getFirstReport("incomplete").click();
 
@@ -179,6 +188,12 @@ context("My Reports Page", () => {
         name: "incidents",
         selector: ReportSection.sections.incidents.incidents,
         value: newReport.incidents
+      });
+
+      assertReportSectionInputValue({
+        name: "other-issues",
+        selector: ReportSection.sections.otherIssues.issues,
+        value: newReport.otherIssues
       });
     });
 

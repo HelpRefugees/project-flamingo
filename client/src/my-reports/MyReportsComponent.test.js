@@ -40,7 +40,8 @@ describe("MyReportsComponent", () => {
       operatingEnvironment: "",
       beneficiaryFeedback: "",
       challengesFaced: "",
-      incidents: ""
+      incidents: "",
+      otherIssues: ""
     };
     const incompleteReport: $Shape<Report> = {
       id: 2,
@@ -52,7 +53,8 @@ describe("MyReportsComponent", () => {
       operatingEnvironment: "",
       beneficiaryFeedback: "",
       challengesFaced: "",
-      incidents: ""
+      incidents: "",
+      otherIssues: ""
     };
     let reports: Report[] = [completedReport, incompleteReport];
 
