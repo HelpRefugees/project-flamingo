@@ -68,7 +68,10 @@ describe("ReportCardComponent", () => {
       dueDate: "2018-11-07T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      incidents: "",
+      otherIssues: "",
+      challengesFaced: ""
     };
 
     beforeEach(() => {
@@ -102,7 +105,10 @@ describe("ReportCardComponent", () => {
       dueDate: "2018-11-07T00:00:00.000Z",
       keyActivity: {},
       operatingEnvironment: "",
-      beneficiaryFeedback: ""
+      beneficiaryFeedback: "",
+      incidents: "",
+      otherIssues: "",
+      challengesFaced: ""
     };
 
     beforeEach(() => {
