@@ -1,12 +1,14 @@
 FROM cypress/browsers:chrome69
 
 COPY package.json .
-COPY package-lock.json .
+COPY yarn.lock .
+
+RUN npm install -g yarn@1.10.1
 
 RUN yarn install
 
+COPY cypress.json .
 COPY e2e ./e2e
 
-RUN yarn cypress verify
-
 ENTRYPOINT [ "yarn" ]
+CMD [ "-v" ]

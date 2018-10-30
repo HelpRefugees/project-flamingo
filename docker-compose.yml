@@ -2,11 +2,22 @@ version: "3.3"
 services:
   flamingo:
     build: .
+    image: flamingo/flamingo
+    environment:
+      - DEBUG=*
+      - DATABASE_URL=mongodb://flamongo:27017/flamingo
+    links:
+      - flamongo
   cypress:
     build:
       context: .
       dockerfile: ./e2e/Dockerfile
+    image: flamingo/cypress
     environment:
       - CYPRESS_BASE_URL=http://flamingo:3000
+      - DATABASE_URL=mongodb://flamongo:27017/flamingo
     links:
       - flamingo
+      - flamongo
+  flamongo:
+    image: mongo:4-xenial

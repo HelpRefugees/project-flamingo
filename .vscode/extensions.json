@@ -6,7 +6,8 @@
   "recommendations": [
     "eamodio.gitlens",
     "esbenp.prettier-vscode",
-    "flowtype.flow-for-vscode"
+    "flowtype.flow-for-vscode",
+    "peterjausovec.vscode-docker"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []
