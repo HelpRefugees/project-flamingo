@@ -9,6 +9,7 @@ RUN yarn install
 
 COPY cypress.json .
 COPY e2e ./e2e
+COPY scripts ./scripts
 
 ENTRYPOINT [ "yarn" ]
 CMD [ "-v" ]
