@@ -50,42 +50,6 @@ const styles = themes => ({
     boxShadow: "none",
     justifyContent: "space-between",
     marginTop: "1px"
-  },
-  pagePaper: {
-    padding: themes.spacing.unit * 4,
-    boxShadow: "none",
-    marginBottom: themes.spacing.unit
-  },
-  outerContainer: {
-    height: "100vh",
-    margin: "5%"
-  },
-  headerText: {
-    color: "#404040"
-  },
-  rule: {
-    marginTop: themes.spacing.unit * 2,
-    borderTop: "solid 1px #e5e5e5",
-    borderBottom: "none",
-    borderLeft: "none",
-    borderRight: "none",
-    height: "1px",
-    position: "relative",
-    left: "-32px",
-    width: "calc(100% + 2 * 32px)"
-  },
-  fontFamily: {
-    fontFamily: "open Sans",
-    margin: themes.spacing.unit * 0.5,
-    fontWeight: "normal",
-    fontStyle: "normal",
-    fontStretch: "normal"
-  },
-  progress: {
-    margin: "4px",
-    fontSize: "14px",
-    color: "#404040",
-    letterSpacing: "0.3px"
   }
 });
 

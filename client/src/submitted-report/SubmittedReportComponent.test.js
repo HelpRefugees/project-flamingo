@@ -51,6 +51,8 @@ describe("SubmittedReportComponent", () => {
   };
 
   beforeEach(() => {
+    mockLogout = jest.fn();
+
     wrapper = shallow(
       <SubmittedReportComponent
         logout={mockLogout}

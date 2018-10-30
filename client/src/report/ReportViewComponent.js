@@ -25,11 +25,6 @@ const styles = themes => ({
     fontSize: "20px",
     color: "#393e40"
   },
-  appbar: {
-    boxShadow: "none",
-    justifyContent: "space-between",
-    marginTop: "1px"
-  },
   pagePaper: {
     padding: themes.spacing.unit * 4,
     boxShadow: "none",
