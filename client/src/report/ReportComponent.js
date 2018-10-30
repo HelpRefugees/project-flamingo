@@ -11,6 +11,7 @@ import {
   InputLabel
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
+import moment from "moment";
 
 import ReportSectionComponent from "./ReportSectionComponent";
 
@@ -136,22 +137,52 @@ export class ReportComponent extends Component<Props, State> {
     return (
       <AppBar position="static" color="inherit" className={classes.appbar}>
         <Toolbar>
-          <Grid container justify="space-between" alignItems="center">
-            <Grid item container direction="column" xs={3}>
-              <Typography color="textSecondary" variant="caption">
-                Grant
-              </Typography>
-              <Typography data-test-id="grant-name">{report.grant}</Typography>
-            </Grid>
-            <Button
-              data-test-id="report-submit-button"
-              variant="contained"
-              color="primary"
-              disabled={this.isSubmitDisabled()}
-              onClick={() => this.reviewAndSubmitReport()}
+          <Grid container justify="space-between">
+            <Grid
+              item
+              container
+              direction="row"
+              xs={8}
+              sm={6}
+              lg={3}
+              justify="flex-start"
             >
-              Review & submit
-            </Button>
+              <Grid item container direction="column" xs={3} sm={6}>
+                <Typography color="textSecondary" variant="caption">
+                  Grant
+                </Typography>
+                <Typography data-test-id="grant-name">
+                  {report.grant}
+                </Typography>
+              </Grid>
+              <Grid item container direction="column" xs={3} sm={6}>
+                <Typography color="textSecondary" variant="caption">
+                  Period
+                </Typography>
+                <Typography data-test-id="report-period">
+                  {moment(report.reportPeriod).format("MMMM YYYY")}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              container
+              direction="row"
+              xs={4}
+              sm={6}
+              lg={3}
+              justify="flex-end"
+            >
+              <Button
+                data-test-id="report-submit-button"
+                variant="contained"
+                color="primary"
+                disabled={this.isSubmitDisabled()}
+                onClick={() => this.reviewAndSubmitReport()}
+              >
+                Review & submit
+              </Button>
+            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>

@@ -86,6 +86,74 @@ export class ReviewReportComponent extends Component<Props> {
     });
   };
 
+  renderToolbar = (classes: any, report: Report, isLoading: boolean) => {
+    return (
+      <AppBar position="static" color="inherit" className={classes.appbar}>
+        <Toolbar>
+          <Grid container direction="row" justify="space-between">
+            <Grid
+              item
+              container
+              direction="row"
+              xs={8}
+              sm={6}
+              lg={3}
+              justify="flex-start"
+            >
+              <Grid item container direction="column" xs={3} sm={6}>
+                <Typography color="textSecondary" variant="caption">
+                  Grant
+                </Typography>
+                <Typography data-test-id="grant-name">
+                  {report.grant}
+                </Typography>
+              </Grid>
+              <Grid item container direction="column" xs={3} sm={6}>
+                <Typography color="textSecondary" variant="caption">
+                  Period
+                </Typography>
+                <Typography data-test-id="report-period">
+                  {moment(report.reportPeriod).format("MMMM YYYY")}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              item
+              container
+              direction="row"
+              xs={4}
+              sm={6}
+              lg={3}
+              justify="flex-end"
+            >
+              <Button
+                data-test-id="report-edit-button"
+                variant="outlined"
+                color="primary"
+                disabled={isLoading}
+                onClick={() => this.redirectToEditReportPage(report.id)}
+                className={classes.button}
+              >
+                Edit
+              </Button>
+
+              <Button
+                data-test-id="report-submit-button"
+                variant="contained"
+                color="primary"
+                disabled={isLoading}
+                onClick={() => this.submitReport()}
+                className={classes.button}
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+    );
+  };
+
   render() {
     const { classes, account, logout, isLoading } = this.props;
     const report = this.report;
@@ -100,69 +168,7 @@ export class ReviewReportComponent extends Component<Props> {
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
-        <AppBar position="static" color="inherit" className={classes.appbar}>
-          <Toolbar>
-            <Grid container direction="row" justify="space-between">
-              <Grid
-                item
-                container
-                direction="row"
-                xs={8}
-                sm={6}
-                lg={3}
-                justify="flex-start"
-              >
-                <Grid item container direction="column" xs={3} sm={6}>
-                  <Typography color="textSecondary" variant="caption">
-                    Grant
-                  </Typography>
-                  <Typography data-test-id="grant-name">
-                    {report.grant}
-                  </Typography>
-                </Grid>
-                <Grid item container direction="column" xs={3} sm={6}>
-                  <Typography color="textSecondary" variant="caption">
-                    Period
-                  </Typography>
-                  <Typography data-test-id="report-period">
-                    {moment(report.reportPeriod).format("MMMM YYYY")}
-                  </Typography>
-                </Grid>
-              </Grid>
-              <Grid
-                item
-                container
-                direction="row"
-                xs={4}
-                sm={6}
-                lg={3}
-                justify="flex-end"
-              >
-                <Button
-                  data-test-id="report-edit-button"
-                  variant="outlined"
-                  color="primary"
-                  disabled={isLoading}
-                  onClick={() => this.redirectToEditReportPage(report.id)}
-                  className={classes.button}
-                >
-                  Edit
-                </Button>
-
-                <Button
-                  data-test-id="report-submit-button"
-                  variant="contained"
-                  color="primary"
-                  disabled={isLoading}
-                  onClick={() => this.submitReport()}
-                  className={classes.button}
-                >
-                  Submit
-                </Button>
-              </Grid>
-            </Grid>
-          </Toolbar>
-        </AppBar>
+        {this.renderToolbar(classes, report, isLoading)}
         <ReportViewComponent report={report} />
       </Fragment>
     );

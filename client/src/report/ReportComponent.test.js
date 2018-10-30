@@ -76,6 +76,24 @@ describe("ReportComponent", () => {
     expect(wrapper.find(HeaderComponent).prop("account")).toBe(account);
   });
 
+  it("renders the grant name", () => {
+    expect(
+      wrapper
+        .find(`[data-test-id="grant-name"]`)
+        .render()
+        .text()
+    ).toContain(report1.grant);
+  });
+
+  it("renders the report period", () => {
+    expect(
+      wrapper
+        .find(`[data-test-id="report-period"]`)
+        .render()
+        .text()
+    ).toContain("October 2018");
+  });
+
   describe("grant progress", () => {
     let grantProgressSection;
 
