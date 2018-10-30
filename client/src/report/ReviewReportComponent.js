@@ -27,7 +27,7 @@ type Props = {
   updateReport: (report: Report) => void
 };
 
-const styles = themes => ({
+const styles = theme => ({
   definitionListTitle: {
     fontSize: "10px",
     letterSpacing: "1.5px",
@@ -56,7 +56,23 @@ const styles = themes => ({
   },
   button: {
     width: "120px",
-    marginLeft: "12px"
+    marginLeft: theme.spacing.unit
+  },
+  rowContainer: {
+    marginTop: theme.spacing.unit * 4
+  },
+  centeredTitle: {
+    color: "#404040",
+    textAlign: "center",
+    letterSpacing: "0.3px"
+  },
+  centeredSubtitle: {
+    color: "#989898",
+    textAlign: "center",
+    letterSpacing: "0.1px",
+    fontSize: "14px",
+    lineHeight: "1.71",
+    marginTop: theme.spacing.unit
   }
 });
 
@@ -169,6 +185,32 @@ export class ReviewReportComponent extends Component<Props> {
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
         {this.renderToolbar(classes, report, isLoading)}
+
+        <Grid
+          item
+          container
+          direction="column"
+          className={classes.rowContainer}
+        >
+          <Grid item>
+            <Typography
+              variant="h4"
+              data-test-id="page-title"
+              className={classes.centeredTitle}
+            >
+              Review your report
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography
+              data-test-id="page-title"
+              className={classes.centeredSubtitle}
+            >
+              Please review all the section of your report before submitting it.
+            </Typography>
+          </Grid>
+        </Grid>
+
         <ReportViewComponent report={report} />
       </Fragment>
     );

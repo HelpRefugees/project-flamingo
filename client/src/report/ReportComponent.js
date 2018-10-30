@@ -42,20 +42,18 @@ const styles = themes => ({
     marginLeft: 0,
     fontFamily: "open Sans"
   },
+  headerText: {
+    color: "#404040",
+    fontSize: "24px"
+  },
   outerContainer: {
     height: "100vh",
-    margin: "5%"
+    marginTop: themes.spacing.unit * 5
   },
   appbar: {
     boxShadow: "none",
     justifyContent: "space-between",
     marginTop: "1px"
-  },
-  fontFamily: {
-    fontFamily: "open Sans",
-    fontWeight: "normal",
-    fontStyle: "normal",
-    fontStretch: "normal"
   }
 });
 

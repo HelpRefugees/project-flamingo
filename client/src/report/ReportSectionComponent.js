@@ -16,7 +16,8 @@ const styles = themes => ({
     color: "#404040",
     margin: 0,
     fontWeight: "normal",
-    fontFamily: "open Sans"
+    fontFamily: "open Sans",
+    fontSize: "24px"
   },
   optionalSubtitleText: {
     fontSize: "14px",

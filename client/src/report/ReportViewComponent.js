@@ -26,16 +26,20 @@ const styles = themes => ({
     color: "#393e40"
   },
   pagePaper: {
-    padding: themes.spacing.unit * 4,
+    paddingTop: themes.spacing.unit * 3,
+    paddingBottom: themes.spacing.unit * 3,
+    paddingLeft: themes.spacing.unit * 4,
+    paddingRight: themes.spacing.unit * 4,
     boxShadow: "none",
-    marginBottom: themes.spacing.unit
+    marginBottom: themes.spacing.unit * 3
   },
   outerContainer: {
     height: "100vh",
-    margin: "5%"
+    marginTop: themes.spacing.unit * 5
   },
   headerText: {
-    color: "#404040"
+    color: "#404040",
+    fontSize: "24px"
   },
   rule: {
     marginTop: themes.spacing.unit * 2,
@@ -78,6 +82,7 @@ export class ReportViewComponent extends React.PureComponent<{
 
   renderKeyActivities() {
     const { classes, report } = this.props;
+
     return (
       <Paper
         justify="center"
