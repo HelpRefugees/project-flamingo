@@ -41,7 +41,8 @@ describe("ReportComponent", () => {
     beneficiaryFeedback: "",
     challengesFaced: "",
     incidents: "",
-    otherIssues: ""
+    otherIssues: "",
+    materialsForFundraising: ""
   };
   let reports: $Shape<Report>[] = [report1, report2];
   const account: Account = {
@@ -450,6 +451,40 @@ describe("ReportComponent", () => {
       optional: true,
       inputSelector: "materials-for-fundraising-input",
       reportProperty: "materialsForFundraising"
+    });
+  });
+
+  describe("sections save independently", () => {
+    let section;
+
+    const updateSection = () => {
+      section = wrapper.find(ReportSectionComponent).at(7);
+    };
+
+    beforeEach(() => {
+      updateSection();
+    });
+
+    it("calls update report action with the correct arguments when clicking the save button", () => {
+      const newValue = "new value for materialsForFundraising";
+
+      const updatedReport1 = {
+        ...report1,
+        materialsForFundraising: newValue
+      };
+
+      wrapper
+        .find(`[data-test-id="materials-for-fundraising-input"]`)
+        .simulate("change", { target: { value: newValue } });
+
+      wrapper.find(`[data-test-id="other-issues-input"]`).simulate("change", {
+        target: { value: "new value for fundraisingInput" }
+      });
+
+      const onSave = section.prop("onSave");
+      onSave();
+
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
     });
   });
 });

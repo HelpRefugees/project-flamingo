@@ -66,7 +66,11 @@ type State = {
     impactOutcome?: string
   },
   operatingEnvironment?: string,
-  beneficiaryFeedback?: string
+  beneficiaryFeedback?: string,
+  challengesFaced?: string,
+  incidents?: string,
+  otherIssues?: string,
+  materialsForFundraising?: string
 };
 
 export class ReportComponent extends Component<Props, State> {
@@ -90,19 +94,20 @@ export class ReportComponent extends Component<Props, State> {
     ): any);
   }
 
-  saveReport = () => {
-    this.props.updateReport({
-      ...this.report,
-      ...this.state
-    });
-  };
-
   submitReport = () => {
     this.props.updateReport({
       ...this.report,
       ...this.state,
       completed: true
     });
+  };
+
+  saveReport = (fieldName: string) => {
+    return () =>
+      this.props.updateReport({
+        ...this.report,
+        [fieldName]: this.state[fieldName]
+      });
   };
 
   changeReportProgress = (event: Event) => {
@@ -204,7 +209,7 @@ export class ReportComponent extends Component<Props, State> {
         title={title}
         subtitle={subtitle}
         disabled={isDisabled}
-        onSave={() => this.saveReport()}
+        onSave={this.saveReport(stateProperty)}
         optional={optional}
       >
         <OutlinedInput
@@ -246,7 +251,7 @@ export class ReportComponent extends Component<Props, State> {
         title="Key Activities"
         subtitle="Please describe the activities you have done this month."
         disabled={isDisabled}
-        onSave={this.saveReport.bind(this)}
+        onSave={this.saveReport("keyActivity")}
       >
         <InputLabel className={classes.label}>Name of the activity</InputLabel>
         <OutlinedInput
