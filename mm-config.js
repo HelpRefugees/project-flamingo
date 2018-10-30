@@ -1,4 +1,6 @@
+const { getDatabaseUrl } = require("./scripts/utils");
+
 module.exports = {
-  url: process.env.DATABASE_URL || "mongodb://localhost:27017/flamingo",
+  url: getDatabaseUrl(),
   directory: "./server/migrations"
 };
