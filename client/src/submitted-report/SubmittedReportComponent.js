@@ -5,13 +5,12 @@ import {
   withStyles,
   AppBar,
   Toolbar,
-  Typography,
-  Paper
+  Typography
 } from "@material-ui/core";
 import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
-
+import ReportViewComponent from "../report/ReportViewComponent";
 import type { Account } from "../authentication/models";
 import type { Report } from "../report/models";
 
@@ -98,112 +97,6 @@ export class SubmittedReportComponent extends Component<Props, State> {
     ): any);
   }
 
-  formatParagraph(content?: string): ?any {
-    return (content || "").split("\n").map((item, index) => (
-      <span key={index}>
-        {item}
-        <br />
-      </span>
-    ));
-  }
-
-  renderGrantProgress() {
-    const { classes } = this.props;
-    const report = this.report;
-    return (
-      <Paper
-        justify="center"
-        className={classes.pagePaper}
-        data-test-id="grant-progress"
-      >
-        <Grid container direction="column" spacing={32}>
-          <Grid item>
-            <h1
-              data-test-id="report-section-title"
-              className={[classes.fontFamily, classes.headerText].join(" ")}
-            >
-              Grant overview
-            </h1>
-            <hr className={classes.rule} />
-          </Grid>
-          <Grid item>
-            <Typography
-              data-test-id="report-progress"
-              className={classes.progress}
-            >
-              {this.formatParagraph(report.overview)}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  }
-
-  renderKeyActivities() {
-    const report = this.report;
-    const { classes } = this.props;
-    return (
-      <Paper
-        justify="center"
-        className={classes.pagePaper}
-        data-test-id="grant-key-activities"
-      >
-        <Grid container direction="column" spacing={32}>
-          <Grid item>
-            <h1
-              data-test-id="report-section-title"
-              className={[classes.fontFamily, classes.headerText].join(" ")}
-            >
-              Key activities & impact
-            </h1>
-            <hr className={classes.rule} />
-          </Grid>
-          <Grid item>
-            <Typography
-              data-test-id="report-key-activity-name"
-              className={classes.activityName}
-            >
-              {report.keyActivity ? report.keyActivity.activityName : ""}
-            </Typography>
-            <dl>
-              <dt className={classes.definitionListTitle}>
-                Average number of participants
-              </dt>
-              <dd
-                data-test-id="report-number-of-participants"
-                className={classes.definitonListItem}
-              >
-                {report.keyActivity
-                  ? report.keyActivity.numberOfParticipants
-                  : ""}
-              </dd>
-              <dt className={classes.definitionListTitle}>
-                Demographic information
-              </dt>
-              <dd
-                data-test-id="report-demographic-info"
-                className={classes.definitonListItem}
-              >
-                {report.keyActivity ? report.keyActivity.demographicInfo : ""}
-              </dd>
-              <dt className={classes.definitionListTitle}>
-                Positive impacts and outcome
-              </dt>
-              <dd
-                data-test-id="report-impact-outcome"
-                className={classes.definitonListItem}
-              >
-                {report.keyActivity
-                  ? this.formatParagraph(report.keyActivity.impactOutcome)
-                  : ""}
-              </dd>
-            </dl>
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  }
-
   render() {
     const { classes, account, logout } = this.props;
     const report = this.report;
@@ -241,19 +134,7 @@ export class SubmittedReportComponent extends Component<Props, State> {
             </Grid>
           </Toolbar>
         </AppBar>
-        <Grid
-          container
-          spacing={24}
-          direction="column"
-          className={classes.outerContainer}
-        >
-          <Grid container justify="center">
-            <Grid item xs={6}>
-              {this.renderGrantProgress()}
-              {this.renderKeyActivities()}
-            </Grid>
-          </Grid>
-        </Grid>
+        <ReportViewComponent report={report} />
       </Fragment>
     );
   }

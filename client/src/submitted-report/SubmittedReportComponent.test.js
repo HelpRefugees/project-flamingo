@@ -4,6 +4,7 @@ import { shallow } from "enzyme";
 import { SubmittedReportComponent } from "./SubmittedReportComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "../report/models";
+import ReportViewComponent from "../report/ReportViewComponent";
 import type { Account } from "../authentication/models";
 
 describe("SubmittedReportComponent", () => {
@@ -42,7 +43,6 @@ describe("SubmittedReportComponent", () => {
     incidents: "",
     otherIssues: ""
   };
-  let reports: Report[] = [report1, report2];
 
   const account: Account = {
     username: "steve@ip.org",
@@ -50,75 +50,42 @@ describe("SubmittedReportComponent", () => {
     role: "help-refugees"
   };
 
-  it("renders a header component and passes the logout method and the account to it", () => {
+  beforeEach(() => {
     wrapper = shallow(
       <SubmittedReportComponent
         logout={mockLogout}
         match={{ params: { id: "1" } }}
         classes={{}}
-        reports={reports}
+        reports={[report1, report2]}
         account={account}
       />
     );
+  });
+
+  it("renders a header component and passes the logout method and the account to it", () => {
     expect(wrapper.find(HeaderComponent).prop("logout")).toBe(mockLogout);
     expect(wrapper.find(HeaderComponent).prop("account")).toBe(account);
   });
 
-  describe("with completed report", () => {
-    beforeEach(() => {
-      wrapper = shallow(
-        <SubmittedReportComponent
-          logout={mockLogout}
-          match={{ params: { id: "1" } }}
-          classes={{}}
-          reports={[report1]}
-          account={account}
-        />
-      );
-    });
-
-    const fields = {
-      "grant-name": "Hugh Grant",
-      "submission-date": "03/10/2018",
-      "report-progress": report1.overview,
-      "report-key-activity-name": report1.keyActivity.activityName,
-      "report-number-of-participants": report1.keyActivity.numberOfParticipants,
-      "report-demographic-info": report1.keyActivity.demographicInfo,
-      "report-impact-outcome": report1.keyActivity.impactOutcome
-    };
-
-    Object.entries(fields).forEach(([name, expectedContent]) => {
-      it(`renders the grant ${name.replace("-", " ")}`, () => {
-        expect(
-          wrapper
-            .find(`[data-test-id="${name}"]`)
-            .render()
-            .text()
-        ).toContain(expectedContent);
-      });
-    });
+  it("renders the report view compoennt", () => {
+    expect(wrapper.find(ReportViewComponent).prop("report")).toBe(report1);
   });
 
-  describe("with multiline report", () => {
-    beforeEach(() => {
-      wrapper = shallow(
-        <SubmittedReportComponent
-          logout={mockLogout}
-          match={{ params: { id: "2" } }}
-          classes={{}}
-          reports={reports}
-          account={account}
-        />
-      );
-    });
+  it("renders the grant name", () => {
+    expect(
+      wrapper
+        .find(`[data-test-id="grant-name"]`)
+        .render()
+        .text()
+    ).toContain("Hugh Grant");
+  });
 
-    it("splits up the text", () => {
-      expect(
-        wrapper
-          .find('[data-test-id="report-progress"]')
-          .render()
-          .children()
-      ).toHaveLength(3);
-    });
+  it("renders the grant submission date", () => {
+    expect(
+      wrapper
+        .find(`[data-test-id="submission-date"]`)
+        .render()
+        .text()
+    ).toContain("03/10/2018");
   });
 });
