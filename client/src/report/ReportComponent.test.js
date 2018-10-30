@@ -440,4 +440,16 @@ describe("ReportComponent", () => {
       reportProperty: "otherIssues"
     });
   });
+
+  describe("materials for fundraising", () => {
+    itIsATextareaSection({
+      sectionIndex: 7,
+      title: "Materials for fundraising",
+      subtitle:
+        "We depend on high quality images, film footage, copy and testimonials to raise funds and recruit volunteers. We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
+      optional: true,
+      inputSelector: "materials-for-fundraising-input",
+      reportProperty: "materialsForFundraising"
+    });
+  });
 });

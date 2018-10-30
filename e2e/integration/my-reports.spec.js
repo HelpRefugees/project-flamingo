@@ -44,7 +44,8 @@ context("My Reports Page", () => {
         beneficiaryFeedback: randomAlphaText(16),
         challengesFaced: randomAlphaText(16),
         incidents: randomAlphaText(16),
-        otherIssues: randomAlphaText(16)
+        otherIssues: randomAlphaText(16),
+        materialsForFundraising: randomAlphaText(16)
       };
 
       myReportsPage.getFirstReport("incomplete").click();
@@ -129,6 +130,13 @@ context("My Reports Page", () => {
         value: newReport.otherIssues
       });
 
+      completeAndSaveSection({
+        key: "materials-for-fundraising",
+        title: "Materials for fundraising",
+        selector: ReportSection.sections.materialsForFundraising.materials,
+        value: newReport.materialsForFundraising
+      });
+
       myReportsPage.goToHomePage();
       myReportsPage.getFirstReport("incomplete").click();
 
@@ -194,6 +202,12 @@ context("My Reports Page", () => {
         name: "other-issues",
         selector: ReportSection.sections.otherIssues.issues,
         value: newReport.otherIssues
+      });
+
+      assertReportSectionInputValue({
+        name: "materials-for-fundraising",
+        selector: ReportSection.sections.materialsForFundraising.materials,
+        value: newReport.materialsForFundraising
       });
     });
 

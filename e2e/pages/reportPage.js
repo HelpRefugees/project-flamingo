@@ -86,6 +86,12 @@ export class ReportSection {
         selector: "other-issues-input",
         type: "textarea"
       }
+    },
+    materialsForFundraising: {
+      materials: {
+        selector: "materials-for-fundraising-input",
+        type: "textarea"
+      }
     }
   };
 

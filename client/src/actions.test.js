@@ -314,6 +314,11 @@ describe("actions", () => {
             op: "replace",
             path: "/otherIssues",
             value: report.otherIssues
+          },
+          {
+            op: "replace",
+            path: "/materialsForFundraising",
+            value: report.materialsForFundraising
           }
         ]);
       });

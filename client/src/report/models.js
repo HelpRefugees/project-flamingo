@@ -12,6 +12,7 @@ export type Report = {
   challengesFaced: string,
   incidents: string,
   otherIssues: string,
+  materialsForFundraising: string,
   grant: string,
   completed: boolean,
   reportPeriod: string,

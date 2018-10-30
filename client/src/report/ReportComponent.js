@@ -376,6 +376,17 @@ export class ReportComponent extends Component<Props, State> {
       optional: true
     };
 
+    const materialsForFundraising = {
+      key: "materials-for-fundraising",
+      stateProperty: "materialsForFundraising",
+      title: "Materials for fundraising",
+      subtitle:
+        "We depend on high quality images, film footage, copy and testimonials to raise funds and recruit volunteers. We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
+      inputKey: "materials-for-fundraising-input",
+      placeholder: "Please add an overview",
+      optional: true
+    };
+
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -395,6 +406,7 @@ export class ReportComponent extends Component<Props, State> {
               {this.renderTextareaSection(challengesFaced)}
               {this.renderTextareaSection(incidents)}
               {this.renderTextareaSection(otherIssues)}
+              {this.renderTextareaSection(materialsForFundraising)}
             </Grid>
           </Grid>
         </Grid>

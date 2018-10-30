@@ -108,7 +108,8 @@ export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
     "beneficiaryFeedback",
     "challengesFaced",
     "incidents",
-    "otherIssues"
+    "otherIssues",
+    "materialsForFundraising"
   ].map(field => ({
     op: "replace",
     path: `/${field}`,
