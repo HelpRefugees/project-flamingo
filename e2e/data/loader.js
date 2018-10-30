@@ -2,6 +2,8 @@
 const MongoClient = require("mongodb").MongoClient;
 const fs = require("fs");
 
+const { getDatabaseUrl } = require("../../scripts/utils");
+
 function readJsonFile(filename) {
   return new Promise((resolve, reject) => {
     fs.readFile(filename, "utf8", (err, content) => {
@@ -16,9 +18,7 @@ function readJsonFile(filename) {
 }
 
 function mongo() {
-  return MongoClient.connect("mongodb://localhost:27017").then(client =>
-    client.db("flamingo")
-  );
+  return MongoClient.connect(getDatabaseUrl()).then(client => client.db());
 }
 
 function clearReports(db) {
