@@ -21,7 +21,11 @@ describe("ReportViewComponent", () => {
       impactOutcome: "impact"
     },
     operatingEnvironment: "",
-    beneficiaryFeedback: ""
+    beneficiaryFeedback: "",
+    challengesFaced: "",
+    incidents: "",
+    otherIssues: "",
+    materialsForFundraising: ""
   };
 
   const report2: $Shape<Report> = {
@@ -32,7 +36,11 @@ describe("ReportViewComponent", () => {
     reportPeriod: "2018-10-01T00:00:00.000Z",
     keyActivity: {},
     operatingEnvironment: "",
-    beneficiaryFeedback: ""
+    beneficiaryFeedback: "",
+    challengesFaced: "",
+    incidents: "",
+    otherIssues: "",
+    materialsForFundraising: ""
   };
 
   describe("with completed report", () => {
@@ -42,10 +50,16 @@ describe("ReportViewComponent", () => {
 
     const fields = {
       "report-progress": report1.overview,
+      "report-operating-environment": report1.operatingEnvironment,
       "report-key-activity-name": report1.keyActivity.activityName,
       "report-number-of-participants": report1.keyActivity.numberOfParticipants,
       "report-demographic-info": report1.keyActivity.demographicInfo,
-      "report-impact-outcome": report1.keyActivity.impactOutcome
+      "report-impact-outcome": report1.keyActivity.impactOutcome,
+      "report-beneficiary-feedback": report1.beneficiaryFeedback,
+      "report-challenges-faced": report1.challengesFaced,
+      "report-incidents": report1.incidents,
+      "report-other-issues": report1.otherIssues,
+      "report-materials-for-fundraising": report1.materialsForFundraising
     };
 
     Object.entries(fields).forEach(([name, expectedContent]) => {

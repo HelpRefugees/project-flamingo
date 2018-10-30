@@ -44,15 +44,25 @@ context("Reports Listing Page", () => {
           submissionDate: "15/09/2018"
         });
 
-        submittedReportPage.getSection(
-          "grant-progress",
-          grantProgressSection => {
-            grantProgressSection.title.should("contain.text", "Grant overview");
-            grantProgressSection
-              .contentFor("report-progress")
-              .should("contain.text", "Mitchell overview completed");
-          }
-        );
+        const sectionContainsContent = ({
+          sectionKey,
+          sectionTitle,
+          contentKey,
+          content
+        }) => {
+          submittedReportPage.getSection(sectionKey, section => {
+            section.title.should("contain.text", sectionTitle);
+            section.contentFor(contentKey).should("contain.text", content);
+          });
+        };
+
+        sectionContainsContent({
+          sectionKey: "grant-progress",
+          sectionTitle: "Grant overview",
+          contentKey: "report-progress",
+          content: "Mitchell overview completed"
+        });
+
         submittedReportPage.getSection(
           "grant-key-activities",
           grantProgressSection => {
@@ -74,6 +84,49 @@ context("Reports Listing Page", () => {
               .should("contain.text", "impactOutcome");
           }
         );
+
+        sectionContainsContent({
+          sectionKey: "operating-environment",
+          sectionTitle: "Operating environment",
+          contentKey: "report-operating-environment",
+          content: "operatingEnvironment"
+        });
+
+        sectionContainsContent({
+          sectionKey: "beneficiary-feedback",
+          sectionTitle: "Beneficiary feedback",
+          contentKey: "report-beneficiary-feedback",
+          content: "beneficiaryFeedback"
+        });
+
+        sectionContainsContent({
+          sectionKey: "challenges-faced",
+          sectionTitle: "Challenges faced and lessons learned",
+          contentKey: "report-challenges-faced",
+          content: "challengesFaced"
+        });
+
+        sectionContainsContent({
+          sectionKey: "incidents",
+          sectionTitle: "Incidents and near misses",
+          contentKey: "report-incidents",
+          content: "incidents"
+        });
+
+        sectionContainsContent({
+          sectionKey: "other-issues",
+          sectionTitle:
+            "Is there anything you would like to use our platform to speak about?",
+          contentKey: "report-other-issues",
+          content: "otherIssues"
+        });
+
+        sectionContainsContent({
+          sectionKey: "materials-for-fundraising",
+          sectionTitle: "Materials for fundraising",
+          contentKey: "report-materials-for-fundraising",
+          content: "materialsForFundraising"
+        });
       });
 
       it("redirects to the not found page if accessing a details page for a non-existent report", () => {

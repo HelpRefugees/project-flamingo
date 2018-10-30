@@ -81,37 +81,6 @@ export class ReportViewComponent extends React.PureComponent<{
     ));
   }
 
-  renderGrantProgress() {
-    const { classes, report } = this.props;
-    return (
-      <Paper
-        justify="center"
-        className={classes.pagePaper}
-        data-test-id="grant-progress"
-      >
-        <Grid container direction="column" spacing={32}>
-          <Grid item>
-            <h1
-              data-test-id="report-section-title"
-              className={[classes.fontFamily, classes.headerText].join(" ")}
-            >
-              Grant overview
-            </h1>
-            <hr className={classes.rule} />
-          </Grid>
-          <Grid item>
-            <Typography
-              data-test-id="report-progress"
-              className={classes.progress}
-            >
-              {this.formatParagraph(report.overview)}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  }
-
   renderKeyActivities() {
     const { classes, report } = this.props;
     return (
@@ -176,8 +145,79 @@ export class ReportViewComponent extends React.PureComponent<{
     );
   }
 
-  render() {
+  renderTextSection({ titleKey, title, valueKey, value }: any) {
     const { classes } = this.props;
+    return (
+      <Paper
+        justify="center"
+        className={classes.pagePaper}
+        data-test-id={titleKey}
+      >
+        <Grid container direction="column" spacing={32}>
+          <Grid item>
+            <h1
+              data-test-id="report-section-title"
+              className={[classes.fontFamily, classes.headerText].join(" ")}
+            >
+              {title}
+            </h1>
+            <hr className={classes.rule} />
+          </Grid>
+          <Grid item>
+            <Typography data-test-id={valueKey} className={classes.progress}>
+              {this.formatParagraph(value)}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Paper>
+    );
+  }
+
+  render() {
+    const { classes, report } = this.props;
+    const grantProgressSection = {
+      titleKey: "grant-progress",
+      title: "Grant overview",
+      valueKey: "report-progress",
+      value: report.overview
+    };
+    const operatingEnvironmentSection = {
+      titleKey: "operating-environment",
+      title: "Operating environment",
+      valueKey: "report-operating-environment",
+      value: report.operatingEnvironment
+    };
+    const beneficiaryFeedbackSection = {
+      titleKey: "beneficiary-feedback",
+      title: "Beneficiary feedback",
+      valueKey: "report-beneficiary-feedback",
+      value: report.beneficiaryFeedback
+    };
+    const challengesFacedSection = {
+      titleKey: "challenges-faced",
+      title: "Challenges faced and lessons learned",
+      valueKey: "report-challenges-faced",
+      value: report.challengesFaced
+    };
+    const incidentsSection = {
+      titleKey: "incidents",
+      title: "Incidents and near misses",
+      valueKey: "report-incidents",
+      value: report.incidents
+    };
+    const otherIssuesSection = {
+      titleKey: "other-issues",
+      title:
+        "Is there anything you would like to use our platform to speak about?",
+      valueKey: "report-other-issues",
+      value: report.otherIssues
+    };
+    const materialsForFundraisingSection = {
+      titleKey: "materials-for-fundraising",
+      title: "Materials for fundraising",
+      valueKey: "report-materials-for-fundraising",
+      value: report.materialsForFundraising
+    };
     return (
       <Grid
         container
@@ -187,8 +227,14 @@ export class ReportViewComponent extends React.PureComponent<{
       >
         <Grid container justify="center">
           <Grid item xs={6}>
-            {this.renderGrantProgress()}
+            {this.renderTextSection(grantProgressSection)}
+            {this.renderTextSection(operatingEnvironmentSection)}
             {this.renderKeyActivities()}
+            {this.renderTextSection(beneficiaryFeedbackSection)}
+            {this.renderTextSection(challengesFacedSection)}
+            {this.renderTextSection(incidentsSection)}
+            {this.renderTextSection(otherIssuesSection)}
+            {this.renderTextSection(materialsForFundraisingSection)}
           </Grid>
         </Grid>
       </Grid>

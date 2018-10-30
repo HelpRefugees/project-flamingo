@@ -14,7 +14,13 @@
         "numberOfParticipants": "numberOfParticipants",
         "demographicInfo": "demographicInfo",
         "impactOutcome": "impactOutcome"
-      }
+      },
+      "operatingEnvironment": "operatingEnvironment",
+      "beneficiaryFeedback": "beneficiaryFeedback",
+      "challengesFaced": "challengesFaced",
+      "incidents": "incidents",
+      "otherIssues": "otherIssues",
+      "materialsForFundraising": "materialsForFundraising"
     },
     {
       "id": 2,
