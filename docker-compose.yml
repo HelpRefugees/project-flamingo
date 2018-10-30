@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+  flamingo:
+    build: .
+  cypress:
+    build:
+      context: .
+      dockerfile: ./e2e/Dockerfile
+    environment:
+      - CYPRESS_BASE_URL=http://flamingo:3000
+    links:
+      - flamingo

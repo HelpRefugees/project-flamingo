@@ -33,7 +33,10 @@
     "e2e": "cypress run --browser=chrome",
     "e2e:dev": "cross-env CYPRESS_BASE_URL=http://localhost:4200 yarn e2e",
     "e2e:ci": "concurrently -k -s first -n \"app,e2e\" \"cross-env PORT=3100 yarn start\" \"yarn e2e:ci:safe\"",
-    "e2e:ci:safe": "wait-on -l -t 60000 http-get://localhost:3100 && cross-env CYPRESS_BASE_URL=http://localhost:3100 yarn e2e"
+    "e2e:ci:safe": "wait-on -l -t 60000 http-get://localhost:3100 && cross-env CYPRESS_BASE_URL=http://localhost:3100 yarn e2e",
+    "pree2e:docker": "docker-compose build",
+    "e2e:docker": "docker compose run cypress e2e",
+    "poste2e:docker": "docker-compose down"
   },
   "husky": {
     "hooks": {
