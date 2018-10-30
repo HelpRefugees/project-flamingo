@@ -6,6 +6,7 @@ import { Redirect, Switch } from "react-router-dom";
 
 import LoginPage from "./authentication/LoginPage";
 import MyReportsPage from "./my-reports/MyReportsPage";
+import ReviewReportPage from "./report/ReviewReportPage";
 import ReportPage from "./report/ReportPage";
 import ReportsListingPage from "./reports-listing/ReportsListingPage";
 import SubmittedReportPage from "./submitted-report/SubmittedReportPage";
@@ -61,6 +62,14 @@ export class App extends Component<Props> {
               path="/reports/:id"
               allowed={["implementing-partner"]}
               component={ReportPage}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
+
+            <PrivateRoute
+              path="/reviewReports/:id"
+              allowed={["implementing-partner"]}
+              component={ReviewReportPage}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />

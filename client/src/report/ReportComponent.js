@@ -10,6 +10,7 @@ import {
   Typography,
   InputLabel
 } from "@material-ui/core";
+import { Redirect } from "react-router-dom";
 
 import ReportSectionComponent from "./ReportSectionComponent";
 
@@ -81,8 +82,8 @@ export class ReportComponent extends Component<Props, State> {
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.submittedReport) {
+  componentWillMount() {
+    if (this.report.completed) {
       this.props.history.push("/myReports");
     }
   }
@@ -94,12 +95,13 @@ export class ReportComponent extends Component<Props, State> {
     ): any);
   }
 
-  submitReport = () => {
+  reviewAndSubmitReport = () => {
     this.props.updateReport({
       ...this.report,
-      ...this.state,
-      completed: true
+      ...this.state
     });
+
+    this.props.history.push(`/reviewReports/${this.report.id}`);
   };
 
   saveReport = (fieldName: string) => {
@@ -146,9 +148,9 @@ export class ReportComponent extends Component<Props, State> {
               variant="contained"
               color="primary"
               disabled={this.isSubmitDisabled()}
-              onClick={() => this.submitReport()}
+              onClick={() => this.reviewAndSubmitReport()}
             >
-              Submit
+              Review & submit
             </Button>
           </Grid>
         </Toolbar>
@@ -240,7 +242,8 @@ export class ReportComponent extends Component<Props, State> {
     const report = this.report;
     const hasChanged = fields.some(
       (field: string) =>
-        this.state.keyActivity[field] !== report.keyActivity[field]
+        this.state.keyActivity
+        && this.state.keyActivity[field] !== report.keyActivity[field]
     );
 
     const isDisabled = isLoading || !hasChanged;
@@ -257,7 +260,11 @@ export class ReportComponent extends Component<Props, State> {
         <OutlinedInput
           onChange={this.onSectionInputChange("activityName", "keyActivity")}
           className={classes.input}
-          value={this.state.keyActivity.activityName}
+          value={
+            this.state.keyActivity && this.state.keyActivity.activityName
+              ? this.state.keyActivity.activityName
+              : ""
+          }
           fullWidth={true}
           labelWidth={0}
           placeholder="Add a title"
@@ -272,7 +279,12 @@ export class ReportComponent extends Component<Props, State> {
             "keyActivity"
           )}
           className={classes.input}
-          value={this.state.keyActivity.numberOfParticipants}
+          value={
+            this.state.keyActivity
+            && this.state.keyActivity.numberOfParticipants
+              ? this.state.keyActivity.numberOfParticipants
+              : ""
+          }
           fullWidth={true}
           labelWidth={0}
           placeholder="Add a number of participants"
@@ -283,7 +295,11 @@ export class ReportComponent extends Component<Props, State> {
         <OutlinedInput
           onChange={this.onSectionInputChange("demographicInfo", "keyActivity")}
           className={classes.input}
-          value={this.state.keyActivity.demographicInfo}
+          value={
+            this.state.keyActivity && this.state.keyActivity.demographicInfo
+              ? this.state.keyActivity.demographicInfo
+              : ""
+          }
           fullWidth={true}
           labelWidth={0}
           multiline
@@ -297,7 +313,11 @@ export class ReportComponent extends Component<Props, State> {
         <OutlinedInput
           onChange={this.onSectionInputChange("impactOutcome", "keyActivity")}
           className={classes.input}
-          value={this.state.keyActivity.impactOutcome}
+          value={
+            this.state.keyActivity && this.state.keyActivity.impactOutcome
+              ? this.state.keyActivity.impactOutcome
+              : ""
+          }
           fullWidth={true}
           labelWidth={0}
           multiline
@@ -313,6 +333,14 @@ export class ReportComponent extends Component<Props, State> {
   render() {
     const { classes, account, logout, isLoading } = this.props;
     const report = this.report;
+
+    if (!report) {
+      return <Redirect to="/notFound" />;
+    }
+
+    if (report.completed) {
+      return <Redirect to="/myReports" />;
+    }
 
     const grantProgress = {
       key: "grant-progress",

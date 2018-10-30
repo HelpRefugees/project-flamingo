@@ -1,4 +1,5 @@
 import MyReportsPage from "../pages/myReportsPage";
+import ReviewReportPage from "../pages/ReviewReportPage";
 import ReportPage, { ReportSection } from "../pages/reportPage";
 import ForbiddenPage from "../pages/forbiddenPage";
 
@@ -212,51 +213,32 @@ context("My Reports Page", () => {
     });
 
     it("submits a report", () => {
-      const newReport = {
-        overview: randomAlphaText(16),
-        keyActivity: {
-          activityName: randomAlphaText(16),
-          numberOfParticipants: randomNumericText(16),
-          demographicInfo: randomAlphaText(16),
-          impactOutcome: randomAlphaText(16)
-        }
-      };
-
       myReportsPage.getFirstReport("incomplete").click();
 
       const reportPage = new ReportPage(1);
       reportPage.isAt();
-
-      reportPage.getSection("grant-progress", grantProgessSection => {
-        grantProgessSection.setContentField(
-          ReportSection.sections.grantProgress.progress,
-          newReport.overview
-        );
-      });
-
-      reportPage.submitButton.should("not.have.attr", "disabled");
-
-      reportPage.getSection("key-activities", keyActivitiesSection => {
-        keyActivitiesSection.setContentField(
-          ReportSection.sections.keyActivities.name,
-          newReport.keyActivity.activityName
-        );
-        keyActivitiesSection.setContentField(
-          ReportSection.sections.keyActivities.numberOfParticipants,
-          newReport.keyActivity.numberOfParticipants
-        );
-        keyActivitiesSection.setContentField(
-          ReportSection.sections.keyActivities.demographicInfo,
-          newReport.keyActivity.demographicInfo
-        );
-        keyActivitiesSection.setContentField(
-          ReportSection.sections.keyActivities.impactOutcome,
-          newReport.keyActivity.impactOutcome
-        );
-      });
-
-      reportPage.submitButton.should("not.have.attr", "disabled");
       reportPage.submitButton.click();
+
+      const reviewReportPage = new ReviewReportPage(1);
+      reviewReportPage.isAt();
+
+      reviewReportPage.verifyReportData({
+        grantName: "Grant Mitchell",
+        reportPeriod: "August 2018"
+      });
+
+      reviewReportPage.getSection("grant-progress", grantProgressSection => {
+        grantProgressSection.title.should("contain.text", "Grant overview");
+        grantProgressSection
+          .contentFor("report-progress")
+          .should("contain.text", "Mitchell Overview");
+      });
+
+      reviewReportPage.editButton.click();
+      reportPage.isAt();
+      reportPage.submitButton.click();
+      reviewReportPage.submitButton.click();
+      myReportsPage.isAt();
 
       myReportsPage.getReports("completed").should("have.length", 1);
       myReportsPage.getFirstReport("completed").within(() => {

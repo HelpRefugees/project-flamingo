@@ -76,12 +76,6 @@ describe("ReportComponent", () => {
     expect(wrapper.find(HeaderComponent).prop("account")).toBe(account);
   });
 
-  it("redirects to myReports page when report submitted successfully", () => {
-    wrapper.setProps({ submittedReport: true });
-
-    expect(mockHistoryPush).toHaveBeenCalledWith("/myReports");
-  });
-
   describe("grant progress", () => {
     let grantProgressSection;
 
@@ -267,8 +261,7 @@ describe("ReportComponent", () => {
       const overview = "text for report progress";
       const updatedReport1 = {
         ...report1,
-        overview,
-        completed: true
+        overview
       };
 
       wrapper
@@ -278,6 +271,14 @@ describe("ReportComponent", () => {
       wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
       expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+    });
+
+    it("redirects to the review screen on click", () => {
+      wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
+
+      expect(mockHistoryPush).toHaveBeenCalledWith(
+        `/reviewReports/${report1.id}`
+      );
     });
 
     it("is disabled during loading", () => {
