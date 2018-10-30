@@ -1,5 +1,5 @@
 import MyReportsPage from "../pages/myReportsPage";
-import ReviewReportPage from "../pages/ReviewReportPage";
+import ReviewReportPage from "../pages/reviewReportPage";
 import ReportPage, { ReportSection } from "../pages/reportPage";
 import ForbiddenPage from "../pages/forbiddenPage";
 
