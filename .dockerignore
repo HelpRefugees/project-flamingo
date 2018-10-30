@@ -1,0 +1,8 @@
+/.idea
+/.vscode
+/client/build
+/client/coverage
+/client/flow-typed
+/client/node_modules
+/coverage
+/node_modules
