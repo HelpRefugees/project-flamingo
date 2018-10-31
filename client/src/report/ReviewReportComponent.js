@@ -198,7 +198,7 @@ export class ReviewReportComponent extends Component<Props> {
             <SnackbarContent
               data-test-id="error-message"
               className={classes.errorMessage}
-              message="Error saving changes"
+              message="Error submitting report"
             />
           </Snackbar>
         )}

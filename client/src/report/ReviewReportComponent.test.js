@@ -144,7 +144,7 @@ describe("ReviewReportComponent", () => {
           .find('[data-test-id="error-message"]')
           .render()
           .text()
-      ).toContain("Error saving changes");
+      ).toContain("Error submitting report");
     });
   });
 });
