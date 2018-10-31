@@ -14,12 +14,14 @@ describe("ReportViewComponent", () => {
     completed: true,
     reportPeriod: "2018-09-01T00:00:00.000Z",
     submissionDate: "2018-10-03T00:00:00.000Z",
-    keyActivity: {
-      activityName: "Test activity",
-      numberOfParticipants: "200",
-      demographicInfo: "any value",
-      impactOutcome: "impact"
-    },
+    keyActivities: [
+      {
+        activityName: "Test activity",
+        numberOfParticipants: "200",
+        demographicInfo: "any value",
+        impactOutcome: "impact"
+      }
+    ],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
@@ -34,7 +36,7 @@ describe("ReportViewComponent", () => {
     overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
     completed: true,
     reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivity: {},
+    keyActivities: [{}],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
@@ -51,10 +53,11 @@ describe("ReportViewComponent", () => {
     const fields = {
       "report-progress": report1.overview,
       "report-operating-environment": report1.operatingEnvironment,
-      "report-key-activity-name": report1.keyActivity.activityName,
-      "report-number-of-participants": report1.keyActivity.numberOfParticipants,
-      "report-demographic-info": report1.keyActivity.demographicInfo,
-      "report-impact-outcome": report1.keyActivity.impactOutcome,
+      "report-key-activity-name": report1.keyActivities[0].activityName,
+      "report-number-of-participants":
+        report1.keyActivities[0].numberOfParticipants,
+      "report-demographic-info": report1.keyActivities[0].demographicInfo,
+      "report-impact-outcome": report1.keyActivities[0].impactOutcome,
       "report-beneficiary-feedback": report1.beneficiaryFeedback,
       "report-challenges-faced": report1.challengesFaced,
       "report-incidents": report1.incidents,

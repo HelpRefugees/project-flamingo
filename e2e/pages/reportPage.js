@@ -31,7 +31,23 @@ export default class ReportPage extends BasePage {
   }
 }
 
-export class ReportSection {
+export class InputGroup {
+  get saveButton() {
+    return cy.get(testId("section-save-button"));
+  }
+
+  getContentField({ selector, type }) {
+    return cy.get(testId(selector) + " " + type).last();
+  }
+
+  setContentField(field, newContent) {
+    this.getContentField(field)
+      .clear()
+      .type(newContent);
+  }
+}
+
+export class ReportSection extends InputGroup {
   static sections = {
     grantProgress: {
       progress: {
@@ -42,24 +58,6 @@ export class ReportSection {
     operatingEnvironment: {
       progress: {
         selector: "operating-environment-input",
-        type: "textarea"
-      }
-    },
-    keyActivities: {
-      name: {
-        selector: "report-activity-name-input",
-        type: "input"
-      },
-      numberOfParticipants: {
-        selector: "report-participants-number-input",
-        type: "input"
-      },
-      demographicInfo: {
-        selector: "report-demographic-info-input",
-        type: "textarea"
-      },
-      impactOutcome: {
-        selector: "report-impact-outcome-input",
         type: "textarea"
       }
     },
@@ -99,17 +97,53 @@ export class ReportSection {
     return cy.get(testId("section-title"));
   }
 
-  get saveButton() {
-    return cy.get(testId("section-save-button"));
+  getKeyActivity(index, callback) {
+    this.keyActivities
+      .eq(index)
+      .within(subsection => {
+        callback(new KeyActivity());
+      })
+      .root();
   }
 
-  getContentField({ selector, type }) {
-    return cy.get(testId(selector) + " " + type).last();
+  get keyActivities() {
+    return cy.get(testId("key-activity"));
+  }
+}
+
+export class KeyActivity extends InputGroup {
+  static inputs = {
+    name: {
+      selector: "report-activity-name-input",
+      type: "input"
+    },
+    numberOfParticipants: {
+      selector: "report-participants-number-input",
+      type: "input"
+    },
+    demographicInfo: {
+      selector: "report-demographic-info-input",
+      type: "textarea"
+    },
+    impactOutcome: {
+      selector: "report-impact-outcome-input",
+      type: "textarea"
+    }
+  };
+
+  get removeActivityButton() {
+    return cy.get(testId("remove-activity-button"));
   }
 
-  setContentField(field, newContent) {
-    this.getContentField(field)
-      .clear()
-      .type(newContent);
+  get addActivityButton() {
+    return cy.get(testId("add-activity-button"));
+  }
+
+  addActivity() {
+    this.addActivityButton.click();
+  }
+
+  removeActivity() {
+    this.removeActivityButton.click();
   }
 }

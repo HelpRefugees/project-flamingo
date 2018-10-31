@@ -99,47 +99,45 @@ export class ReportViewComponent extends React.PureComponent<{
             </h1>
             <hr className={classes.rule} />
           </Grid>
-          <Grid item>
-            <Typography
-              data-test-id="report-key-activity-name"
-              className={classes.activityName}
-            >
-              {report.keyActivity ? report.keyActivity.activityName : ""}
-            </Typography>
-            <dl>
-              <dt className={classes.definitionListTitle}>
-                Average number of participants
-              </dt>
-              <dd
-                data-test-id="report-number-of-participants"
-                className={classes.definitonListItem}
+          {report.keyActivities.map((activity, index) => (
+            <Grid item key={index}>
+              <Typography
+                data-test-id="report-key-activity-name"
+                className={classes.activityName}
               >
-                {report.keyActivity
-                  ? report.keyActivity.numberOfParticipants
-                  : ""}
-              </dd>
-              <dt className={classes.definitionListTitle}>
-                Demographic information
-              </dt>
-              <dd
-                data-test-id="report-demographic-info"
-                className={classes.definitonListItem}
-              >
-                {report.keyActivity ? report.keyActivity.demographicInfo : ""}
-              </dd>
-              <dt className={classes.definitionListTitle}>
-                Positive impacts and outcome
-              </dt>
-              <dd
-                data-test-id="report-impact-outcome"
-                className={classes.definitonListItem}
-              >
-                {report.keyActivity
-                  ? this.formatParagraph(report.keyActivity.impactOutcome)
-                  : ""}
-              </dd>
-            </dl>
-          </Grid>
+                {activity.activityName || ""}
+              </Typography>
+              <dl>
+                <dt className={classes.definitionListTitle}>
+                  Average number of participants
+                </dt>
+                <dd
+                  data-test-id="report-number-of-participants"
+                  className={classes.definitonListItem}
+                >
+                  {activity.numberOfParticipants || ""}
+                </dd>
+                <dt className={classes.definitionListTitle}>
+                  Demographic information
+                </dt>
+                <dd
+                  data-test-id="report-demographic-info"
+                  className={classes.definitonListItem}
+                >
+                  {activity.demographicInfo || ""}
+                </dd>
+                <dt className={classes.definitionListTitle}>
+                  Positive impacts and outcome
+                </dt>
+                <dd
+                  data-test-id="report-impact-outcome"
+                  className={classes.definitonListItem}
+                >
+                  {this.formatParagraph(activity.impactOutcome || "")}
+                </dd>
+              </dl>
+            </Grid>
+          ))}
         </Grid>
       </Paper>
     );

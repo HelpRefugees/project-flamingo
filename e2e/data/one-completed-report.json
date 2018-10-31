@@ -9,12 +9,14 @@
       "dueDate": "2018-09-07T00:00:00.000Z",
       "submissionDate": "2018-09-15T03:24:00.000Z",
       "owner": "ellen@ip.org",
-      "keyActivity": {
-        "activityName": "activityName",
-        "numberOfParticipants": "numberOfParticipants",
-        "demographicInfo": "demographicInfo",
-        "impactOutcome": "impactOutcome"
-      },
+      "keyActivities": [
+        {
+          "activityName": "activityName",
+          "numberOfParticipants": "numberOfParticipants",
+          "demographicInfo": "demographicInfo",
+          "impactOutcome": "impactOutcome"
+        }
+      ],
       "operatingEnvironment": "operatingEnvironment",
       "beneficiaryFeedback": "beneficiaryFeedback",
       "challengesFaced": "challengesFaced",
@@ -28,7 +30,7 @@
       "overview": "Hugh Overview",
       "grant": "Hugh Grant",
       "owner": "ellen@ip.org",
-      "keyActivity": {}
+      "keyActivities": [{}]
     }
   ]
 }

@@ -3,40 +3,57 @@ import { shallow } from "enzyme";
 
 import { ReportComponent } from "./ReportComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
-import type { Report } from "./models";
+import type { Report, KeyActivity } from "./models";
 import type { Account } from "../authentication/models";
 import ReportSectionComponent from "./ReportSectionComponent";
+import ActivitiesSectionComponent from "./ActivitiesSectionComponent";
 
 describe("ReportComponent", () => {
+  const sectionIndices = {
+    grantProgress: 0,
+    operatingEnvironment: 1,
+    // keyActivities is a separate section type
+    beneficiaryFeedback: 2,
+    challengesFaced: 3,
+    incidents: 4,
+    otherIssues: 5,
+    materialsForFundraising: 6
+  };
+
   let wrapper;
   let mockUpdateReport;
   let mockLogout;
   let mockHistoryPush;
+  let isLoading;
+
   const report1: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
     overview: "Hugh",
     completed: false,
     reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivity: {
-      activityName: "activityName",
-      numberOfParticipants: "numberOfParticipants",
-      demographicInfo: "demographicInfo",
-      impactOutcome: "impactOutcome"
-    },
+    keyActivities: [
+      {
+        activityName: "activityName",
+        numberOfParticipants: "numberOfParticipants",
+        demographicInfo: "demographicInfo",
+        impactOutcome: "impactOutcome"
+      }
+    ],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
     incidents: "",
     otherIssues: ""
   };
+
   const report2: $Shape<Report> = {
     id: 2,
     grant: "Grant Shapps",
     overview: "Shapps",
     completed: false,
     reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivity: {},
+    keyActivities: [{}],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
@@ -44,7 +61,9 @@ describe("ReportComponent", () => {
     otherIssues: "",
     materialsForFundraising: ""
   };
+
   let reports: $Shape<Report>[] = [report1, report2];
+
   const account: Account = {
     username: "Steve@ip.org",
     name: "Also Steve",
@@ -55,6 +74,7 @@ describe("ReportComponent", () => {
     mockUpdateReport = jest.fn();
     mockLogout = jest.fn();
     mockHistoryPush = jest.fn();
+    isLoading = false;
 
     wrapper = shallow(
       <ReportComponent
@@ -65,7 +85,7 @@ describe("ReportComponent", () => {
         classes={{}}
         history={{ push: mockHistoryPush }}
         account={account}
-        isLoading={false}
+        isLoading={isLoading}
         submittedReport={false}
       />
     );
@@ -98,7 +118,9 @@ describe("ReportComponent", () => {
     let grantProgressSection;
 
     const updateSection = () => {
-      grantProgressSection = wrapper.find(ReportSectionComponent).at(0);
+      grantProgressSection = wrapper
+        .find(ReportSectionComponent)
+        .at(sectionIndices.grantProgress);
     };
 
     beforeEach(() => {
@@ -216,11 +238,11 @@ describe("ReportComponent", () => {
     });
   });
 
-  describe("key activites", () => {
+  describe("key activities", () => {
     let keyActivitiesSection;
 
     const updateSection = () => {
-      keyActivitiesSection = wrapper.find(ReportSectionComponent).at(2);
+      keyActivitiesSection = wrapper.find(ActivitiesSectionComponent);
     };
 
     beforeEach(() => {
@@ -229,47 +251,47 @@ describe("ReportComponent", () => {
 
     it("renders the section", () => {
       expect(keyActivitiesSection.exists()).toEqual(true);
-      expect(keyActivitiesSection.prop("title")).toEqual("Key Activities");
-      expect(keyActivitiesSection.prop("subtitle")).toEqual(
-        "Please describe the activities you have done this month."
-      );
     });
 
-    it("renders the section input fields", () => {
-      const fields = [
-        "report-activity-name-input",
-        "report-participants-number-input",
-        "report-demographic-info-input",
-        "report-impact-outcome-input",
-        "report-participants-number-input"
+    it("passes its relevant props to the section", () => {
+      expect(keyActivitiesSection.prop("isLoading")).toBe(isLoading);
+    });
+
+    it("updates the section when a change is made", () => {
+      const newActivities: KeyActivity[] = [
+        {
+          activityName: "",
+          beneficiaryFeedback: "",
+          numberOfParticipants: "",
+          impactOutcome: ""
+        }
       ];
-
-      fields.forEach(field =>
-        expect(
-          keyActivitiesSection.find(`[data-test-id='${field}']`).exists()
-        ).toEqual(true)
-      );
-
-      expect(
-        keyActivitiesSection
-          .find("[data-test-id='report-participants-number-input']")
-          .prop("type")
-      ).toEqual("number");
-    });
-
-    describe("save button", () => {
-      it("is disabled when none of the fields is changed", () => {
-        expect(keyActivitiesSection.prop("disabled")).toBe(true);
+      keyActivitiesSection.prop("onChange")({
+        target: { value: newActivities }
       });
 
-      it("is not disabled when any of the fields change", () => {
-        keyActivitiesSection
-          .find('[data-test-id="report-activity-name-input"]')
-          .simulate("change", { target: { value: "cheese" } });
+      updateSection();
 
-        updateSection();
+      expect(keyActivitiesSection.prop("activities")).toEqual(newActivities);
+    });
 
-        expect(keyActivitiesSection.prop("disabled")).toBe(false);
+    it("saves the report when a section is saved", () => {
+      const newActivities: KeyActivity[] = [
+        {
+          activityName: "",
+          beneficiaryFeedback: "",
+          numberOfParticipants: "",
+          impactOutcome: ""
+        }
+      ];
+      keyActivitiesSection.prop("onChange")({
+        target: { value: newActivities }
+      });
+      keyActivitiesSection.prop("onSave")();
+
+      expect(mockUpdateReport).toHaveBeenCalledWith({
+        ...report1,
+        keyActivities: newActivities
       });
     });
   });
@@ -402,7 +424,7 @@ describe("ReportComponent", () => {
 
   describe("operating environment", () => {
     itIsATextareaSection({
-      sectionIndex: 1,
+      sectionIndex: sectionIndices.operatingEnvironment,
       title: "Operating environment",
       subtitle:
         "Outline any notable changes you have experienced to the context in which you work.",
@@ -414,7 +436,7 @@ describe("ReportComponent", () => {
 
   describe("beneficiary feedback", () => {
     itIsATextareaSection({
-      sectionIndex: 3,
+      sectionIndex: sectionIndices.beneficiaryFeedback,
       title: "Beneficiary Feedback",
       subtitle:
         "Have you had any feedback from beneficiaries about the service/activities you offer?",
@@ -426,7 +448,7 @@ describe("ReportComponent", () => {
 
   describe("challenges faced", () => {
     itIsATextareaSection({
-      sectionIndex: 4,
+      sectionIndex: sectionIndices.challengesFaced,
       title: "Challenges faced",
       subtitle:
         "Please use this section to describe any other challenges you may have faced in the last month e.g. legal, financial etc...",
@@ -438,7 +460,7 @@ describe("ReportComponent", () => {
 
   describe("incidents and near misses", () => {
     itIsATextareaSection({
-      sectionIndex: 5,
+      sectionIndex: sectionIndices.incidents,
       title: "Incidents and near misses",
       subtitle:
         "Please describe any incidents or near misses that may have occurred related to health & safety, safeguarding, protection or security. How was the incident resolved and what policy or procedure is in place to avoid this reoccurring?",
@@ -450,7 +472,7 @@ describe("ReportComponent", () => {
 
   describe("other issues", () => {
     itIsATextareaSection({
-      sectionIndex: 6,
+      sectionIndex: sectionIndices.otherIssues,
       title:
         "Is there anything you would like to use our platform to speak about?",
       subtitle:
@@ -463,7 +485,7 @@ describe("ReportComponent", () => {
 
   describe("materials for fundraising", () => {
     itIsATextareaSection({
-      sectionIndex: 7,
+      sectionIndex: sectionIndices.materialsForFundraising,
       title: "Materials for fundraising",
       subtitle:
         "We depend on high quality images, film footage, copy and testimonials to raise funds and recruit volunteers. We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
@@ -477,7 +499,9 @@ describe("ReportComponent", () => {
     let section;
 
     const updateSection = () => {
-      section = wrapper.find(ReportSectionComponent).at(7);
+      section = wrapper
+        .find(ReportSectionComponent)
+        .at(sectionIndices.materialsForFundraising);
     };
 
     beforeEach(() => {
