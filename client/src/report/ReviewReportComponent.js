@@ -6,7 +6,9 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Button
+  Button,
+  Snackbar,
+  SnackbarContent
 } from "@material-ui/core";
 import moment from "moment";
 
@@ -24,7 +26,8 @@ type Props = {
   history: any,
   submittedReport: boolean,
   isLoading: boolean,
-  updateReport: (report: Report) => void
+  updateReport: (report: Report) => Promise<any>,
+  savedReport: boolean
 };
 
 const styles = theme => ({
@@ -73,6 +76,9 @@ const styles = theme => ({
     fontSize: "14px",
     lineHeight: "1.71",
     marginTop: theme.spacing.unit
+  },
+  errorMessage: {
+    backgroundColor: "red"
   }
 });
 
@@ -170,7 +176,7 @@ export class ReviewReportComponent extends Component<Props> {
   };
 
   render() {
-    const { classes, account, logout, isLoading } = this.props;
+    const { classes, account, logout, isLoading, savedReport } = this.props;
     const report = this.report;
     if (!report) {
       return <Redirect to="/notFound" />;
@@ -184,7 +190,18 @@ export class ReviewReportComponent extends Component<Props> {
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
         {this.renderToolbar(classes, report, isLoading)}
-
+        {!savedReport && (
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            open={true}
+          >
+            <SnackbarContent
+              data-test-id="error-message"
+              className={classes.errorMessage}
+              message="Error saving changes"
+            />
+          </Snackbar>
+        )}
         <Grid
           item
           container

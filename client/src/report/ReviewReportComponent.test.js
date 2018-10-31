@@ -68,6 +68,7 @@ describe("ReviewReportComponent", () => {
         updateReport={mockUpdateReport}
         submittedReport={false}
         isLoading={false}
+        savedReport={true}
       />
     );
   });
@@ -134,6 +135,16 @@ describe("ReviewReportComponent", () => {
       wrapper.setProps({ submittedReport: true });
 
       expect(mockHistoryPush).toHaveBeenCalledWith("/myReports");
+    });
+
+    it("shows an error message when submitting a report fails", () => {
+      wrapper.setProps({ savedReport: false });
+      expect(
+        wrapper
+          .find('[data-test-id="error-message"]')
+          .render()
+          .text()
+      ).toContain("Error saving changes");
     });
   });
 });

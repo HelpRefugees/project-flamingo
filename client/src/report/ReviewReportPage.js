@@ -11,7 +11,8 @@ const mapStateToProps = (state: State): any => ({
   reports: state.reports,
   account: state.account,
   submittedReport: state.submittedReport,
-  isLoading: state.isLoading
+  isLoading: state.isLoading,
+  savedReport: state.savedReport
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
