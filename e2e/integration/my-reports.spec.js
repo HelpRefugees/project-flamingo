@@ -237,6 +237,7 @@ context("My Reports Page", () => {
       reviewReportPage.editButton.click();
       reportPage.isAt();
       reportPage.submitButton.click();
+      reviewReportPage.isAt();
       reviewReportPage.submitButton.click();
       myReportsPage.isAt();
 
