@@ -212,6 +212,23 @@ context("My Reports Page", () => {
       });
     });
 
+    it("sees an error message if the save request fails", () => {
+      cy.server({
+        method: "PUT",
+        status: 500,
+        response: {}
+      });
+
+      myReportsPage.getFirstReport("incomplete").click();
+
+      const reportPage = new ReportPage(1);
+      reportPage.isAt();
+      reportPage.submitButton.click();
+
+      const reviewReportPage = new ReviewReportPage(1);
+      reviewReportPage.isAt();
+    });
+
     it("submits a report", () => {
       myReportsPage.getFirstReport("incomplete").click();
 

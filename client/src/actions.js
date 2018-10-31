@@ -100,41 +100,49 @@ export const updateReportFailed = () => ({
 });
 
 export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
-  const changes = [
-    "overview",
-    "completed",
-    "keyActivity",
-    "operatingEnvironment",
-    "beneficiaryFeedback",
-    "challengesFaced",
-    "incidents",
-    "otherIssues",
-    "materialsForFundraising"
-  ].map(field => ({
-    op: "replace",
-    path: `/${field}`,
-    value: report[field]
-  }));
-  dispatch(updateReportStarted());
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    const changes = [
+      "overview",
+      "completed",
+      "keyActivity",
+      "operatingEnvironment",
+      "beneficiaryFeedback",
+      "challengesFaced",
+      "incidents",
+      "otherIssues",
+      "materialsForFundraising"
+    ].map(field => ({
+      op: "replace",
+      path: `/${field}`,
+      value: report[field]
+    }));
+    dispatch(updateReportStarted());
 
-  makeRequest(
-    dispatch,
-    `/api/reports/${report.id}`,
-    {
-      method: "PATCH",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(changes)
-    },
-    res => {
-      if (res.status === 200) {
-        res.json().then(updatedReport => {
-          dispatch(updateReportSuccessful(updatedReport));
-        });
-      } else {
-        dispatch(updateReportFailed());
+    makeRequest(
+      dispatch,
+      `/api/reports/${report.id}`,
+      {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(changes)
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(updatedReport => {
+            dispatch(updateReportSuccessful(updatedReport));
+            resolve();
+          });
+        } else {
+          dispatch(updateReportFailed());
+          reject("did not return 200");
+        }
       }
-    }
-  );
+    ).catch(err => {
+      dispatch(updateReportFailed());
+      reject(err);
+    });
+  });
+  return promise;
 };
 
 export const makeRequest = (

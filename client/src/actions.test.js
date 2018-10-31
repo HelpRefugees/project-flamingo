@@ -356,10 +356,21 @@ describe("actions", () => {
         });
       });
 
-      it("dispatches save report failed when the request fails with 4xx", done => {
+      it("dispatches save report failed when the request fails", done => {
+        fetch.mockReject(new Error("update report error"));
+        action(mockDispatch).catch(() => {});
+
+        assertLater(done, () => {
+          expect(mockDispatch).toHaveBeenCalledWith(
+            actions.updateReportFailed()
+          );
+        });
+      });
+
+      it("dispatches save report failed when the request returns a 4xx", done => {
         fetch.mockResponseOnce("", { status: 400 });
 
-        action(mockDispatch);
+        action(mockDispatch).catch(() => {});
 
         assertLater(done, () => {
           expect(mockDispatch).toHaveBeenCalledWith(

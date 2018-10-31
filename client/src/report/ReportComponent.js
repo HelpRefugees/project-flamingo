@@ -23,7 +23,7 @@ import type { Account } from "../authentication/models";
 type Props = {
   classes: any,
   logout: () => void,
-  updateReport: (report: Report) => void,
+  updateReport: (report: Report) => Promise<any>,
   match: any,
   reports: Report[],
   history: any,
@@ -101,12 +101,12 @@ export class ReportComponent extends Component<Props, State> {
   }
 
   reviewAndSubmitReport = () => {
-    this.props.updateReport({
-      ...this.report,
-      ...this.state
-    });
-
-    this.props.history.push(`/reviewReports/${this.report.id}`);
+    this.props
+      .updateReport({
+        ...this.report,
+        ...this.state
+      })
+      .then(() => this.props.history.push(`/reviewReports/${this.report.id}`));
   };
 
   saveReport = (fieldName: string) => {

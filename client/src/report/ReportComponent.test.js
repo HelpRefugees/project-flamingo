@@ -6,6 +6,7 @@ import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "./models";
 import type { Account } from "../authentication/models";
 import ReportSectionComponent from "./ReportSectionComponent";
+import { assertLater } from "../testHelpers";
 
 describe("ReportComponent", () => {
   let wrapper;
@@ -52,7 +53,7 @@ describe("ReportComponent", () => {
   };
 
   beforeEach(() => {
-    mockUpdateReport = jest.fn();
+    mockUpdateReport = jest.fn().mockImplementation(() => Promise.resolve());
     mockLogout = jest.fn();
     mockHistoryPush = jest.fn();
 
@@ -302,12 +303,14 @@ describe("ReportComponent", () => {
       expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
     });
 
-    it("redirects to the review screen on click", () => {
+    it("redirects to the review screen on click", done => {
       wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
-      expect(mockHistoryPush).toHaveBeenCalledWith(
-        `/reviewReports/${report1.id}`
-      );
+      assertLater(done, () => {
+        expect(mockHistoryPush).toHaveBeenCalledWith(
+          `/reviewReports/${report1.id}`
+        );
+      });
     });
 
     it("is disabled during loading", () => {
