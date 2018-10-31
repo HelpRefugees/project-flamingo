@@ -150,8 +150,9 @@ describe("Report generation script", () => {
 
   function lastMonth() {
     const now = new Date();
-    const previousMonth = new Date();
-    previousMonth.setMonth(now.getMonth() - 1);
+    const currentMonth = new Date(now.getFullYear(), now.getMonth(), 10);
+    const previousMonth = new Date(now.getFullYear(), now.getMonth(), 10);
+    previousMonth.setMonth(currentMonth.getMonth() - 1);
     return generateReportPeriod(previousMonth);
   }
 
