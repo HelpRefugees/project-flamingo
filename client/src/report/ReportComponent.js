@@ -8,7 +8,9 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  InputLabel
+  InputLabel,
+  Snackbar,
+  SnackbarContent
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
@@ -27,7 +29,8 @@ type Props = {
   history: any,
   account: Account,
   isLoading: boolean,
-  submittedReport: boolean
+  submittedReport: boolean,
+  savedReport: boolean
 };
 
 const styles = themes => ({
@@ -54,6 +57,9 @@ const styles = themes => ({
     boxShadow: "none",
     justifyContent: "space-between",
     marginTop: "1px"
+  },
+  errorMessage: {
+    backgroundColor: "red"
   }
 });
 
@@ -360,7 +366,7 @@ export class ReportComponent extends Component<Props, State> {
   }
 
   render() {
-    const { classes, account, logout, isLoading } = this.props;
+    const { classes, account, logout, isLoading, savedReport } = this.props;
     const report = this.report;
 
     if (!report) {
@@ -453,12 +459,19 @@ export class ReportComponent extends Component<Props, State> {
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
         {this.renderToolbar(classes, report, isLoading)}
-        <Grid
-          container
-          spacing={24}
-          direction="column"
-          className={classes.outerContainer}
-        >
+        {!savedReport && (
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            open={true}
+          >
+            <SnackbarContent
+              data-test-id="error-message"
+              className={classes.errorMessage}
+              message="Error saving changes"
+            />
+          </Snackbar>
+        )}
+        <Grid container spacing={24} className={classes.outerContainer}>
           <Grid container justify="center">
             <Grid item xs={6}>
               {this.renderTextareaSection(grantProgress)}

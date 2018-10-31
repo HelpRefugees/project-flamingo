@@ -67,6 +67,7 @@ describe("ReportComponent", () => {
         account={account}
         isLoading={false}
         submittedReport={false}
+        savedReport={true}
       />
     );
   });
@@ -92,6 +93,16 @@ describe("ReportComponent", () => {
         .render()
         .text()
     ).toContain("October 2018");
+  });
+
+  it("shows an error message when updating a report fails", () => {
+    wrapper.setProps({ savedReport: false });
+    expect(
+      wrapper
+        .find('[data-test-id="error-message"]')
+        .render()
+        .text()
+    ).toContain("Error saving changes");
   });
 
   describe("grant progress", () => {

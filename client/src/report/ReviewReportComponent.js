@@ -97,7 +97,6 @@ export class ReviewReportComponent extends Component<Props> {
   submitReport = () => {
     this.props.updateReport({
       ...this.report,
-      ...this.state,
       completed: true
     });
   };
