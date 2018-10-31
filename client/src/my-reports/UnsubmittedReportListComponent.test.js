@@ -1,13 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
-
-import ReportListComponent from "./ReportListComponent";
-import ReportCardComponent from "./ReportCardComponent";
 import { Link } from "react-router-dom";
-import type { Report } from "../report/models";
 
-describe("ReportListComponent", () => {
-  const reports: $Shape<Report>[] = [
+import type { Report } from "../report/models";
+import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
+import ReportCardComponent from "./ReportCardComponent";
+
+describe("UnsubmittedReportListComponent", () => {
+  const unsubmittedReports: Report[] = [
     {
       id: 1,
       grant: "Hugh Grant",
@@ -19,20 +19,9 @@ describe("ReportListComponent", () => {
       beneficiaryFeedback: "",
       challengesFaced: "",
       incidents: "",
-      otherIssues: ""
-    },
-    {
-      id: 2,
-      grant: "Grant Shapps",
-      overview: "Shapps",
-      completed: true,
-      reportPeriod: "2018-10-01T00:00:00.000Z",
-      keyActivity: {},
-      operatingEnvironment: "",
-      beneficiaryFeedback: "",
-      challengesFaced: "",
-      incidents: "",
-      otherIssues: ""
+      otherIssues: "",
+      dueDate: "",
+      materialsForFundraising: ""
     },
     {
       id: 3,
@@ -45,20 +34,23 @@ describe("ReportListComponent", () => {
       beneficiaryFeedback: "",
       challengesFaced: "",
       incidents: "",
-      otherIssues: ""
+      otherIssues: "",
+      dueDate: "",
+      materialsForFundraising: ""
     }
   ];
+
   let wrapper;
-  const dummyUpdateReport = report => {};
+
+  const dummyUpdateReport = jest.fn();
 
   beforeEach(() => {
     wrapper = shallow(
-      <ReportListComponent reports={reports} updateReport={dummyUpdateReport} />
+      <UnsubmittedReportListComponent
+        reports={unsubmittedReports}
+        updateReport={dummyUpdateReport}
+      />
     );
-  });
-
-  it("displays the provided reports", () => {
-    expect(wrapper.find(ReportCardComponent)).toHaveLength(3);
   });
 
   it("displays a link to the report edit page for all incomplete reports", () => {

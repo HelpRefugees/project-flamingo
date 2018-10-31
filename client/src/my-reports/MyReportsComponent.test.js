@@ -1,9 +1,11 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
+import { MemoryRouter } from "react-router-dom";
 
 import { MyReportsComponent } from "./MyReportsComponent";
-import { MemoryRouter } from "react-router-dom";
-import ReportListComponent from "./ReportListComponent";
+
+import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
+import SubmittedReportListComponent from './SubmittedReportListComponent';
 
 import type { Report } from "../report/models";
 
@@ -74,8 +76,8 @@ describe("MyReportsComponent", () => {
     it("displays the incomplete reports", () => {
       expect(
         wrapper
-          .find('[data-test-id="incomplete-reports"]')
-          .find(ReportListComponent)
+          .find('[data-test-id="unsubmitted-reports"]')
+          .find(UnsubmittedReportListComponent)
           .props().reports
       ).toEqual([incompleteReport]);
     });
@@ -84,7 +86,7 @@ describe("MyReportsComponent", () => {
       expect(
         wrapper
           .find('[data-test-id="completed-reports"]')
-          .find(ReportListComponent)
+          .find(SubmittedReportListComponent)
           .props().reports
       ).toEqual([completedReport]);
     });
@@ -110,8 +112,8 @@ describe("MyReportsComponent", () => {
     it("passes it to incomplete reports list", () => {
       expect(
         wrapper
-          .find('[data-test-id="incomplete-reports"]')
-          .find(ReportListComponent)
+          .find('[data-test-id="unsubmitted-reports"]')
+          .find(UnsubmittedReportListComponent)
           .props().updateReport
       ).toBe(dummyUpdateReport);
     });
@@ -120,7 +122,7 @@ describe("MyReportsComponent", () => {
       expect(
         wrapper
           .find('[data-test-id="completed-reports"]')
-          .find(ReportListComponent)
+          .find(SubmittedReportListComponent)
           .props().updateReport
       ).toBe(dummyUpdateReport);
     });

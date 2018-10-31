@@ -79,7 +79,7 @@ type State = {
   materialsForFundraising?: string
 };
 
-export class ReportComponent extends Component<Props, State> {
+export class ReportEditComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -155,7 +155,7 @@ export class ReportComponent extends Component<Props, State> {
                 <Typography color="textSecondary" variant="caption">
                   Grant
                 </Typography>
-                <Typography data-test-id="grant-name">
+                <Typography data-test-id="report-grant-name">
                   {report.grant}
                 </Typography>
               </Grid>
@@ -178,7 +178,7 @@ export class ReportComponent extends Component<Props, State> {
               justify="flex-end"
             >
               <Button
-                data-test-id="report-submit-button"
+                data-test-id="report-review-and-submit-button"
                 variant="contained"
                 color="primary"
                 disabled={this.isSubmitDisabled()}
@@ -490,4 +490,4 @@ export class ReportComponent extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(ReportComponent);
+export default withStyles(styles)(ReportEditComponent);

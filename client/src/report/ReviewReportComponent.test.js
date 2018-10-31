@@ -85,7 +85,7 @@ describe("ReviewReportComponent", () => {
   it("renders the grant name", () => {
     expect(
       wrapper
-        .find(`[data-test-id="grant-name"]`)
+        .find(`[data-test-id="report-grant-name"]`)
         .render()
         .text()
     ).toContain(report1.grant);

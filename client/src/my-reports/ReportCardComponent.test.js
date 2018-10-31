@@ -1,12 +1,11 @@
 import React from "react";
+import MockDate  from "mockdate";
 import { shallow } from "enzyme";
 
 import { ReportCardComponent } from "./ReportCardComponent";
 import type { Report } from "../report/models";
-const MockDate = require("mockdate");
 
 describe("ReportCardComponent", () => {
-  let wrapper;
   const report: Report = {
     grant: "Hello world",
     overview: "Hi!",
@@ -22,6 +21,8 @@ describe("ReportCardComponent", () => {
     otherIssues: "",
     materialsForFundraising: ""
   };
+
+  let wrapper;
 
   beforeEach(() => {
     wrapper = shallow(
@@ -53,34 +54,18 @@ describe("ReportCardComponent", () => {
   it("shows the grant name", () => {
     expect(
       wrapper
-        .find('[data-test-id="grant-name"]')
+        .find('[data-test-id="report-grant-name"]')
         .render()
         .text()
     ).toContain(report.grant);
   });
 
   describe("incomplete report", () => {
-    const incompleteReport: Report = {
-      grant: "Hello world",
-      overview: "Hi!",
-      completed: false,
-      id: 1,
-      reportPeriod: "2018-10-01T00:00:00.000Z",
-      dueDate: "2018-11-07T00:00:00.000Z",
-      keyActivity: {},
-      operatingEnvironment: "",
-      beneficiaryFeedback: "",
-      incidents: "",
-      otherIssues: "",
-      challengesFaced: "",
-      materialsForFundraising: ""
-    };
-
     beforeEach(() => {
       MockDate.set(new Date(2018, 9, 15));
       wrapper = shallow(
         <ReportCardComponent
-          report={incompleteReport}
+          report={report}
           updateReport={() => {}}
           classes={{}}
         />
@@ -98,27 +83,11 @@ describe("ReportCardComponent", () => {
   });
 
   describe("due report", () => {
-    const incompleteReport: Report = {
-      grant: "Hello world",
-      overview: "Hi!",
-      completed: false,
-      id: 1,
-      reportPeriod: "2018-10-01T00:00:00.000Z",
-      dueDate: "2018-11-07T00:00:00.000Z",
-      keyActivity: {},
-      operatingEnvironment: "",
-      beneficiaryFeedback: "",
-      incidents: "",
-      otherIssues: "",
-      challengesFaced: "",
-      materialsForFundraising: ""
-    };
-
     beforeEach(() => {
       MockDate.set(new Date(2018, 10, 3));
       wrapper = shallow(
         <ReportCardComponent
-          report={incompleteReport}
+          report={report}
           updateReport={() => {}}
           classes={{}}
         />
@@ -136,27 +105,11 @@ describe("ReportCardComponent", () => {
   });
 
   describe("late report", () => {
-    const incompleteReport: Report = {
-      grant: "Hello world",
-      overview: "Hi!",
-      completed: false,
-      id: 1,
-      reportPeriod: "2018-10-01T00:00:00.000Z",
-      dueDate: "2018-11-07T00:00:00.000Z",
-      keyActivity: {},
-      operatingEnvironment: "",
-      beneficiaryFeedback: "",
-      challengesFaced: "",
-      incidents: "",
-      otherIssues: "",
-      materialsForFundraising: ""
-    };
-
     beforeEach(() => {
       MockDate.set(new Date(2018, 10, 10));
       wrapper = shallow(
         <ReportCardComponent
-          report={incompleteReport}
+          report={report}
           updateReport={() => {}}
           classes={{}}
         />
@@ -174,21 +127,14 @@ describe("ReportCardComponent", () => {
   });
 
   describe("completed report", () => {
-    const completedReport: Report = {
-      grant: "Hello world",
-      overview: "Hi!",
+    const submittedReport: Report = {
+      ...report,
       completed: true,
-      submissionDate: "2018-09-15T03:24:00.000Z",
-      id: 1,
-      reportPeriod: "2018-10-01T00:00:00.000Z",
-      dueDate: "2018-11-07T00:00:00.000Z",
-      keyActivity: {},
-      operatingEnvironment: "",
-      beneficiaryFeedback: "",
-      challengesFaced: "",
-      incidents: "",
-      otherIssues: "",
-      materialsForFundraising: ""
+      submissionDate: "2018-09-15T03:24:00.000Z"
+    };
+    const unsubmittedReport: Report = {
+      ...report,
+      submissionDate: undefined
     };
 
     let mockUpdateReport;
@@ -198,7 +144,7 @@ describe("ReportCardComponent", () => {
 
       wrapper = shallow(
         <ReportCardComponent
-          report={completedReport}
+          report={submittedReport}
           updateReport={mockUpdateReport}
           classes={{}}
         />
@@ -215,23 +161,6 @@ describe("ReportCardComponent", () => {
     });
 
     it("undoes the submission when clicking undo", () => {
-      const unsubmittedReport: Report = {
-        grant: "Hello world",
-        overview: "Hi!",
-        completed: false,
-        submissionDate: undefined,
-        id: 1,
-        reportPeriod: "2018-10-01T00:00:00.000Z",
-        dueDate: "2018-11-07T00:00:00.000Z",
-        keyActivity: {},
-        operatingEnvironment: "",
-        beneficiaryFeedback: "",
-        challengesFaced: "",
-        incidents: "",
-        otherIssues: "",
-        materialsForFundraising: ""
-      };
-
       wrapper.find('[data-test-id="report-unsubmit-button"]').simulate("click");
       expect(mockUpdateReport).toHaveBeenCalledWith(unsubmittedReport);
     });

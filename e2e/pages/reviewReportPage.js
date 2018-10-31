@@ -30,7 +30,7 @@ export default class ReviewReportPage extends BasePage {
   }
 
   verifyReportData(data) {
-    cy.get(testId("grant-name")).should("contains.text", data.grantName);
+    cy.get(testId("report-grant-name")).should("contains.text", data.grantName);
     cy.get(testId("report-period")).should("contains.text", data.reportPeriod);
   }
 }
@@ -42,5 +42,15 @@ export class ReportSection {
 
   contentFor(name) {
     return cy.get(testId(name));
+  }
+
+  getContentField({ selector, type }) {
+    return cy.get(testId(selector) + " " + type).last();
+  }
+
+  setContentField(field, newContent) {
+    this.getContentField(field)
+      .clear()
+      .type(newContent);
   }
 }

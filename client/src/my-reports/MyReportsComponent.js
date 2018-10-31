@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 
-import ReportListComponent from "./ReportListComponent";
+import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
+import SubmittedReportListComponent from './SubmittedReportListComponent';
 import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "../report/models";
 import type { Account } from "../authentication/models";
@@ -63,9 +64,9 @@ export class MyReportsComponent extends Component<Props, State> {
 
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
-          <Grid item xs={10} data-test-id="incomplete-reports">
+          <Grid item xs={10} data-test-id="unsubmitted-reports">
             {reports && (
-              <ReportListComponent
+              <UnsubmittedReportListComponent
                 reports={this.filterReportByCompletion(false)}
                 updateReport={updateReport}
               />
@@ -84,7 +85,7 @@ export class MyReportsComponent extends Component<Props, State> {
           <Grid item xs={1} />
           <Grid item xs={10} data-test-id="completed-reports">
             {reports && (
-              <ReportListComponent
+              <SubmittedReportListComponent
                 reports={this.filterReportByCompletion(true)}
                 updateReport={updateReport}
               />

@@ -2,9 +2,9 @@ import BasePage from "./basePage";
 import { testId } from "./helpers";
 
 export default class ReportPage extends BasePage {
-  grantNameSelector = testId("grant-name");
-  reportDetailsTitleSelector = testId("report-details-title");
+  grantNameSelector = testId("report-grant-name");
   submitReportSelector = testId("report-submit-button");
+  reviewAndSubmitButtonSelector = testId("report-review-and-submit-button");
 
   constructor(reportId) {
     super();
@@ -24,6 +24,10 @@ export default class ReportPage extends BasePage {
       .get(testId(name))
       .within((...args) => callback(new ReportSection(), ...args))
       .root();
+  }
+
+  get reviewAndSubmitButton() {
+    return cy.get(this.reviewAndSubmitButtonSelector);
   }
 
   get submitButton() {

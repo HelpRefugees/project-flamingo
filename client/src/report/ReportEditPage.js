@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
-import ReportComponent from "./ReportComponent";
+import ReportEditComponent from "./ReportEditComponent";
 import { logout, updateReport } from "../actions";
 import type { State } from "../reducers";
 import type { Report } from "./models";
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ReportComponent);
+)(ReportEditComponent);

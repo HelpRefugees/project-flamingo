@@ -121,7 +121,7 @@ export class ReportCardComponent extends Component<Props> {
               <Typography color="textSecondary" variant="caption">
                 Grant
               </Typography>
-              <Typography data-test-id="grant-name">{report.grant}</Typography>
+              <Typography data-test-id="report-grant-name">{report.grant}</Typography>
             </Grid>
             <Grid item container xs={9} justify="flex-end">
               <Grid

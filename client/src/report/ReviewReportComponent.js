@@ -125,7 +125,7 @@ export class ReviewReportComponent extends Component<Props> {
                 <Typography color="textSecondary" variant="caption">
                   Grant
                 </Typography>
-                <Typography data-test-id="grant-name">
+                <Typography data-test-id="report-grant-name">
                   {report.grant}
                 </Typography>
               </Grid>

@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { ReportComponent } from "./ReportComponent";
+import { ReportEditComponent } from "./ReportEditComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "./models";
 import type { Account } from "../authentication/models";
@@ -58,7 +58,7 @@ describe("ReportComponent", () => {
     mockHistoryPush = jest.fn();
 
     wrapper = shallow(
-      <ReportComponent
+      <ReportEditComponent
         updateReport={mockUpdateReport}
         logout={mockLogout}
         reports={reports}
@@ -81,7 +81,7 @@ describe("ReportComponent", () => {
   it("renders the grant name", () => {
     expect(
       wrapper
-        .find(`[data-test-id="grant-name"]`)
+        .find(`[data-test-id="report-grant-name"]`)
         .render()
         .text()
     ).toContain(report1.grant);
@@ -298,13 +298,13 @@ describe("ReportComponent", () => {
         .find('[data-test-id="report-progress-input"]')
         .simulate("change", { target: { value: overview } });
 
-      wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
+      wrapper.find('[data-test-id="report-review-and-submit-button"]').simulate("click");
 
       expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
     });
 
     it("redirects to the review screen on click", done => {
-      wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
+      wrapper.find('[data-test-id="report-review-and-submit-button"]').simulate("click");
 
       assertLater(done, () => {
         expect(mockHistoryPush).toHaveBeenCalledWith(
@@ -315,13 +315,13 @@ describe("ReportComponent", () => {
 
     it("is disabled during loading", () => {
       expect(
-        wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
+        wrapper.find('[data-test-id="report-review-and-submit-button"]').prop("disabled")
       ).toBe(false);
 
       wrapper.setProps({ isLoading: true });
 
       expect(
-        wrapper.find('[data-test-id="report-submit-button"]').prop("disabled")
+        wrapper.find('[data-test-id="report-review-and-submit-button"]').prop("disabled")
       ).toBe(true);
     });
   });

@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   Grid,
   withStyles,
   AppBar,
   Toolbar,
-  Typography
+  Typography,
+  Button
 } from "@material-ui/core";
 import moment from "moment";
 
@@ -50,10 +51,49 @@ const styles = themes => ({
     boxShadow: "none",
     justifyContent: "space-between",
     marginTop: "1px"
+  },
+  pagePaper: {
+    padding: themes.spacing.unit * 4,
+    boxShadow: "none",
+    marginBottom: themes.spacing.unit
+  },
+  outerContainer: {
+    height: "100vh",
+    margin: "5%"
+  },
+  headerText: {
+    color: "#404040"
+  },
+  rule: {
+    marginTop: themes.spacing.unit * 2,
+    borderTop: "solid 1px #e5e5e5",
+    borderBottom: "none",
+    borderLeft: "none",
+    borderRight: "none",
+    height: "1px",
+    position: "relative",
+    left: "-32px",
+    width: "calc(100% + 2 * 32px)"
+  },
+  fontFamily: {
+    fontFamily: "open Sans",
+    margin: themes.spacing.unit * 0.5,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    fontStretch: "normal"
+  },
+  progress: {
+    margin: "4px",
+    fontSize: "14px",
+    color: "#404040",
+    letterSpacing: "0.3px"
   }
 });
 
-export class SubmittedReportComponent extends Component<Props, State> {
+
+const MyReportsLink = props => <Link to="/myReports" {...props} />;
+
+export class MyReportComponent extends Component<Props, State> {
   get report(): Report {
     // TODO it's not very efficient to keep calling this
     return (this.props.reports.find(
@@ -73,7 +113,7 @@ export class SubmittedReportComponent extends Component<Props, State> {
         <AppBar position="static" color="inherit" className={classes.appbar}>
           <Toolbar>
             <Grid container justify="space-between">
-              <Grid item container direction="column" xs={3}>
+              <Grid item container direction="column" xs={9}>
                 <Typography color="textSecondary" variant="caption">
                   Grant
                 </Typography>
@@ -81,7 +121,7 @@ export class SubmittedReportComponent extends Component<Props, State> {
                   {report.grant}
                 </Typography>
               </Grid>
-              <Grid item container direction="column" xs={3}>
+              <Grid item container direction="column" xs={1}>
                 <Typography
                   color="textSecondary"
                   variant="caption"
@@ -95,6 +135,13 @@ export class SubmittedReportComponent extends Component<Props, State> {
                     : ""}
                 </Typography>
               </Grid>
+              <Grid item container direction="column" xs={1}>
+                <Button variant="contained"
+                  color="primary"
+                  data-test-id="report-back-button" component={MyReportsLink}>
+                  Back
+                </Button>
+              </Grid>
             </Grid>
           </Toolbar>
         </AppBar>
@@ -104,4 +151,4 @@ export class SubmittedReportComponent extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(SubmittedReportComponent);
+export default withStyles(styles)(MyReportComponent);

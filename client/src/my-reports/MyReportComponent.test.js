@@ -1,13 +1,14 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 
-import { SubmittedReportComponent } from "./SubmittedReportComponent";
-import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "../report/models";
-import ReportViewComponent from "../report/ReportViewComponent";
 import type { Account } from "../authentication/models";
+import { MyReportComponent } from "./MyReportComponent";
+import HeaderComponent from "../page-layout/HeaderComponent";
+import ReportViewComponent from "../report/ReportViewComponent";
+import { MemoryRouter } from "react-router-dom";
 
-describe("SubmittedReportComponent", () => {
+describe("MyReportComponent", () => {
   let wrapper;
   let mockLogout;
 
@@ -51,16 +52,16 @@ describe("SubmittedReportComponent", () => {
   };
 
   beforeEach(() => {
-    mockLogout = jest.fn();
-
-    wrapper = shallow(
-      <SubmittedReportComponent
-        logout={mockLogout}
-        match={{ params: { id: "1" } }}
-        classes={{}}
-        reports={[report1, report2]}
-        account={account}
-      />
+    wrapper = mount(
+      <MemoryRouter>
+        <MyReportComponent
+          logout={mockLogout}
+          match={{ params: { id: "1" } }}
+          classes={{}}
+          reports={[report1, report2]}
+          account={account}
+        />
+      </MemoryRouter>
     );
   });
 
@@ -76,8 +77,7 @@ describe("SubmittedReportComponent", () => {
   it("renders the grant name", () => {
     expect(
       wrapper
-        .find(`[data-test-id="report-grant-name"]`)
-        .render()
+        .find(`Typography[data-test-id="report-grant-name"]`)
         .text()
     ).toContain("Hugh Grant");
   });
@@ -85,9 +85,13 @@ describe("SubmittedReportComponent", () => {
   it("renders the grant submission date", () => {
     expect(
       wrapper
-        .find(`[data-test-id="submission-date"]`)
-        .render()
+        .find(`Typography[data-test-id="submission-date"]`)
         .text()
     ).toContain("03/10/2018");
+  });
+
+  it("renders the back button", () => {
+    const backButton = wrapper.find(`Link[data-test-id="report-back-button"]`);
+    expect(backButton.prop('to')).toEqual("/myReports");
   });
 });

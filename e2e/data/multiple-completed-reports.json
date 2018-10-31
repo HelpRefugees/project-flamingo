@@ -3,6 +3,7 @@
     {
       "id": 1,
       "completed": true,
+      "submissionDate": "2018-09-01T00:00:00.000Z",
       "overview": "Mitchell overview",
       "grant": "Grant Mitchell",
       "reportPeriod": "2018-08-01T00:00:00.000Z",
@@ -24,6 +25,7 @@
     {
       "id": 2,
       "completed": true,
+      "submissionDate": "2018-08-25T00:00:00.000Z",
       "overview": "Hugh Overview",
       "grant": "Hugh Grant",
       "reportPeriod": "2018-08-01T00:00:00.000Z",

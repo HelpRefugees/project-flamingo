@@ -1,14 +1,18 @@
 import BasePage from "./basePage";
 import { testId } from "./helpers";
 
-export default class SubmittedReportPage extends BasePage {
+export default class MyReportPage extends BasePage {
   constructor(reportId) {
     super();
     this.reportId = reportId;
   }
 
   get path() {
-    return `/submittedReports/${this.reportId}`;
+    return `/myReports/${this.reportId}`;
+  }
+
+  back() {
+    cy.get(testId('report-back-button')).click();
   }
 
   getSection(name, callback) {

@@ -48,14 +48,14 @@ const grantNameFilterControlStyles = {
       color: props.isSelected ? "white" : "black",
       ":active": {
         backgroundColor: props.isSelected ? null : "#f5f5f5"
-      }
+      },
     };
   }
 };
 
 const styles = theme => ({
   reactSelectContainer: {
-    backgroud: "yellow",
+    background: "yellow",
     reactSelect__control: {
       background: "yellow"
     }
@@ -106,28 +106,11 @@ const styles = theme => ({
   },
   row: {
     cursor: "pointer"
+  },
+  grantNameCell: {
+    width: "66%"
   }
 });
-
-const CustomTableHeaderRow = withStyles(theme => ({
-  head: {
-    height: "32px"
-  }
-}))(TableRow);
-
-const CustomTableCell = withStyles(theme => ({
-  head: {
-    width: "66%",
-    color: "#757c80",
-    letterSpacing: "1.5px",
-    fontFamily: "Open Sans",
-    fontSize: "10px",
-    fontWeight: "bold",
-    fontStyle: "normal",
-    fontStretch: "normal",
-    lineHeight: "1.6"
-  }
-}))(TableCell);
 
 export class ReportsListingComponent extends Component<
   Props,
@@ -211,17 +194,17 @@ export class ReportsListingComponent extends Component<
         </Grid>
         <Table data-test-id="submitted-reports">
           <TableHead className={classes.tableHead}>
-            <CustomTableHeaderRow>
-              <CustomTableCell>
-                <div>GRANT</div>
-              </CustomTableCell>
-              <TableCell>
-                <div className={classes.tableCellDiv}>PERIOD</div>
+            <TableRow>
+              <TableCell className={classes.grantNameCell}>
+                <div>Grant</div>
               </TableCell>
               <TableCell>
-                <div className={classes.tableCellDiv}>SUBMITTED</div>
+                <div className={classes.tableCellDiv}>Period</div>
               </TableCell>
-            </CustomTableHeaderRow>
+              <TableCell>
+                <div className={classes.tableCellDiv}>Submitted</div>
+              </TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {reports.map((report: Report) => {
@@ -232,7 +215,7 @@ export class ReportsListingComponent extends Component<
                   onClick={() => this.redirectToSubmittedReportPage(report.id)}
                   className={classes.row}
                 >
-                  <TableCell data-test-id="report-grant">
+                  <TableCell data-test-id="report-grant" className={classes.grantNameCell} >
                     <div>{report.grant}</div>
                   </TableCell>
                   <TableCell data-test-id="report-period">

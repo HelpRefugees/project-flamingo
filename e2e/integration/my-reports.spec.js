@@ -2,9 +2,26 @@ import MyReportsPage from "../pages/myReportsPage";
 import ReviewReportPage from "../pages/reviewReportPage";
 import ReportPage, { ReportSection } from "../pages/reportPage";
 import ForbiddenPage from "../pages/forbiddenPage";
+import MyReportPage from "../pages/myReportPage";
 
 context("My Reports Page", () => {
   const myReportsPage = new MyReportsPage();
+
+  const newReport = {
+    overview: randomAlphaText(16),
+    operatingEnvironment: randomAlphaText(16),
+    keyActivity: {
+      activityName: randomAlphaText(16),
+      numberOfParticipants: randomNumericText(16),
+      demographicInfo: randomAlphaText(16),
+      impactOutcome: randomAlphaText(16)
+    },
+    beneficiaryFeedback: randomAlphaText(16),
+    challengesFaced: randomAlphaText(16),
+    incidents: randomAlphaText(16),
+    otherIssues: randomAlphaText(16),
+    materialsForFundraising: randomAlphaText(16)
+  };
 
   context("Ellen is logged in", () => {
     beforeEach(() => {
@@ -21,10 +38,10 @@ context("My Reports Page", () => {
       myReportsPage.userName.should("contains.text", "Ellen Smith");
     });
 
-    it("shows an incomplete report", () => {
-      myReportsPage.getReports("incomplete").should("have.length", 1);
-      myReportsPage.getFirstReport("incomplete").within(() => {
-        myReportsPage.verifyReportData({
+    it("shows an unsubmitted report", () => {
+      myReportsPage.getReports("unsubmitted").should("have.length", 1);
+      myReportsPage.getFirstUnsubmittedReport(report => {
+        report.verifyReportData({
           grantName: "Grant Mitchell",
           reportStatus: "07/09/2018",
           reportPeriod: "August 2018"
@@ -33,23 +50,7 @@ context("My Reports Page", () => {
     });
 
     it("opens and saves an editable report", () => {
-      const newReport = {
-        overview: randomAlphaText(16),
-        operatingEnvironment: randomAlphaText(16),
-        keyActivity: {
-          activityName: randomAlphaText(16),
-          numberOfParticipants: randomNumericText(16),
-          demographicInfo: randomAlphaText(16),
-          impactOutcome: randomAlphaText(16)
-        },
-        beneficiaryFeedback: randomAlphaText(16),
-        challengesFaced: randomAlphaText(16),
-        incidents: randomAlphaText(16),
-        otherIssues: randomAlphaText(16),
-        materialsForFundraising: randomAlphaText(16)
-      };
-
-      myReportsPage.getFirstReport("incomplete").click();
+      myReportsPage.getFirstUnsubmittedReport(report => report.click());
 
       let reportPage = new ReportPage(1);
       reportPage.isAt();
@@ -139,7 +140,7 @@ context("My Reports Page", () => {
       });
 
       myReportsPage.goToHomePage();
-      myReportsPage.getFirstReport("incomplete").click();
+      myReportsPage.getFirstUnsubmittedReport(report => report.click());
 
       reportPage = new ReportPage(1);
       reportPage.isAt();
@@ -212,46 +213,221 @@ context("My Reports Page", () => {
       });
     });
 
-    it("submits a report", () => {
-      myReportsPage.getFirstReport("incomplete").click();
+    it("sees an error message if the save request fails", () => {
+      cy.server({
+        method: "PUT",
+        status: 500,
+        response: {}
+      });
+
+      myReportsPage.getFirstUnsubmittedReport(report => report.click());
 
       const reportPage = new ReportPage(1);
       reportPage.isAt();
-      reportPage.submitButton.click();
+      reportPage.reviewAndSubmitButton.click();
 
       const reviewReportPage = new ReviewReportPage(1);
       reviewReportPage.isAt();
+    });
 
+    it('can review a submitted report', () => {
+      myReportsPage.getFirstUnsubmittedReport(report => report.click());
+
+      const reportPage = new ReportPage(1);
+      reportPage.isAt();
+      reportPage.reviewAndSubmitButton.click();
+
+      const reviewReportPage = new ReviewReportPage(1);
+      reviewReportPage.isAt();
       reviewReportPage.verifyReportData({
         grantName: "Grant Mitchell",
         reportPeriod: "August 2018"
       });
+    });
 
-      reviewReportPage.getSection("grant-progress", grantProgressSection => {
-        grantProgressSection.title.should("contain.text", "Grant overview");
-        grantProgressSection
-          .contentFor("report-progress")
-          .should("contain.text", "Mitchell Overview");
+    it("submits a report", () => {
+      myReportsPage.getFirstUnsubmittedReport(report => report.click());
+
+      const reportPage = new ReportPage(1);
+      reportPage.isAt();
+
+      reportPage.getSection("operating-environment", grantProgessSection => {
+        grantProgessSection.setContentField(
+          ReportSection.sections.operatingEnvironment.progress,
+          newReport.operatingEnvironment
+        );
       });
 
-      reviewReportPage.editButton.click();
-      reportPage.isAt();
-      reportPage.submitButton.click();
-      reviewReportPage.isAt();
-      reviewReportPage.submitButton.click();
-      myReportsPage.isAt();
+      reportPage.getSection("key-activities", keyActivitiesSection => {
+        keyActivitiesSection.title.should("contain.text", "Key Activities");
+        keyActivitiesSection.saveButton.should("attr", "disabled");
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.name,
+          newReport.keyActivity.activityName
+        );
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.numberOfParticipants,
+          newReport.keyActivity.numberOfParticipants
+        );
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.demographicInfo,
+          newReport.keyActivity.demographicInfo
+        );
+        keyActivitiesSection.setContentField(
+          ReportSection.sections.keyActivities.impactOutcome,
+          newReport.keyActivity.impactOutcome
+        );
+        keyActivitiesSection.saveButton.should("not.have.attr", "disabled");
+        keyActivitiesSection.saveButton.click();
+      });
 
-      myReportsPage.getReports("completed").should("have.length", 1);
-      myReportsPage.getFirstReport("completed").within(() => {
-        myReportsPage.verifyReportData({
+      reportPage.getSection("beneficiary-feedback", grantProgessSection => {
+        grantProgessSection.setContentField(
+          ReportSection.sections.beneficiaryFeedback.feedback,
+          newReport.beneficiaryFeedback
+        );
+      });
+
+      reportPage.getSection("challenges-faced", grantProgessSection => {
+        grantProgessSection.setContentField(
+          ReportSection.sections.challengesFaced.challenges,
+          newReport.challengesFaced
+        );
+      });
+
+      reportPage.getSection("incidents", grantProgessSection => {
+        grantProgessSection.setContentField(
+          ReportSection.sections.incidents.incidents,
+          newReport.incidents
+        );
+      });
+
+      reportPage.getSection("other-issues", grantProgessSection => {
+        grantProgessSection.setContentField(
+          ReportSection.sections.otherIssues.issues,
+          newReport.otherIssues
+        );
+      });
+
+      reportPage.getSection("materials-for-fundraising", grantProgessSection => {
+        grantProgessSection.setContentField(
+          ReportSection.sections.materialsForFundraising.materials,
+          newReport.materialsForFundraising
+        );
+      });
+
+      reportPage.reviewAndSubmitButton.should("not.have.attr", "disabled");
+      reportPage.reviewAndSubmitButton.click();
+
+      reportPage.submitButton.should("not.have.attr", "disabled");
+      reportPage.submitButton.click();
+
+      myReportsPage.isAt();
+      myReportsPage.getReports("submitted").should("have.length", 1);
+      myReportsPage.getFirstSubmittedReport(report => {
+        report.verifyReportData({
           grantName: "Grant Mitchell",
-          reportStatus: today(),
+          reportSubmitted: today(),
           reportPeriod: "August 2018"
         });
+        report.click();
       });
 
-      myReportsPage.unsubmitReport();
-      myReportsPage.getReports("incomplete").should("have.length", 1);
+      const myReportPage = new MyReportPage(1);
+      myReportPage.isAt();
+      myReportPage.verifyReportData({
+        grantName: "Grant Mitchell",
+        submissionDate: today()
+      });
+
+      const sectionContainsContent = ({
+        sectionKey,
+        sectionTitle,
+        contentKey,
+        content
+      }) => {
+        myReportPage.getSection(sectionKey, section => {
+          section.title.should("contain.text", sectionTitle);
+          section.contentFor(contentKey).should("contain.text", content);
+        });
+      };
+
+      sectionContainsContent({
+        sectionKey: "grant-progress",
+        sectionTitle: "Grant overview",
+        contentKey: "report-progress",
+        content: "Mitchell Overview"
+      });
+
+      myReportPage.getSection(
+        "grant-key-activities",
+        grantProgressSection => {
+          grantProgressSection.title.should(
+            "contain.text",
+            "Key activities & impact"
+          );
+          grantProgressSection
+            .contentFor("report-key-activity-name")
+            .should("contain.text", newReport.keyActivity.activityName);
+          grantProgressSection
+            .contentFor("report-number-of-participants")
+            .should("contain.text", newReport.keyActivity.numberOfParticipants);
+          grantProgressSection
+            .contentFor("report-demographic-info")
+            .should("contain.text", newReport.keyActivity.demographicInfo);
+          grantProgressSection
+            .contentFor("report-impact-outcome")
+            .should("contain.text", newReport.keyActivity.impactOutcome);
+        }
+      );
+
+      sectionContainsContent({
+        sectionKey: "operating-environment",
+        sectionTitle: "Operating environment",
+        contentKey: "report-operating-environment",
+        content: newReport.operatingEnvironment
+      });
+
+      sectionContainsContent({
+        sectionKey: "beneficiary-feedback",
+        sectionTitle: "Beneficiary feedback",
+        contentKey: "report-beneficiary-feedback",
+        content: newReport.beneficiaryFeedback
+      });
+
+      sectionContainsContent({
+        sectionKey: "challenges-faced",
+        sectionTitle: "Challenges faced and lessons learned",
+        contentKey: "report-challenges-faced",
+        content: newReport.challengesFaced
+      });
+
+      sectionContainsContent({
+        sectionKey: "incidents",
+        sectionTitle: "Incidents and near misses",
+        contentKey: "report-incidents",
+        content: newReport.incidents
+      });
+
+      sectionContainsContent({
+        sectionKey: "other-issues",
+        sectionTitle:
+          "Is there anything you would like to use our platform to speak about?",
+        contentKey: "report-other-issues",
+        content: newReport.otherIssues
+      });
+
+      sectionContainsContent({
+        sectionKey: "materials-for-fundraising",
+        sectionTitle: "Materials for fundraising",
+        contentKey: "report-materials-for-fundraising",
+        content: newReport.materialsForFundraising
+      });
+
+      myReportPage.back();
+
+      myReportsPage.getFirstSubmittedReport(report => report.unsubmit());
+      myReportsPage.getReports("unsubmitted").should("have.length", 1);
     });
   });
 
@@ -263,9 +439,9 @@ context("My Reports Page", () => {
     });
 
     it("shows when the report is due ", () => {
-      myReportsPage.getReports("incomplete").should("have.length", 1);
-      myReportsPage.getFirstReport("incomplete").within(() => {
-        myReportsPage.verifyReportData({
+      myReportsPage.getReports("unsubmitted").should("have.length", 1);
+      myReportsPage.getFirstUnsubmittedReport(report => {
+        report.verifyReportData({
           grantName: "Grant Mitchell",
           reportStatus: "Due in 5 days",
           reportPeriod: "August 2018"
@@ -282,9 +458,9 @@ context("My Reports Page", () => {
     });
 
     it("shows how late the report is ", () => {
-      myReportsPage.getReports("incomplete").should("have.length", 1);
-      myReportsPage.getFirstReport("incomplete").within(() => {
-        myReportsPage.verifyReportData({
+      myReportsPage.getReports("unsubmitted").should("have.length", 1);
+      myReportsPage.getFirstUnsubmittedReport(report => {
+        report.verifyReportData({
           grantName: "Grant Mitchell",
           reportStatus: "8 days late",
           reportPeriod: "August 2018"
@@ -301,17 +477,14 @@ context("My Reports Page", () => {
     });
 
     it("only sees her own report", () => {
-      myReportsPage.getReports("incomplete").should("have.length", 1);
-      myReportsPage
-        .getFirstReport("incomplete")
-        // eslint-disable-next-line no-unused-vars
-        .within($report => {
-          myReportsPage.verifyReportData({
-            grantName: "Hugh Grant",
-            reportStatus: "07/09/2018",
-            reportPeriod: "August 2018"
-          });
+      myReportsPage.getReports("unsubmitted").should("have.length", 1);
+      myReportsPage.getFirstUnsubmittedReport(report => {
+        report.verifyReportData({
+          grantName: "Hugh Grant",
+          reportStatus: "07/09/2018",
+          reportPeriod: "August 2018"
         });
+      });
     });
   });
 
@@ -355,7 +528,7 @@ context("My Reports Page", () => {
 
   function randomText(length, source) {
     let text = "";
-    for (var i = 0; i < length; i++) {
+    for (let i = 0; i < length; i++) {
       text += source.charAt(Math.floor(Math.random() * source.length));
     }
     return text;
