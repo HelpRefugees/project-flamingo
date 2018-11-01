@@ -19,27 +19,21 @@ const appFactory = (db, sessionStoreProvider) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
+  const sessionSettings = {
+    cookie: {},
+    resave: false,
+    saveUninitialized: true,
+    secret: "randomsecret" || process.env.SESSION_SECRET,
+    store: sessionStoreProvider(session)
+  };
+
   if (app.get("env") === "production") {
     app.enable("trust proxy");
-    app.use("*", (req, res, next) => {
-      if (!req.secure) {
-        return res.redirect(
-          301,
-          `https://${req.headers.host}${req.originalUrl}`
-        );
-      }
-      next();
-    });
+    sessionSettings.cookie.secure = true;
+    app.use("*", httpsOnly);
   }
 
-  app.use(
-    session({
-      secret: process.env.SESSION_SECRET || "randomsecret",
-      resave: false,
-      saveUninitialized: true,
-      store: sessionStoreProvider(session)
-    })
-  );
+  app.use(session(sessionSettings));
 
   configureAuth(app, db);
 
@@ -56,6 +50,13 @@ const appFactory = (db, sessionStoreProvider) => {
   });
 
   return app;
+};
+
+const httpsOnly = (req, res, next) => {
+  if (!req.secure) {
+    return res.redirect(301, `https://${req.headers.host}${req.originalUrl}`);
+  }
+  next();
 };
 
 module.exports = appFactory;
