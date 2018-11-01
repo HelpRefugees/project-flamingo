@@ -1,4 +1,4 @@
-import type { Report } from "./my-reports/models";
+import type { Report } from "./my-report/models";
 import type { Account } from "./authentication/models";
 
 export type State = {

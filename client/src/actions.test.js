@@ -1,6 +1,6 @@
 import type { Dispatch } from "redux";
 
-import type { Report } from "./my-reports/models";
+import type { Report } from "./my-report/models";
 import * as actions from "./actions";
 import { assertLater } from "./testHelpers";
 import type { Account } from "./authentication/models";

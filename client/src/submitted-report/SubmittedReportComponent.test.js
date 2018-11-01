@@ -3,8 +3,8 @@ import { shallow } from "enzyme";
 
 import { SubmittedReportComponent } from "./SubmittedReportComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
-import type { Report } from "../my-reports/models";
-import ReportViewComponent from "../my-reports/ReportViewComponent";
+import type { Report } from "../my-report/models";
+import ReportViewComponent from "../my-report/ReportViewComponent";
 import type { Account } from "../authentication/models";
 
 describe("SubmittedReportComponent", () => {

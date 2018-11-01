@@ -17,7 +17,7 @@ import Select from "react-select";
 import HeaderComponent from "../page-layout/HeaderComponent";
 
 import type { Account } from "../authentication/models";
-import type { Report } from "../my-reports/models";
+import type { Report } from "../my-report/models";
 
 type Props = {
   classes: any,

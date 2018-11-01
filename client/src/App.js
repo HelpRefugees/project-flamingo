@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 
 import LoginPage from "./authentication/LoginPage";
-import MyReportsPage from "./my-reports/MyReportsPage";
-import MyReportReviewPage from "./my-reports/MyReportReviewPage";
-import MyReportEditPage from "./my-reports/MyReportEditPage";
+import MyReportsPage from "./my-report/MyReportsPage";
+import MyReportReviewPage from "./my-report/MyReportReviewPage";
+import MyReportEditPage from "./my-report/MyReportEditPage";
 import ReportsListingPage from "./reports-listing/ReportsListingPage";
 import SubmittedReportPage from "./submitted-report/SubmittedReportPage";
 
@@ -17,7 +17,7 @@ import type { Account } from "./authentication/models";
 import PrivateRoute from "./authorization/PrivateRoute";
 import NotFound from "./authorization/NotFound";
 import Forbidden from "./authorization/Forbidden";
-import MyReportPage from "./my-reports/MyReportPage";
+import MyReportPage from "./my-report/MyReportPage";
 
 const mapStateToProps = (state: State) => {
   return {

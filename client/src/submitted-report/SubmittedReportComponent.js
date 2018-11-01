@@ -10,9 +10,9 @@ import {
 import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
-import ReportViewComponent from "../my-reports/ReportViewComponent";
+import ReportViewComponent from "../my-report/ReportViewComponent";
 import type { Account } from "../authentication/models";
-import type { Report } from "../my-reports/models";
+import type { Report } from "../my-report/models";
 
 type Props = {
   classes: any,
