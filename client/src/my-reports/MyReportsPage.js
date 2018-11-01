@@ -5,7 +5,7 @@ import MyReportsComponent from "./MyReportsComponent";
 import { logout, loadReports, updateReport } from "../actions";
 import type { State } from "../reducers";
 import type { Props } from "./MyReportsComponent";
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   logout: () => dispatch(logout()),

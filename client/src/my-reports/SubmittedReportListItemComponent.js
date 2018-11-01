@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import moment from "moment";
 import { Button, TableCell, TableRow, withStyles } from "@material-ui/core";
 
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 import { Link } from "react-router-dom";
 
 const styles = {

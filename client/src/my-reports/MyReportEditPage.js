@@ -1,25 +1,30 @@
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
-import { logout } from "../actions";
+import MyReportEditComponent from "./MyReportEditComponent";
+import { logout, updateReport } from "../actions";
 import type { State } from "../reducers";
-import MyReportComponent from "./MyReportComponent";
+import type { Report } from "./models";
 
 const mapStateToProps = (state: State, ownProps: any): any => {
   const reportId = ownProps.match.params.id;
   const report = (state.reports || []).find((report) => report.id === parseInt(reportId, 10));
   return {
-    report,
     isAuthenticated: state.isAuthenticated,
-    account: state.account
-  };
+    report: report,
+    account: state.account,
+    submittedReport: state.submittedReport,
+    isLoading: state.isLoading,
+    savedReport: state.savedReport
+  }
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  updateReport: (report: Report) => dispatch(updateReport(report))
 });
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MyReportComponent);
+)(MyReportEditComponent);

@@ -3,7 +3,7 @@ import MockDate from "mockdate";
 import { shallow } from "enzyme";
 
 import { ReportCardComponent } from "./ReportCardComponent";
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 
 describe("ReportCardComponent", () => {
   const report: Report = {

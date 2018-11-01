@@ -10,7 +10,7 @@ import {
 } from "@material-ui/core";
 import moment from "moment";
 
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 import theme from "../theme";
 
 const styles = themes => {

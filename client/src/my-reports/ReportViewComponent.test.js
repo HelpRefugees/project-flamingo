@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { ReportViewComponent } from "./ReportViewComponent";
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 
 describe("ReportViewComponent", () => {
   let wrapper;

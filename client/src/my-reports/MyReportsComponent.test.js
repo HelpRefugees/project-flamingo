@@ -7,7 +7,7 @@ import { MyReportsComponent } from "./MyReportsComponent";
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
 import SubmittedReportListComponent from './SubmittedReportListComponent';
 
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 
 describe("MyReportsComponent", () => {
   it("requests the reports on mount", () => {

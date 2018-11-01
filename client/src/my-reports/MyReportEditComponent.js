@@ -25,8 +25,7 @@ type Props = {
   classes: any,
   logout: () => void,
   updateReport: (report: Report) => Promise<any>,
-  match: any,
-  reports: Report[],
+  report: Report,
   history: any,
   account: Account,
   isLoading: boolean,
@@ -75,50 +74,39 @@ type State = {
   materialsForFundraising?: string
 };
 
-export class ReportEditComponent extends Component<Props, State> {
+export class MyReportEditComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      ...this.report
+      ...props.report
     };
   }
 
   componentWillMount() {
-    if (this.report.completed) {
+    const { report } = this.props;
+    if (report.completed) {
       this.props.history.push("/my-reports");
     }
   }
-
-  get report(): Report {
-    // TODO it's not very efficient to keep calling this
-    return (this.props.reports.find(
-      report => report.id === parseInt(this.props.match.params.id, 10)
-    ): any);
-  }
-
   reviewAndSubmitReport = () => {
-    this.props
-      .updateReport({
-        ...this.report,
-        ...this.state
-      })
+    const { report } = this.props;
+    this.props.updateReport({
+      ...report,
+      ...this.state
+    })
       .then(() =>
-        this.props.history.push(`/my-reports/${this.report.id}/review`)
+        this.props.history.push(`/my-reports/${report.id}/review`)
       );
   };
 
   saveReport = (fieldName: string) => {
-    return () =>
+    return () => {
+      const { report } = this.props;
       this.props.updateReport({
-        ...this.report,
+        ...report,
         [fieldName]: this.state[fieldName]
       });
-  };
-
-  changeReportProgress = (event: Event) => {
-    this.setState({
-      overview: (event.target: window.HTMLInputElement).value
-    });
+    }
   };
 
   isSubmitDisabled() {
@@ -135,7 +123,7 @@ export class ReportEditComponent extends Component<Props, State> {
     return isLoading || allBlank(requiredFields(this.state));
   }
 
-  renderToolbar = (classes: any, report: Report, isLoading: boolean) => {
+  renderToolbar = (classes: any, report: Report) => {
     return (
       <AppBar position="static" color="inherit" className={classes.appbar}>
         <Toolbar>
@@ -231,8 +219,7 @@ export class ReportEditComponent extends Component<Props, State> {
     placeholder,
     optional
   }: any) {
-    const report = this.report;
-    const { isLoading } = this.props;
+    const { report, isLoading } = this.props;
     const isDisabled = this.isSaveButtonDisabled({
       reportPropertyValue: report[stateProperty],
       statePropertyValue: this.state[stateProperty],
@@ -283,14 +270,15 @@ export class ReportEditComponent extends Component<Props, State> {
   }
 
   renderKeyActivitiesSection() {
+    const { report, isLoading } = this.props;
     return (
       <ActivitiesSectionComponent
         activities={this.state.keyActivities}
         disabled={this.activitiesAreEqual(
           this.state.keyActivities,
-          this.report.keyActivities
+          report.keyActivities
         )}
-        isLoading={this.props.isLoading}
+        isLoading={isLoading}
         onChange={this.onSectionInputChange("keyActivities")}
         onSave={this.saveReport("keyActivities")}
       />
@@ -298,9 +286,7 @@ export class ReportEditComponent extends Component<Props, State> {
   }
 
   render() {
-    const { classes, account, logout, isLoading, savedReport } = this.props;
-    const report = this.report;
-
+    const { report, classes, account, logout, savedReport } = this.props;
     if (!report) {
       return <Redirect to="/notFound" />;
     }
@@ -390,7 +376,7 @@ export class ReportEditComponent extends Component<Props, State> {
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
-        {this.renderToolbar(classes, report, isLoading)}
+        {this.renderToolbar(classes, report)}
         {!savedReport && (
           <Snackbar
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -422,4 +408,4 @@ export class ReportEditComponent extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(ReportEditComponent);
+export default withStyles(styles)(MyReportEditComponent);

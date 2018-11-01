@@ -10,9 +10,9 @@ import {
 import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
-import ReportViewComponent from "../report/ReportViewComponent";
+import ReportViewComponent from "../my-reports/ReportViewComponent";
 import type { Account } from "../authentication/models";
-import type { Report } from "../report/models";
+import type { Report } from "../my-reports/models";
 
 type Props = {
   classes: any,
@@ -89,7 +89,7 @@ export class SubmittedReportComponent extends Component<Props, State> {
                 >
                   Submission Date
                 </Typography>
-                <Typography data-test-id="submission-date" align="right">
+                <Typography data-test-id="report-submission-date" align="right">
                   {report.submissionDate
                     ? moment(report.submissionDate).format("DD/MM/YYYY")
                     : ""}

@@ -3,7 +3,7 @@ import React from "react";
 import { MemoryRouter } from "react-router-dom";
 
 import { ReportsListingComponent } from "./ReportsListingComponent";
-import type { Report } from "../report/models";
+import type { Report } from "../my-reports/models";
 
 describe("ReportsListingComponent", () => {
   let wrapper;

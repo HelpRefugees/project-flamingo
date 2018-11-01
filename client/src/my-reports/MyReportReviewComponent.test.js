@@ -1,19 +1,19 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { ReviewReportComponent } from "./ReviewReportComponent";
-import HeaderComponent from "../page-layout/HeaderComponent";
-import type { Report } from "../report/models";
-import ReportViewComponent from "../report/ReportViewComponent";
+import { MyReportReviewComponent } from "./MyReportReviewComponent";
+import MyReportHeader from "./MyReportHeader";
+import type { Report } from "./models";
+import ReportViewComponent from "./ReportViewComponent";
 import type { Account } from "../authentication/models";
 
-describe("ReviewReportComponent", () => {
+describe("MyReportReviewComponent", () => {
   let wrapper;
   let mockLogout;
   let mockHistoryPush;
   let mockUpdateReport;
 
-  const report1: $Shape<Report> = {
+  const report: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
     overview: "Hugh Overview",
@@ -34,19 +34,6 @@ describe("ReviewReportComponent", () => {
     incidents: "",
     otherIssues: ""
   };
-  const report2: $Shape<Report> = {
-    id: 2,
-    grant: "Grant Shapps",
-    overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
-    completed: false,
-    reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivities: [{}],
-    operatingEnvironment: "",
-    beneficiaryFeedback: "",
-    challengesFaced: "",
-    incidents: "",
-    otherIssues: ""
-  };
 
   const account: Account = {
     username: "steve@ip.org",
@@ -60,11 +47,11 @@ describe("ReviewReportComponent", () => {
     mockUpdateReport = jest.fn();
 
     wrapper = shallow(
-      <ReviewReportComponent
+      <MyReportReviewComponent
         logout={mockLogout}
         match={{ params: { id: "1" } }}
         classes={{}}
-        reports={[report1, report2]}
+        report={report}
         account={account}
         history={{ push: mockHistoryPush }}
         updateReport={mockUpdateReport}
@@ -76,36 +63,18 @@ describe("ReviewReportComponent", () => {
   });
 
   it("renders a header component and passes the logout method and the account to it", () => {
-    expect(wrapper.find(HeaderComponent).prop("logout")).toBe(mockLogout);
-    expect(wrapper.find(HeaderComponent).prop("account")).toBe(account);
+    expect(wrapper.find(MyReportHeader).prop("logout")).toBe(mockLogout);
+    expect(wrapper.find(MyReportHeader).prop("account")).toBe(account);
   });
 
   it("renders the report view compoennt", () => {
-    expect(wrapper.find(ReportViewComponent).prop("report")).toBe(report1);
-  });
-
-  it("renders the grant name", () => {
-    expect(
-      wrapper
-        .find(`[data-test-id="report-grant-name"]`)
-        .render()
-        .text()
-    ).toContain(report1.grant);
-  });
-
-  it("renders the report period", () => {
-    expect(
-      wrapper
-        .find(`[data-test-id="report-period"]`)
-        .render()
-        .text()
-    ).toContain("September 2018");
+    expect(wrapper.find(ReportViewComponent).prop("report")).toBe(report);
   });
 
   describe("edit", () => {
-    it("rendirects to the report page when clicking edit", () => {
-      wrapper.find(`[data-test-id="report-edit-button"]`).simulate("click");
-      expect(mockHistoryPush).toHaveBeenCalledWith("/my-reports/1/edit");
+    it("redirects to the report page when clicking edit", () => {
+      const editButton = wrapper.find(`[data-test-id="report-edit-button"]`);
+      expect(editButton.prop('to')).toEqual("/my-reports/1/edit");
     });
 
     it("is disabled during loading", () => {
@@ -119,10 +88,10 @@ describe("ReviewReportComponent", () => {
 
   describe("submit", () => {
     it("calls update report action with the correct arguments on click", () => {
-      let completedReport1 = { ...report1, completed: true };
+      let completedReport = { ...report, completed: true };
       wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(completedReport1);
+      expect(mockUpdateReport).toHaveBeenCalledWith(completedReport);
     });
 
     it("is disabled during loading", () => {

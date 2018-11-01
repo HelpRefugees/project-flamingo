@@ -3,8 +3,8 @@ import { shallow } from "enzyme";
 
 import { SubmittedReportComponent } from "./SubmittedReportComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
-import type { Report } from "../report/models";
-import ReportViewComponent from "../report/ReportViewComponent";
+import type { Report } from "../my-reports/models";
+import ReportViewComponent from "../my-reports/ReportViewComponent";
 import type { Account } from "../authentication/models";
 
 describe("SubmittedReportComponent", () => {
@@ -87,7 +87,7 @@ describe("SubmittedReportComponent", () => {
   it("renders the grant submission date", () => {
     expect(
       wrapper
-        .find(`[data-test-id="submission-date"]`)
+        .find(`[data-test-id="report-submission-date"]`)
         .render()
         .text()
     ).toContain("03/10/2018");

@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { Link } from "react-router-dom";
 
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
 import ReportCardComponent from "./ReportCardComponent";
 

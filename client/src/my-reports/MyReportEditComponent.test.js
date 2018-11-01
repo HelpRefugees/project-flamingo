@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { ReportEditComponent } from "./ReportEditComponent";
+import { MyReportEditComponent } from "./MyReportEditComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report, KeyActivity } from "./models";
 import type { Account } from "../authentication/models";
@@ -9,7 +9,7 @@ import ReportSectionComponent from "./ReportSectionComponent";
 import ActivitiesSectionComponent from "./ActivitiesSectionComponent";
 import { assertLater } from "../testHelpers";
 
-describe("ReportComponent", () => {
+describe("MyReportEditComponent", () => {
   const sectionIndices = {
     grantProgress: 0,
     operatingEnvironment: 1,
@@ -20,7 +20,6 @@ describe("ReportComponent", () => {
     otherIssues: 5,
     materialsForFundraising: 6
   };
-
   let wrapper;
   let mockUpdateReport;
   let mockLogout;
@@ -28,7 +27,7 @@ describe("ReportComponent", () => {
 
   const isLoading = false;
 
-  const report1: $Shape<Report> = {
+  const report: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
     overview: "Hugh",
@@ -49,23 +48,6 @@ describe("ReportComponent", () => {
     otherIssues: ""
   };
 
-  const report2: $Shape<Report> = {
-    id: 2,
-    grant: "Grant Shapps",
-    overview: "Shapps",
-    completed: false,
-    reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivities: [{}],
-    operatingEnvironment: "",
-    beneficiaryFeedback: "",
-    challengesFaced: "",
-    incidents: "",
-    otherIssues: "",
-    materialsForFundraising: ""
-  };
-
-  let reports: $Shape<Report>[] = [report1, report2];
-
   const account: Account = {
     username: "Steve@ip.org",
     name: "Also Steve",
@@ -78,11 +60,10 @@ describe("ReportComponent", () => {
     mockHistoryPush = jest.fn();
 
     wrapper = shallow(
-      <ReportEditComponent
+      <MyReportEditComponent
         updateReport={mockUpdateReport}
         logout={mockLogout}
-        reports={reports}
-        match={{ params: { id: "1" } }}
+        report={report}
         classes={{}}
         history={{ push: mockHistoryPush }}
         account={account}
@@ -104,7 +85,7 @@ describe("ReportComponent", () => {
         .find(`[data-test-id="report-grant-name"]`)
         .render()
         .text()
-    ).toContain(report1.grant);
+    ).toContain(report.grant);
   });
 
   it("renders the report period", () => {
@@ -234,8 +215,8 @@ describe("ReportComponent", () => {
 
     it("calls update report action with the correct arguments when clicking the save button", () => {
       const overview = "text for report progress";
-      const updatedReport1 = {
-        ...report1,
+      const updatedReport = {
+        ...report,
         overview
       };
 
@@ -246,7 +227,7 @@ describe("ReportComponent", () => {
       const onSave = grantProgressSection.prop("onSave");
       onSave();
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport);
     });
   });
 
@@ -303,7 +284,7 @@ describe("ReportComponent", () => {
       keyActivitiesSection.prop("onSave")();
 
       expect(mockUpdateReport).toHaveBeenCalledWith({
-        ...report1,
+        ...report,
         keyActivities: newActivities
       });
     });
@@ -313,7 +294,7 @@ describe("ReportComponent", () => {
     it("calls update report action with the correct arguments on click", () => {
       const overview = "text for report progress";
       const updatedReport1 = {
-        ...report1,
+        ...report,
         overview
       };
 
@@ -335,7 +316,7 @@ describe("ReportComponent", () => {
 
       assertLater(done, () => {
         expect(mockHistoryPush).toHaveBeenCalledWith(
-          `/my-reports/${report1.id}/review`
+          `/my-reports/${report.id}/review`
         );
       });
     });
@@ -430,7 +411,7 @@ describe("ReportComponent", () => {
       const newValue = `new value for ${reportProperty}`;
 
       const updatedReport1 = {
-        ...report1,
+        ...report,
         [reportProperty]: newValue
       };
 
@@ -535,7 +516,7 @@ describe("ReportComponent", () => {
       const newValue = "new value for materialsForFundraising";
 
       const updatedReport1 = {
-        ...report1,
+        ...report,
         materialsForFundraising: newValue
       };
 

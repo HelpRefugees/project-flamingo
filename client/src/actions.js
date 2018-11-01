@@ -1,6 +1,6 @@
 import type { Dispatch } from "redux";
 
-import type { Report } from "./report/models";
+import type { Report } from "./my-reports/models";
 import type { Credentials, Account } from "./authentication/models";
 
 export const loginSuccessful = (account: Account) => ({

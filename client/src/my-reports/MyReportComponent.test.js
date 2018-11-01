@@ -1,18 +1,19 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 import type { Account } from "../authentication/models";
 import { MyReportComponent } from "./MyReportComponent";
-import HeaderComponent from "../page-layout/HeaderComponent";
-import ReportViewComponent from "../report/ReportViewComponent";
+import MyReportHeader from "./MyReportHeader";
+import ReportViewComponent from "./ReportViewComponent";
 import { MemoryRouter } from "react-router-dom";
+import ButtonLink from "../page-layout/ButtonLink";
 
 describe("MyReportComponent", () => {
   let wrapper;
   let mockLogout;
 
-  const report1: $Shape<Report> = {
+  const report: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
     overview: "Hugh Overview",
@@ -33,19 +34,6 @@ describe("MyReportComponent", () => {
     incidents: "",
     otherIssues: ""
   };
-  const report2: $Shape<Report> = {
-    id: 2,
-    grant: "Grant Shapps",
-    overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
-    completed: true,
-    reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivities: [{}],
-    operatingEnvironment: "",
-    beneficiaryFeedback: "",
-    challengesFaced: "",
-    incidents: "",
-    otherIssues: ""
-  };
 
   const account: Account = {
     username: "steve@ip.org",
@@ -58,9 +46,8 @@ describe("MyReportComponent", () => {
       <MemoryRouter>
         <MyReportComponent
           logout={mockLogout}
-          match={{ params: { id: "1" } }}
           classes={{}}
-          reports={[report1, report2]}
+          report={report}
           account={account}
         />
       </MemoryRouter>
@@ -68,28 +55,16 @@ describe("MyReportComponent", () => {
   });
 
   it("renders a header component and passes the logout method and the account to it", () => {
-    expect(wrapper.find(HeaderComponent).prop("logout")).toBe(mockLogout);
-    expect(wrapper.find(HeaderComponent).prop("account")).toBe(account);
+    expect(wrapper.find(MyReportHeader).prop("logout")).toBe(mockLogout);
+    expect(wrapper.find(MyReportHeader).prop("account")).toBe(account);
   });
 
   it("renders the report view component", () => {
-    expect(wrapper.find(ReportViewComponent).prop("report")).toBe(report1);
-  });
-
-  it("renders the grant name", () => {
-    expect(
-      wrapper.find(`Typography[data-test-id="report-grant-name"]`).text()
-    ).toContain("Hugh Grant");
-  });
-
-  it("renders the grant submission date", () => {
-    expect(
-      wrapper.find(`Typography[data-test-id="submission-date"]`).text()
-    ).toContain("03/10/2018");
+    expect(wrapper.find(ReportViewComponent).prop("report")).toBe(report);
   });
 
   it("renders the back button", () => {
-    const backButton = wrapper.find(`Link[data-test-id="report-back-button"]`);
+    const backButton = wrapper.find(ButtonLink);
     expect(backButton.prop("to")).toEqual("/my-reports");
   });
 });

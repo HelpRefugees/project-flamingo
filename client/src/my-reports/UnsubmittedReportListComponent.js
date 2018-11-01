@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 
 import ReportCardComponent from "./ReportCardComponent";
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 
 interface Props {
   reports: Report[];

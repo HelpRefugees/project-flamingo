@@ -4,7 +4,7 @@ import { Grid, Typography, withStyles } from "@material-ui/core";
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
 import SubmittedReportListComponent from './SubmittedReportListComponent';
 import HeaderComponent from "../page-layout/HeaderComponent";
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 import type { Account } from "../authentication/models";
 
 export type Props = {

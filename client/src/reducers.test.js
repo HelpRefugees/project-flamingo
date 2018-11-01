@@ -1,5 +1,5 @@
 import reducers, { type State, initialState } from "./reducers";
-import type { Report } from "./report/models";
+import type { Report } from "./my-reports/models";
 import type { Account } from "./authentication/models";
 
 describe("reducers", () => {

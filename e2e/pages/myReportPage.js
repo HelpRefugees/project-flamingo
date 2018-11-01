@@ -24,7 +24,7 @@ export default class MyReportPage extends BasePage {
 
   verifyReportData(data) {
     cy.get(testId("report-grant-name")).should("contains.text", data.grantName);
-    cy.get(testId("submission-date")).should(
+    cy.get(testId("report-submission-date")).should(
       "contains.text",
       data.submissionDate
     );

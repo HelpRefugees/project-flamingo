@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { withStyles, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
 
 import SubmittedReportListItemComponent from "./SubmittedReportListItemComponent";
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 
 const styles = {
   tableCellDiv: {

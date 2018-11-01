@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import type { Report } from "../report/models";
+import type { Report } from "./models";
 import SubmittedReportListItemComponent from "./SubmittedReportListItemComponent";
 import { Link, MemoryRouter } from "react-router-dom";
 
