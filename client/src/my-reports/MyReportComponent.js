@@ -91,7 +91,7 @@ const styles = themes => ({
 });
 
 
-const MyReportsLink = props => <Link to="/myReports" {...props} />;
+const MyReportsLink = props => <Link to="/my-reports" {...props} />;
 
 export class MyReportComponent extends Component<Props, State> {
   get report(): Report {

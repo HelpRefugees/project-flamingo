@@ -89,7 +89,7 @@ export class ReportEditComponent extends Component<Props, State> {
 
   componentWillMount() {
     if (this.report.completed) {
-      this.props.history.push("/myReports");
+      this.props.history.push("/my-reports");
     }
   }
 
@@ -106,7 +106,7 @@ export class ReportEditComponent extends Component<Props, State> {
         ...this.report,
         ...this.state
       })
-      .then(() => this.props.history.push(`/reviewReports/${this.report.id}`));
+      .then(() => this.props.history.push(`/my-reports/${this.report.id}/review`));
   };
 
   saveReport = (fieldName: string) => {
@@ -374,7 +374,7 @@ export class ReportEditComponent extends Component<Props, State> {
     }
 
     if (report.completed) {
-      return <Redirect to="/myReports" />;
+      return <Redirect to="/my-reports" />;
     }
 
     const grantProgress = {

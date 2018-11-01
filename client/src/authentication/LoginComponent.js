@@ -88,14 +88,14 @@ export class LoginComponent extends Component<Props, State> {
       && !this.props.isLoading
       && this.props.role === "implementing-partner"
     ) {
-      return <Redirect to="/myReports" />;
+      return <Redirect to="/my-reports" />;
     }
     if (
       this.props.isAuthenticated
       && !this.props.isLoading
       && this.props.role === "help-refugees"
     ) {
-      return <Redirect to="/reportsListing" />;
+      return <Redirect to="/reports" />;
     }
     const { classes } = this.props;
     return (

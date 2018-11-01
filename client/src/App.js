@@ -39,16 +39,9 @@ export class App extends Component<Props> {
           <CssBaseline />
           <Switch>
             <Route exact path="/" component={LoginPage} />
-            <PrivateRoute
-              path="/reportsListing"
-              allowed={["help-refugees"]}
-              component={ReportsListingPage}
-              isAuthenticated={this.props.isAuthenticated}
-              account={this.props.account}
-            />
 
             <PrivateRoute
-              path="/submittedReports/:id"
+              path="/reports/:id"
               allowed={["help-refugees"]}
               component={SubmittedReportPage}
               isAuthenticated={this.props.isAuthenticated}
@@ -56,23 +49,15 @@ export class App extends Component<Props> {
             />
 
             <PrivateRoute
-              path="/myReports/:id"
-              allowed={["implementing-partner"]}
-              component={MyReportPage}
+              path="/reports"
+              allowed={["help-refugees"]}
+              component={ReportsListingPage}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
 
             <PrivateRoute
-              path="/myReports"
-              allowed={["implementing-partner"]}
-              component={MyReportsPage}
-              isAuthenticated={this.props.isAuthenticated}
-              account={this.props.account}
-            />
-
-            <PrivateRoute
-              path="/reports/:id"
+              path="/my-reports/:id/edit"
               allowed={["implementing-partner"]}
               component={ReportEditPage}
               isAuthenticated={this.props.isAuthenticated}
@@ -80,9 +65,25 @@ export class App extends Component<Props> {
             />
 
             <PrivateRoute
-              path="/reviewReports/:id"
+              path="/my-reports/:id/review"
               allowed={["implementing-partner"]}
               component={ReviewReportPage}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
+
+            <PrivateRoute
+              path="/my-reports/:id"
+              allowed={["implementing-partner"]}
+              component={MyReportPage}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
+
+            <PrivateRoute
+              path="/my-reports"
+              allowed={["implementing-partner"]}
+              component={MyReportsPage}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />

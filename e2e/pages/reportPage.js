@@ -12,7 +12,7 @@ export default class ReportPage extends BasePage {
   }
 
   get path() {
-    return `/reports/${this.reportId}`;
+    return `/my-reports/${this.reportId}/edit`;
   }
 
   get grantName() {

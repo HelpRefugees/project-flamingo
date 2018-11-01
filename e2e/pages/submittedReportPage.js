@@ -8,7 +8,7 @@ export default class SubmittedReportPage extends BasePage {
   }
 
   get path() {
-    return `/submittedReports/${this.reportId}`;
+    return `/reports/${this.reportId}`;
   }
 
   getSection(name, callback) {

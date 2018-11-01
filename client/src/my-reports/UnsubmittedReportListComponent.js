@@ -15,7 +15,7 @@ export default class UnsubmittedReportListComponent extends PureComponent<Props>
     return reports.map((report, index) => (
       <Link
         key={report.id}
-        to={`/reports/${report.id}`}
+        to={`/my-reports/${report.id}/edit`}
         style={{ textDecoration: "none" }}
       >
         <ReportCardComponent

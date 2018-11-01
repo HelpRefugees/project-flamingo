@@ -11,7 +11,7 @@ export default class ReviewReportPage extends BasePage {
   }
 
   get path() {
-    return `/reviewReports/${this.reportId}`;
+    return `/my-reports/${this.reportId}/review`;
   }
 
   get submitButton() {

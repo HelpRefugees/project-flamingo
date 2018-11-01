@@ -54,7 +54,7 @@ describe("SubmittedReportListItemComponent", () => {
   it("renders links for the submitted report", () => {
     const links = wrapper.find(Link);
     expect(links).toHaveLength(3);
-    links.forEach(l => expect(l.prop('to')).toEqual('/myReports/2'));
+    links.forEach(l => expect(l.prop('to')).toEqual('/my-reports/2'));
   });
 
   it("renders an undo button", () => {

@@ -2,7 +2,7 @@ import BasePage from "./basePage";
 import { testId } from "./helpers";
 
 export default class ReportsListingPage extends BasePage {
-  path = "/reportsListing";
+  path = "/reports";
 
   getReports() {
     return cy.get(testId("submitted-reports")).get(testId("report"));

@@ -127,7 +127,7 @@ describe("ReportsListingComponent", () => {
         .find('[data-test-id="submitted-reports"] [data-test-id="report"]')
         .first()
         .simulate("click");
-      expect(mockHistoryPush).toHaveBeenCalledWith("/submittedReports/1");
+      expect(mockHistoryPush).toHaveBeenCalledWith("/reports/1");
     });
 
     it("passes the grant name to the filter control", () => {

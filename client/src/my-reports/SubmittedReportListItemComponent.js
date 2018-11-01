@@ -30,19 +30,19 @@ class SubmittedReportListItemComponent extends PureComponent<Props> {
     return (
       <TableRow data-test-id="report" key={id}>
         <TableCell data-test-id="report-grant">
-          <Link to={`/myReports/${report.id}`} className={classes.reportListItemLink}>
+          <Link to={`/my-reports/${report.id}`} className={classes.reportListItemLink}>
             <div>{grant}</div>
           </Link>
         </TableCell>
         <TableCell data-test-id="report-period">
-          <Link to={`/myReports/${report.id}`} className={classes.reportListItemLink}>
+          <Link to={`/my-reports/${report.id}`} className={classes.reportListItemLink}>
             <div className={classes.tableCellDiv}>
               {moment(reportPeriod).format("MMMM YYYY")}
             </div>
           </Link>
         </TableCell>
         <TableCell data-test-id="report-submitted">
-          <Link to={`/myReports/${report.id}`} className={classes.reportListItemLink}>
+          <Link to={`/my-reports/${report.id}`} className={classes.reportListItemLink}>
             <div className={classes.tableCellDiv}>
               {submissionDate ? moment(submissionDate).format("DD/MM/YYYY") : ""}
             </div>

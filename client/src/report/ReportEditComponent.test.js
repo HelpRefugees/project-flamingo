@@ -308,7 +308,7 @@ describe("ReportComponent", () => {
 
       assertLater(done, () => {
         expect(mockHistoryPush).toHaveBeenCalledWith(
-          `/reviewReports/${report1.id}`
+          `/my-reports/${report1.id}/review`
         );
       });
     });

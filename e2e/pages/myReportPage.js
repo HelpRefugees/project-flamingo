@@ -8,7 +8,7 @@ export default class MyReportPage extends BasePage {
   }
 
   get path() {
-    return `/myReports/${this.reportId}`;
+    return `/my-reports/${this.reportId}`;
   }
 
   get backButton() {

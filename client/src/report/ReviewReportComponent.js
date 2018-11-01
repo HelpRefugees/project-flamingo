@@ -85,7 +85,7 @@ const styles = theme => ({
 export class ReviewReportComponent extends Component<Props> {
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.submittedReport) {
-      this.props.history.push("/myReports");
+      this.props.history.push("/my-reports");
     }
   }
 
@@ -97,7 +97,7 @@ export class ReviewReportComponent extends Component<Props> {
   }
 
   redirectToEditReportPage(reportId: number) {
-    this.props.history.push(`/reports/${reportId}`);
+    this.props.history.push(`/my-reports/${reportId}/edit`);
   }
 
   submitReport = () => {
@@ -183,7 +183,7 @@ export class ReviewReportComponent extends Component<Props> {
     }
 
     if (report.completed) {
-      return <Redirect to="/myReports" />;
+      return <Redirect to="/my-reports" />;
     }
 
     return (

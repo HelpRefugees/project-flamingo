@@ -92,6 +92,6 @@ describe("MyReportComponent", () => {
 
   it("renders the back button", () => {
     const backButton = wrapper.find(`Link[data-test-id="report-back-button"]`);
-    expect(backButton.prop('to')).toEqual("/myReports");
+    expect(backButton.prop('to')).toEqual("/my-reports");
   });
 });

@@ -2,7 +2,7 @@ import BasePage from "./basePage";
 import { testId } from "./helpers";
 
 export default class MyReportsPage extends BasePage {
-  path = "/myReports";
+  path = "/my-reports";
 
   reportSelector = testId("report");
 

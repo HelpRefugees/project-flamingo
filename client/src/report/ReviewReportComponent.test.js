@@ -103,7 +103,7 @@ describe("ReviewReportComponent", () => {
   describe("edit", () => {
     it("rendirects to the report page when clicking edit", () => {
       wrapper.find(`[data-test-id="report-edit-button"]`).simulate("click");
-      expect(mockHistoryPush).toHaveBeenCalledWith("/reports/1");
+      expect(mockHistoryPush).toHaveBeenCalledWith("/my-reports/1/edit");
     });
 
     it("is disabled during loading", () => {
@@ -134,7 +134,7 @@ describe("ReviewReportComponent", () => {
     it("redirects to myReports page when report submitted successfully", () => {
       wrapper.setProps({ submittedReport: true });
 
-      expect(mockHistoryPush).toHaveBeenCalledWith("/myReports");
+      expect(mockHistoryPush).toHaveBeenCalledWith("/my-reports");
     });
 
     it("shows an error message when submitting a report fails", () => {

@@ -151,7 +151,7 @@ export class ReportsListingComponent extends Component<
   };
 
   redirectToSubmittedReportPage(reportId: number) {
-    this.props.history.push(`/submittedReports/${reportId}`);
+    this.props.history.push(`/reports/${reportId}`);
   }
 
   noReportsMessage(classes: any) {
