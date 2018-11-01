@@ -8,7 +8,6 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  InputLabel,
   Snackbar,
   SnackbarContent
 } from "@material-ui/core";
@@ -18,7 +17,9 @@ import moment from "moment";
 import ReportSectionComponent from "./ReportSectionComponent";
 
 import type { Report } from "./models";
-import type { Account } from "../authentication/models";
+import ActivitiesSectionComponent from "./ActivitiesSectionComponent";
+import { type Account } from "../authentication/models";
+import { type KeyActivity } from "./models";
 
 type Props = {
   classes: any,
@@ -65,12 +66,7 @@ const styles = themes => ({
 
 type State = {
   overview: string,
-  keyActivity: {
-    activityName?: string,
-    numberOfParticipants?: string,
-    demographicInfo?: string,
-    impactOutcome?: string
-  },
+  keyActivities: KeyActivity[],
   operatingEnvironment?: string,
   beneficiaryFeedback?: string,
   challengesFaced?: string,
@@ -106,7 +102,9 @@ export class ReportEditComponent extends Component<Props, State> {
         ...this.report,
         ...this.state
       })
-      .then(() => this.props.history.push(`/my-reports/${this.report.id}/review`));
+      .then(() =>
+        this.props.history.push(`/my-reports/${this.report.id}/review`)
+      );
   };
 
   saveReport = (fieldName: string) => {
@@ -254,7 +252,7 @@ export class ReportEditComponent extends Component<Props, State> {
           fullWidth={true}
           id="component-outlined"
           placeholder={placeholder}
-          value={this.state[stateProperty]}
+          value={this.state[stateProperty] || ""}
           multiline
           rows={10}
           rowsMax={100}
@@ -265,103 +263,37 @@ export class ReportEditComponent extends Component<Props, State> {
     );
   }
 
+  activitiesAreEqual(first: KeyActivity[], second: KeyActivity[]): boolean {
+    if (first.length !== second.length) {
+      return false;
+    }
+    for (let index = 0; index < first.length; index++) {
+      for (let field of [
+        "activityName",
+        "numberOfParticipants",
+        "demographicInfo",
+        "impactOutcome"
+      ]) {
+        if (first[index][field] !== second[index][field]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   renderKeyActivitiesSection() {
-    const { classes, isLoading } = this.props;
-    const fields = [
-      "activityName",
-      "numberOfParticipants",
-      "demographicInfo",
-      "impactOutcome"
-    ];
-
-    const report = this.report;
-    const hasChanged = fields.some(
-      (field: string) =>
-        this.state.keyActivity
-        && this.state.keyActivity[field] !== report.keyActivity[field]
-    );
-
-    const isDisabled = isLoading || !hasChanged;
-
     return (
-      <ReportSectionComponent
-        data-test-id="key-activities"
-        title="Key Activities"
-        subtitle="Please describe the activities you have done this month."
-        disabled={isDisabled}
-        onSave={this.saveReport("keyActivity")}
-      >
-        <InputLabel className={classes.label}>Name of the activity</InputLabel>
-        <OutlinedInput
-          onChange={this.onSectionInputChange("activityName", "keyActivity")}
-          className={classes.input}
-          value={
-            this.state.keyActivity && this.state.keyActivity.activityName
-              ? this.state.keyActivity.activityName
-              : ""
-          }
-          fullWidth={true}
-          labelWidth={0}
-          placeholder="Add a title"
-          data-test-id="report-activity-name-input"
-        />
-        <InputLabel className={classes.label}>
-          Average number of participants
-        </InputLabel>
-        <OutlinedInput
-          onChange={this.onSectionInputChange(
-            "numberOfParticipants",
-            "keyActivity"
-          )}
-          className={classes.input}
-          value={
-            this.state.keyActivity
-            && this.state.keyActivity.numberOfParticipants
-              ? this.state.keyActivity.numberOfParticipants
-              : ""
-          }
-          fullWidth={true}
-          labelWidth={0}
-          placeholder="Add a number of participants"
-          data-test-id="report-participants-number-input"
-          type="number"
-        />
-        <InputLabel className={classes.label}>Demographic info</InputLabel>
-        <OutlinedInput
-          onChange={this.onSectionInputChange("demographicInfo", "keyActivity")}
-          className={classes.input}
-          value={
-            this.state.keyActivity && this.state.keyActivity.demographicInfo
-              ? this.state.keyActivity.demographicInfo
-              : ""
-          }
-          fullWidth={true}
-          labelWidth={0}
-          multiline
-          rows={2}
-          placeholder="Please add an overview"
-          data-test-id="report-demographic-info-input"
-        />
-        <InputLabel className={classes.label}>
-          Positive Impacts & outcome
-        </InputLabel>
-        <OutlinedInput
-          onChange={this.onSectionInputChange("impactOutcome", "keyActivity")}
-          className={classes.input}
-          value={
-            this.state.keyActivity && this.state.keyActivity.impactOutcome
-              ? this.state.keyActivity.impactOutcome
-              : ""
-          }
-          fullWidth={true}
-          labelWidth={0}
-          multiline
-          rows={10}
-          rowsMax={20}
-          placeholder="Please add an overview"
-          data-test-id="report-impact-outcome-input"
-        />
-      </ReportSectionComponent>
+      <ActivitiesSectionComponent
+        activities={this.state.keyActivities}
+        disabled={this.activitiesAreEqual(
+          this.state.keyActivities,
+          this.report.keyActivities
+        )}
+        isLoading={this.props.isLoading}
+        onChange={this.onSectionInputChange("keyActivities")}
+        onSave={this.saveReport("keyActivities")}
+      />
     );
   }
 

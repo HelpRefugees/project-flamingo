@@ -9,7 +9,7 @@ describe("reports service", () => {
       overview: "",
       grant: "Grant Mitchell",
       owner: "user@flamingo.life",
-      keyActivity: {}
+      keyActivities: [{}]
     };
 
     test("updates the report on save", () => {
@@ -19,7 +19,7 @@ describe("reports service", () => {
         overview: "",
         grant: "Grant Mitchell",
         owner: "user@flamingo.life",
-        keyActivity: {},
+        keyActivities: [{}],
         operatingEnvironment: ""
       };
 
@@ -29,12 +29,14 @@ describe("reports service", () => {
         overview: "Our new overview",
         grant: "Grant Mitchell",
         owner: "user@flamingo.life",
-        keyActivity: {
-          activityName: "activityName",
-          numberOfParticipants: "numberOfParticipants",
-          demographicInfo: "demographicInfo",
-          impactOutcome: "impactOutcome"
-        },
+        keyActivities: [
+          {
+            activityName: "activityName",
+            numberOfParticipants: "123",
+            demographicInfo: "demographicInfo",
+            impactOutcome: "impactOutcome"
+          }
+        ],
         operatingEnvironment: "changes in the operating environment"
       };
 
@@ -42,8 +44,8 @@ describe("reports service", () => {
         { op: "replace", path: "/overview", value: updatedReport.overview },
         {
           op: "replace",
-          path: "/keyActivity",
-          value: updatedReport.keyActivity
+          path: "/keyActivities",
+          value: updatedReport.keyActivities
         },
         {
           op: "replace",
@@ -66,7 +68,7 @@ describe("reports service", () => {
         overview: "",
         grant: "Grant Mitchell",
         owner: "user@flamingo.life",
-        keyActivity: {}
+        keyActivities: [{}]
       };
 
       const updatedReport = {
@@ -76,20 +78,22 @@ describe("reports service", () => {
         grant: "Grant Mitchell",
         owner: "user@flamingo.life",
         submissionDate: newDate,
-        keyActivity: {
-          activityName: "activityName",
-          numberOfParticipants: "numberOfParticipants",
-          demographicInfo: "demographicInfo",
-          impactOutcome: "impactOutcome"
-        }
+        keyActivities: [
+          {
+            activityName: "activityName",
+            numberOfParticipants: "123",
+            demographicInfo: "demographicInfo",
+            impactOutcome: "impactOutcome"
+          }
+        ]
       };
 
       const changes = [
         { op: "replace", path: "/overview", value: updatedReport.overview },
         {
           op: "replace",
-          path: "/keyActivity",
-          value: updatedReport.keyActivity
+          path: "/keyActivities",
+          value: updatedReport.keyActivities
         },
         { op: "replace", path: "/completed", value: true }
       ];
@@ -109,7 +113,7 @@ describe("reports service", () => {
         overview: "this report is completed",
         grant: "Grant Mitchell",
         owner: "a@a.com",
-        keyActivity: {},
+        keyActivities: [{}],
         submissionDate: "2018-10-10T10:10:10.101ZZ"
       };
 
@@ -145,24 +149,40 @@ describe("reports service", () => {
       }).toThrow(new Error("cannot handle invalid-operation operation"));
     });
 
-    let expectedProtectedFields = [
+    [
       "/grant",
       "/id",
       "/owner",
       "/reportPeriod",
       "/submissionDate",
       "/dueDate"
-    ];
-
-    for (let index in expectedProtectedFields) {
-      test("rejects changes to protected fields", () => {
-        let field = expectedProtectedFields[index];
+    ].forEach(field => {
+      test(`rejects changes to protected field ${field}`, () => {
         let changes = [{ op: "replace", path: field, value: "new-value" }];
 
         expect(() => {
           reportsHelper.updateReport(report, changes);
         }).toThrow(new Error(`cannot edit ${field}`));
       });
-    }
+    });
+
+    [
+      "/overview",
+      "/keyActivities",
+      "/operatingEnvironment",
+      "/beneficiaryFeedback",
+      "/challengesFaced",
+      "/incidents",
+      "/otherIssues",
+      "/materialsForFundraising"
+    ].forEach(field => {
+      test(`accepts changes to editable field ${field}`, () => {
+        let changes = [{ op: "replace", path: field, value: "new-value" }];
+        const editedReport = { ...report };
+
+        reportsHelper.updateReport(editedReport, changes);
+        expect(editedReport[field.slice(1)]).toEqual("new-value");
+      });
+    });
   });
 });

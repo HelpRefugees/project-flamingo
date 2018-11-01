@@ -44,7 +44,7 @@ function createReport(reportPeriod, id, user) {
     dueDate: generateDueDate(reportPeriod),
     owner: user.username,
     id,
-    keyActivity: {}
+    keyActivities: [{}]
   };
 }
 

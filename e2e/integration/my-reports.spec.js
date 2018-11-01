@@ -50,24 +50,6 @@ context("My Reports Page", () => {
       });
     });
 
-    it("opens and saves an editable report", () => {
-      myReportsPage.getFirstUnsubmittedReport(report => report.click());
-
-      let reportPage = new ReportPage(1);
-      reportPage.isAt();
-      reportPage.grantName.should("contain.text", "Grant Mitchell");
-
-      reportPage.fillOut(newReport);
-
-      myReportsPage.goToHomePage();
-      myReportsPage.getFirstUnsubmittedReport(report => report.click());
-
-      reportPage = new ReportPage(1);
-      reportPage.isAt();
-      reportPage.grantName.should("contain.text", "Grant Mitchell");
-
-      reportPage.isDisplaying(newReport);
-    });
 
     it('can review a submitted report', () => {
       myReportsPage.getFirstUnsubmittedReport(report => report.click());
@@ -83,7 +65,7 @@ context("My Reports Page", () => {
         reportPeriod: "August 2018"
       });
     });
-
+    
     it("submits a report", () => {
       myReportsPage.getFirstUnsubmittedReport(report => report.click());
 
@@ -203,5 +185,4 @@ context("My Reports Page", () => {
       );
     });
   });
-
 });

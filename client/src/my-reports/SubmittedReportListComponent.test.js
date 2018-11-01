@@ -14,7 +14,7 @@ describe("SubmittedReportListComponent", () => {
     completed: true,
     reportPeriod: "2018-10-01T00:00:00.000Z",
     submissionDate: "2018-10-02T00:00:00.000Z",
-    keyActivity: {},
+    keyActivities: [{}],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",

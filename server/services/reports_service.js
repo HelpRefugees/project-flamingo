@@ -1,7 +1,7 @@
 const editableFields = [
   "/overview",
   "/operatingEnvironment",
-  "/keyActivity",
+  "/keyActivities",
   "/completed",
   "/beneficiaryFeedback",
   "/challengesFaced",

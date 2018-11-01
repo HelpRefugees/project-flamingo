@@ -1,12 +1,14 @@
+export type KeyActivity = {
+  activityName?: string,
+  numberOfParticipants?: string,
+  demographicInfo?: string,
+  impactOutcome?: string
+};
+
 export type Report = {
   id: number,
   overview: string,
-  keyActivity: {
-    activityName?: string,
-    numberOfParticipants?: string,
-    demographicInfo?: string,
-    impactOutcome?: string
-  },
+  keyActivities: KeyActivity[],
   operatingEnvironment: string,
   beneficiaryFeedback: string,
   challengesFaced: string,

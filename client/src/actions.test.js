@@ -228,7 +228,7 @@ describe("actions", () => {
         overview: "everything is fine",
         completed: false,
         reportPeriod: "2018-10-01T00:00:00.000Z",
-        keyActivity: {},
+        keyActivities: [{}],
         operatingEnvironment: "",
         beneficiaryFeedback: "",
         challengesFaced: "",
@@ -254,7 +254,7 @@ describe("actions", () => {
         overview: "My report overview",
         completed: false,
         reportPeriod: "2018-10-01T00:00:00.000Z",
-        keyActivity: {},
+        keyActivities: [{}],
         operatingEnvironment: "Changes in operating environment",
         beneficiaryFeedback: "beneficiaryFeedback",
         challengesFaced: "",
@@ -289,7 +289,11 @@ describe("actions", () => {
         expect(JSON.parse(options.body)).toEqual([
           { op: "replace", path: "/overview", value: report.overview },
           { op: "replace", path: "/completed", value: report.completed },
-          { op: "replace", path: "/keyActivity", value: report.keyActivity },
+          {
+            op: "replace",
+            path: "/keyActivities",
+            value: report.keyActivities
+          },
           {
             op: "replace",
             path: "/operatingEnvironment",

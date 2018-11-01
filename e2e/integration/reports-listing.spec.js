@@ -75,7 +75,7 @@ context("Reports Listing Page", () => {
               .should("contain.text", "activityName");
             grantProgressSection
               .contentFor("report-number-of-participants")
-              .should("contain.text", "numberOfParticipants");
+              .should("contain.text", "123");
             grantProgressSection
               .contentFor("report-demographic-info")
               .should("contain.text", "demographicInfo");

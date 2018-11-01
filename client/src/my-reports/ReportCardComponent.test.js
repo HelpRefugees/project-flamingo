@@ -1,5 +1,5 @@
 import React from "react";
-import MockDate  from "mockdate";
+import MockDate from "mockdate";
 import { shallow } from "enzyme";
 
 import { ReportCardComponent } from "./ReportCardComponent";
@@ -13,7 +13,7 @@ describe("ReportCardComponent", () => {
     id: 1,
     reportPeriod: "2018-10-01T00:00:00.000Z",
     dueDate: "2018-11-07T00:00:00.000Z",
-    keyActivity: {},
+    keyActivities: [{}],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
@@ -130,6 +130,16 @@ describe("ReportCardComponent", () => {
     const submittedReport: Report = {
       ...report,
       completed: true,
+      id: 1,
+      reportPeriod: "2018-10-01T00:00:00.000Z",
+      dueDate: "2018-11-07T00:00:00.000Z",
+      keyActivities: [{}],
+      operatingEnvironment: "",
+      beneficiaryFeedback: "",
+      challengesFaced: "",
+      incidents: "",
+      otherIssues: "",
+      materialsForFundraising: "",
       submissionDate: "2018-09-15T03:24:00.000Z"
     };
     const unsubmittedReport: Report = {

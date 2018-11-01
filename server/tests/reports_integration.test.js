@@ -48,7 +48,7 @@ describe("reports endpoint", () => {
         overview: "",
         grant: "Grant Mitchell",
         owner: implementingPartner.username,
-        keyActivity: {}
+        keyActivities: [{}]
       },
       {
         id: 2,
@@ -56,7 +56,7 @@ describe("reports endpoint", () => {
         overview: "",
         grant: "Hugh Grant",
         owner: "a third person",
-        keyActivity: {}
+        keyActivities: [{}]
       },
       {
         id: 3,
@@ -64,7 +64,7 @@ describe("reports endpoint", () => {
         overview: "this report is completed",
         grant: "Grant Mitchell",
         owner: implementingPartner.username,
-        keyActivity: {},
+        keyActivities: [{}],
         submissionDate: "2018-10-10T10:10:10.101ZZ"
       }
     ]);
@@ -130,7 +130,7 @@ describe("reports endpoint", () => {
           overview: "",
           grant: "Grant Mitchell",
           owner: implementingPartner.username,
-          keyActivity: {}
+          keyActivities: [{}]
         },
         {
           id: 3,
@@ -138,7 +138,7 @@ describe("reports endpoint", () => {
           overview: "this report is completed",
           grant: "Grant Mitchell",
           owner: implementingPartner.username,
-          keyActivity: {},
+          keyActivities: [{}],
           submissionDate: "2018-10-10T10:10:10.101ZZ"
         }
       ]);
@@ -152,12 +152,14 @@ describe("reports endpoint", () => {
         grant: "Grant Mitchell",
         owner: implementingPartner.username,
         submissionDate: "2018-10-16T10:47:02.404Z",
-        keyActivity: {
-          activityName: "activityName",
-          numberOfParticipants: "numberOfParticipants",
-          demographicInfo: "demographicInfo",
-          impactOutcome: "impactOutcome"
-        }
+        keyActivities: [
+          {
+            activityName: "activityName",
+            numberOfParticipants: "123",
+            demographicInfo: "demographicInfo",
+            impactOutcome: "impactOutcome"
+          }
+        ]
       };
       MockDate.set(new Date(submittedReport.submissionDate));
 
@@ -167,8 +169,8 @@ describe("reports endpoint", () => {
           { op: "replace", path: "/overview", value: submittedReport.overview },
           {
             op: "replace",
-            path: "/keyActivity",
-            value: submittedReport.keyActivity
+            path: "/keyActivities",
+            value: submittedReport.keyActivities
           },
           { op: "replace", path: "/completed", value: true }
         ])
@@ -243,7 +245,7 @@ describe("reports endpoint", () => {
           overview: "this report is completed",
           grant: "Grant Mitchell",
           owner: implementingPartner.username,
-          keyActivity: {},
+          keyActivities: [{}],
           submissionDate: "2018-10-10T10:10:10.101ZZ"
         }
       ]);

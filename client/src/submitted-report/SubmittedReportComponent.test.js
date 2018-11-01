@@ -18,12 +18,14 @@ describe("SubmittedReportComponent", () => {
     completed: true,
     reportPeriod: "2018-09-01T00:00:00.000Z",
     submissionDate: "2018-10-03T00:00:00.000Z",
-    keyActivity: {
-      activityName: "Test activity",
-      numberOfParticipants: "200",
-      demographicInfo: "any value",
-      impactOutcome: "impact"
-    },
+    keyActivities: [
+      {
+        activityName: "Test activity",
+        numberOfParticipants: "200",
+        demographicInfo: "any value",
+        impactOutcome: "impact"
+      }
+    ],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
@@ -36,7 +38,7 @@ describe("SubmittedReportComponent", () => {
     overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
     completed: true,
     reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivity: {},
+    keyActivities: [{}],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",

@@ -59,7 +59,7 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: username,
           id: 1,
-          keyActivity: {}
+          keyActivities: [{}]
         }
       ]);
     });
@@ -132,7 +132,7 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: username,
           id: 13,
-          keyActivity: {}
+          keyActivities: [{}]
         },
         {
           overview: "",
@@ -142,7 +142,7 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: "helen@ip.org",
           id: 14,
-          keyActivity: {}
+          keyActivities: [{}]
         }
       ]);
     });

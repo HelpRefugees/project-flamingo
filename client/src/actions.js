@@ -104,7 +104,7 @@ export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
     const changes = [
       "overview",
       "completed",
-      "keyActivity",
+      "keyActivities",
       "operatingEnvironment",
       "beneficiaryFeedback",
       "challengesFaced",

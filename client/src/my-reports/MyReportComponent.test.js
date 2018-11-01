@@ -19,12 +19,14 @@ describe("MyReportComponent", () => {
     completed: true,
     reportPeriod: "2018-09-01T00:00:00.000Z",
     submissionDate: "2018-10-03T00:00:00.000Z",
-    keyActivity: {
-      activityName: "Test activity",
-      numberOfParticipants: "200",
-      demographicInfo: "any value",
-      impactOutcome: "impact"
-    },
+    keyActivities: [
+      {
+        activityName: "Test activity",
+        numberOfParticipants: "200",
+        demographicInfo: "any value",
+        impactOutcome: "impact"
+      }
+    ],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
@@ -37,7 +39,7 @@ describe("MyReportComponent", () => {
     overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
     completed: true,
     reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivity: {},
+    keyActivities: [{}],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
@@ -76,22 +78,18 @@ describe("MyReportComponent", () => {
 
   it("renders the grant name", () => {
     expect(
-      wrapper
-        .find(`Typography[data-test-id="report-grant-name"]`)
-        .text()
+      wrapper.find(`Typography[data-test-id="report-grant-name"]`).text()
     ).toContain("Hugh Grant");
   });
 
   it("renders the grant submission date", () => {
     expect(
-      wrapper
-        .find(`Typography[data-test-id="submission-date"]`)
-        .text()
+      wrapper.find(`Typography[data-test-id="submission-date"]`).text()
     ).toContain("03/10/2018");
   });
 
   it("renders the back button", () => {
     const backButton = wrapper.find(`Link[data-test-id="report-back-button"]`);
-    expect(backButton.prop('to')).toEqual("/my-reports");
+    expect(backButton.prop("to")).toEqual("/my-reports");
   });
 });
