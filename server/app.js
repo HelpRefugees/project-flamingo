@@ -19,6 +19,19 @@ const appFactory = (db, sessionStoreProvider) => {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
 
+  if (app.get("env") === "production") {
+    app.enable("trust proxy");
+    app.use("*", (req, res, next) => {
+      if (!req.secure) {
+        return res.redirect(
+          301,
+          `https://${req.headers.host}${req.originalUrl}`
+        );
+      }
+      next();
+    });
+  }
+
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "randomsecret",

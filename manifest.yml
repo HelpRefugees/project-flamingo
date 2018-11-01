@@ -3,5 +3,7 @@ applications:
     buildpacks:
       - https://github.com/cloudfoundry/nodejs-buildpack.git#v1.6.33
     command: yarn start:server
+    env:
+      NODE_ENV: production
     services:
       - flamongo-db
