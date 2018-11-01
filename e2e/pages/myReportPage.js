@@ -12,6 +12,7 @@ export default class MyReportPage extends BasePage {
   }
 
   get backButton() {
+    cy.wait(250);
     return cy.get(testId('report-back-button'));
   }
 
