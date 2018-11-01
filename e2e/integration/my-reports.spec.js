@@ -95,6 +95,7 @@ context("My Reports Page", () => {
         submissionDate: today()
       });
       myReportPage.isDisplaying(newReport);
+      myReportPage.backButton.should("exist");
       myReportPage.backButton.click();
       myReportsPage.getFirstSubmittedReport(report => report.unsubmit());
       myReportsPage.getReports("unsubmitted").should("have.length", 1);
