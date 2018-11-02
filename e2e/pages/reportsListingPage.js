@@ -4,12 +4,16 @@ import { testId } from "./helpers";
 export default class ReportsListingPage extends BasePage {
   path = "/reports";
 
-  getReports() {
-    return cy.get(testId("submitted-reports")).get(testId("report"));
+  goToReportTab(tabName) {
+    cy.get(testId(tabName)).click();
   }
 
-  getFirstReport() {
-    return this.getReports().first();
+  getReportsTable(reportsType) {
+    return cy.get(testId(reportsType)).get(testId("report"));
+  }
+
+  getFirstReport(reportsType) {
+    return this.getReportsTable(reportsType).first();
   }
 
   verifyReportData(data) {
@@ -29,6 +33,7 @@ export default class ReportsListingPage extends BasePage {
         .click();
     });
   }
+
   get noReportsTitle() {
     return cy.get(testId("no-reports-title"));
   }

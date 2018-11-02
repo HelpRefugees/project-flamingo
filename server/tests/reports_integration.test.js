@@ -66,6 +66,16 @@ describe("reports endpoint", () => {
         owner: implementingPartner.username,
         keyActivities: [{}],
         submissionDate: "2018-10-10T10:10:10.101ZZ"
+      },
+      {
+        id: 4,
+        completed: false,
+        overview: "this report is completed",
+        grant: "Grant Mitchell",
+        owner: implementingPartner.username,
+        keyActivities: [{}],
+        dueDate: "2018-10-20T03:24:00.000Z",
+        reportPeriod: "2018-10-01T00:00:00.000Z"
       }
     ]);
 
@@ -140,6 +150,16 @@ describe("reports endpoint", () => {
           owner: implementingPartner.username,
           keyActivities: [{}],
           submissionDate: "2018-10-10T10:10:10.101ZZ"
+        },
+        {
+          id: 4,
+          completed: false,
+          overview: "this report is completed",
+          grant: "Grant Mitchell",
+          owner: implementingPartner.username,
+          keyActivities: [{}],
+          dueDate: "2018-10-20T03:24:00.000Z",
+          reportPeriod: "2018-10-01T00:00:00.000Z"
         }
       ]);
     });
@@ -235,7 +255,7 @@ describe("reports endpoint", () => {
         .expect(200);
     });
 
-    test("you cannot see unsubmitted reports", async () => {
+    test("you cannot see unsubmitted not overdue reports and Grant name, report period and due date incase of overdue", async () => {
       const response = await agent.get("/api/reports").expect(200);
 
       expect(response.body).toEqual([
@@ -247,6 +267,14 @@ describe("reports endpoint", () => {
           owner: implementingPartner.username,
           keyActivities: [{}],
           submissionDate: "2018-10-10T10:10:10.101ZZ"
+        },
+        {
+          id: 4,
+          completed: false,
+          grant: "Grant Mitchell",
+          owner: implementingPartner.username,
+          dueDate: "2018-10-20T03:24:00.000Z",
+          reportPeriod: "2018-10-01T00:00:00.000Z"
         }
       ]);
     });

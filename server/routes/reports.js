@@ -8,19 +8,42 @@ module.exports = db => {
   const router = new express.Router();
 
   router.get("/", ensureLoggedIn, (req, res) => {
-    const query = {};
+    let query = {};
 
     if (req.user.role === "implementing-partner") {
       query.owner = req.user.username;
+      db.collection(collection)
+        .find(query)
+        .toArray(async (err, reports) => {
+          return res.json(reports.map(({ _id, ...report }) => ({ ...report })));
+        });
     } else {
-      query.completed = true;
+      query = {
+        $or: [
+          { completed: true },
+          { dueDate: { $lt: new Date().toISOString() } }
+        ]
+      };
+      db.collection(collection)
+        .find(query)
+        .toArray(async (err, reports) => {
+          return res.json(
+            reports.map(({ _id, ...report }) => {
+              if (report.completed) {
+                return { ...report };
+              }
+              return {
+                id: report.id,
+                grant: report.grant,
+                dueDate: report.dueDate,
+                completed: report.completed,
+                reportPeriod: report.reportPeriod,
+                owner: report.owner
+              };
+            })
+          );
+        });
     }
-
-    db.collection(collection)
-      .find(query)
-      .toArray(async (err, reports) => {
-        return res.json(reports.map(({ _id, ...report }) => ({ ...report })));
-      });
   });
 
   router.patch("/:id", ensureLoggedIn, (req, res) => {

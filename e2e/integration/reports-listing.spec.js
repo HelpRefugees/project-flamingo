@@ -22,9 +22,11 @@ context("Reports Listing Page", () => {
       });
 
       it("shows a table containing the submitted report", () => {
-        reportsListingPage.getReports().should("have.length", 1);
         reportsListingPage
-          .getFirstReport()
+          .getReportsTable("submitted-reports")
+          .should("have.length", 1);
+        reportsListingPage
+          .getFirstReport("submitted-reports")
           // eslint-disable-next-line no-unused-vars
           .within($report => {
             reportsListingPage.verifyReportData({
@@ -34,7 +36,7 @@ context("Reports Listing Page", () => {
       });
 
       it("shows the report details after clicking on a report", () => {
-        reportsListingPage.getFirstReport().click();
+        reportsListingPage.getFirstReport("submitted-reports").click();
 
         const submittedReportPage = new SubmittedReportPage(1);
         submittedReportPage.isAt();
@@ -160,15 +162,49 @@ context("Reports Listing Page", () => {
       });
 
       it("allows filtering by grant", () => {
-        reportsListingPage.getReports().should("have.length", 2);
+        reportsListingPage
+          .getReportsTable("submitted-reports")
+          .should("have.length", 2);
 
         reportsListingPage.filterBy("mitch");
 
-        reportsListingPage.getReports().should("have.length", 1);
+        reportsListingPage
+          .getReportsTable("submitted-reports")
+          .should("have.length", 1);
 
         reportsListingPage.clearFilter();
 
-        reportsListingPage.getReports().should("have.length", 2);
+        reportsListingPage
+          .getReportsTable("submitted-reports")
+          .should("have.length", 2);
+      });
+
+      context("No overdue reports", () => {
+        beforeEach(() => {
+          cy.login("daisy@hr.org", "chooselove");
+        });
+
+        it("overdue reports tab shows no overdue reports message", () => {
+          reportsListingPage.goToReportTab("overdue-reports-tab");
+          reportsListingPage.noReportsTitle.should(
+            "contains.text",
+            "Good news!"
+          );
+        });
+      });
+    });
+
+    context("show completed and overdue reports", () => {
+      beforeEach(() => {
+        cy.seed("multiple-completed-overdue-reports.json");
+        cy.login("daisy@hr.org", "chooselove");
+      });
+
+      it("show overdue report", () => {
+        reportsListingPage.visit();
+        reportsListingPage.isAt();
+        reportsListingPage.goToReportTab("overdue-reports-tab");
+        reportsListingPage.getFirstReport("overdue-reports");
       });
     });
   });

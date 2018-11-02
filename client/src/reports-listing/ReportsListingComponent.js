@@ -8,8 +8,13 @@ import {
   TableCell,
   TableRow,
   Typography,
-  withStyles
+  withStyles,
+  Tabs,
+  Tab,
+  Chip,
+  Badge
 } from "@material-ui/core";
+
 import moment from "moment";
 // $FlowIgnore: react-select types don't seem to work
 import Select from "react-select";
@@ -48,20 +53,18 @@ const grantNameFilterControlStyles = {
       color: props.isSelected ? "white" : "black",
       ":active": {
         backgroundColor: props.isSelected ? null : "#f5f5f5"
-      },
+      }
     };
   }
 };
 
 const styles = theme => ({
-  reactSelectContainer: {
-    background: "yellow",
-    reactSelect__control: {
-      background: "yellow"
-    }
+  chip: {
+    color: "#ea1024",
+    borderColor: "#ea1024"
   },
-  reactSelect: {
-    background: "yellow"
+  badge: {
+    padding: `0 ${theme.spacing.unit * 2}px`
   },
   grantNameFilter: {
     minWidth: theme.spacing.unit * 35,
@@ -70,18 +73,28 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit,
     borderRadius: theme.spacing.unit / 2
   },
+  select: {
+    indicator: {
+      textTransform: "uppercase",
+      fontFamily: "Open Sans",
+      fontWeight: "bold",
+      letterSpacing: 0.1,
+      paddingTop: theme.spacing.unit * 2,
+      paddingBottom: theme.spacing.unit * 4,
+
+      color: "#00857b",
+      fontSize: "14px",
+      margin: "0"
+    }
+  },
   tabHeader: {
-    textTransform: "uppercase",
-    fontWeight: "bold",
-    letterSpacing: 0.1,
-    paddingLeft: theme.spacing.unit * 7,
-    paddingRight: theme.spacing.unit * 7,
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2,
-    color: "#00857b",
-    borderBottom: "solid",
+    borderRight: "solid 1px #e5e5e5",
+    borderBottom: "solid 1px #e5e5e5",
     fontSize: "14px",
-    margin: "0"
+    margin: "0",
+    fontWeight: "bold"
   },
   rowContainer: {
     marginTop: theme.spacing.unit * 4
@@ -113,12 +126,16 @@ const styles = theme => ({
 
 export class ReportsListingComponent extends Component<
   Props,
-  { filter?: string }
+  {
+    filter?: string,
+    tabValue: number
+  }
 > {
   constructor() {
     super();
     this.state = {
-      filter: undefined
+      filter: undefined,
+      tabValue: 0
     };
   }
   componentWillMount() {
@@ -132,8 +149,19 @@ export class ReportsListingComponent extends Component<
   }
 
   getFilterOptions(): any[] {
+    let currentTabReports = this.props.reports || [];
+    if (this.state.tabValue === 0) {
+      currentTabReports = currentTabReports.filter(
+        (report: Report) => report.completed
+      );
+    } else {
+      currentTabReports = currentTabReports.filter(
+        (report: Report) => !report.completed
+      );
+    }
+
     const uniqueGrantNames = [];
-    (this.props.reports || []).forEach(({ grant }) => {
+    currentTabReports.forEach(({ grant }) => {
       if (uniqueGrantNames.indexOf(grant) === -1) {
         uniqueGrantNames.push(grant);
       }
@@ -141,6 +169,21 @@ export class ReportsListingComponent extends Component<
     return uniqueGrantNames
       .sort()
       .map(grant => ({ value: grant, label: grant }));
+  }
+
+  getOverdueReports(reports: Report[]) {
+    return reports.filter(
+      (report: Report) =>
+        moment(report.dueDate).isBefore(moment()) && !report.completed
+    );
+  }
+
+  getSubmittedReports(reports: Report[]) {
+    return reports.filter((report: Report) => report.completed);
+  }
+
+  getSelectedFilterValue() {
+    return this.getFilterOptions().find(o => o.value === this.state.filter);
   }
 
   updateFilter = (selection: { label: string, value: string }) => {
@@ -153,7 +196,7 @@ export class ReportsListingComponent extends Component<
     this.props.history.push(`/reports/${reportId}`);
   }
 
-  noReportsMessage(classes: any) {
+  noReportsMessage(classes: any, title: string, message: string) {
     return (
       <Paper className={classes.messagePaper}>
         <Typography
@@ -161,79 +204,182 @@ export class ReportsListingComponent extends Component<
           variant="h5"
           className={classes.paperTitle}
         >
-          No submitted reports yet!
+          {title}
         </Typography>
-        <Typography data-test-id="no-reports-message">
-          Once you’ve a completed report it will appear here.
-        </Typography>
+        <Typography data-test-id="no-reports-message">{message}</Typography>
       </Paper>
     );
   }
 
-  reportsTable(classes: any, reports: Report[]) {
+  reportsTable({
+    classes,
+    reports,
+    reportSelector
+  }: {
+    classes: any,
+    reports: Report[],
+    reportSelector: string
+  }) {
+    return (
+      <Table data-test-id={reportSelector}>
+        <TableHead className={classes.tableHead}>
+          <TableRow>
+            <TableCell className={classes.grantNameCell}>
+              <div>Grant</div>
+            </TableCell>
+            <TableCell>
+              <div className={classes.tableCellDiv}>Period</div>
+            </TableCell>
+            <TableCell>
+              <div className={classes.tableCellDiv}>
+                {reportSelector === "submitted-reports"
+                  ? "Submitted"
+                  : "Late by days"}
+              </div>
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {reports.map((report: Report) => {
+            return (
+              <TableRow
+                data-test-id="report"
+                key={report.id}
+                onClick={() => {
+                  if (reportSelector === "submitted-reports") {
+                    this.redirectToSubmittedReportPage(report.id);
+                  }
+                }}
+                className={classes.row}
+              >
+                <TableCell
+                  data-test-id="report-grant"
+                  className={classes.grantNameCell}
+                >
+                  <div>{report.grant}</div>
+                </TableCell>
+                <TableCell data-test-id="report-period">
+                  <div className={classes.tableCellDiv}>
+                    {moment(report.reportPeriod).format("MMMM YYYY")}
+                  </div>
+                </TableCell>
+                <TableCell
+                  data-test-id={
+                    reportSelector === "submitted-reports"
+                      ? "report-submitted"
+                      : "report-due-date"
+                  }
+                >
+                  <div className={classes.tableCellDiv}>
+                    {reportSelector === "submitted-reports" ? (
+                      report.submissionDate ? (
+                        moment(report.submissionDate).format("DD/MM/YYYY")
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      <Chip
+                        className={classes.chip}
+                        label={
+                          moment(new Date()).diff(report.dueDate, "days")
+                          + " days late"
+                        }
+                        variant="outlined"
+                      />
+                    )}
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    );
+  }
+
+  reportsTabs(classes: any, reports: ?(Report[])) {
+    const submittedReportsContent
+      = reports
+      && this.getFilteredReports(this.getSubmittedReports(reports)).length > 0
+        ? this.reportsTable({
+          classes: classes,
+          reports: this.getFilteredReports(this.getSubmittedReports(reports)),
+          reportSelector: "submitted-reports"
+        })
+        : this.noReportsMessage(
+          classes,
+          "No submitted reports yet!",
+          "Once you’ve a completed report it will appear here."
+        );
+    const overdueReportsContent
+      = reports
+      && this.getFilteredReports(this.getOverdueReports(reports)).length > 0
+        ? this.reportsTable({
+          classes: classes,
+          reports: this.getFilteredReports(this.getOverdueReports(reports)),
+          reportSelector: "overdue-reports"
+        })
+        : this.noReportsMessage(classes, "Good news!", "No reports are late");
+
     return (
       <Paper className={classes.tablePaper}>
         <Grid container justify="space-between">
-          <Grid item>
-            <h3 className={classes.tabHeader}>submitted reports</h3>
-          </Grid>
+          <Tabs
+            indicatorColor="primary"
+            textColor="primary"
+            value={this.state.tabValue}
+            onChange={(event, value) => {
+              this.setState({
+                tabValue: value,
+                filter: ""
+              });
+            }}
+          >
+            <Tab
+              tabIndex={0}
+              data-test-id="submitted-reports-tab"
+              className={classes.tabHeader}
+              label="Submitted reports"
+            />
+            <Tab
+              tabIndex={1}
+              data-test-id="overdue-reports-tab"
+              className={classes.tabHeader}
+              label={
+                <>
+                  <Badge
+                    className={classes.badge}
+                    color="secondary"
+                    badgeContent={this.getOverdueReports(reports || []).length}
+                  >
+                    Late reports
+                  </Badge>
+                </>
+                // "Late reports " + this.getOverdueReports(reports || []).length
+              }
+            />
+          </Tabs>
           <Grid
             item
             data-test-id="grant-name-filter"
             className={classes.grantNameFilter}
           >
             <Select
+              className={classes.Select}
+              key={this.getSelectedFilterValue()}
               styles={grantNameFilterControlStyles}
               options={this.getFilterOptions()}
-              onChange={this.updateFilter}
+              getOptionValue={option => option.value}
+              getOptionLabel={option => option.label}
               isClearable
+              onChange={this.updateFilter}
+              value={this.getSelectedFilterValue()}
               placeholder="Filter grant name"
             />
           </Grid>
         </Grid>
-        <Table data-test-id="submitted-reports">
-          <TableHead className={classes.tableHead}>
-            <TableRow>
-              <TableCell className={classes.grantNameCell}>
-                <div>Grant</div>
-              </TableCell>
-              <TableCell>
-                <div className={classes.tableCellDiv}>Period</div>
-              </TableCell>
-              <TableCell>
-                <div className={classes.tableCellDiv}>Submitted</div>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {reports.map((report: Report) => {
-              return (
-                <TableRow
-                  data-test-id="report"
-                  key={report.id}
-                  onClick={() => this.redirectToSubmittedReportPage(report.id)}
-                  className={classes.row}
-                >
-                  <TableCell data-test-id="report-grant" className={classes.grantNameCell} >
-                    <div>{report.grant}</div>
-                  </TableCell>
-                  <TableCell data-test-id="report-period">
-                    <div className={classes.tableCellDiv}>
-                      {moment(report.reportPeriod).format("MMMM YYYY")}
-                    </div>
-                  </TableCell>
-                  <TableCell data-test-id="report-submitted">
-                    <div className={classes.tableCellDiv}>
-                      {report.submissionDate
-                        ? moment(report.submissionDate).format("DD/MM/YYYY")
-                        : ""}
-                    </div>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        {this.state.tabValue === 0 && submittedReportsContent}
+        {this.state.tabValue === 1 && overdueReportsContent}
       </Paper>
     );
   }
@@ -241,14 +387,10 @@ export class ReportsListingComponent extends Component<
   render() {
     const { classes, logout, account, reports } = this.props;
 
-    const pageContent
-      = reports && reports.length > 0
-        ? this.reportsTable(classes, this.getFilteredReports(reports))
-        : this.noReportsMessage(classes);
-
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
+
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item container xs={10} justify="center">
@@ -260,7 +402,7 @@ export class ReportsListingComponent extends Component<
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item xs={10}>
-            {pageContent}
+            {this.reportsTabs(classes, reports)}
           </Grid>
         </Grid>
       </Fragment>
