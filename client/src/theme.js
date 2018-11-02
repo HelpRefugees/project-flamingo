@@ -22,13 +22,28 @@ export default createMuiTheme({
   },
   typography: {
     useNextVariants: true,
+    fontFamily: ["Open Sans", "sans-serif"].join(","),
     allVariants: {
       color: "#404040"
     },
-    body2: { fontSize: 18 },
+    h3: { fontSize: 34 },
+    h4: { fontSize: 24 },
+    body2: { fontSize: 16 },
     caption: { fontSize: 10, textTransform: "uppercase" }
   },
   overrides: {
+    MuiChip: {
+      root: {
+        fontWeight: 600
+      }
+    },
+    MuiButton: {
+      root: {
+        fontSize: 14,
+        fontWeight: 600,
+        letterSpacing: 0.8
+      }
+    },
     MuiTable: {
       root: {
         backgroundColor: "white"

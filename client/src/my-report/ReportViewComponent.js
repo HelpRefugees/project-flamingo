@@ -20,7 +20,6 @@ const styles = themes => ({
     margin: "0 0 24px"
   },
   activityName: {
-    fontFamily: "open sans",
     fontWeight: "600",
     fontSize: "20px",
     color: "#393e40"
@@ -51,13 +50,6 @@ const styles = themes => ({
     position: "relative",
     left: "-32px",
     width: "calc(100% + 2 * 32px)"
-  },
-  fontFamily: {
-    fontFamily: "open Sans",
-    margin: themes.spacing.unit * 0.5,
-    fontWeight: "normal",
-    fontStyle: "normal",
-    fontStretch: "normal"
   },
   progress: {
     margin: "4px",
@@ -93,7 +85,7 @@ export class ReportViewComponent extends React.PureComponent<{
           <Grid item>
             <h1
               data-test-id="report-section-title"
-              className={[classes.fontFamily, classes.headerText].join(" ")}
+              className={classes.headerText}
             >
               Key activities & impact
             </h1>
@@ -155,7 +147,7 @@ export class ReportViewComponent extends React.PureComponent<{
           <Grid item>
             <h1
               data-test-id="report-section-title"
-              className={[classes.fontFamily, classes.headerText].join(" ")}
+              className={classes.headerText}
             >
               {title}
             </h1>

@@ -72,7 +72,6 @@ const styles = theme => ({
   },
   tabHeader: {
     textTransform: "uppercase",
-    fontFamily: "Open Sans",
     fontWeight: "bold",
     letterSpacing: 0.1,
     paddingLeft: theme.spacing.unit * 7,

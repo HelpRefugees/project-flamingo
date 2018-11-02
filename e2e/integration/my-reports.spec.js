@@ -31,10 +31,6 @@ context("My Reports Page", () => {
       cy.login("ellen@ip.org");
     });
 
-    it("shows an appropriate title", () => {
-      myReportsPage.pageTitle.should("contains.text", "Monthly Report");
-    });
-
     it("shows her name 'Ellen Smith'", () => {
       myReportsPage.userName.should("contains.text", "Ellen Smith");
     });

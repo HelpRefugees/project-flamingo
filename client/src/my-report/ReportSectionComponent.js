@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withStyles, Paper, Grid, Button } from "@material-ui/core";
+import { withStyles, Paper, Grid, Button, Typography } from "@material-ui/core";
 
 type Props = {
   classes: any,
@@ -14,26 +14,21 @@ type Props = {
 const styles = themes => ({
   headerText: {
     color: "#404040",
-    margin: 0,
-    fontWeight: "normal",
-    fontFamily: "open Sans",
-    fontSize: "24px"
+    margin: 0
   },
   optionalSubtitleText: {
-    fontSize: "14px",
     color: "#7f7f7f",
-    fontFamily: "open Sans",
+    fontWeight: 600,
     marginBottom: 0,
     marginLeft: "5px"
   },
   subtitleText: {
-    fontSize: "14px",
     color: "#7f7f7f",
-    fontWeight: "normal",
+    fontSize: 14,
+    fontWeight: 600,
     lineHeight: "1.3rem",
-    letterSpacing: "0.1px",
-    fontFamily: "open Sans",
-    marginBottom: themes.spacing.unit * 2.5
+    marginBottom: themes.spacing.unit * 2.5,
+    opacity: 0.87
   },
   pagePaper: {
     padding: themes.spacing.unit * 4,
@@ -61,28 +56,22 @@ class ReportSectionComponent extends Component<Props> {
       <Paper justify="center" className={classes.pagePaper} {...others}>
         <Grid container direction="column" spacing={32}>
           <Grid item>
-            <Grid container justify="flex-start" alignItems="center">
-              <h1
-                data-test-id="section-title"
-                className={[classes.fontFamily, classes.headerText].join(" ")}
-              >
+            <Grid container alignItems="flex-end">
+              <Typography data-test-id="section-title" variant="h4">
                 {title}
-              </h1>
+              </Typography>
               {optional && (
-                <h2
+                <Typography
                   data-test-id="optional-title"
                   className={classes.optionalSubtitleText}
                 >
                   - Optional
-                </h2>
+                </Typography>
               )}
             </Grid>
-            <h2
-              className={classes.subtitleText}
-              data-test-id="section-subtitle"
-            >
+            <p data-test-id="section-subtitle" className={classes.subtitleText}>
               {subtitle}
-            </h2>
+            </p>
             {children}
           </Grid>
           <Grid item>

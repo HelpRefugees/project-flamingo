@@ -282,9 +282,12 @@ describe("activity subsection", () => {
 
   describe("on first subsection", () => {
     it("shows the section title", () => {
-      expect(wrapper.find('[data-test-id="section-title"]').text()).toEqual(
-        "Key Activities"
-      );
+      expect(
+        wrapper
+          .find('[data-test-id="section-title"]')
+          .render()
+          .text()
+      ).toEqual("Key Activities");
       expect(wrapper.find('[data-test-id="section-subtitle"]').text()).toEqual(
         "Please describe the activities you have done this month."
       );

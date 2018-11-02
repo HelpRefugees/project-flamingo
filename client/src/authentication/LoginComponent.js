@@ -26,13 +26,6 @@ const styles = themes => ({
   form: {
     width: "100%"
   },
-  fontFamily: {
-    fontFamily: "open Sans",
-    margin: themes.spacing.unit * 0.5,
-    fontWeight: "normal",
-    fontStyle: "normal",
-    fontStretch: "normal"
-  },
   headerText: {
     color: "#404040"
   },
@@ -122,12 +115,12 @@ export class LoginComponent extends Component<Props, State> {
                   className={classes.logo}
                 />
                 <h2
-                  className={[classes.fontFamily, classes.headerText].join(" ")}
+                  className={classes.headerText}
                 >
                   Welcome
                 </h2>
                 <h5
-                  className={[classes.fontFamily, classes.normalText].join(" ")}
+                  className={classes.normalText}
                 >
                   Please enter your login details
                 </h5>

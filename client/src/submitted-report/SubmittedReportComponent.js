@@ -41,7 +41,6 @@ const styles = themes => ({
     margin: "0 0 24px"
   },
   activityName: {
-    fontFamily: "open sans",
     fontWeight: "600",
     fontSize: "20px",
     color: "#393e40"

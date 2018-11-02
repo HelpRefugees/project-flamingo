@@ -50,7 +50,7 @@ export class MyReportsComponent extends Component<Props, State> {
           <Grid item xs={1} />
           <Grid item container xs={10} justify="center">
             <Typography variant="h3" data-test-id="page-title">
-              Monthly Report
+              Monthly Reports
             </Typography>
           </Grid>
         </Grid>

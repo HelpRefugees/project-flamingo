@@ -29,7 +29,7 @@ describe("ReportSectionComponent", () => {
   });
 
   it("renders the title", () => {
-    expect(wrapper.find('[data-test-id="section-title"]').text()).toEqual(
+    expect(wrapper.find('Typography[data-test-id="section-title"]').text()).toEqual(
       section.title
     );
   });
@@ -40,8 +40,8 @@ describe("ReportSectionComponent", () => {
     );
   });
 
-  it("renders the optinal text if optional is set to true", () => {
-    expect(wrapper.find('[data-test-id="optional-title"]').text()).toEqual(
+  it("renders the optional text if optional is set to true", () => {
+    expect(wrapper.find('Typography[data-test-id="optional-title"]').text()).toEqual(
       "- Optional"
     );
   });

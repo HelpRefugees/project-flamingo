@@ -38,8 +38,7 @@ const styles = themes => ({
     fontSize: "10px",
     marginBottom: themes.spacing.unit,
     display: "block",
-    marginLeft: 0,
-    fontFamily: "open Sans"
+    marginLeft: 0
   },
   headerText: {
     color: "#404040",

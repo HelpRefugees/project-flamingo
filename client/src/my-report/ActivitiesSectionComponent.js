@@ -5,6 +5,7 @@ import {
   InputLabel,
   OutlinedInput,
   Paper,
+  Typography,
   withStyles
 } from "@material-ui/core";
 
@@ -127,22 +128,17 @@ export class KeyActivitySubsection extends Component<SubsectionProps> {
             <Grid item>
               {index === 0 && (
                 <Grid item>
-                  <Grid container justify="flex-start" alignItems="center">
-                    <h1
-                      data-test-id="section-title"
-                      className={[classes.fontFamily, classes.headerText].join(
-                        " "
-                      )}
-                    >
+                  <Grid container alignItems="flex-end">
+                    <Typography data-test-id="section-title" variant="h4">
                       Key Activities
-                    </h1>
+                    </Typography>
                   </Grid>
-                  <h2
+                  <p
                     className={classes.subtitleText}
                     data-test-id="section-subtitle"
                   >
                     Please describe the activities you have done this month.
-                  </h2>
+                  </p>
                 </Grid>
               )}
               <Grid item>
@@ -276,10 +272,7 @@ export default withStyles(theme => ({
   },
   headerText: {
     color: "#404040",
-    margin: 0,
-    fontWeight: "normal",
-    fontFamily: "open Sans",
-    fontSize: "24px"
+    margin: 0
   },
   optionalSubtitleText: {
     fontSize: "14px",
@@ -288,12 +281,12 @@ export default withStyles(theme => ({
     marginLeft: "5px"
   },
   subtitleText: {
-    fontSize: "14px",
     color: "#7f7f7f",
-    fontWeight: "normal",
+    fontSize: 14,
+    fontWeight: 600,
     lineHeight: "1.3rem",
-    letterSpacing: "0.1px",
-    marginBottom: theme.spacing.unit * 2.5
+    marginBottom: theme.spacing.unit * 2.5,
+    opacity: 0.87
   },
   pagePaper: {
     padding: theme.spacing.unit * 4,
