@@ -13,7 +13,6 @@ const mapStateToProps = (state: State, ownProps: any): any => {
     isAuthenticated: state.isAuthenticated,
     report,
     account: state.account,
-    submittedReport: state.submittedReport,
     isLoading: state.isLoading
   }
 };

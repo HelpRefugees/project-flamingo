@@ -6,6 +6,7 @@ import MyReportHeader from "./MyReportHeader";
 import type { Report } from "./models";
 import ReportViewComponent from "./ReportViewComponent";
 import type { Account } from "../authentication/models";
+import { assertLater } from "../testHelpers";
 
 describe("MyReportReviewComponent", () => {
   let wrapper;
@@ -44,7 +45,7 @@ describe("MyReportReviewComponent", () => {
   beforeEach(() => {
     mockHistoryPush = jest.fn();
     mockLogout = jest.fn();
-    mockUpdateReport = jest.fn();
+    mockUpdateReport = jest.fn().mockImplementation(() => Promise.resolve());
 
     wrapper = shallow(
       <MyReportReviewComponent
@@ -55,7 +56,6 @@ describe("MyReportReviewComponent", () => {
         account={account}
         history={{ push: mockHistoryPush }}
         updateReport={mockUpdateReport}
-        submittedReport={false}
         isLoading={false}
       />
     );
@@ -101,10 +101,13 @@ describe("MyReportReviewComponent", () => {
       ).toBe(true);
     });
 
-    it("redirects to myReports page when report submitted successfully", () => {
-      wrapper.setProps({ submittedReport: true });
+    it("redirects to myReports page when report submitted successfully", (done) => {
+      wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
-      expect(mockHistoryPush).toHaveBeenCalledWith("/my-reports");
+      assertLater(done, () => {
+        expect(mockHistoryPush).toHaveBeenCalledWith("/my-reports");
+      });
+
     });
   });
 });

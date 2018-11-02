@@ -1,11 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
-import {
-  Grid,
-  withStyles,
-  Typography,
-  Button
-} from "@material-ui/core";
+import { Grid, withStyles, Typography, Button } from "@material-ui/core";
 
 import ReportViewComponent from "./ReportViewComponent";
 import type { Account } from "../authentication/models";
@@ -19,7 +14,6 @@ type Props = {
   account: Account,
   report: Report,
   history: any,
-  submittedReport: boolean,
   isLoading: boolean,
   updateReport: (report: Report, errorMessage: string) => Promise<any>
 };
@@ -48,21 +42,19 @@ const styles = theme => ({
 });
 
 export class MyReportReviewComponent extends Component<Props> {
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.submittedReport) {
-      this.props.history.push("/my-reports");
-    }
-  }
-
   submitReport = () => {
     const { report } = this.props;
-    this.props.updateReport(
-      {
-        ...report,
-        completed: true
-      },
-      "Error submitting report"
-    );
+    this.props
+      .updateReport(
+        {
+          ...report,
+          completed: true
+        },
+        "Error submitting report"
+      )
+      .then(() => {
+        this.props.history.push("/my-reports");
+      });
   };
 
   render() {

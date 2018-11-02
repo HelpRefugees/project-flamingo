@@ -26,8 +26,7 @@ type Props = {
   report: Report,
   history: any,
   account: Account,
-  isLoading: boolean,
-  submittedReport: boolean
+  isLoading: boolean
 };
 
 const styles = themes => ({
@@ -68,6 +67,86 @@ type State = {
   materialsForFundraising?: string
 };
 
+const sectionConfiguration = {
+  grantProgress: {
+    key: "grant-progress",
+    stateProperty: "overview",
+    title: "Grant progress",
+    subtitle:
+      "Please give a very brief overview of your project and progress since the last report.",
+    inputKey: "report-progress-input",
+    placeholder: "Please add an overview",
+    optional: false
+  },
+
+  operatingEnvironment: {
+    key: "operating-environment",
+    stateProperty: "operatingEnvironment",
+    title: "Operating environment",
+    subtitle:
+      "Outline any notable changes you have experienced to the context in which you work.",
+    inputKey: "operating-environment-input",
+    placeholder: "Please add an overview",
+    optional: true
+  },
+
+  beneficiaryFeedback: {
+    key: "beneficiary-feedback",
+    stateProperty: "beneficiaryFeedback",
+    title: "Beneficiary Feedback",
+    subtitle:
+      "Have you had any feedback from beneficiaries about the service/activities you offer?",
+    inputKey: "beneficiary-feedback-input",
+    placeholder: "Please add an overview",
+    optional: true
+  },
+
+  challengesFaced: {
+    key: "challenges-faced",
+    stateProperty: "challengesFaced",
+    title: "Challenges faced",
+    subtitle:
+      "Please use this section to describe any other challenges you may have faced in the last month e.g. legal, financial etc...",
+    inputKey: "challenges-faced-input",
+    placeholder: "Please add an overview",
+    optional: true
+  },
+
+  incidents: {
+    key: "incidents",
+    stateProperty: "incidents",
+    title: "Incidents and near misses",
+    subtitle:
+      "Please describe any incidents or near misses that may have occurred related to health & safety, safeguarding, protection or security. How was the incident resolved and what policy or procedure is in place to avoid this reoccurring?",
+    inputKey: "incidents-input",
+    placeholder: "Please add an overview",
+    optional: true
+  },
+
+  otherIssues: {
+    key: "other-issues",
+    stateProperty: "otherIssues",
+    title:
+      "Is there anything you would like to use our platform to speak about?",
+    subtitle:
+      "Are there any issues, news or recent developments that you would like to amplify through our networks? We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
+    inputKey: "other-issues-input",
+    placeholder: "Please add an overview",
+    optional: true
+  },
+
+  materialsForFundraising: {
+    key: "materials-for-fundraising",
+    stateProperty: "materialsForFundraising",
+    title: "Materials for fundraising",
+    subtitle:
+      "We depend on high quality images, film footage, copy and testimonials to raise funds and recruit volunteers. We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
+    inputKey: "materials-for-fundraising-input",
+    placeholder: "Please add an overview",
+    optional: true
+  }
+};
+
 export class MyReportEditComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -76,12 +155,6 @@ export class MyReportEditComponent extends Component<Props, State> {
     };
   }
 
-  componentWillMount() {
-    const { report } = this.props;
-    if (report.completed) {
-      this.props.history.push("/my-reports");
-    }
-  }
   reviewAndSubmitReport = () => {
     const { report } = this.props;
     this.props
@@ -294,84 +367,6 @@ export class MyReportEditComponent extends Component<Props, State> {
       return <Redirect to="/my-reports" />;
     }
 
-    const grantProgress = {
-      key: "grant-progress",
-      stateProperty: "overview",
-      title: "Grant progress",
-      subtitle:
-        "Please give a very brief overview of your project and progress since the last report.",
-      inputKey: "report-progress-input",
-      placeholder: "Please add an overview",
-      optional: false
-    };
-
-    const operatingEnvironment = {
-      key: "operating-environment",
-      stateProperty: "operatingEnvironment",
-      title: "Operating environment",
-      subtitle:
-        "Outline any notable changes you have experienced to the context in which you work.",
-      inputKey: "operating-environment-input",
-      placeholder: "Please add an overview",
-      optional: true
-    };
-
-    const beneficiaryFeedback = {
-      key: "beneficiary-feedback",
-      stateProperty: "beneficiaryFeedback",
-      title: "Beneficiary Feedback",
-      subtitle:
-        "Have you had any feedback from beneficiaries about the service/activities you offer?",
-      inputKey: "beneficiary-feedback-input",
-      placeholder: "Please add an overview",
-      optional: true
-    };
-
-    const challengesFaced = {
-      key: "challenges-faced",
-      stateProperty: "challengesFaced",
-      title: "Challenges faced",
-      subtitle:
-        "Please use this section to describe any other challenges you may have faced in the last month e.g. legal, financial etc...",
-      inputKey: "challenges-faced-input",
-      placeholder: "Please add an overview",
-      optional: true
-    };
-
-    const incidents = {
-      key: "incidents",
-      stateProperty: "incidents",
-      title: "Incidents and near misses",
-      subtitle:
-        "Please describe any incidents or near misses that may have occurred related to health & safety, safeguarding, protection or security. How was the incident resolved and what policy or procedure is in place to avoid this reoccurring?",
-      inputKey: "incidents-input",
-      placeholder: "Please add an overview",
-      optional: true
-    };
-
-    const otherIssues = {
-      key: "other-issues",
-      stateProperty: "otherIssues",
-      title:
-        "Is there anything you would like to use our platform to speak about?",
-      subtitle:
-        "Are there any issues, news or recent developments that you would like to amplify through our networks? We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
-      inputKey: "other-issues-input",
-      placeholder: "Please add an overview",
-      optional: true
-    };
-
-    const materialsForFundraising = {
-      key: "materials-for-fundraising",
-      stateProperty: "materialsForFundraising",
-      title: "Materials for fundraising",
-      subtitle:
-        "We depend on high quality images, film footage, copy and testimonials to raise funds and recruit volunteers. We are always keen to hear about ways we can advocate for change, please contact us to discuss.",
-      inputKey: "materials-for-fundraising-input",
-      placeholder: "Please add an overview",
-      optional: true
-    };
-
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -379,14 +374,20 @@ export class MyReportEditComponent extends Component<Props, State> {
         <Grid container spacing={24} className={classes.outerContainer}>
           <Grid container justify="center">
             <Grid item xs={6}>
-              {this.renderTextareaSection(grantProgress)}
-              {this.renderTextareaSection(operatingEnvironment)}
+              {this.renderTextareaSection(sectionConfiguration.grantProgress)}
+              {this.renderTextareaSection(
+                sectionConfiguration.operatingEnvironment
+              )}
               {this.renderKeyActivitiesSection()}
-              {this.renderTextareaSection(beneficiaryFeedback)}
-              {this.renderTextareaSection(challengesFaced)}
-              {this.renderTextareaSection(incidents)}
-              {this.renderTextareaSection(otherIssues)}
-              {this.renderTextareaSection(materialsForFundraising)}
+              {this.renderTextareaSection(
+                sectionConfiguration.beneficiaryFeedback
+              )}
+              {this.renderTextareaSection(sectionConfiguration.challengesFaced)}
+              {this.renderTextareaSection(sectionConfiguration.incidents)}
+              {this.renderTextareaSection(sectionConfiguration.otherIssues)}
+              {this.renderTextareaSection(
+                sectionConfiguration.materialsForFundraising
+              )}
             </Grid>
           </Grid>
         </Grid>

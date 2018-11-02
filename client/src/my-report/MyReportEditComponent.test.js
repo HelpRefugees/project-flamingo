@@ -68,7 +68,6 @@ describe("MyReportEditComponent", () => {
         history={{ push: mockHistoryPush }}
         account={account}
         isLoading={isLoading}
-        submittedReport={false}
       />
     );
   });
