@@ -149,7 +149,6 @@ describe("reducers", () => {
     });
 
     const newReports: Report[] = (finishingState.reports: any);
-    expect(finishingState.savedReport).toEqual(true);
     expect(
       newReports.find(report => report.id === reportToBeEdited.id)
     ).toEqual(reportAfterEditing);
@@ -177,14 +176,6 @@ describe("reducers", () => {
     expect(finishingState.submittedReport).toBe(true);
   });
 
-  it("should handle SAVE_REPORT_FAILURE", () => {
-    expect(
-      reducers(initialState, {
-        type: "SAVE_REPORT_FAILURE"
-      }).savedReport
-    ).toEqual(false);
-  });
-
   it("should handle SET_LOADING", () => {
     expect(reducers(initialState, { type: "SET_LOADING" }).isLoading).toBe(
       true
@@ -198,5 +189,23 @@ describe("reducers", () => {
         { type: "SET_NOT_LOADING" }
       ).isLoading
     ).toBe(false);
+  });
+
+  it("should handle SET_ERROR_MESSAGE", () => {
+    const message = "lol whoops";
+    expect(
+      reducers(initialState, { type: "SET_ERROR_MESSAGE", payload: message })
+        .errorMessage
+    ).toBe(message);
+  });
+
+  it("should handle CLEAR_ERROR_MESSAGE", () => {
+    const message = "lol whoops";
+    expect(
+      reducers(
+        { ...initialState, errorMessage: message },
+        { type: "CLEAR_ERROR_MESSAGE" }
+      ).errorMessage
+    ).toBeUndefined();
   });
 });

@@ -64,6 +64,6 @@ describe("SubmittedReportListItemComponent", () => {
     expect(dummyUpdateReport).toHaveBeenCalledWith({
       ...submittedReport,
       completed: false
-    });
+    }, "Error unsubmitting report");
   });
 });

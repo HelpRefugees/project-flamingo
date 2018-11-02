@@ -25,13 +25,7 @@ describe("ReportCardComponent", () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(
-      <ReportCardComponent
-        report={report}
-        updateReport={() => {}}
-        classes={{}}
-      />
-    );
+    wrapper = shallow(<ReportCardComponent report={report} classes={{}} />);
   });
 
   afterEach(() => {
@@ -63,13 +57,7 @@ describe("ReportCardComponent", () => {
   describe("incomplete report", () => {
     beforeEach(() => {
       MockDate.set(new Date(2018, 9, 15));
-      wrapper = shallow(
-        <ReportCardComponent
-          report={report}
-          updateReport={() => {}}
-          classes={{}}
-        />
-      );
+      wrapper = shallow(<ReportCardComponent report={report} classes={{}} />);
     });
 
     it("shows the due date as the report status", () => {
@@ -85,13 +73,7 @@ describe("ReportCardComponent", () => {
   describe("due report", () => {
     beforeEach(() => {
       MockDate.set(new Date(2018, 10, 3));
-      wrapper = shallow(
-        <ReportCardComponent
-          report={report}
-          updateReport={() => {}}
-          classes={{}}
-        />
-      );
+      wrapper = shallow(<ReportCardComponent report={report} classes={{}} />);
     });
 
     it("shows the remaining time as the status", () => {
@@ -107,13 +89,7 @@ describe("ReportCardComponent", () => {
   describe("late report", () => {
     beforeEach(() => {
       MockDate.set(new Date(2018, 10, 10));
-      wrapper = shallow(
-        <ReportCardComponent
-          report={report}
-          updateReport={() => {}}
-          classes={{}}
-        />
-      );
+      wrapper = shallow(<ReportCardComponent report={report} classes={{}} />);
     });
 
     it("shows the overdue time as the status", () => {
@@ -142,22 +118,10 @@ describe("ReportCardComponent", () => {
       materialsForFundraising: "",
       submissionDate: "2018-09-15T03:24:00.000Z"
     };
-    const unsubmittedReport: Report = {
-      ...report,
-      submissionDate: undefined
-    };
-
-    let mockUpdateReport;
 
     beforeEach(() => {
-      mockUpdateReport = jest.fn();
-
       wrapper = shallow(
-        <ReportCardComponent
-          report={submittedReport}
-          updateReport={mockUpdateReport}
-          classes={{}}
-        />
+        <ReportCardComponent report={submittedReport} classes={{}} />
       );
     });
 
@@ -168,11 +132,6 @@ describe("ReportCardComponent", () => {
           .render()
           .text()
       ).toContain("15/09/2018");
-    });
-
-    it("undoes the submission when clicking undo", () => {
-      wrapper.find('[data-test-id="report-unsubmit-button"]').simulate("click");
-      expect(mockUpdateReport).toHaveBeenCalledWith(unsubmittedReport);
     });
   });
 });

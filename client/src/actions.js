@@ -99,7 +99,18 @@ export const updateReportFailed = () => ({
   type: "SAVE_REPORT_FAILURE"
 });
 
-export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
+export const errorOccurred = (message: string) => ({
+  type: "SET_ERROR_MESSAGE",
+  payload: message
+});
+
+export const errorExpired = () => ({
+  type: "CLEAR_ERROR_MESSAGE"
+});
+
+export const updateReport = (report: Report, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
   const promise: Promise<any> = new Promise((resolve, reject) => {
     const changes = [
       "overview",
@@ -116,6 +127,7 @@ export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
       path: `/${field}`,
       value: report[field]
     }));
+
     dispatch(updateReportStarted());
 
     makeRequest(
@@ -133,12 +145,12 @@ export const updateReport = (report: Report) => (dispatch: Dispatch<any>) => {
             resolve();
           });
         } else {
-          dispatch(updateReportFailed());
+          dispatch(errorOccurred(errorMessage));
           reject("did not return 200");
         }
       }
     ).catch(err => {
-      dispatch(updateReportFailed());
+      dispatch(errorOccurred(errorMessage));
       reject(err);
     });
   });

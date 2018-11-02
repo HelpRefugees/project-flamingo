@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
-import SubmittedReportListComponent from './SubmittedReportListComponent';
+import SubmittedReportListComponent from "./SubmittedReportListComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "./models";
 import type { Account } from "../authentication/models";
@@ -12,7 +12,7 @@ export type Props = {
   logout: () => void,
   loadReports: () => void,
   reports: ?(Report[]),
-  updateReport: Report => void,
+  updateReport: (report: Report, errorMessage: string) => void,
   account: ?Account
 };
 
@@ -68,7 +68,6 @@ export class MyReportsComponent extends Component<Props, State> {
             {reports && (
               <UnsubmittedReportListComponent
                 reports={this.filterReportByCompletion(false)}
-                updateReport={updateReport}
               />
             )}
           </Grid>

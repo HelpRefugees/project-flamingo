@@ -4,9 +4,7 @@ import {
   Grid,
   withStyles,
   Typography,
-  Button,
-  Snackbar,
-  SnackbarContent
+  Button
 } from "@material-ui/core";
 
 import ReportViewComponent from "./ReportViewComponent";
@@ -23,8 +21,7 @@ type Props = {
   history: any,
   submittedReport: boolean,
   isLoading: boolean,
-  updateReport: (report: Report) => Promise<any>,
-  savedReport: boolean
+  updateReport: (report: Report, errorMessage: string) => Promise<any>
 };
 
 const styles = theme => ({
@@ -47,9 +44,6 @@ const styles = theme => ({
     fontSize: "14px",
     lineHeight: "1.71",
     marginTop: theme.spacing.unit
-  },
-  errorMessage: {
-    backgroundColor: "red"
   }
 });
 
@@ -62,14 +56,17 @@ export class MyReportReviewComponent extends Component<Props> {
 
   submitReport = () => {
     const { report } = this.props;
-    this.props.updateReport({
-      ...report,
-      completed: true
-    });
+    this.props.updateReport(
+      {
+        ...report,
+        completed: true
+      },
+      "Error submitting report"
+    );
   };
 
   render() {
-    const { report, classes, isLoading, account, logout, savedReport } = this.props;
+    const { report, classes, isLoading, account, logout } = this.props;
     if (!report) {
       return <Redirect to="/notFound" />;
     }
@@ -102,18 +99,6 @@ export class MyReportReviewComponent extends Component<Props> {
             Submit
           </Button>
         </MyReportHeader>
-        {!savedReport && (
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            open={true}
-          >
-            <SnackbarContent
-              data-test-id="error-message"
-              className={classes.errorMessage}
-              message="Error submitting report"
-            />
-          </Snackbar>
-        )}
         <Grid
           item
           container

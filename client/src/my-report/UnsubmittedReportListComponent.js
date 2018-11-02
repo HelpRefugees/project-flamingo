@@ -4,16 +4,15 @@ import { Link } from "react-router-dom";
 import ReportCardComponent from "./ReportCardComponent";
 import type { Report } from "./models";
 
-interface Props {
-  reports: Report[];
-  updateReport: Report => void;
+type Props = {
+  reports: Report[]
 }
 
 export default class UnsubmittedReportListComponent extends PureComponent<
   Props
 > {
   render() {
-    const { reports, updateReport } = this.props;
+    const { reports } = this.props;
     return (
       <div data-test-id="unsubmitted-reports">
         {reports.map((report, index) => (
@@ -25,7 +24,6 @@ export default class UnsubmittedReportListComponent extends PureComponent<
             <ReportCardComponent
               report={report}
               key={index}
-              updateReport={updateReport}
             />
           </Link>
         ))}

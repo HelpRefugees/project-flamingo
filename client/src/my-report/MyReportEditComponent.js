@@ -7,9 +7,7 @@ import {
   OutlinedInput,
   AppBar,
   Toolbar,
-  Typography,
-  Snackbar,
-  SnackbarContent
+  Typography
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
@@ -24,13 +22,12 @@ import { type KeyActivity } from "./models";
 type Props = {
   classes: any,
   logout: () => void,
-  updateReport: (report: Report) => Promise<any>,
+  updateReport: (report: Report, errorMessage: string) => Promise<any>,
   report: Report,
   history: any,
   account: Account,
   isLoading: boolean,
-  submittedReport: boolean,
-  savedReport: boolean
+  submittedReport: boolean
 };
 
 const styles = themes => ({
@@ -57,9 +54,6 @@ const styles = themes => ({
     boxShadow: "none",
     justifyContent: "space-between",
     marginTop: "1px"
-  },
-  errorMessage: {
-    backgroundColor: "red"
   }
 });
 
@@ -90,23 +84,28 @@ export class MyReportEditComponent extends Component<Props, State> {
   }
   reviewAndSubmitReport = () => {
     const { report } = this.props;
-    this.props.updateReport({
-      ...report,
-      ...this.state
-    })
-      .then(() =>
-        this.props.history.push(`/my-reports/${report.id}/review`)
-      );
+    this.props
+      .updateReport(
+        {
+          ...report,
+          ...this.state
+        },
+        "Error saving report"
+      )
+      .then(() => this.props.history.push(`/my-reports/${report.id}/review`));
   };
 
   saveReport = (fieldName: string) => {
     return () => {
       const { report } = this.props;
-      this.props.updateReport({
-        ...report,
-        [fieldName]: this.state[fieldName]
-      });
-    }
+      this.props.updateReport(
+        {
+          ...report,
+          [fieldName]: this.state[fieldName]
+        },
+        "Error saving report"
+      );
+    };
   };
 
   isSubmitDisabled() {
@@ -286,7 +285,7 @@ export class MyReportEditComponent extends Component<Props, State> {
   }
 
   render() {
-    const { report, classes, account, logout, savedReport } = this.props;
+    const { report, classes, account, logout } = this.props;
     if (!report) {
       return <Redirect to="/notFound" />;
     }
@@ -377,18 +376,6 @@ export class MyReportEditComponent extends Component<Props, State> {
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
         {this.renderToolbar(classes, report)}
-        {!savedReport && (
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            open={true}
-          >
-            <SnackbarContent
-              data-test-id="error-message"
-              className={classes.errorMessage}
-              message="Error saving changes"
-            />
-          </Snackbar>
-        )}
         <Grid container spacing={24} className={classes.outerContainer}>
           <Grid container justify="center">
             <Grid item xs={6}>

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  Button,
   Card,
   CardContent,
   Chip,
@@ -54,19 +53,10 @@ const styles = themes => {
 
 type Props = {
   classes: any,
-  report: Report,
-  updateReport: (report: Report) => void
+  report: Report
 };
 
 export class ReportCardComponent extends Component<Props> {
-  unsubmitReport = () => {
-    this.props.updateReport({
-      ...this.props.report,
-      completed: false,
-      submissionDate: undefined
-    });
-  };
-
   renderReportStatus(report: Report, classes: any) {
     let status: string;
     let chipClasses = {
@@ -121,7 +111,9 @@ export class ReportCardComponent extends Component<Props> {
               <Typography color="textSecondary" variant="caption">
                 Grant
               </Typography>
-              <Typography data-test-id="report-grant-name">{report.grant}</Typography>
+              <Typography data-test-id="report-grant-name">
+                {report.grant}
+              </Typography>
             </Grid>
             <Grid item container xs={9} justify="flex-end">
               <Grid
@@ -144,15 +136,6 @@ export class ReportCardComponent extends Component<Props> {
                 alignItems="center"
               >
                 {this.renderReportStatus(report, classes)}
-                {report.completed && (
-                  <Button
-                    data-test-id="report-unsubmit-button"
-                    color="primary"
-                    onClick={() => this.unsubmitReport()}
-                  >
-                    Undo
-                  </Button>
-                )}
               </Grid>
             </Grid>
           </Grid>

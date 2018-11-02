@@ -10,7 +10,7 @@ import type { Report } from "./models";
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   logout: () => dispatch(logout()),
   loadReports: () => dispatch(loadReports()),
-  updateReport: (report: Report) => dispatch(updateReport(report))
+  updateReport: (report: Report, errorMessage: string) => dispatch(updateReport(report, errorMessage))
 });
 
 const mapStateToProps: (state: State) => $Shape<Props> = ({

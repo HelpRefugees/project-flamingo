@@ -18,6 +18,7 @@ import PrivateRoute from "./authorization/PrivateRoute";
 import NotFound from "./authorization/NotFound";
 import Forbidden from "./authorization/Forbidden";
 import MyReportPage from "./my-report/MyReportPage";
+import withErrorHandler from "./withErrorHandler";
 
 const mapStateToProps = (state: State) => {
   return {
@@ -43,7 +44,7 @@ export class App extends Component<Props> {
             <PrivateRoute
               path="/reports/:id"
               allowed={["help-refugees"]}
-              component={SubmittedReportPage}
+              component={withErrorHandler(SubmittedReportPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
@@ -51,7 +52,7 @@ export class App extends Component<Props> {
             <PrivateRoute
               path="/reports"
               allowed={["help-refugees"]}
-              component={ReportsListingPage}
+              component={withErrorHandler(ReportsListingPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
@@ -59,7 +60,7 @@ export class App extends Component<Props> {
             <PrivateRoute
               path="/my-reports/:id/edit"
               allowed={["implementing-partner"]}
-              component={MyReportEditPage}
+              component={withErrorHandler(MyReportEditPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
@@ -67,7 +68,7 @@ export class App extends Component<Props> {
             <PrivateRoute
               path="/my-reports/:id/review"
               allowed={["implementing-partner"]}
-              component={MyReportReviewPage}
+              component={withErrorHandler(MyReportReviewPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
@@ -75,7 +76,7 @@ export class App extends Component<Props> {
             <PrivateRoute
               path="/my-reports/:id"
               allowed={["implementing-partner"]}
-              component={MyReportPage}
+              component={withErrorHandler(MyReportPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
@@ -83,7 +84,7 @@ export class App extends Component<Props> {
             <PrivateRoute
               path="/my-reports"
               allowed={["implementing-partner"]}
-              component={MyReportsPage}
+              component={withErrorHandler(MyReportsPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />

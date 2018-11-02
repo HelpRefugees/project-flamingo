@@ -109,15 +109,6 @@ describe("MyReportsComponent", () => {
       );
     });
 
-    it("passes it to incomplete reports list", () => {
-      expect(
-        wrapper
-          .find('[data-test-id="unsubmitted-reports"]')
-          .find(UnsubmittedReportListComponent)
-          .props().updateReport
-      ).toBe(dummyUpdateReport);
-    });
-
     it("passes it to complete reports list", () => {
       expect(
         wrapper

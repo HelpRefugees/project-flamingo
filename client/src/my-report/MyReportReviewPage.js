@@ -14,14 +14,13 @@ const mapStateToProps = (state: State, ownProps: any): any => {
     report,
     account: state.account,
     submittedReport: state.submittedReport,
-    isLoading: state.isLoading,
-    savedReport: state.savedReport
+    isLoading: state.isLoading
   }
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   logout: () => dispatch(logout()),
-  updateReport: (report: Report) => dispatch(updateReport(report))
+  updateReport: (report: Report, errorMessage: string) => dispatch(updateReport(report, errorMessage))
 });
 
 export default connect(

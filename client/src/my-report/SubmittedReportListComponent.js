@@ -17,7 +17,7 @@ const styles = {
 
 type Props = {
   reports: Report[],
-  updateReport: (report: Report) => void,
+  updateReport: (report: Report, errorMessage: string) => void,
   classes: any
 }
 

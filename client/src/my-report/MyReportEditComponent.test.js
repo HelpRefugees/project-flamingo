@@ -69,7 +69,6 @@ describe("MyReportEditComponent", () => {
         account={account}
         isLoading={isLoading}
         submittedReport={false}
-        savedReport={true}
       />
     );
   });
@@ -95,16 +94,6 @@ describe("MyReportEditComponent", () => {
         .render()
         .text()
     ).toContain("October 2018");
-  });
-
-  it("shows an error message when updating a report fails", () => {
-    wrapper.setProps({ savedReport: false });
-    expect(
-      wrapper
-        .find('[data-test-id="error-message"]')
-        .render()
-        .text()
-    ).toContain("Error saving changes");
   });
 
   describe("grant progress", () => {
@@ -227,7 +216,7 @@ describe("MyReportEditComponent", () => {
       const onSave = grantProgressSection.prop("onSave");
       onSave();
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport);
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport, "Error saving report");
     });
   });
 
@@ -286,7 +275,7 @@ describe("MyReportEditComponent", () => {
       expect(mockUpdateReport).toHaveBeenCalledWith({
         ...report,
         keyActivities: newActivities
-      });
+      }, "Error saving report");
     });
   });
 
@@ -306,7 +295,7 @@ describe("MyReportEditComponent", () => {
         .find('[data-test-id="report-review-and-submit-button"]')
         .simulate("click");
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1, "Error saving report");
     });
 
     it("redirects to the review screen on click", done => {
@@ -422,7 +411,7 @@ describe("MyReportEditComponent", () => {
       const onSave = section.prop("onSave");
       onSave();
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1, "Error saving report");
     });
   };
 
@@ -531,7 +520,7 @@ describe("MyReportEditComponent", () => {
       const onSave = section.prop("onSave");
       onSave();
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1);
+      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1, "Error saving report");
     });
   });
 });

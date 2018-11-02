@@ -12,16 +12,16 @@ const styles = {
     paddingLeft: "24px"
   },
   reportListItemLink: {
-    color: '#000000',
-    textDecoration: 'none'
-  },
+    color: "#000000",
+    textDecoration: "none"
+  }
 };
 
 type Props = {
   report: Report,
-  updateReport: (report: Report) => void,
+  updateReport: (report: Report, errorMessage: string) => void,
   classes: any
-}
+};
 
 class SubmittedReportListItemComponent extends PureComponent<Props> {
   render() {
@@ -30,21 +30,32 @@ class SubmittedReportListItemComponent extends PureComponent<Props> {
     return (
       <TableRow data-test-id="report" key={id}>
         <TableCell data-test-id="report-grant">
-          <Link to={`/my-reports/${report.id}`} className={classes.reportListItemLink}>
+          <Link
+            to={`/my-reports/${report.id}`}
+            className={classes.reportListItemLink}
+          >
             <div>{grant}</div>
           </Link>
         </TableCell>
         <TableCell data-test-id="report-period">
-          <Link to={`/my-reports/${report.id}`} className={classes.reportListItemLink}>
+          <Link
+            to={`/my-reports/${report.id}`}
+            className={classes.reportListItemLink}
+          >
             <div className={classes.tableCellDiv}>
               {moment(reportPeriod).format("MMMM YYYY")}
             </div>
           </Link>
         </TableCell>
         <TableCell data-test-id="report-submitted">
-          <Link to={`/my-reports/${report.id}`} className={classes.reportListItemLink}>
+          <Link
+            to={`/my-reports/${report.id}`}
+            className={classes.reportListItemLink}
+          >
             <div className={classes.tableCellDiv}>
-              {submissionDate ? moment(submissionDate).format("DD/MM/YYYY") : ""}
+              {submissionDate
+                ? moment(submissionDate).format("DD/MM/YYYY")
+                : ""}
             </div>
           </Link>
         </TableCell>
@@ -53,7 +64,12 @@ class SubmittedReportListItemComponent extends PureComponent<Props> {
             <Button
               color="primary"
               data-test-id="report-unsubmit-button"
-              onClick={() => updateReport({ ...report, completed: false })}
+              onClick={() =>
+                updateReport(
+                  { ...report, completed: false },
+                  "Error unsubmitting report"
+                )
+              }
             >
               Undo
             </Button>

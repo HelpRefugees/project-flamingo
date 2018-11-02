@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 import type { Report } from "./models";
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
-import ReportCardComponent from "./ReportCardComponent";
 
 describe("UnsubmittedReportListComponent", () => {
   const unsubmittedReports: Report[] = [
@@ -42,24 +41,15 @@ describe("UnsubmittedReportListComponent", () => {
 
   let wrapper;
 
-  const dummyUpdateReport = jest.fn();
-
   beforeEach(() => {
     wrapper = shallow(
       <UnsubmittedReportListComponent
         reports={unsubmittedReports}
-        updateReport={dummyUpdateReport}
       />
     );
   });
 
   it("displays a link to the report edit page for all incomplete reports", () => {
     expect(wrapper.find(Link)).toHaveLength(2);
-  });
-
-  it("passes the updateReport prop to the report cards", () => {
-    wrapper.find(ReportCardComponent).forEach(card => {
-      expect(card.props().updateReport).toBe(dummyUpdateReport);
-    });
   });
 });

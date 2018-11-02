@@ -57,7 +57,6 @@ describe("MyReportReviewComponent", () => {
         updateReport={mockUpdateReport}
         submittedReport={false}
         isLoading={false}
-        savedReport={true}
       />
     );
   });
@@ -91,7 +90,7 @@ describe("MyReportReviewComponent", () => {
       let completedReport = { ...report, completed: true };
       wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(completedReport);
+      expect(mockUpdateReport).toHaveBeenCalledWith(completedReport, "Error submitting report");
     });
 
     it("is disabled during loading", () => {
@@ -106,16 +105,6 @@ describe("MyReportReviewComponent", () => {
       wrapper.setProps({ submittedReport: true });
 
       expect(mockHistoryPush).toHaveBeenCalledWith("/my-reports");
-    });
-
-    it("shows an error message when submitting a report fails", () => {
-      wrapper.setProps({ savedReport: false });
-      expect(
-        wrapper
-          .find('[data-test-id="error-message"]')
-          .render()
-          .text()
-      ).toContain("Error submitting report");
     });
   });
 });

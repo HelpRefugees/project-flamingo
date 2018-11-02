@@ -4,19 +4,19 @@ import type { Account } from "./authentication/models";
 export type State = {
   isAuthenticated: ?boolean,
   reports: ?(Report[]),
-  savedReport: ?boolean,
   account: ?Account,
   isLoading: boolean,
-  submittedReport: boolean
+  submittedReport: boolean,
+  errorMessage: ?string
 };
 
 export const initialState: State = {
   isAuthenticated: undefined,
   reports: undefined,
-  savedReport: undefined,
   account: undefined,
   isLoading: false,
-  submittedReport: false
+  submittedReport: false,
+  errorMessage: undefined
 };
 
 type Action = {
@@ -69,7 +69,6 @@ const reducers = (state: State = initialState, action: Action): State => {
       return {
         ...state,
         submittedReport: updatedReport.completed,
-        savedReport: true,
         reports: (state.reports || []).map(report => {
           if (report.id === updatedReport.id) {
             return updatedReport;
@@ -79,10 +78,14 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
-    case "SAVE_REPORT_FAILURE": {
+    case "CLEAR_ERROR_MESSAGE": {
+      return { ...state, errorMessage: undefined };
+    }
+
+    case "SET_ERROR_MESSAGE": {
       return {
         ...state,
-        savedReport: false
+        errorMessage: action.payload
       };
     }
 

@@ -15,6 +15,20 @@ describe("actions", () => {
   });
 
   describe("simple actions", () => {
+    it("errorOccurred should create SET_ERROR_MESSAGE action with payload", () => {
+      const message = "something bad happened";
+      expect(actions.errorOccurred(message)).toEqual({
+        type: "SET_ERROR_MESSAGE",
+        payload: message
+      });
+    });
+
+    it("errorExpired should create CLEAR_ERROR_MESSAGE action", () => {
+      expect(actions.errorExpired()).toEqual({
+        type: "CLEAR_ERROR_MESSAGE"
+      });
+    });
+
     it("loginSuccessful should create SET_LOGGED_IN action", () => {
       const account: Account = {
         username: "Steve@ip.org",
@@ -220,8 +234,8 @@ describe("actions", () => {
     });
   });
 
-  describe("save reports", () => {
-    it("saveReportSuccessful should create SAVE_REPORT_SUCCESS action with payload", () => {
+  describe("update report", () => {
+    it("updateReportSuccessful should create SAVE_REPORT_SUCCESS action with payload", () => {
       const report: $Shape<Report> = {
         id: 123,
         grant: "mitchell",
@@ -241,13 +255,15 @@ describe("actions", () => {
       });
     });
 
-    it("saveReportFailed should create SAVE_REPORT_FAILURE action", () => {
+    it("updateReportFailed should create SAVE_REPORT_FAILURE action", () => {
       expect(actions.updateReportFailed()).toEqual({
         type: "SAVE_REPORT_FAILURE"
       });
     });
 
     describe("update report", () => {
+      const errorMessage = "something went wrong";
+
       const report: $Shape<Report> = {
         id: 123,
         grant: "Grant title",
@@ -263,7 +279,7 @@ describe("actions", () => {
       };
 
       beforeEach(() => {
-        action = actions.updateReport(report);
+        action = actions.updateReport(report, errorMessage);
       });
 
       it("dispatches updateReportStarted action", () => {
@@ -360,13 +376,13 @@ describe("actions", () => {
         });
       });
 
-      it("dispatches save report failed when the request fails", done => {
+      it("dispatches error occurred when the request fails", done => {
         fetch.mockReject(new Error("update report error"));
         action(mockDispatch).catch(() => {});
 
         assertLater(done, () => {
           expect(mockDispatch).toHaveBeenCalledWith(
-            actions.updateReportFailed()
+            actions.errorOccurred(errorMessage)
           );
         });
       });
@@ -378,7 +394,7 @@ describe("actions", () => {
 
         assertLater(done, () => {
           expect(mockDispatch).toHaveBeenCalledWith(
-            actions.updateReportFailed()
+            actions.errorOccurred(errorMessage)
           );
         });
       });
