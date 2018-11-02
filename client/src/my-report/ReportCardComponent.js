@@ -12,12 +12,15 @@ import moment from "moment";
 import type { Report } from "./models";
 import theme from "../theme";
 
-const styles = themes => {
+const styles = () => {
   const normalColour = "#757c80";
   const dueColour = "#e68e00";
   const lateColour = "#ea1024";
 
   return {
+    card: {
+      boxShadow: "none"
+    },
     reportStatus: {
       borderLeft: "1px solid #d9d9d9",
       paddingLeft: theme.spacing.unit * 2,
@@ -98,7 +101,7 @@ export class ReportCardComponent extends Component<Props> {
     const { report, classes } = this.props;
 
     return (
-      <Card data-test-id="report">
+      <Card data-test-id="report" className={classes.card}>
         <CardContent className={classes.cardContent}>
           <Grid container justify="space-between">
             <Grid
