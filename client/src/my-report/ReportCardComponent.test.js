@@ -101,37 +101,4 @@ describe("ReportCardComponent", () => {
       ).toContain("3 days late");
     });
   });
-
-  describe("completed report", () => {
-    const submittedReport: Report = {
-      ...report,
-      completed: true,
-      id: 1,
-      reportPeriod: "2018-10-01T00:00:00.000Z",
-      dueDate: "2018-11-07T00:00:00.000Z",
-      keyActivities: [{}],
-      operatingEnvironment: "",
-      beneficiaryFeedback: "",
-      challengesFaced: "",
-      incidents: "",
-      otherIssues: "",
-      materialsForFundraising: "",
-      submissionDate: "2018-09-15T03:24:00.000Z"
-    };
-
-    beforeEach(() => {
-      wrapper = shallow(
-        <ReportCardComponent report={submittedReport} classes={{}} />
-      );
-    });
-
-    it("shows the completion date", () => {
-      expect(
-        wrapper
-          .find('[data-test-id="report-status"]')
-          .render()
-          .text()
-      ).toContain("15/09/2018");
-    });
-  });
 });

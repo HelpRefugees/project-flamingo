@@ -69,9 +69,7 @@ export class ReportCardComponent extends Component<Props> {
     const dueDate = moment(report.dueDate);
     const delta = dueDate.diff(moment(), "days");
 
-    if (report.completed && report.submissionDate) {
-      status = moment(report.submissionDate).format("DD/MM/YYYY");
-    } else if (delta < 0) {
+    if (delta < 0) {
       status = `${dueDate.fromNow(true)} late`;
       chipClasses = {
         label: classes.lateStatusLabel,
