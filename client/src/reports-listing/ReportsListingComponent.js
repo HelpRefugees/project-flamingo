@@ -174,7 +174,7 @@ export class ReportsListingComponent extends Component<
   getOverdueReports(reports: Report[]) {
     return reports.filter(
       (report: Report) =>
-        moment(report.dueDate).isBefore(moment()) && !report.completed
+        !report.completed && moment(report.dueDate).isBefore(moment())
     );
   }
 
