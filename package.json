@@ -12,13 +12,14 @@
     "test:cover": "yarn test:client --coverage && cross-env CI=true yarn test:server --coverage && cross-env CI=true yarn test:scripts --coverage",
     "test:client": "cd client && cross-env CI=true yarn test",
     "test:client:watch": "cd client && yarn test",
-    "test:server": "jest --config ./server/tests/jest.config.js",
+    "test:server": "jest --config ./server/tests/jest.config.js --runInBand",
     "test:server:watch": "yarn test:server --watch",
-    "test:scripts": "jest --config ./scripts/jest.config.js",
+    "test:scripts": "jest --config ./scripts/jest.config.js --runInBand",
     "test:scripts:watch": "yarn test:scripts --watch",
     "prebuild": "rimraf ./server/static/*",
     "generate-reports": "node ./scripts/generate-reports",
     "hash-password": "node ./scripts/hash-password",
+    "send-due-emails": "node ./scripts/send-due-emails",
     "build": "cd client && yarn build",
     "postbuild": "copy \"./client/build/**/*\" ./server/static",
     "start": "yarn build && yarn start:server",
@@ -73,8 +74,10 @@
     "mongodb": "^3.1.6",
     "mongodb-migrations": "^0.8.5",
     "morgan": "^1.9.1",
+    "nock": "^10.0.2",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",

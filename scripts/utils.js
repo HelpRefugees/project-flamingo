@@ -11,6 +11,7 @@ const getDatabaseUrl = () => {
 };
 
 module.exports = {
+  stringifyDate,
   generateReportPeriod: date =>
     stringifyDate(Date.UTC(date.getFullYear(), date.getMonth())),
   generateDueDate: reportPeriod => {
