@@ -1,5 +1,5 @@
 import React from "react";
-import { mount, shallow } from "enzyme";
+import { shallow } from "enzyme";
 import { MemoryRouter } from "react-router-dom";
 
 import { MyReportsComponent } from "./MyReportsComponent";
@@ -8,19 +8,20 @@ import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
 import SubmittedReportListComponent from './SubmittedReportListComponent';
 
 import type { Report } from "./models";
+import { mountWithProvider } from "../setupTests";
 
 describe("MyReportsComponent", () => {
   it("requests the reports on mount", () => {
     const mockLoadReports = jest.fn();
 
-    mount(
+    mountWithProvider(
       <MemoryRouter>
         <MyReportsComponent
           classes={{}}
           reports={[]}
           logout={() => {}}
           loadReports={mockLoadReports}
-          updateReport={report => {}}
+          updateReport={() => {}}
           account={undefined}
         />
       </MemoryRouter>
@@ -67,7 +68,7 @@ describe("MyReportsComponent", () => {
           reports={reports}
           logout={() => {}}
           loadReports={() => {}}
-          updateReport={report => {}}
+          updateReport={() => {}}
           account={undefined}
         />
       );
@@ -94,7 +95,7 @@ describe("MyReportsComponent", () => {
 
   describe("passing the updateReport prop", () => {
     let wrapper;
-    const dummyUpdateReport = report => {};
+    const dummyUpdateReport = () => {};
 
     beforeEach(() => {
       wrapper = shallow(

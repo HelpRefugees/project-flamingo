@@ -4,6 +4,7 @@ import { Button, TableCell, TableRow, withStyles } from "@material-ui/core";
 
 import type { Report } from "./models";
 import { Link } from "react-router-dom";
+import AcceptanceFilter from "../AcceptanceFilter";
 
 const styles = {
   tableCellDiv: {
@@ -59,22 +60,24 @@ class SubmittedReportListItemComponent extends PureComponent<Props> {
             </div>
           </Link>
         </TableCell>
-        <TableCell data-test-id="report-undo">
-          <div className={classes.tableCellDiv}>
-            <Button
-              color="primary"
-              data-test-id="report-unsubmit-button"
-              onClick={() =>
-                updateReport(
-                  { ...report, completed: false },
-                  "Error unsubmitting report"
-                )
-              }
-            >
-              Undo
-            </Button>
-          </div>
-        </TableCell>
+        <AcceptanceFilter>
+          <TableCell data-test-id="report-undo">
+            <div className={classes.tableCellDiv}>
+              <Button
+                color="primary"
+                data-test-id="report-unsubmit-button"
+                onClick={() =>
+                  updateReport(
+                    { ...report, completed: false },
+                    "Error unsubmitting report"
+                  )
+                }
+              >
+                Undo
+              </Button>
+            </div>
+          </TableCell>
+        </AcceptanceFilter>
       </TableRow>
     );
   }

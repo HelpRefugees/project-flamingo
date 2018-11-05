@@ -6,7 +6,8 @@ export type State = {
   reports: ?(Report[]),
   account: ?Account,
   isLoading: boolean,
-  errorMessage: ?string
+  errorMessage: ?string,
+  environment: ?string
 };
 
 export const initialState: State = {
@@ -14,7 +15,8 @@ export const initialState: State = {
   reports: undefined,
   account: undefined,
   isLoading: false,
-  errorMessage: undefined
+  errorMessage: undefined,
+  environment: undefined
 };
 
 type Action = {
@@ -93,7 +95,13 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
-    case "LOAD_REPORTS_FAILURE":
+    case "GET_INFO_SUCCESS": {
+      const { environment } = (action.payload || {});
+      return {
+        ...state,
+        environment
+      };
+    }
     default: {
       return state;
     }

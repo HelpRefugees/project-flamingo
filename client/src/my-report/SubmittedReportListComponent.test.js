@@ -1,10 +1,10 @@
 import React from "react";
-import { mount } from "enzyme";
 
 import type { Report } from "./models";
 import SubmittedReportListComponent from "./SubmittedReportListComponent";
 import SubmittedReportListItemComponent from "./SubmittedReportListItemComponent";
 import { MemoryRouter } from "react-router-dom";
+import { mountWithProvider } from "../setupTests";
 
 describe("SubmittedReportListComponent", () => {
   const submittedReport: Report = {
@@ -27,15 +27,17 @@ describe("SubmittedReportListComponent", () => {
   let wrapper;
   const dummyUpdateReport = jest.fn();
 
+  const withEnvironment = (environment) => mountWithProvider((
+    <MemoryRouter>
+      <SubmittedReportListComponent
+        reports={[submittedReport]}
+        updateReport={dummyUpdateReport}
+      />
+    </MemoryRouter>
+  ), { environment });
+
   beforeEach(() => {
-    wrapper = mount(
-      <MemoryRouter>
-        <SubmittedReportListComponent
-          reports={[submittedReport]}
-          updateReport={dummyUpdateReport}
-        />
-      </MemoryRouter>
-    );
+    wrapper = withEnvironment('development');
   });
 
   it("displays a report edit page for all complete reports", () => {
@@ -45,6 +47,20 @@ describe("SubmittedReportListComponent", () => {
   it("passes the updateReport prop to the report cards", () => {
     wrapper.find(SubmittedReportListItemComponent).forEach(card => {
       expect(card.props().updateReport).toBe(dummyUpdateReport);
+    });
+  });
+
+  describe('environment is not development', () => {
+    it('does not render an extra column for a undo button', () => {
+      wrapper = withEnvironment('not-development');
+
+      expect(wrapper.find('TableHead TableCell')).toHaveLength(3);
+    });
+  });
+
+  describe('environment is development', () => {
+    it('does render an extra column for a undo button', () => {
+      expect(wrapper.find('TableHead TableCell')).toHaveLength(4);
     });
   });
 });

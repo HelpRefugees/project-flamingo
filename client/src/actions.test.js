@@ -140,6 +140,21 @@ describe("actions", () => {
     });
   });
 
+  describe('getInfo', () => {
+    it('requests the info endpoint', done => {
+      fetch.mockResponseOnce("{\"environment\":\"test\"}");
+
+      const action = actions.getInfo();
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          actions.getInfoSuccess({ environment: 'test' })
+        );
+      })
+    });
+  });
+
   describe("logout", () => {
     beforeEach(() => {
       action = actions.logout();

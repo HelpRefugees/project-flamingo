@@ -7,6 +7,7 @@ import storage from "redux-persist/lib/storage";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import reducers from "./reducers";
+import { initializer } from "./middleware";
 
 const persistConfig = {
   key: "root",
@@ -18,7 +19,8 @@ const persistedReducer = persistReducer(persistConfig, reducers);
 export default () => {
   let store = createStore(
     persistedReducer,
-    composeWithDevTools(applyMiddleware(thunk))
+    // $FlowIgnore: apply middleware does not seem to understand the default export type
+    composeWithDevTools(applyMiddleware(thunk, initializer))
   );
   let persistor = persistStore(store);
   return { store, persistor };

@@ -3,6 +3,7 @@ import { withStyles, Table, TableBody, TableCell, TableHead, TableRow } from "@m
 
 import SubmittedReportListItemComponent from "./SubmittedReportListItemComponent";
 import type { Report } from "./models";
+import AcceptanceFilter from "../AcceptanceFilter";
 
 const styles = {
   tableCellDiv: {
@@ -47,12 +48,14 @@ class SubmittedReportListComponent extends PureComponent<Props> {
             <TableCell>
               <div className={classes.tableCellDiv}>Submitted</div>
             </TableCell>
-            <TableCell>
-              <div className={classes.tableCellDiv}>
-                {/* undo */}
-                &nbsp;
-              </div>
-            </TableCell>
+            <AcceptanceFilter>
+              <TableCell>
+                <div className={classes.tableCellDiv}>
+                  {/* undo */}
+                  &nbsp;
+                </div>
+              </TableCell>
+            </AcceptanceFilter>
           </TableRow>
         </TableHead>
         <TableBody>{this.renderListItems()}</TableBody>

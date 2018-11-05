@@ -9,6 +9,7 @@ import configureStore from "./configureStore";
 import "./index.css";
 import App from "./App";
 import theme from "./theme";
+import Initializer from "./Initializer";
 
 const { store, persistor } = configureStore();
 const root: ?Element = document.getElementById("root");
@@ -16,11 +17,13 @@ const root: ?Element = document.getElementById("root");
 if (root != null) {
   ReactDOM.render(
     <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-          <App />
-        </PersistGate>
-      </MuiThemeProvider>
+      <Initializer>
+        <MuiThemeProvider theme={theme}>
+          <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+            <App />
+          </PersistGate>
+        </MuiThemeProvider>
+      </Initializer>
     </Provider>,
     root
   );

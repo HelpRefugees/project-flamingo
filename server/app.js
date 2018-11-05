@@ -6,6 +6,7 @@ const path = require("path");
 
 const { configureAuth } = require("./auth");
 
+const infoRouter = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
 const reportsRouterFactory = require("./routes/reports");
 
@@ -32,6 +33,8 @@ const appFactory = (db, sessionStoreProvider) => {
     sessionSettings.cookie.secure = true;
     app.use("*", httpsOnly);
   }
+
+  app.use(`${API_ROOT_PATH}/info`, infoRouter);
 
   app.use(session(sessionSettings));
 

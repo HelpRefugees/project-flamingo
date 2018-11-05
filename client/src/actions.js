@@ -157,6 +157,27 @@ export const updateReport = (report: Report, errorMessage: string) => (
   return promise;
 };
 
+export const appStarted = () => ({ type: 'APP_STARTED' });
+
+export const getInfoSuccess = (payload: { environment: string }) => ({
+  type: 'GET_INFO_SUCCESS',
+  payload
+});
+
+export const getInfo = () => (dispatch: Dispatch<any>) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    makeRequest(dispatch, '/api/info', undefined, (res) => {
+      if (res.status === 200) {
+        res.json().then(({ environment }) => {
+          dispatch(getInfoSuccess({ environment }));
+          resolve();
+        });
+      }
+    }).catch(err => reject(err));
+  });
+  return promise;
+};
+
 export const makeRequest = (
   dispatch: Dispatch<any>,
   url: string,
