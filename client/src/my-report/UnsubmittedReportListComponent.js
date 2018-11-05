@@ -6,7 +6,7 @@ import type { Report } from "./models";
 
 type Props = {
   reports: Report[]
-}
+};
 
 export default class UnsubmittedReportListComponent extends PureComponent<
   Props
@@ -21,10 +21,7 @@ export default class UnsubmittedReportListComponent extends PureComponent<
             to={`/my-reports/${report.id}/edit`}
             style={{ textDecoration: "none" }}
           >
-            <ReportCardComponent
-              report={report}
-              key={index}
-            />
+            <ReportCardComponent report={report} key={index} />
           </Link>
         ))}
       </div>

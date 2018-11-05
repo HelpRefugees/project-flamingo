@@ -30,21 +30,23 @@ describe("SubmittedReportListItemComponent", () => {
 
   const dummyUpdateReport = jest.fn();
 
-  const withEnvironment = (environment) => mountWithProvider((
-    <MemoryRouter>
-      <table>
-        <tbody>
-          <SubmittedReportListItemComponent
-            report={submittedReport}
-            updateReport={dummyUpdateReport}
-          />
-        </tbody>
-      </table>
-    </MemoryRouter>
-  ), { environment });
+  const withEnvironment = environment =>
+    mountWithProvider(
+      <MemoryRouter>
+        <table>
+          <tbody>
+            <SubmittedReportListItemComponent
+              report={submittedReport}
+              updateReport={dummyUpdateReport}
+            />
+          </tbody>
+        </table>
+      </MemoryRouter>,
+      { environment }
+    );
 
   beforeEach(() => {
-    wrapper = withEnvironment('development');
+    wrapper = withEnvironment("development");
   });
 
   it("renders overview information", () => {
@@ -59,24 +61,31 @@ describe("SubmittedReportListItemComponent", () => {
     links.forEach(l => expect(l.prop("to")).toEqual("/my-reports/2"));
   });
 
-  describe('when the environment is development', () => {
+  describe("when the environment is development", () => {
     it("renders an undo button", () => {
-      const undoButton = wrapper.find('Button[data-test-id="report-unsubmit-button"]');
+      const undoButton = wrapper.find(
+        'Button[data-test-id="report-unsubmit-button"]'
+      );
 
       undoButton.simulate("click");
 
-      expect(dummyUpdateReport).toHaveBeenCalledWith({
-        ...submittedReport,
-        completed: false
-      }, "Error unsubmitting report");
+      expect(dummyUpdateReport).toHaveBeenCalledWith(
+        {
+          ...submittedReport,
+          completed: false
+        },
+        "Error unsubmitting report"
+      );
     });
   });
 
-  describe('when the environment is not development', () => {
+  describe("when the environment is not development", () => {
     it("does not render an undo button", () => {
-      wrapper = withEnvironment('not-development');
+      wrapper = withEnvironment("not-development");
 
-      const undoButton = wrapper.find('Button[data-test-id="report-unsubmit-button"]');
+      const undoButton = wrapper.find(
+        'Button[data-test-id="report-unsubmit-button"]'
+      );
 
       expect(undoButton.exists()).toEqual(false);
     });

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import { MyReportHeader } from "./MyReportHeader";
 import type { Report } from "./models";
 import { shallow } from "enzyme";
 
-describe('MyReportHeader', () => {
+describe("MyReportHeader", () => {
   const report: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
@@ -11,28 +11,33 @@ describe('MyReportHeader', () => {
     completed: false,
     reportPeriod: "2018-09-01T00:00:00.000Z",
     submissionDate: undefined,
-    keyActivities: [{
-      activityName: "Test activity",
-      numberOfParticipants: "200",
-      demographicInfo: "any value",
-      impactOutcome: "impact"
-    }],
+    keyActivities: [
+      {
+        activityName: "Test activity",
+        numberOfParticipants: "200",
+        demographicInfo: "any value",
+        impactOutcome: "impact"
+      }
+    ],
     operatingEnvironment: "",
     beneficiaryFeedback: "",
     challengesFaced: "",
     incidents: "",
-    otherIssues: "",
+    otherIssues: ""
   };
 
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<MyReportHeader classes={{}}
-      report={report}
-      account={{ name: "", username: "", role: "" }}
-      children={{}}
-      logout={()=>{}}
-    />);
+    wrapper = shallow(
+      <MyReportHeader
+        classes={{}}
+        report={report}
+        account={{ name: "", username: "", role: "" }}
+        children={{}}
+        logout={() => {}}
+      />
+    );
   });
 
   it("renders the grant name", () => {
@@ -54,7 +59,10 @@ describe('MyReportHeader', () => {
   });
 
   it("renders the grant submission date when the report is submitted", () => {
-    const submittedReport = { ...report, submissionDate:  "2018-10-03T00:00:00.000Z" };
+    const submittedReport = {
+      ...report,
+      submissionDate: "2018-10-03T00:00:00.000Z"
+    };
 
     wrapper.setProps({ report: submittedReport });
 

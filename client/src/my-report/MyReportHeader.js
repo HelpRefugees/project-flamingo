@@ -4,7 +4,7 @@ import {
   Grid,
   AppBar,
   Toolbar,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import moment from "moment";
 
@@ -18,7 +18,7 @@ type Props = {
   account: Account,
   logout: () => void,
   children: any
-}
+};
 
 const styles = () => ({
   appBar: {
@@ -40,7 +40,7 @@ export class MyReportHeader extends Component<Props> {
           {moment(report.reportPeriod).format("MMMM YYYY")}
         </Typography>
       </>
-    )
+    );
   }
 
   renderSubmissionDate() {
@@ -54,7 +54,7 @@ export class MyReportHeader extends Component<Props> {
           {moment(report.submissionDate).format("DD/MM/YYYY")}
         </Typography>
       </>
-    )
+    );
   }
 
   render() {
@@ -65,7 +65,15 @@ export class MyReportHeader extends Component<Props> {
         <AppBar position="static" color="inherit" className={classes.appBar}>
           <Toolbar>
             <Grid container direction="row" justify="space-between">
-              <Grid item container direction="row" xs={8} sm={6} lg={3} justify="flex-start">
+              <Grid
+                item
+                container
+                direction="row"
+                xs={8}
+                sm={6}
+                lg={3}
+                justify="flex-start"
+              >
                 <Grid item container direction="column" xs={3} sm={6}>
                   <Typography color="textSecondary" variant="caption">
                     Grant
@@ -75,10 +83,20 @@ export class MyReportHeader extends Component<Props> {
                   </Typography>
                 </Grid>
                 <Grid item container direction="column" xs={3} sm={6}>
-                  {report.submissionDate ?  this.renderSubmissionDate() : this.renderReportPeriod()}
+                  {report.submissionDate
+                    ? this.renderSubmissionDate()
+                    : this.renderReportPeriod()}
                 </Grid>
               </Grid>
-              <Grid item container direction="row" xs={4} sm={6} lg={3} justify="flex-end">
+              <Grid
+                item
+                container
+                direction="row"
+                xs={4}
+                sm={6}
+                lg={3}
+                justify="flex-end"
+              >
                 {children}
               </Grid>
             </Grid>
@@ -89,4 +107,4 @@ export class MyReportHeader extends Component<Props> {
   }
 }
 
-export default withStyles(styles)(MyReportHeader)
+export default withStyles(styles)(MyReportHeader);

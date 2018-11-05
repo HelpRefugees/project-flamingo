@@ -5,7 +5,7 @@ import { MemoryRouter } from "react-router-dom";
 import { MyReportsComponent } from "./MyReportsComponent";
 
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
-import SubmittedReportListComponent from './SubmittedReportListComponent';
+import SubmittedReportListComponent from "./SubmittedReportListComponent";
 
 import type { Report } from "./models";
 import { mountWithProvider } from "../setupTests";

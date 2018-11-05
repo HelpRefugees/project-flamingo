@@ -47,8 +47,8 @@ describe("ReportsListingComponent", () => {
       );
     });
 
-    describe('late reports tab', () => {
-      describe('no late reports', () => {
+    describe("late reports tab", () => {
+      describe("no late reports", () => {
         beforeEach(() => {
           wrapper = shallow(
             <ReportsListingComponent
@@ -81,14 +81,20 @@ describe("ReportsListingComponent", () => {
         });
       });
 
-      describe('late reports', () => {
+      describe("late reports", () => {
         beforeEach(() => {
           wrapper = shallow(
             <ReportsListingComponent
               classes={{}}
               account={undefined}
               logout={() => {}}
-              reports={[{ ...report1, completed: false, dueDate: '1997-07-16T19:20+01:00' }]}
+              reports={[
+                {
+                  ...report1,
+                  completed: false,
+                  dueDate: "1997-07-16T19:20+01:00"
+                }
+              ]}
               loadReports={() => {}}
               history={{ push: mockHistoryPush }}
             />

@@ -1,5 +1,12 @@
 import React, { PureComponent } from "react";
-import { withStyles, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
+import {
+  withStyles,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from "@material-ui/core";
 
 import SubmittedReportListItemComponent from "./SubmittedReportListItemComponent";
 import type { Report } from "./models";
@@ -12,7 +19,7 @@ const styles = {
     paddingLeft: "24px"
   },
   tableReportGrant: {
-    width: '66%'
+    width: "66%"
   }
 };
 
@@ -20,7 +27,7 @@ type Props = {
   reports: Report[],
   updateReport: (report: Report, errorMessage: string) => void,
   classes: any
-}
+};
 
 class SubmittedReportListComponent extends PureComponent<Props> {
   renderListItems() {
@@ -29,7 +36,8 @@ class SubmittedReportListComponent extends PureComponent<Props> {
       <SubmittedReportListItemComponent
         report={report}
         key={index}
-        updateReport={updateReport} />
+        updateReport={updateReport}
+      />
     ));
   }
 

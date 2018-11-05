@@ -215,7 +215,10 @@ describe("MyReportEditComponent", () => {
       const onSave = grantProgressSection.prop("onSave");
       onSave();
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport, "Error saving report");
+      expect(mockUpdateReport).toHaveBeenCalledWith(
+        updatedReport,
+        "Error saving report"
+      );
     });
   });
 
@@ -271,10 +274,13 @@ describe("MyReportEditComponent", () => {
       });
       keyActivitiesSection.prop("onSave")();
 
-      expect(mockUpdateReport).toHaveBeenCalledWith({
-        ...report,
-        keyActivities: newActivities
-      }, "Error saving report");
+      expect(mockUpdateReport).toHaveBeenCalledWith(
+        {
+          ...report,
+          keyActivities: newActivities
+        },
+        "Error saving report"
+      );
     });
   });
 
@@ -294,7 +300,10 @@ describe("MyReportEditComponent", () => {
         .find('[data-test-id="report-review-and-submit-button"]')
         .simulate("click");
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1, "Error saving report");
+      expect(mockUpdateReport).toHaveBeenCalledWith(
+        updatedReport1,
+        "Error saving report"
+      );
     });
 
     it("redirects to the review screen on click", done => {
@@ -410,7 +419,10 @@ describe("MyReportEditComponent", () => {
       const onSave = section.prop("onSave");
       onSave();
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1, "Error saving report");
+      expect(mockUpdateReport).toHaveBeenCalledWith(
+        updatedReport1,
+        "Error saving report"
+      );
     });
   };
 
@@ -519,7 +531,10 @@ describe("MyReportEditComponent", () => {
       const onSave = section.prop("onSave");
       onSave();
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(updatedReport1, "Error saving report");
+      expect(mockUpdateReport).toHaveBeenCalledWith(
+        updatedReport1,
+        "Error saving report"
+      );
     });
   });
 });

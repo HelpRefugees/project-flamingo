@@ -59,5 +59,3 @@ describe("PrivateRoute", () => {
     expect(wrappedComponent.props).toEqual(renderProps);
   });
 });
-
-

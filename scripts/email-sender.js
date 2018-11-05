@@ -7,7 +7,7 @@ module.exports = {
         body: { task, recipients },
         json: true,
         method: "POST",
-        url: process.env.EMAIL_WEBHOOK,
+        url: process.env.EMAIL_WEBHOOK
       };
       return makeRequest(options);
     }
@@ -15,14 +15,15 @@ module.exports = {
   }
 };
 
-const makeRequest = (options) => new Promise((resolve, reject) => {
-  request(options, (err, res, body) => {
-    if (err) {
-      return reject(err);
-    }
-    if (res.statusCode !== 200) {
-      return reject(res.statusCode);
-    }
-    resolve(body);
+const makeRequest = options =>
+  new Promise((resolve, reject) => {
+    request(options, (err, res, body) => {
+      if (err) {
+        return reject(err);
+      }
+      if (res.statusCode !== 200) {
+        return reject(res.statusCode);
+      }
+      resolve(body);
+    });
   });
-});

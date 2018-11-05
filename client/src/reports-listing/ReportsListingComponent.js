@@ -171,7 +171,7 @@ export class ReportsListingComponent extends Component<
       .map(grant => ({ value: grant, label: grant }));
   }
 
-  getOverdueReports(reports: ?Report[]) {
+  getOverdueReports(reports: ?(Report[])) {
     return (reports || []).filter(
       (report: Report) =>
         !report.completed && moment(report.dueDate).isBefore(moment())
@@ -281,8 +281,8 @@ export class ReportsListingComponent extends Component<
                       <Chip
                         className={classes.chip}
                         label={
-                          moment(new Date()).diff(report.dueDate, "days")
-                          + " days late"
+                          moment(new Date()).diff(report.dueDate, "days") +
+                          " days late"
                         }
                         variant="outlined"
                       />
@@ -302,7 +302,7 @@ export class ReportsListingComponent extends Component<
     const label = "Late reports";
     const overdue = this.getOverdueReports(reports).length;
     if (overdue === 0) {
-      return label
+      return label;
     }
     return (
       <Badge className={classes.badge} color="secondary" badgeContent={overdue}>
@@ -312,27 +312,27 @@ export class ReportsListingComponent extends Component<
   }
 
   reportsTabs(classes: any, reports: ?(Report[])) {
-    const submittedReportsContent
-      = reports
-      && this.getFilteredReports(this.getSubmittedReports(reports)).length > 0
+    const submittedReportsContent =
+      reports &&
+      this.getFilteredReports(this.getSubmittedReports(reports)).length > 0
         ? this.reportsTable({
-          classes: classes,
-          reports: this.getFilteredReports(this.getSubmittedReports(reports)),
-          reportSelector: "submitted-reports"
-        })
+            classes: classes,
+            reports: this.getFilteredReports(this.getSubmittedReports(reports)),
+            reportSelector: "submitted-reports"
+          })
         : this.noReportsMessage(
-          classes,
-          "No submitted reports yet!",
-          "Once you’ve a completed report it will appear here."
-        );
-    const overdueReportsContent
-      = reports
-      && this.getFilteredReports(this.getOverdueReports(reports)).length > 0
+            classes,
+            "No submitted reports yet!",
+            "Once you’ve a completed report it will appear here."
+          );
+    const overdueReportsContent =
+      reports &&
+      this.getFilteredReports(this.getOverdueReports(reports)).length > 0
         ? this.reportsTable({
-          classes: classes,
-          reports: this.getFilteredReports(this.getOverdueReports(reports)),
-          reportSelector: "overdue-reports"
-        })
+            classes: classes,
+            reports: this.getFilteredReports(this.getOverdueReports(reports)),
+            reportSelector: "overdue-reports"
+          })
         : this.noReportsMessage(classes, "Good news!", "No reports are late");
 
     return (

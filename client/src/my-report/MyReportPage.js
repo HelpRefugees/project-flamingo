@@ -7,7 +7,9 @@ import MyReportComponent from "./MyReportComponent";
 
 const mapStateToProps = (state: State, ownProps: any): any => {
   const reportId = ownProps.match.params.id;
-  const report = (state.reports || []).find((report) => report.id === parseInt(reportId, 10));
+  const report = (state.reports || []).find(
+    report => report.id === parseInt(reportId, 10)
+  );
   return {
     report,
     isAuthenticated: state.isAuthenticated,

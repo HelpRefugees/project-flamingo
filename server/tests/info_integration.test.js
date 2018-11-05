@@ -16,6 +16,6 @@ describe("info", () => {
     const resp = await request(app).get("/api/info");
 
     expect(resp.statusCode).toBe(200);
-    expect(resp.body).toEqual({ environment: 'test' });
+    expect(resp.body).toEqual({ environment: "test" });
   });
 });

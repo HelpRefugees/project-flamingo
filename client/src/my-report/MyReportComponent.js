@@ -12,15 +12,15 @@ type Props = {
   classes: any,
   logout: () => void,
   account: Account,
-  report: Report,
+  report: Report
 };
 
 type State = {};
 
 const styles = () => ({
   button: {
-    width: "120px",
-  },
+    width: "120px"
+  }
 });
 
 export class MyReportComponent extends Component<Props, State> {
@@ -32,7 +32,8 @@ export class MyReportComponent extends Component<Props, State> {
     return (
       <>
         <MyReportHeader account={account} logout={logout} report={report}>
-          <ButtonLink variant="contained"
+          <ButtonLink
+            variant="contained"
             color="primary"
             data-test-id="report-back-button"
             to="/my-reports"

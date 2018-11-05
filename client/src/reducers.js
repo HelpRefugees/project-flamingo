@@ -96,7 +96,7 @@ const reducers = (state: State = initialState, action: Action): State => {
     }
 
     case "GET_INFO_SUCCESS": {
-      const { environment } = (action.payload || {});
+      const { environment } = action.payload || {};
       return {
         ...state,
         environment

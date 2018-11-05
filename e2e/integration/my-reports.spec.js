@@ -46,8 +46,7 @@ context("My Reports Page", () => {
       });
     });
 
-
-    it('can review a submitted report', () => {
+    it("can review a submitted report", () => {
       myReportsPage.getFirstUnsubmittedReport(report => report.click());
 
       const reportPage = new ReportPage(1);
@@ -61,7 +60,7 @@ context("My Reports Page", () => {
         reportPeriod: "August 2018"
       });
     });
-    
+
     it("submits a report", () => {
       myReportsPage.getFirstUnsubmittedReport(report => report.click());
 

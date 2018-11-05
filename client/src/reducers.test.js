@@ -177,10 +177,13 @@ describe("reducers", () => {
     ).toBeUndefined();
   });
 
-  it('should handle GET_INFO_SUCCESS', () => {
-    const environment = 'test';
+  it("should handle GET_INFO_SUCCESS", () => {
+    const environment = "test";
 
-    const nextState = reducers(initialState, { type: "GET_INFO_SUCCESS", payload: { environment } });
+    const nextState = reducers(initialState, {
+      type: "GET_INFO_SUCCESS",
+      payload: { environment }
+    });
 
     expect(nextState.environment).toBe(environment);
   });

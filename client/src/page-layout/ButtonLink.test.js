@@ -20,7 +20,7 @@ describe("ButtonLink", () => {
 
   it("renders a link", () => {
     const link = wrapper.find(`Link[data-test-id="report-button"]`);
-    expect(link.prop('to')).toEqual("/some-path");
+    expect(link.prop("to")).toEqual("/some-path");
     expect(link.text()).toEqual("Some Text");
   });
 });

@@ -144,9 +144,7 @@ export default class ReportPage extends BasePage {
         .getContentField(KeyActivity.inputs.name)
         .should("contain.value", newReport.keyActivity.activityName);
       keyActivitiesSection
-        .getContentField(
-          KeyActivity.inputs.numberOfParticipants
-        )
+        .getContentField(KeyActivity.inputs.numberOfParticipants)
         .should("contain.value", newReport.keyActivity.numberOfParticipants);
       keyActivitiesSection
         .getContentField(KeyActivity.inputs.demographicInfo)

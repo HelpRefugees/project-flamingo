@@ -75,16 +75,16 @@ export class LoginComponent extends Component<Props, State> {
 
   render() {
     if (
-      this.props.isAuthenticated
-      && !this.props.isLoading
-      && this.props.role === "implementing-partner"
+      this.props.isAuthenticated &&
+      !this.props.isLoading &&
+      this.props.role === "implementing-partner"
     ) {
       return <Redirect to="/my-reports" />;
     }
     if (
-      this.props.isAuthenticated
-      && !this.props.isLoading
-      && this.props.role === "help-refugees"
+      this.props.isAuthenticated &&
+      !this.props.isLoading &&
+      this.props.role === "help-refugees"
     ) {
       return <Redirect to="/reports" />;
     }

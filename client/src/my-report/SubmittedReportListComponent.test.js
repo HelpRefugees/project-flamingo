@@ -27,17 +27,19 @@ describe("SubmittedReportListComponent", () => {
   let wrapper;
   const dummyUpdateReport = jest.fn();
 
-  const withEnvironment = (environment) => mountWithProvider((
-    <MemoryRouter>
-      <SubmittedReportListComponent
-        reports={[submittedReport]}
-        updateReport={dummyUpdateReport}
-      />
-    </MemoryRouter>
-  ), { environment });
+  const withEnvironment = environment =>
+    mountWithProvider(
+      <MemoryRouter>
+        <SubmittedReportListComponent
+          reports={[submittedReport]}
+          updateReport={dummyUpdateReport}
+        />
+      </MemoryRouter>,
+      { environment }
+    );
 
   beforeEach(() => {
-    wrapper = withEnvironment('development');
+    wrapper = withEnvironment("development");
   });
 
   it("displays a report edit page for all complete reports", () => {
@@ -50,17 +52,17 @@ describe("SubmittedReportListComponent", () => {
     });
   });
 
-  describe('environment is not development', () => {
-    it('does not render an extra column for a undo button', () => {
-      wrapper = withEnvironment('not-development');
+  describe("environment is not development", () => {
+    it("does not render an extra column for a undo button", () => {
+      wrapper = withEnvironment("not-development");
 
-      expect(wrapper.find('TableHead TableCell')).toHaveLength(3);
+      expect(wrapper.find("TableHead TableCell")).toHaveLength(3);
     });
   });
 
-  describe('environment is development', () => {
-    it('does render an extra column for a undo button', () => {
-      expect(wrapper.find('TableHead TableCell')).toHaveLength(4);
+  describe("environment is development", () => {
+    it("does render an extra column for a undo button", () => {
+      expect(wrapper.find("TableHead TableCell")).toHaveLength(4);
     });
   });
 });

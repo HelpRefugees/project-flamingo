@@ -2,7 +2,7 @@
 
 module.exports.id = "fix-report-operating-environment";
 
-module.exports.up = function (done) {
+module.exports.up = function(done) {
   this.db
     .collection("reports")
     .updateMany(
@@ -16,7 +16,7 @@ module.exports.up = function (done) {
     .then(() => done());
 };
 
-module.exports.down = function (done) {
+module.exports.down = function(done) {
   this.db
     .collection("reports")
     .updateMany(

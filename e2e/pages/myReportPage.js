@@ -13,7 +13,7 @@ export default class MyReportPage extends BasePage {
 
   get backButton() {
     cy.wait(250);
-    return cy.get(testId('report-back-button'));
+    return cy.get(testId("report-back-button"));
   }
 
   getSection(name, callback) {
@@ -51,27 +51,24 @@ export default class MyReportPage extends BasePage {
       content: newReport.overview
     });
 
-    this.getSection(
-      "grant-key-activities",
-      grantProgressSection => {
-        grantProgressSection.title.should(
-          "contain.text",
-          "Key activities & impact"
-        );
-        grantProgressSection
-          .contentFor("report-key-activity-name")
-          .should("contain.text", newReport.keyActivity.activityName);
-        grantProgressSection
-          .contentFor("report-number-of-participants")
-          .should("contain.text", newReport.keyActivity.numberOfParticipants);
-        grantProgressSection
-          .contentFor("report-demographic-info")
-          .should("contain.text", newReport.keyActivity.demographicInfo);
-        grantProgressSection
-          .contentFor("report-impact-outcome")
-          .should("contain.text", newReport.keyActivity.impactOutcome);
-      }
-    );
+    this.getSection("grant-key-activities", grantProgressSection => {
+      grantProgressSection.title.should(
+        "contain.text",
+        "Key activities & impact"
+      );
+      grantProgressSection
+        .contentFor("report-key-activity-name")
+        .should("contain.text", newReport.keyActivity.activityName);
+      grantProgressSection
+        .contentFor("report-number-of-participants")
+        .should("contain.text", newReport.keyActivity.numberOfParticipants);
+      grantProgressSection
+        .contentFor("report-demographic-info")
+        .should("contain.text", newReport.keyActivity.demographicInfo);
+      grantProgressSection
+        .contentFor("report-impact-outcome")
+        .should("contain.text", newReport.keyActivity.impactOutcome);
+    });
 
     sectionContainsContent({
       sectionKey: "operating-environment",

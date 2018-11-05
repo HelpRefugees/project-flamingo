@@ -1,14 +1,16 @@
-import configureStore from 'redux-mock-store';
+import configureStore from "redux-mock-store";
 import { initializer } from "./middleware";
 
-import * as actions from './actions';
+import * as actions from "./actions";
 import { appStarted } from "./actions";
 
-describe('middleware', () => {
-  describe('initializer', () => {
-    it('requests the info from the backend on mount', () => {
-      const thunkAction = { type: 'THUNK_ACTION' };
-      const getInfo = jest.spyOn(actions, 'getInfo').mockImplementation(() => (thunkAction));
+describe("middleware", () => {
+  describe("initializer", () => {
+    it("requests the info from the backend on mount", () => {
+      const thunkAction = { type: "THUNK_ACTION" };
+      const getInfo = jest
+        .spyOn(actions, "getInfo")
+        .mockImplementation(() => thunkAction);
       const mockStore = configureStore([initializer]);
       const store = mockStore();
 
@@ -20,10 +22,13 @@ describe('middleware', () => {
       expect(store.getActions()).toEqual([thunkAction, appStarted()]);
     });
 
-    it('calls the next middleware', () => {
+    it("calls the next middleware", () => {
       const next = jest.fn();
 
-      initializer({ dispatch: () => {} })(next)({ type: 'UNKNOWN', payload: {} });
+      initializer({ dispatch: () => {} })(next)({
+        type: "UNKNOWN",
+        payload: {}
+      });
 
       expect(next).toHaveBeenCalledTimes(1);
     });

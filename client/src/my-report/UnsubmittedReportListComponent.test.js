@@ -43,9 +43,7 @@ describe("UnsubmittedReportListComponent", () => {
 
   beforeEach(() => {
     wrapper = shallow(
-      <UnsubmittedReportListComponent
-        reports={unsubmittedReports}
-      />
+      <UnsubmittedReportListComponent reports={unsubmittedReports} />
     );
   });
 

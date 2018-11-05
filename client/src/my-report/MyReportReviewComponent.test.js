@@ -73,7 +73,7 @@ describe("MyReportReviewComponent", () => {
   describe("edit", () => {
     it("redirects to the report page when clicking edit", () => {
       const editButton = wrapper.find(`[data-test-id="report-edit-button"]`);
-      expect(editButton.prop('to')).toEqual("/my-reports/1/edit");
+      expect(editButton.prop("to")).toEqual("/my-reports/1/edit");
     });
 
     it("is disabled during loading", () => {
@@ -90,7 +90,10 @@ describe("MyReportReviewComponent", () => {
       let completedReport = { ...report, completed: true };
       wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
-      expect(mockUpdateReport).toHaveBeenCalledWith(completedReport, "Error submitting report");
+      expect(mockUpdateReport).toHaveBeenCalledWith(
+        completedReport,
+        "Error submitting report"
+      );
     });
 
     it("is disabled during loading", () => {
@@ -101,13 +104,12 @@ describe("MyReportReviewComponent", () => {
       ).toBe(true);
     });
 
-    it("redirects to myReports page when report submitted successfully", (done) => {
+    it("redirects to myReports page when report submitted successfully", done => {
       wrapper.find('[data-test-id="report-submit-button"]').simulate("click");
 
       assertLater(done, () => {
         expect(mockHistoryPush).toHaveBeenCalledWith("/my-reports");
       });
-
     });
   });
 });

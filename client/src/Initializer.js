@@ -1,13 +1,13 @@
 // eslint-disable-next-line no-unused-vars
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { appStarted } from "./actions";
 
 type Props = {
   onLoad: () => void,
   environment: string,
   children: ?any
-}
+};
 
 class Initializer extends Component<Props> {
   componentDidMount() {
@@ -27,7 +27,10 @@ class Initializer extends Component<Props> {
 const mapStateToProps = ({ environment }: any) => ({ environment });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  onLoad: () => dispatch(appStarted()),
+  onLoad: () => dispatch(appStarted())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Initializer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Initializer);

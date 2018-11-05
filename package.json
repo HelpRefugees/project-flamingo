@@ -86,6 +86,7 @@
     "cross-env": "^5.2.0",
     "cypress": "^3.1.0",
     "eslint": "^5.6.1",
+    "eslint-config-prettier": "^3.1.0",
     "eslint-config-react-app": "^3.0.3",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-cypress": "^2.0.1",
@@ -94,6 +95,7 @@
     "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-standard": "^3.0.1",
@@ -101,6 +103,7 @@
     "jest": "23.6.0",
     "jest-babel-istanbul": "^0.1.0",
     "nodemon": "^1.18.4",
+    "prettier": "^1.14.3",
     "rimraf": "^2.6.2",
     "supertest": "^3.3.0",
     "wait-on": "^3.0.1"

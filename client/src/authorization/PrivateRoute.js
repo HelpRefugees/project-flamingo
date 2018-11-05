@@ -9,7 +9,7 @@ type Props = {
   account?: Account,
   component: any,
   allowed: string[]
-}
+};
 
 export default (props: Props) => {
   const {
@@ -20,15 +20,17 @@ export default (props: Props) => {
     allowed
   } = props;
   return (
-    <Route path={path} render={props => {
-      if (!isAuthenticated) {
-        return <Redirect to="/" />;
-      }
-      if (account && allowed.indexOf(account.role) === -1) {
-        return <Redirect to="/forbidden" />;
-      }
-      return <Component {...props} />;
-    }}
+    <Route
+      path={path}
+      render={props => {
+        if (!isAuthenticated) {
+          return <Redirect to="/" />;
+        }
+        if (account && allowed.indexOf(account.role) === -1) {
+          return <Redirect to="/forbidden" />;
+        }
+        return <Component {...props} />;
+      }}
     />
   );
 };

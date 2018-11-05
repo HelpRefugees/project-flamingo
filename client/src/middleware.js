@@ -9,10 +9,12 @@ type Store = {
   dispatch: (?any) => void
 };
 
-type Next = (Action) => void;
+type Next = Action => void;
 
-export const initializer = ({ dispatch }: Store) => (next: Next) => (action: Action) => {
-  if (action.type === 'APP_STARTED') {
+export const initializer = ({ dispatch }: Store) => (next: Next) => (
+  action: Action
+) => {
+  if (action.type === "APP_STARTED") {
     dispatch(getInfo());
   }
   next(action);
