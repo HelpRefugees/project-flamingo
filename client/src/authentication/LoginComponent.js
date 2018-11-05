@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import {
   Button,
   Grid,
-  TextField,
-  Paper,
   FormGroup,
   FormControl,
-  withStyles,
-  FormHelperText
+  FormHelperText,
+  Paper,
+  TextField,
+  Typography,
+  withStyles
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
@@ -26,11 +27,8 @@ const styles = themes => ({
   form: {
     width: "100%"
   },
-  headerText: {
-    color: "#404040"
-  },
-  normalText: {
-    color: "#000000"
+  button: {
+    height: 56
   }
 });
 
@@ -114,16 +112,8 @@ export class LoginComponent extends Component<Props, State> {
                   alt="Help Refugees Logo"
                   className={classes.logo}
                 />
-                <h2
-                  className={classes.headerText}
-                >
-                  Welcome
-                </h2>
-                <h5
-                  className={classes.normalText}
-                >
-                  Please enter your login details
-                </h5>
+                <Typography variant="h3">Welcome</Typography>
+                <Typography>Please enter your login details</Typography>
                 <form
                   onSubmit={event => this.login(event)}
                   className={classes.form}
@@ -169,6 +159,7 @@ export class LoginComponent extends Component<Props, State> {
                         variant="contained"
                         color="primary"
                         data-test-id="login-button"
+                        className={classes.button}
                       >
                         Login
                       </Button>
