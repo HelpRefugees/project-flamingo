@@ -171,8 +171,8 @@ export class ReportsListingComponent extends Component<
       .map(grant => ({ value: grant, label: grant }));
   }
 
-  getOverdueReports(reports: Report[]) {
-    return reports.filter(
+  getOverdueReports(reports: ?Report[]) {
+    return (reports || []).filter(
       (report: Report) =>
         !report.completed && moment(report.dueDate).isBefore(moment())
     );
@@ -297,6 +297,20 @@ export class ReportsListingComponent extends Component<
     );
   }
 
+  renderLateReportsLabel() {
+    const { reports, classes } = this.props;
+    const label = "Late reports";
+    const overdue = this.getOverdueReports(reports).length;
+    if (overdue === 0) {
+      return label
+    }
+    return (
+      <Badge className={classes.badge} color="secondary" badgeContent={overdue}>
+        {label}
+      </Badge>
+    );
+  }
+
   reportsTabs(classes: any, reports: ?(Report[])) {
     const submittedReportsContent
       = reports
@@ -345,18 +359,7 @@ export class ReportsListingComponent extends Component<
               tabIndex={1}
               data-test-id="overdue-reports-tab"
               className={classes.tabHeader}
-              label={
-                <>
-                  <Badge
-                    className={classes.badge}
-                    color="secondary"
-                    badgeContent={this.getOverdueReports(reports || []).length}
-                  >
-                    Late reports
-                  </Badge>
-                </>
-                // "Late reports " + this.getOverdueReports(reports || []).length
-              }
+              label={this.renderLateReportsLabel()}
             />
           </Tabs>
           <Grid
@@ -390,7 +393,6 @@ export class ReportsListingComponent extends Component<
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
-
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item container xs={10} justify="center">

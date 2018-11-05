@@ -12,6 +12,23 @@ import type { Report } from "../my-report/models";
 describe("ReportsListingComponent", () => {
   let wrapper;
 
+  const report1 = {
+    id: 1,
+    completed: false,
+    overview: "Mitchell Overview completed",
+    grant: "Grant Mitchell",
+    reportPeriod: "2018-12-01T00:00:00.000Z",
+    submissionDate: "",
+    keyActivities: [{}],
+    operatingEnvironment: "",
+    beneficiaryFeedback: "",
+    challengesFaced: "",
+    incidents: "",
+    otherIssues: "",
+    dueDate: "2018-12-01T00:00:00.000Z",
+    materialsForFundraising: ""
+  };
+
   describe("shows page tabs 'complete' and 'overdue'", () => {
     let mockHistoryPush;
 
@@ -30,23 +47,72 @@ describe("ReportsListingComponent", () => {
       );
     });
 
-    it("shows a tab for overdue reports", () => {
-      expect(
-        wrapper
-          .find(Paper)
-          .find('[data-test-id="overdue-reports-tab"]')
-          .render()
-          .text()
-      ).toContain("Late reports");
+    describe('late reports tab', () => {
+      describe('no late reports', () => {
+        beforeEach(() => {
+          wrapper = shallow(
+            <ReportsListingComponent
+              classes={{}}
+              account={undefined}
+              logout={() => {}}
+              reports={[]}
+              loadReports={() => {}}
+              history={{ push: mockHistoryPush }}
+            />
+          );
+        });
 
-      expect(
-        wrapper
-          .find(Paper)
-          .find('[data-test-id="overdue-reports-tab"]')
-          .render()
-          .text()
-      ).toContain("0");
-      // ------------------------------------------------------------------
+        it("shows a tab for overdue reports", () => {
+          expect(
+            wrapper
+              .find(Paper)
+              .find('[data-test-id="overdue-reports-tab"]')
+              .render()
+              .text()
+          ).toContain("Late reports");
+
+          expect(
+            wrapper
+              .find(Paper)
+              .find('[data-test-id="overdue-reports-tab"]')
+              .render()
+              .text()
+          ).not.toContain("0");
+        });
+      });
+
+      describe('late reports', () => {
+        beforeEach(() => {
+          wrapper = shallow(
+            <ReportsListingComponent
+              classes={{}}
+              account={undefined}
+              logout={() => {}}
+              reports={[{ ...report1, completed: false, dueDate: '1997-07-16T19:20+01:00' }]}
+              loadReports={() => {}}
+              history={{ push: mockHistoryPush }}
+            />
+          );
+        });
+
+        it("shows a tab for overdue reports", () => {
+          expect(
+            wrapper
+              .find(Paper)
+              .find('[data-test-id="overdue-reports-tab"]')
+              .render()
+              .text()
+          ).toContain("Late reports");
+
+          expect(
+            wrapper
+              .find(Paper)
+              .find('[data-test-id="overdue-reports-tab"]')
+              .render()
+              .text()
+          ).toContain("1");
+        });
+      });
     });
 
     it("shows a tab for submitted reports", () => {
@@ -111,22 +177,7 @@ describe("ReportsListingComponent", () => {
 
   describe("no overdue reports", () => {
     const reports: Report[] = [
-      {
-        id: 1,
-        completed: false,
-        overview: "Mitchell Overview completed",
-        grant: "Grant Mitchell",
-        reportPeriod: "2018-12-01T00:00:00.000Z",
-        submissionDate: "",
-        keyActivities: [{}],
-        operatingEnvironment: "",
-        beneficiaryFeedback: "",
-        challengesFaced: "",
-        incidents: "",
-        otherIssues: "",
-        dueDate: "2018-12-01T00:00:00.000Z",
-        materialsForFundraising: ""
-      },
+      report1,
       {
         id: 1,
         completed: true,

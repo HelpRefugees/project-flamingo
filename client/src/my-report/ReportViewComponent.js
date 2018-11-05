@@ -74,7 +74,6 @@ export class ReportViewComponent extends React.PureComponent<{
 
   renderKeyActivities() {
     const { classes, report } = this.props;
-
     return (
       <Paper
         justify="center"
