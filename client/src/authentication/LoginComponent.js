@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import {
   Button,
-  Grid,
   FormGroup,
   FormControl,
   FormHelperText,
-  Paper,
   TextField,
   Typography,
   withStyles
@@ -13,22 +11,19 @@ import {
 import { Redirect } from "react-router-dom";
 
 import type { Credentials } from "./models";
+import ButtonLink from "../page-layout/ButtonLink";
+import AuthenticationFormComponent from "./AuthenticationFormComponent";
 
-const styles = themes => ({
-  loginPaper: {
-    padding: themes.spacing.unit * 4
-  },
-  logo: {
-    paddingBottom: themes.spacing.unit * 3
-  },
-  outerContainer: {
-    height: "100vh"
-  },
+const styles = theme => ({
   form: {
     width: "100%"
   },
   button: {
     height: 56
+  },
+  text: {
+    marginTop: theme.spacing.unit * 2,
+    textAlign: "center"
   }
 });
 
@@ -90,87 +85,67 @@ export class LoginComponent extends Component<Props, State> {
     }
     const { classes } = this.props;
     return (
-      <Grid
-        container
-        spacing={24}
-        direction="column"
-        justify="center"
-        className={classes.outerContainer}
-      >
-        <Grid container justify="center">
-          <Grid item xs={4}>
-            <Paper justify="center" className={classes.loginPaper}>
-              <Grid
-                container
-                justify="center"
-                direction="column"
-                alignItems="center"
-                spacing={8}
+      <AuthenticationFormComponent>
+        <Typography variant="h3">Welcome</Typography>
+        <Typography className={classes.text}>
+          Please enter your login details
+        </Typography>
+        <form onSubmit={event => this.login(event)} className={classes.form}>
+          <FormGroup>
+            <FormControl margin="normal" required>
+              <TextField
+                data-test-id="username-input"
+                label="Email"
+                type="email"
+                fullWidth
+                variant="outlined"
+                onChange={event => this.changeCredentials("username", event)}
+                error={this.props.isAuthenticated === false}
+                value={this.state.credentials.username}
+              />
+            </FormControl>
+            <FormControl margin="normal" required>
+              <TextField
+                data-test-id="password-input"
+                label="Password"
+                type="password"
+                variant="outlined"
+                onChange={event => this.changeCredentials("password", event)}
+                error={this.props.isAuthenticated === false}
+                value={this.state.credentials.password}
+              />
+            </FormControl>
+            <FormControl>
+              {this.props.isAuthenticated === false && (
+                <FormHelperText error={true} data-test-id="login-error">
+                  Invalid credentials
+                </FormHelperText>
+              )}
+            </FormControl>
+            <FormControl margin="normal">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                data-test-id="login-button"
+                className={classes.button}
               >
-                <img
-                  src="logo.png"
-                  alt="Help Refugees Logo"
-                  className={classes.logo}
-                />
-                <Typography variant="h3">Welcome</Typography>
-                <Typography>Please enter your login details</Typography>
-                <form
-                  onSubmit={event => this.login(event)}
-                  className={classes.form}
-                >
-                  <FormGroup>
-                    <FormControl margin="normal" required>
-                      <TextField
-                        data-test-id="username-input"
-                        label="Email"
-                        type="email"
-                        fullWidth
-                        variant="outlined"
-                        onChange={event =>
-                          this.changeCredentials("username", event)
-                        }
-                        error={this.props.isAuthenticated === false}
-                        value={this.state.credentials.username}
-                      />
-                    </FormControl>
-                    <FormControl margin="normal" required>
-                      <TextField
-                        data-test-id="password-input"
-                        label="Password"
-                        type="password"
-                        variant="outlined"
-                        onChange={event =>
-                          this.changeCredentials("password", event)
-                        }
-                        error={this.props.isAuthenticated === false}
-                        value={this.state.credentials.password}
-                      />
-                    </FormControl>
-                    <FormControl>
-                      {this.props.isAuthenticated === false && (
-                        <FormHelperText error={true} data-test-id="login-error">
-                          Invalid credentials
-                        </FormHelperText>
-                      )}
-                    </FormControl>
-                    <FormControl margin="normal">
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        data-test-id="login-button"
-                        className={classes.button}
-                      >
-                        Login
-                      </Button>
-                    </FormControl>
-                  </FormGroup>
-                </form>
-              </Grid>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Grid>
+                Login
+              </Button>
+            </FormControl>
+            <FormControl>
+              <ButtonLink
+                data-test-id="forgot-password"
+                color="primary"
+                to="/forgotten-password"
+                className={classes.button}
+              >
+                Forgot password
+              </ButtonLink>
+            </FormControl>
+          </FormGroup>
+        </form>
+      </AuthenticationFormComponent>
     );
   }
 }

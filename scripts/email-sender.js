@@ -1,10 +1,10 @@
 const request = require("request");
 
 module.exports = {
-  send: (task, recipients) => {
+  send: (task, recipients, parameters) => {
     if (recipients && recipients.length > 0) {
       const options = {
-        body: { task, recipients },
+        body: { ...parameters, task, recipients },
         json: true,
         method: "POST",
         url: process.env.EMAIL_WEBHOOK

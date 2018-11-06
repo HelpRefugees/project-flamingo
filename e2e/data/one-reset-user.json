@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "username": "foo@bar.org",
+      "resetToken": "thisismytoken",
+      "role": "help-refugees",
+      "name": "Foo Barrington",
+      "password": "$2b$10$XWe/YOwWRlZXnVcnYeXRuux1iUMMhfCxa/nsgV63iy6cd184lhlcO"
+    }
+  ]
+}

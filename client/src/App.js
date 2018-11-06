@@ -5,6 +5,9 @@ import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 
 import LoginPage from "./authentication/LoginPage";
+import ResetPasswordPage from "./authentication/ResetPasswordPage";
+import ForgottenPasswordPage from "./authentication/ForgottenPasswordPage";
+import ResetSubmittedPage from "./authentication/ResetSubmittedPage";
 import MyReportsPage from "./my-report/MyReportsPage";
 import MyReportReviewPage from "./my-report/MyReportReviewPage";
 import MyReportEditPage from "./my-report/MyReportEditPage";
@@ -40,6 +43,24 @@ export class App extends Component<Props> {
           <CssBaseline />
           <Switch>
             <Route exact path="/" component={LoginPage} />
+
+            <Route
+              exact
+              path="/forgotten-password"
+              component={ForgottenPasswordPage}
+            />
+
+            <Route
+              exact
+              path="/reset-submitted"
+              component={ResetSubmittedPage}
+            />
+
+            <Route
+              exact
+              path="/reset-password"
+              component={ResetPasswordPage}
+            />
 
             <PrivateRoute
               path="/reports/:id"

@@ -8,6 +8,7 @@ const { configureAuth } = require("./auth");
 
 const infoRouter = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
+const forgotPasswordRouterFactory = require("./routes/forgot_password");
 const reportsRouterFactory = require("./routes/reports");
 
 const appFactory = (db, sessionStoreProvider) => {
@@ -41,6 +42,7 @@ const appFactory = (db, sessionStoreProvider) => {
   configureAuth(app, db);
 
   app.use(`${API_ROOT_PATH}/login`, loginRouterFactory(db));
+  app.use(`${API_ROOT_PATH}/forgot-password`, forgotPasswordRouterFactory(db));
   app.use(`${API_ROOT_PATH}/reports`, reportsRouterFactory(db));
 
   app.use(express.static(path.join(__dirname, "static")));

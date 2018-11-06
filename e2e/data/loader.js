@@ -4,6 +4,29 @@ const fs = require("fs");
 
 const { getDatabaseUrl } = require("../../scripts/utils");
 
+const defaultUsers = [
+  {
+    username: "ellen@ip.org",
+    role: "implementing-partner",
+    name: "Ellen Smith",
+    grant: "Grant Mitchell",
+    password: "$2b$10$TVA4ZBXoheEKSlwUaBUb5OeF.fbayvTuCPnatKB/CzxGGgfFra9w2"
+  },
+  {
+    username: "daisy@hr.org",
+    role: "help-refugees",
+    name: "Daisy Jones",
+    password: "$2b$10$lcgKUBTrTjHWLC7w1dHrJupwgygR2o9MDQS7nDXW2NedOj.h.DE4q"
+  },
+  {
+    username: "helen@ip.org",
+    role: "implementing-partner",
+    grant: "Hugh Grant",
+    name: "Helen Brown",
+    password: "$2b$10$YSikur80H09Epol1sYboHOH6v9ypMVH6bbqYOZG89CaI/HUKXKAoC"
+  }
+];
+
 function readJsonFile(filename) {
   return new Promise((resolve, reject) => {
     fs.readFile(filename, "utf8", (err, content) => {
@@ -21,9 +44,9 @@ function mongo() {
   return MongoClient.connect(getDatabaseUrl()).then(client => client.db());
 }
 
-function clearReports(db) {
+function clear(db, collection) {
   return new Promise(resolve => {
-    db.collection("reports")
+    db.collection(collection)
       .drop()
       .then(() => {
         resolve();
@@ -36,16 +59,27 @@ function clearReports(db) {
 
 function seed(db, seedFile) {
   return readJsonFile(seedFile)
-    .then(content =>
-      Object.keys(content).map(collection => {
+    .then(content => {
+      const promises = [];
+      let setUsers = false;
+      Object.keys(content).forEach(collection => {
         const rows = content[collection];
+        if (collection === "users") {
+          setUsers = true;
+        }
         const now = new Date();
         rows.forEach(
           (row, index) => (row.created = new Date(now.getTime() + 1000 * index))
         );
-        return db.collection(collection).insertMany(rows);
-      })
-    )
+
+        promises.push(db.collection(collection).insertMany(rows));
+      });
+
+      if (!setUsers) {
+        promises.push(db.collection("users").insertMany(defaultUsers));
+      }
+      return promises;
+    })
     .then(promises => Promise.all(promises));
 }
 
@@ -54,7 +88,8 @@ function databaseAction(func, ...args) {
 }
 
 mongo()
-  .then(databaseAction(clearReports))
+  .then(databaseAction(clear, "reports"))
+  .then(databaseAction(clear, "users"))
   .then(databaseAction(seed, process.argv[2]))
   .then(() => process.exit(0))
   .catch(err => {
