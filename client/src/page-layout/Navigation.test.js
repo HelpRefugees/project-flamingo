@@ -20,14 +20,14 @@ describe("Navigation", () => {
     });
 
     it("renders a link for reports", () => {
-      const link = wrapper.find('Link[data-test-id="nav-link-reports"]');
+      const link = wrapper.find('NavLink[data-test-id="nav-link-reports"]');
 
       expect(link.prop("to")).toEqual("/reports");
       expect(link.text()).toEqual("Reports");
     });
 
     it("renders a link for grants", () => {
-      const link = wrapper.find('Link[data-test-id="nav-link-grants"]');
+      const link = wrapper.find('NavLink[data-test-id="nav-link-grants"]');
 
       expect(link.prop("to")).toEqual("/grants");
       expect(link.text()).toEqual("Grants");
