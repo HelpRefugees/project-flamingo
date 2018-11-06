@@ -1,4 +1,4 @@
-import { mount, shallow } from "enzyme";
+import { shallow } from "enzyme";
 import React from "react";
 import { MemoryRouter } from "react-router-dom";
 import { Paper, Tabs } from "@material-ui/core";
@@ -8,6 +8,7 @@ import Select from "react-select";
 
 import { ReportsListingComponent } from "./ReportsListingComponent";
 import type { Report } from "../my-report/models";
+import { mountWithProvider } from "../setupTests";
 
 describe("ReportsListingComponent", () => {
   let wrapper;
@@ -135,7 +136,7 @@ describe("ReportsListingComponent", () => {
   it("requests the reports on mount", () => {
     const mockLoadReports = jest.fn();
 
-    mount(
+    mountWithProvider(
       <MemoryRouter>
         <ReportsListingComponent
           classes={{}}

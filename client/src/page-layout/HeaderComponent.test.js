@@ -2,15 +2,17 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { HeaderComponent } from "./HeaderComponent";
+import Navigation from "./Navigation";
 
 describe("HeaderComponent", () => {
-  let wrapper;
-  let mockLogout;
   const account = {
     username: "sjones@ip.org",
     name: "Steve Jones",
     role: "some-role"
   };
+
+  let wrapper;
+  let mockLogout;
 
   beforeEach(() => {
     mockLogout = jest.fn();
@@ -33,5 +35,9 @@ describe("HeaderComponent", () => {
         .render()
         .text()
     ).toContain(account.name);
+  });
+
+  it("renders the navigation", () => {
+    expect(wrapper.find(Navigation).exists()).toEqual(true);
   });
 });

@@ -4,6 +4,7 @@ import type { Report } from "./my-report/models";
 import * as actions from "./actions";
 import { assertLater } from "./testHelpers";
 import type { Account } from "./authentication/models";
+import type { Grant } from "./grants/models";
 
 describe("actions", () => {
   let action: (dispatch: Dispatch<any>) => any;
@@ -412,6 +413,62 @@ describe("actions", () => {
             actions.errorOccurred(errorMessage)
           );
         });
+      });
+    });
+  });
+
+  describe("loadGrants", () => {
+    beforeEach(() => {
+      action = actions.loadGrants();
+    });
+
+    it("makes a request to the backend", () => {
+      fetch.mockResponseOnce("[]");
+
+      action(mockDispatch);
+
+      expect(fetch.mock.calls).toHaveLength(1);
+      const [url] = fetch.mock.calls[0];
+      expect(url).toEqual("/api/grants");
+    });
+
+    it("dispatches the loadGrantsStarted", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.loadGrantsStarted());
+    });
+
+    it("dispatches the request started when calling the backend", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.requestStarted());
+    });
+
+    it("dispatches the request finished when request is done", done => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(actions.requestFinished());
+      });
+    });
+
+    it("dispatches grants when the request succeed", done => {
+      const grants: Grant[] = [];
+
+      fetch.mockResponseOnce(JSON.stringify(grants));
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          actions.loadGrantsSuccessful(grants)
+        );
       });
     });
   });

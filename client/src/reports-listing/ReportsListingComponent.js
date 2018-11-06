@@ -23,6 +23,7 @@ import HeaderComponent from "../page-layout/HeaderComponent";
 
 import type { Account } from "../authentication/models";
 import type { Report } from "../my-report/models";
+import BannerHeader from "../page-layout/BannerHeader";
 
 type Props = {
   classes: any,
@@ -121,6 +122,7 @@ export class ReportsListingComponent extends Component<
       tabValue: 0
     };
   }
+
   componentWillMount() {
     this.props.loadReports();
   }
@@ -376,10 +378,8 @@ export class ReportsListingComponent extends Component<
         <HeaderComponent logout={logout} account={account} />
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
-          <Grid item container xs={10} justify="center">
-            <Typography variant="h3" data-test-id="page-title">
-              Reports
-            </Typography>
+          <Grid item container xs={10}>
+            <BannerHeader>Reports</BannerHeader>
           </Grid>
         </Grid>
         <Grid container className={classes.rowContainer}>

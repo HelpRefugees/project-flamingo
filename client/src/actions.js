@@ -1,6 +1,7 @@
 import type { Dispatch } from "redux";
 
 import type { Report } from "./my-report/models";
+import type { Grant } from "./grants/models";
 import type { Credentials, Account } from "./authentication/models";
 
 export const loginSuccessful = (account: Account) => ({
@@ -155,6 +156,40 @@ export const updateReport = (report: Report, errorMessage: string) => (
     });
   });
   return promise;
+};
+
+export const loadGrantsStarted = () => ({
+  type: "LOAD_GRANTS_STARTED"
+});
+
+export const loadGrantsSuccessful = (grants: Grant[]) => ({
+  type: "LOAD_GRANTS_SUCCESS",
+  payload: grants
+});
+
+export const loadGrantsFailed = () => ({
+  type: "LOAD_GRANTS_FAILURE"
+});
+
+export const loadGrants = () => (dispatch: Dispatch<any>) => {
+  dispatch(loadGrantsStarted());
+  makeRequest(
+    dispatch,
+    "/api/grants",
+    {
+      method: "GET",
+      headers: { "content-type": "application/json" }
+    },
+    res => {
+      if (res.status === 200) {
+        return res.json().then((reports: any) => {
+          dispatch(loadGrantsSuccessful(reports));
+        });
+      } else {
+        dispatch(loadGrantsFailed());
+      }
+    }
+  );
 };
 
 export const appStarted = () => ({ type: "APP_STARTED" });

@@ -12,6 +12,7 @@ import {
 import { Link } from "react-router-dom";
 
 import type { Account } from "../authentication/models";
+import Navigation from "./Navigation";
 
 type Props = {
   classes: any,
@@ -61,40 +62,45 @@ export class HeaderComponent extends Component<Props, State> {
       <AppBar position="static" color="inherit">
         <Toolbar>
           <Grid container justify="space-between" alignItems="center">
-            <Link to={`/`}>
-              <img
-                data-test-id="logo"
-                src="/logo-wide.png"
-                alt="Help Refugees Logo"
-                className={classes.headerLogo}
-              />
-            </Link>
-            <Button
-              data-test-id="user-menu"
-              aria-owns={anchorElement ? "simple-menu" : null}
-              aria-haspopup="true"
-              onClick={this.expandMenu}
-              className={classes.userMenu}
-            >
-              <span data-test-id="user-name">
-                {account ? account.name : "No name"}
-              </span>
-              <Icon className={classes.icon}>arrow_drop_down</Icon>
-            </Button>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorElement}
-              open={Boolean(anchorElement)}
-              onClose={this.collapseMenu}
-            >
-              <MenuItem
-                data-test-id="logout-menuitem"
-                className={classes.menuItem}
-                onClick={this.logout}
+            <Grid item>
+              <Link to={`/`}>
+                <img
+                  data-test-id="logo"
+                  src="/logo-wide.png"
+                  alt="Help Refugees Logo"
+                  className={classes.headerLogo}
+                />
+              </Link>
+            </Grid>
+            <Grid item>
+              <Navigation />
+              <Button
+                data-test-id="user-menu"
+                aria-owns={anchorElement ? "simple-menu" : null}
+                aria-haspopup="true"
+                onClick={this.expandMenu}
+                className={classes.userMenu}
               >
-                Logout
-              </MenuItem>
-            </Menu>
+                <span data-test-id="user-name">
+                  {account ? account.name : "No name"}
+                </span>
+                <Icon className={classes.icon}>arrow_drop_down</Icon>
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorElement}
+                open={Boolean(anchorElement)}
+                onClose={this.collapseMenu}
+              >
+                <MenuItem
+                  data-test-id="logout-menuitem"
+                  className={classes.menuItem}
+                  onClick={this.logout}
+                >
+                  Logout
+                </MenuItem>
+              </Menu>
+            </Grid>
           </Grid>
         </Toolbar>
       </AppBar>

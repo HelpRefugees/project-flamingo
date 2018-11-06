@@ -1,6 +1,4 @@
 import React from "react";
-import { mount } from "enzyme";
-
 import type { Report } from "./models";
 import type { Account } from "../authentication/models";
 import { MyReportComponent } from "./MyReportComponent";
@@ -8,6 +6,7 @@ import MyReportHeader from "./MyReportHeader";
 import ReportViewComponent from "./ReportViewComponent";
 import { MemoryRouter } from "react-router-dom";
 import ButtonLink from "../page-layout/ButtonLink";
+import { mountWithProvider } from "../setupTests";
 
 describe("MyReportComponent", () => {
   let wrapper;
@@ -42,7 +41,7 @@ describe("MyReportComponent", () => {
   };
 
   beforeEach(() => {
-    wrapper = mount(
+    wrapper = mountWithProvider(
       <MemoryRouter>
         <MyReportComponent
           logout={mockLogout}

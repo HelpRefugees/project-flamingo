@@ -15,6 +15,10 @@ export default class BasePage {
     );
   }
 
+  login(username, password) {
+    cy.login(username, password);
+  }
+
   logout() {
     cy.get("body").then($body => {
       if ($body.find(this.userMenuSelector).length) {

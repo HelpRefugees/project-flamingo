@@ -8,6 +8,7 @@ const { configureAuth } = require("./auth");
 
 const infoRouter = require("./routes/info");
 const loginRouterFactory = require("./routes/login");
+const grantsRouterFactory = require("./routes/grants");
 const reportsRouterFactory = require("./routes/reports");
 
 const appFactory = (db, sessionStoreProvider) => {
@@ -41,6 +42,7 @@ const appFactory = (db, sessionStoreProvider) => {
   configureAuth(app, db);
 
   app.use(`${API_ROOT_PATH}/login`, loginRouterFactory(db));
+  app.use(`${API_ROOT_PATH}/grants`, grantsRouterFactory(db));
   app.use(`${API_ROOT_PATH}/reports`, reportsRouterFactory(db));
 
   app.use(express.static(path.join(__dirname, "static")));

@@ -1,6 +1,7 @@
 import reducers, { type State, initialState } from "./reducers";
+import { Account } from "./authentication/models";
 import type { Report } from "./my-report/models";
-import type { Account } from "./authentication/models";
+import type { Grant } from "./grants/models";
 
 describe("reducers", () => {
   const account: Account = {
@@ -186,5 +187,30 @@ describe("reducers", () => {
     });
 
     expect(nextState.environment).toBe(environment);
+  });
+
+  it("should handle LOAD_GRANTS_SUCCESS", () => {
+    const grants: Grant[] = [
+      {
+        name: "grant name",
+        grant: "hugh grant"
+      }
+    ];
+    const startingState: State = {
+      ...initialState,
+      account,
+      grants: undefined
+    };
+    const expectedState: State = {
+      ...startingState,
+      grants
+    };
+
+    expect(
+      reducers(startingState, {
+        type: "LOAD_GRANTS_SUCCESS",
+        payload: grants
+      })
+    ).toEqual(expectedState);
   });
 });

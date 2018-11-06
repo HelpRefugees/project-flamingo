@@ -19,6 +19,7 @@ import NotFound from "./authorization/NotFound";
 import Forbidden from "./authorization/Forbidden";
 import MyReportPage from "./my-report/MyReportPage";
 import withErrorHandler from "./withErrorHandler";
+import GrantsListingPage from "./grants/GrantsListingPage";
 
 const mapStateToProps = (state: State) => {
   return {
@@ -40,6 +41,14 @@ export class App extends Component<Props> {
           <CssBaseline />
           <Switch>
             <Route exact path="/" component={LoginPage} />
+
+            <PrivateRoute
+              path="/grants"
+              allowed={["help-refugees"]}
+              component={withErrorHandler(GrantsListingPage)}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
 
             <PrivateRoute
               path="/reports/:id"
