@@ -1,18 +1,18 @@
 import React, { Component, Fragment } from "react";
 import {
+  Badge,
+  Chip,
   Grid,
   Paper,
+  Tab,
   Table,
-  TableHead,
   TableBody,
   TableCell,
+  TableHead,
   TableRow,
-  Typography,
-  withStyles,
   Tabs,
-  Tab,
-  Chip,
-  Badge
+  Typography,
+  withStyles
 } from "@material-ui/core";
 
 import moment from "moment";
@@ -33,29 +33,36 @@ type Props = {
   history: any
 };
 
+const defaultText = {
+  fontSize: 14,
+  fontFamily: `"Open Sans", sans-serif`
+};
+
+// https://react-select.com/styles
 const grantNameFilterControlStyles = {
-  control: styles => {
-    return {
-      ...styles,
-      backgroundColor: "#f5f5f5",
-      border: "none",
-      boxShadow: "none"
-    };
-  },
-  option: (styles, props) => {
-    return {
-      ...styles,
-      backgroundColor: props.isSelected
-        ? "#00857b"
-        : props.isFocused
-          ? "#f5f5f5"
-          : "white",
-      color: props.isSelected ? "white" : "black",
-      ":active": {
-        backgroundColor: props.isSelected ? null : "#f5f5f5"
-      }
-    };
-  }
+  control: styles => ({
+    ...styles,
+    backgroundColor: "#f5f5f5",
+    border: "none",
+    boxShadow: "none"
+  }),
+  placeholder: styles => ({
+    ...styles,
+    ...defaultText
+  }),
+  option: (styles, props) => ({
+    ...styles,
+    ...defaultText,
+    backgroundColor: props.isSelected
+      ? "#00857b"
+      : props.isFocused
+        ? "#f5f5f5"
+        : "white",
+    color: props.isSelected ? "white" : "black",
+    ":active": {
+      backgroundColor: props.isSelected ? null : "#f5f5f5"
+    }
+  })
 };
 
 const styles = theme => ({
@@ -73,48 +80,18 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit,
     borderRadius: theme.spacing.unit / 2
   },
-  select: {
-    indicator: {
-      textTransform: "uppercase",
-      fontFamily: "Open Sans",
-      fontWeight: "bold",
-      letterSpacing: 0.1,
-      paddingTop: theme.spacing.unit * 2,
-      paddingBottom: theme.spacing.unit * 4,
-
-      color: "#00857b",
-      fontSize: "14px",
-      margin: "0"
-    }
-  },
-  tabHeader: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    borderRight: "solid 1px #e5e5e5",
-    borderBottom: "solid 1px #e5e5e5",
-    fontSize: "14px",
-    margin: "0",
-    fontWeight: "bold"
-  },
   rowContainer: {
     marginTop: theme.spacing.unit * 4
   },
   messagePaper: {
     textAlign: "center",
     paddingTop: theme.spacing.unit * 3,
-    paddingBottom: theme.spacing.unit * 3,
-    boxShadow: "none"
-  },
-  tablePaper: {
-    boxShadow: "none"
-  },
-  tableHead: {
-    height: "25px"
+    paddingBottom: theme.spacing.unit * 3
   },
   tableCellDiv: {
-    margin: "2px",
+    margin: 2,
     borderLeft: "1px solid #d9d9d9",
-    paddingLeft: "24px"
+    paddingLeft: theme.spacing.unit * 3
   },
   row: {
     cursor: "pointer"
@@ -222,7 +199,7 @@ export class ReportsListingComponent extends Component<
   }) {
     return (
       <Table data-test-id={reportSelector}>
-        <TableHead className={classes.tableHead}>
+        <TableHead>
           <TableRow>
             <TableCell className={classes.grantNameCell}>
               <div>Grant</div>
@@ -336,7 +313,7 @@ export class ReportsListingComponent extends Component<
         : this.noReportsMessage(classes, "Good news!", "No reports are late");
 
     return (
-      <Paper className={classes.tablePaper}>
+      <Paper>
         <Grid container justify="space-between">
           <Tabs
             indicatorColor="primary"
@@ -352,13 +329,11 @@ export class ReportsListingComponent extends Component<
             <Tab
               tabIndex={0}
               data-test-id="submitted-reports-tab"
-              className={classes.tabHeader}
               label="Submitted reports"
             />
             <Tab
               tabIndex={1}
               data-test-id="overdue-reports-tab"
-              className={classes.tabHeader}
               label={this.renderLateReportsLabel()}
             />
           </Tabs>
@@ -368,7 +343,6 @@ export class ReportsListingComponent extends Component<
             className={classes.grantNameFilter}
           >
             <Select
-              className={classes.Select}
               key={this.getSelectedFilterValue()}
               styles={grantNameFilterControlStyles}
               options={this.getFilterOptions()}

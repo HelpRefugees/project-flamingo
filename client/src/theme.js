@@ -56,6 +56,23 @@ export default createMuiTheme({
     MuiPaper: {
       root: {
         boxShadow: "none"
+      },
+      elevation2: {
+        // default elevation is 2
+        boxShadow: "none"
+      }
+    },
+    MuiTab: {
+      root: {
+        borderRight: "solid 1px #e5e5e5",
+        borderBottom: "solid 1px #e5e5e5",
+        paddingTop: defaultTheme.spacing.unit * 2,
+        paddingBottom: defaultTheme.spacing.unit * 2,
+        margin: 0
+      },
+      label: {
+        fontSize: 14,
+        fontWeight: 600
       }
     },
     MuiTable: {
