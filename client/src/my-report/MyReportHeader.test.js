@@ -31,7 +31,6 @@ describe("MyReportHeader", () => {
   beforeEach(() => {
     wrapper = shallow(
       <MyReportHeader
-        classes={{}}
         report={report}
         account={{ name: "", username: "", role: "" }}
         children={{}}

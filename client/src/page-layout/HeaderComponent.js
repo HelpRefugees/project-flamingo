@@ -24,9 +24,6 @@ type State = {
 };
 
 const styles = theme => ({
-  header: {
-    boxShadow: "none"
-  },
   headerLogo: {
     margin: theme.spacing.unit,
     maxHeight: "45px"
@@ -61,7 +58,7 @@ export class HeaderComponent extends Component<Props, State> {
     const { classes, account } = this.props;
     const { anchorElement } = this.state;
     return (
-      <AppBar position="static" color="inherit" className={classes.header}>
+      <AppBar position="static" color="inherit">
         <Toolbar>
           <Grid container justify="space-between" alignItems="center">
             <Link to={`/`}>

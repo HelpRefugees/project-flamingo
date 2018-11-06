@@ -1,12 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
-import {
-  Grid,
-  withStyles,
-  AppBar,
-  Toolbar,
-  Typography
-} from "@material-ui/core";
+import { Grid, AppBar, Toolbar, Typography } from "@material-ui/core";
 import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
@@ -15,7 +9,6 @@ import type { Account } from "../authentication/models";
 import type { Report } from "../my-report/models";
 
 type Props = {
-  classes: any,
   logout: () => void,
   account: Account,
   reports: Report[],
@@ -23,34 +16,6 @@ type Props = {
 };
 
 type State = {};
-
-const styles = themes => ({
-  definitionListTitle: {
-    fontSize: "10px",
-    letterSpacing: "1.5px",
-    color: "#757c80",
-    textTransform: "uppercase",
-    marginBottom: "8px",
-    borderTop: "solid 1px #e5e5e5",
-    paddingTop: "16px"
-  },
-  definitonListItem: {
-    fontSize: "14px",
-    lineHeight: "1.43",
-    color: "#393e40",
-    margin: "0 0 24px"
-  },
-  activityName: {
-    fontWeight: "600",
-    fontSize: "20px",
-    color: "#393e40"
-  },
-  appbar: {
-    boxShadow: "none",
-    justifyContent: "space-between",
-    marginTop: "1px"
-  }
-});
 
 export class SubmittedReportComponent extends Component<Props, State> {
   get report(): Report {
@@ -61,7 +26,7 @@ export class SubmittedReportComponent extends Component<Props, State> {
   }
 
   render() {
-    const { classes, account, logout } = this.props;
+    const { account, logout } = this.props;
     const report = this.report;
     if (!report) {
       return <Redirect to="/notFound" />;
@@ -69,14 +34,14 @@ export class SubmittedReportComponent extends Component<Props, State> {
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
-        <AppBar position="static" color="inherit" className={classes.appbar}>
+        <AppBar position="static" color="inherit">
           <Toolbar>
             <Grid container justify="space-between">
               <Grid item container direction="column" xs={3}>
                 <Typography color="textSecondary" variant="caption">
                   Grant
                 </Typography>
-                <Typography data-test-id="report-grant-name">
+                <Typography data-test-id="report-grant-name" variant="body1">
                   {report.grant}
                 </Typography>
               </Grid>
@@ -88,7 +53,11 @@ export class SubmittedReportComponent extends Component<Props, State> {
                 >
                   Submission Date
                 </Typography>
-                <Typography data-test-id="report-submission-date" align="right">
+                <Typography
+                  data-test-id="report-submission-date"
+                  align="right"
+                  variant="body1"
+                >
                   {report.submissionDate
                     ? moment(report.submissionDate).format("DD/MM/YYYY")
                     : ""}
@@ -103,4 +72,4 @@ export class SubmittedReportComponent extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(SubmittedReportComponent);
+export default SubmittedReportComponent;

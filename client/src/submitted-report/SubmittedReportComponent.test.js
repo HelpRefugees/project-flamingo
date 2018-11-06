@@ -59,7 +59,6 @@ describe("SubmittedReportComponent", () => {
       <SubmittedReportComponent
         logout={mockLogout}
         match={{ params: { id: "1" } }}
-        classes={{}}
         reports={[report1, report2]}
         account={account}
       />

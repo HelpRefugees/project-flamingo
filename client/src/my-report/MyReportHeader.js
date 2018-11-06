@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  withStyles,
-  Grid,
-  AppBar,
-  Toolbar,
-  Typography
-} from "@material-ui/core";
+import { AppBar, Grid, Toolbar, Typography } from "@material-ui/core";
 import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
@@ -14,19 +8,10 @@ import type { Account } from "../authentication/models";
 
 type Props = {
   report: Report,
-  classes: any,
   account: Account,
   logout: () => void,
   children: any
 };
-
-const styles = () => ({
-  appBar: {
-    boxShadow: "none",
-    justifyContent: "space-between",
-    marginTop: "1px"
-  }
-});
 
 export class MyReportHeader extends Component<Props> {
   renderReportPeriod() {
@@ -36,7 +21,7 @@ export class MyReportHeader extends Component<Props> {
         <Typography color="textSecondary" variant="caption">
           Period
         </Typography>
-        <Typography data-test-id="report-period">
+        <Typography data-test-id="report-period" variant="body1">
           {moment(report.reportPeriod).format("MMMM YYYY")}
         </Typography>
       </>
@@ -50,7 +35,7 @@ export class MyReportHeader extends Component<Props> {
         <Typography color="textSecondary" variant="caption">
           Submission date
         </Typography>
-        <Typography data-test-id="report-submission-date">
+        <Typography data-test-id="report-submission-date" variant="body1">
           {moment(report.submissionDate).format("DD/MM/YYYY")}
         </Typography>
       </>
@@ -58,11 +43,11 @@ export class MyReportHeader extends Component<Props> {
   }
 
   render() {
-    const { classes, account, logout, report, children } = this.props;
+    const { account, logout, report, children } = this.props;
     return (
       <>
         <HeaderComponent logout={logout} account={account} />
-        <AppBar position="static" color="inherit" className={classes.appBar}>
+        <AppBar position="static" color="inherit">
           <Toolbar>
             <Grid container direction="row" justify="space-between">
               <Grid
@@ -78,7 +63,7 @@ export class MyReportHeader extends Component<Props> {
                   <Typography color="textSecondary" variant="caption">
                     Grant
                   </Typography>
-                  <Typography data-test-id="report-grant-name">
+                  <Typography data-test-id="report-grant-name" variant="body1">
                     {report.grant}
                   </Typography>
                 </Grid>
@@ -107,4 +92,4 @@ export class MyReportHeader extends Component<Props> {
   }
 }
 
-export default withStyles(styles)(MyReportHeader);
+export default MyReportHeader;

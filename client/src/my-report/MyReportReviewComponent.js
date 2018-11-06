@@ -26,17 +26,12 @@ const styles = theme => ({
   rowContainer: {
     marginTop: theme.spacing.unit * 4
   },
-  centeredTitle: {
-    color: "#404040",
-    textAlign: "center",
-    letterSpacing: "0.3px"
+  centered: {
+    textAlign: "center"
   },
-  centeredSubtitle: {
+  subtitle: {
     color: "#989898",
     textAlign: "center",
-    letterSpacing: "0.1px",
-    fontSize: "14px",
-    lineHeight: "1.71",
     marginTop: theme.spacing.unit
   }
 });
@@ -99,19 +94,20 @@ export class MyReportReviewComponent extends Component<Props> {
         >
           <Grid item>
             <Typography
-              variant="h4"
+              variant="h3"
               data-test-id="page-title"
-              className={classes.centeredTitle}
+              className={classes.centered}
             >
               Review your report
             </Typography>
           </Grid>
           <Grid item>
             <Typography
-              data-test-id="page-title"
-              className={classes.centeredSubtitle}
+              data-test-id="page-subtitle"
+              className={`${classes.centered} ${classes.subtitle}`}
             >
-              Please review all the section of your report before submitting it.
+              Please review all of the sections of your report before submitting
+              it.
             </Typography>
           </Grid>
         </Grid>

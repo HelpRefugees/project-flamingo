@@ -13,10 +13,8 @@ const styles = themes => ({
     borderTop: "solid 1px #e5e5e5",
     paddingTop: "16px"
   },
-  definitonListItem: {
-    fontSize: "14px",
+  definitionListItem: {
     lineHeight: "1.43",
-    color: "#393e40",
     margin: "0 0 24px"
   },
   activityName: {
@@ -35,10 +33,6 @@ const styles = themes => ({
   outerContainer: {
     height: "100vh",
     marginTop: themes.spacing.unit * 5
-  },
-  headerText: {
-    color: "#404040",
-    fontSize: "24px"
   },
   rule: {
     marginTop: themes.spacing.unit * 2,
@@ -82,12 +76,9 @@ export class ReportViewComponent extends React.PureComponent<{
       >
         <Grid container direction="column" spacing={32}>
           <Grid item>
-            <h1
-              data-test-id="report-section-title"
-              className={classes.headerText}
-            >
+            <Typography variant="h4" data-test-id="report-section-title">
               Key activities & impact
-            </h1>
+            </Typography>
             <hr className={classes.rule} />
           </Grid>
           {report.keyActivities.map((activity, index) => (
@@ -104,7 +95,7 @@ export class ReportViewComponent extends React.PureComponent<{
                 </dt>
                 <dd
                   data-test-id="report-number-of-participants"
-                  className={classes.definitonListItem}
+                  className={classes.definitionListItem}
                 >
                   {activity.numberOfParticipants || ""}
                 </dd>
@@ -113,7 +104,7 @@ export class ReportViewComponent extends React.PureComponent<{
                 </dt>
                 <dd
                   data-test-id="report-demographic-info"
-                  className={classes.definitonListItem}
+                  className={classes.definitionListItem}
                 >
                   {activity.demographicInfo || ""}
                 </dd>
@@ -122,7 +113,7 @@ export class ReportViewComponent extends React.PureComponent<{
                 </dt>
                 <dd
                   data-test-id="report-impact-outcome"
-                  className={classes.definitonListItem}
+                  className={classes.definitionListItem}
                 >
                   {this.formatParagraph(activity.impactOutcome || "")}
                 </dd>
@@ -144,12 +135,9 @@ export class ReportViewComponent extends React.PureComponent<{
       >
         <Grid container direction="column" spacing={32}>
           <Grid item>
-            <h1
-              data-test-id="report-section-title"
-              className={classes.headerText}
-            >
+            <Typography variant="h4" data-test-id="report-section-title">
               {title}
-            </h1>
+            </Typography>
             <hr className={classes.rule} />
           </Grid>
           <Grid item>

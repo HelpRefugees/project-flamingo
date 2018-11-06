@@ -47,11 +47,6 @@ const styles = themes => ({
   outerContainer: {
     height: "100vh",
     marginTop: themes.spacing.unit * 5
-  },
-  appbar: {
-    boxShadow: "none",
-    justifyContent: "space-between",
-    marginTop: "1px"
   }
 });
 
@@ -196,7 +191,7 @@ export class MyReportEditComponent extends Component<Props, State> {
 
   renderToolbar = (classes: any, report: Report) => {
     return (
-      <AppBar position="static" color="inherit" className={classes.appbar}>
+      <AppBar position="static" color="inherit">
         <Toolbar>
           <Grid container justify="space-between">
             <Grid
@@ -212,7 +207,7 @@ export class MyReportEditComponent extends Component<Props, State> {
                 <Typography color="textSecondary" variant="caption">
                   Grant
                 </Typography>
-                <Typography data-test-id="report-grant-name">
+                <Typography data-test-id="report-grant-name" variant="body1">
                   {report.grant}
                 </Typography>
               </Grid>
@@ -220,7 +215,7 @@ export class MyReportEditComponent extends Component<Props, State> {
                 <Typography color="textSecondary" variant="caption">
                   Period
                 </Typography>
-                <Typography data-test-id="report-period">
+                <Typography data-test-id="report-period" variant="body1">
                   {moment(report.reportPeriod).format("MMMM YYYY")}
                 </Typography>
               </Grid>

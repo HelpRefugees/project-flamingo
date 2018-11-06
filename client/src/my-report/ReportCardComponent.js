@@ -112,7 +112,7 @@ export class ReportCardComponent extends Component<Props> {
               <Typography color="textSecondary" variant="caption">
                 Grant
               </Typography>
-              <Typography data-test-id="report-grant-name">
+              <Typography data-test-id="report-grant-name" variant="body1">
                 {report.grant}
               </Typography>
             </Grid>
@@ -126,7 +126,7 @@ export class ReportCardComponent extends Component<Props> {
                 <Typography color="textSecondary" variant="caption">
                   Period
                 </Typography>
-                <Typography data-test-id="report-period">
+                <Typography data-test-id="report-period" variant="body1">
                   {moment(report.reportPeriod).format("MMMM YYYY")}
                 </Typography>
               </Grid>

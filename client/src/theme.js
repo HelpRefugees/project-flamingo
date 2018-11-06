@@ -26,15 +26,18 @@ export default createMuiTheme({
     allVariants: {
       color: "#404040"
     },
-    h3: { fontSize: 34 },
+    h3: { fontSize: 34, letterSpacing: 0.3 },
     h4: { fontSize: 24 },
-    body2: { fontSize: 16 },
+    body1: { fontSize: 16 },
+    body2: { fontSize: 14 },
     caption: { fontSize: 10, textTransform: "uppercase" }
   },
   overrides: {
-    MuiChip: {
+    MuiAppBar: {
       root: {
-        fontWeight: 600
+        boxShadow: "none",
+        justifyContent: "space-between",
+        marginTop: 1
       }
     },
     MuiButton: {
@@ -42,6 +45,17 @@ export default createMuiTheme({
         fontSize: 14,
         fontWeight: 600,
         letterSpacing: 0.8
+      }
+    },
+    MuiChip: {
+      root: {
+        fontSize: 12,
+        fontWeight: 600
+      }
+    },
+    MuiPaper: {
+      root: {
+        boxShadow: "none"
       }
     },
     MuiTable: {
@@ -61,6 +75,11 @@ export default createMuiTheme({
     MuiTableRow: {
       head: {
         height: defaultTheme.spacing.unit * 4
+      }
+    },
+    MuiToolbar: {
+      root: {
+        boxShadow: "none"
       }
     }
   }
