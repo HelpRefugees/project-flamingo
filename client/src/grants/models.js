@@ -1,4 +1,5 @@
 export type Grant = {
   name: string,
-  grant: string
+  grant: string,
+  username: string
 };

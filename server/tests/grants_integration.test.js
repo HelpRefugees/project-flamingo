@@ -75,6 +75,7 @@ describe("grants endpoint", () => {
         expect(response.statusCode).toBe(200);
         expect(response.body).toEqual([
           {
+            username: "user@flamingo.life",
             grant: "some grant",
             name: "some name"
           }

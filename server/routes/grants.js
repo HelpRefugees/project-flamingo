@@ -17,7 +17,7 @@ module.exports = db => {
             role: "implementing-partner"
           },
           {
-            projection: { _id: 0, grant: 1, name: 1 }
+            projection: { _id: 0, grant: 1, name: 1, username: 1 }
           }
         )
         .toArray();

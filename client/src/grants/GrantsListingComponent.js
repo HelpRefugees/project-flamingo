@@ -38,6 +38,7 @@ export class GrantsListingComponent extends Component<Props> {
       <TableRow data-test-id="report" key={index}>
         <TableCell data-test-id="grant-name">{grant.name}</TableCell>
         <TableCell data-test-id="grant-organisation">{grant.grant}</TableCell>
+        <TableCell data-test-id="grant-username">{grant.username}</TableCell>
       </TableRow>
     ));
   }
@@ -63,6 +64,9 @@ export class GrantsListingComponent extends Component<Props> {
                     </TableCell>
                     <TableCell className={classes.tableReportGrant}>
                       Grant
+                    </TableCell>
+                    <TableCell className={classes.tableReportGrant}>
+                      Account Name
                     </TableCell>
                   </TableRow>
                 </TableHead>

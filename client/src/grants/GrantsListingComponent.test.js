@@ -28,7 +28,7 @@ describe("GrantsListingComponent", () => {
 
   describe("grants", () => {
     it("renders the list of grants", () => {
-      const grants = [{ grant: "grant", name: "name" }];
+      const grants = [{ grant: "grant", name: "name", username: "a username" }];
       const wrapper = shallow(
         <GrantsListingComponent
           loadGrants={() => {}}
@@ -52,6 +52,13 @@ describe("GrantsListingComponent", () => {
           .render()
           .text()
       ).toEqual("grant");
+
+      expect(
+        wrapper
+          .find('[data-test-id="grant-username"]')
+          .render()
+          .text()
+      ).toEqual("a username");
     });
   });
 });

@@ -8,9 +8,27 @@ export default class GrantsListingPage extends BasePage {
     cy.get(testId("nav-link-grants")).click();
   }
 
-  grantAt(index) {
+  grantAt(index, callback) {
     return cy
-      .get('[data-test-id="grant-list"] [data-test-id="grant-name"]')
-      .eq(index);
+      .get(testId("grant-list"))
+      .within(() => callback(new GrantListItemPage(index)));
+  }
+}
+
+export class GrantListItemPage {
+  constructor(index) {
+    this.index = index;
+  }
+
+  get name() {
+    return cy.get(testId("grant-name")).eq(this.index);
+  }
+
+  get organisation() {
+    return cy.get(testId("grant-organisation")).eq(this.index);
+  }
+
+  get username() {
+    return cy.get(testId("grant-username")).eq(this.index);
   }
 }

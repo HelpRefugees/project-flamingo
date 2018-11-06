@@ -193,7 +193,8 @@ describe("reducers", () => {
     const grants: Grant[] = [
       {
         name: "grant name",
-        grant: "hugh grant"
+        grant: "hugh grant",
+        username: "some user"
       }
     ];
     const startingState: State = {
