@@ -64,8 +64,8 @@ export default createMuiTheme({
     },
     MuiTab: {
       root: {
-        borderRight: "solid 1px #e5e5e5",
-        borderBottom: "solid 1px #e5e5e5",
+        borderRight: "1px solid #e5e5e5",
+        borderBottom: "1px solid #e5e5e5",
         paddingTop: defaultTheme.spacing.unit * 2,
         paddingBottom: defaultTheme.spacing.unit * 2,
         margin: 0

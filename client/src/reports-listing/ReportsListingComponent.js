@@ -76,7 +76,7 @@ const styles = theme => ({
   grantNameFilter: {
     minWidth: theme.spacing.unit * 35,
     paddingRight: theme.spacing.unit * 3.5,
-    paddingTop: theme.spacing.unit,
+    paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit,
     borderRadius: theme.spacing.unit / 2
   },
@@ -87,6 +87,12 @@ const styles = theme => ({
     textAlign: "center",
     paddingTop: theme.spacing.unit * 3,
     paddingBottom: theme.spacing.unit * 3
+  },
+  underlined: {
+    borderBottom: "1px solid #e5e5e5"
+  },
+  grow: {
+    flexGrow: 1
   },
   tableCellDiv: {
     margin: 2,
@@ -337,10 +343,11 @@ export class ReportsListingComponent extends Component<
               label={this.renderLateReportsLabel()}
             />
           </Tabs>
+          <div className={`${classes.underlined} ${classes.grow}`}>&nbsp;</div>
           <Grid
             item
             data-test-id="grant-name-filter"
-            className={classes.grantNameFilter}
+            className={`${classes.grantNameFilter} ${classes.underlined}`}
           >
             <Select
               key={this.getSelectedFilterValue()}
