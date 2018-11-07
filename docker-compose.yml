@@ -4,10 +4,13 @@ services:
     build: .
     image: flamingo/flamingo
     environment:
-      - DEBUG=*
+      - DEBUG=server
       - DATABASE_URL=mongodb://flamongo:27017/flamingo
+      - EMAIL_WEBHOOK=http://zapier
+      - NODE_ENV=development  # no https
     links:
       - flamongo
+      - zapier
   cypress:
     build:
       context: .
@@ -21,3 +24,8 @@ services:
       - flamongo
   flamongo:
     image: mongo:4-xenial
+  zapier:
+    build:
+      context: .
+      dockerfile: ./e2e/fixtures/Dockerfile
+    image: flamingo/zapier
