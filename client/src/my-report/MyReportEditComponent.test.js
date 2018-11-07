@@ -9,7 +9,7 @@ import ReportSectionComponent from "./ReportSectionComponent";
 import ActivitiesSectionComponent from "./ActivitiesSectionComponent";
 import { assertLater } from "../testHelpers";
 
-describe("MyReportEditComponent", () => {
+describe.only("MyReportEditComponent", () => {
   const sectionIndices = {
     grantProgress: 0,
     operatingEnvironment: 1,
@@ -20,10 +20,13 @@ describe("MyReportEditComponent", () => {
     otherIssues: 5,
     materialsForFundraising: 6
   };
+
   let wrapper;
   let mockUpdateReport;
   let mockLogout;
   let mockHistoryPush;
+  let mockloadReportDetails;
+  let mockUrlParams;
 
   const isLoading = false;
 
@@ -58,6 +61,8 @@ describe("MyReportEditComponent", () => {
     mockUpdateReport = jest.fn().mockImplementation(() => Promise.resolve());
     mockLogout = jest.fn();
     mockHistoryPush = jest.fn();
+    mockloadReportDetails = jest.fn();
+    mockUrlParams = { params: { id: report.id } }
 
     wrapper = shallow(
       <MyReportEditComponent
@@ -68,9 +73,15 @@ describe("MyReportEditComponent", () => {
         history={{ push: mockHistoryPush }}
         account={account}
         isLoading={isLoading}
+        loadReportDetails={mockloadReportDetails}
+        match={mockUrlParams}
       />
     );
   });
+
+  it("invokes load report details on component mounting", () => {
+    expect(mockloadReportDetails).toHaveBeenCalledWith(report.id);
+  })
 
   it("renders a header component and passes the logout method and the account to it", () => {
     expect(wrapper.find(HeaderComponent).prop("logout")).toBe(mockLogout);

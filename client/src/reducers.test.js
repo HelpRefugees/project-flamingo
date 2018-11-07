@@ -136,13 +136,49 @@ describe("reducers", () => {
     });
 
     const newReports: Report[] = (finishingState.reports: any);
-    expect(
-      newReports.find(report => report.id === reportToBeEdited.id)
-    ).toEqual(reportAfterEditing);
-    expect(
-      newReports.find(report => report.id === reportNotToBeEdited.id)
-    ).toEqual(reportNotToBeEdited);
-  });
+
+  expect(
+    newReports.find(report => report.id === reportToBeEdited.id)
+  ).toEqual(reportAfterEditing);
+
+  expect(
+    newReports.find(report => report.id === reportNotToBeEdited.id)
+  ).toEqual(reportNotToBeEdited);
+
+});
+
+it("should handle LOAD_REPORT_DETAILS_SUCCESS", () => {
+  const report: Report = {
+    grant: "hugh grant",
+    overview: "",
+    completed: false,
+    id: 1,
+    reportPeriod: "2018-10-01T00:00:00.000Z",
+    keyActivities: [{}],
+    operatingEnvironment: "",
+    beneficiaryFeedback: "",
+    challengesFaced: "",
+    incidents: "",
+    otherIssues: ""
+  }
+
+  const startingState: State = {
+    ...initialState,
+    currentReport: null
+  };
+
+  const expectedState: State = {
+    ...startingState,
+    currentReport: report
+  };
+
+  expect(reducers(startingState, {
+    type: "LOAD_REPORT_DETAILS_SUCCESS",
+    payload: report
+  })).toEqual(expectedState)
+})
+
+describe("UI state actions", () => {
 
   it("should handle SET_LOADING", () => {
     expect(reducers(initialState, { type: "SET_LOADING" }).isLoading).toBe(
@@ -176,4 +212,5 @@ describe("reducers", () => {
       ).errorMessage
     ).toBeUndefined();
   });
+});
 });

@@ -39,45 +39,76 @@ describe("reports endpoint", () => {
     }
   };
 
+  const reports = [
+    {
+      id: 1,
+      completed: false,
+      overview: "",
+      grant: "Grant Mitchell",
+      owner: implementingPartner.username,
+      keyActivities: [{}]
+    },
+    {
+      id: 2,
+      completed: false,
+      overview: "",
+      grant: "Hugh Grant",
+      owner: "a third person",
+      keyActivities: [{}]
+    },
+    {
+      id: 3,
+      completed: true,
+      overview: "this report is completed",
+      grant: "Grant Mitchell",
+      owner: implementingPartner.username,
+      keyActivities: [{}],
+      submissionDate: "2018-10-10T10:10:10.101ZZ"
+    },
+    {
+      id: 4,
+      completed: false,
+      overview: "this report is completed",
+      grant: "Grant Mitchell",
+      owner: implementingPartner.username,
+      keyActivities: [{}],
+      dueDate: "2018-10-20T03:24:00.000Z",
+      reportPeriod: "2018-10-01T00:00:00.000Z"
+    }
+  ];
+  const expetedReports = [
+    {
+      id: 1,
+      completed: false,
+      overview: "",
+      grant: "Grant Mitchell",
+      owner: implementingPartner.username,
+      keyActivities: [{}]
+    },
+    {
+      id: 3,
+      completed: true,
+      overview: "this report is completed",
+      grant: "Grant Mitchell",
+      owner: implementingPartner.username,
+      keyActivities: [{}],
+      submissionDate: "2018-10-10T10:10:10.101ZZ"
+    },
+    {
+      id: 4,
+      completed: false,
+      overview: "this report is completed",
+      grant: "Grant Mitchell",
+      owner: implementingPartner.username,
+      keyActivities: [{}],
+      dueDate: "2018-10-20T03:24:00.000Z",
+      reportPeriod: "2018-10-01T00:00:00.000Z"
+    }
+  ]
+
   beforeEach(async () => {
     await safeDrop("reports");
-    await global.DATABASE.collection("reports").insertMany([
-      {
-        id: 1,
-        completed: false,
-        overview: "",
-        grant: "Grant Mitchell",
-        owner: implementingPartner.username,
-        keyActivities: [{}]
-      },
-      {
-        id: 2,
-        completed: false,
-        overview: "",
-        grant: "Hugh Grant",
-        owner: "a third person",
-        keyActivities: [{}]
-      },
-      {
-        id: 3,
-        completed: true,
-        overview: "this report is completed",
-        grant: "Grant Mitchell",
-        owner: implementingPartner.username,
-        keyActivities: [{}],
-        submissionDate: "2018-10-10T10:10:10.101ZZ"
-      },
-      {
-        id: 4,
-        completed: false,
-        overview: "this report is completed",
-        grant: "Grant Mitchell",
-        owner: implementingPartner.username,
-        keyActivities: [{}],
-        dueDate: "2018-10-20T03:24:00.000Z",
-        reportPeriod: "2018-10-01T00:00:00.000Z"
-      }
-    ]);
+    await global.DATABASE.collection("reports").insertMany(reports);
 
     await safeDrop("users");
     await global.DATABASE.collection("users").insertMany([
@@ -133,36 +164,21 @@ describe("reports endpoint", () => {
     test("GET returns the list of current reports", async () => {
       const response = await agent.get("/api/reports");
       expect(response.statusCode).toBe(200);
-      expect(response.body).toEqual([
-        {
-          id: 1,
-          completed: false,
-          overview: "",
-          grant: "Grant Mitchell",
-          owner: implementingPartner.username,
-          keyActivities: [{}]
-        },
-        {
-          id: 3,
-          completed: true,
-          overview: "this report is completed",
-          grant: "Grant Mitchell",
-          owner: implementingPartner.username,
-          keyActivities: [{}],
-          submissionDate: "2018-10-10T10:10:10.101ZZ"
-        },
-        {
-          id: 4,
-          completed: false,
-          overview: "this report is completed",
-          grant: "Grant Mitchell",
-          owner: implementingPartner.username,
-          keyActivities: [{}],
-          dueDate: "2018-10-20T03:24:00.000Z",
-          reportPeriod: "2018-10-01T00:00:00.000Z"
-        }
-      ]);
+      expect(response.body).toEqual(expetedReports);
     });
+
+    test("GET returns my report details by Id", async () => {
+      const respose = await agent.get(`/api/reports/${reports[2].id}`);
+      expect(respose.statusCode).toBe(200);
+      expect(respose.body).toEqual({
+        id: 3,
+        completed: true,
+        overview: "this report is completed",
+        grant: "Grant Mitchell",
+        keyActivities: [{}],
+        submissionDate: "2018-10-10T10:10:10.101ZZ"
+      });
+    })
 
     test("PATCH updates the report", async () => {
       const submittedReport = {

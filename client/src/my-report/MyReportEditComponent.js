@@ -14,7 +14,7 @@ import moment from "moment";
 
 import ReportSectionComponent from "./ReportSectionComponent";
 
-import type { Report } from "./models";
+import { type Report } from "./models";
 import ActivitiesSectionComponent from "./ActivitiesSectionComponent";
 import { type Account } from "../authentication/models";
 import { type KeyActivity } from "./models";
@@ -26,7 +26,8 @@ type Props = {
   report: Report,
   history: any,
   account: Account,
-  isLoading: boolean
+  isLoading: boolean,
+  loadReportDetails: (id: number) => void
 };
 
 const styles = themes => ({
@@ -154,6 +155,11 @@ export class MyReportEditComponent extends Component<Props, State> {
     };
   }
 
+  componentWillMount() {
+    const reportId = parseInt(this.props.match.params.id, 10);
+    this.props.loadReportDetails(reportId);
+  }
+
   reviewAndSubmitReport = () => {
     const { report } = this.props;
     this.props
@@ -262,137 +268,140 @@ export class MyReportEditComponent extends Component<Props, State> {
           [sectionName]: {
             ...section,
             [key]: (event.target: window.HTMLInputElement).value
-          }
-        });
-      } else {
-        this.setState({
-          ...this.state,
-          [key]: (event.target: window.HTMLInputElement).value
-        });
+      }
+    });
+  } else {
+  this.setState({
+    ...this.state,
+    [key]: (event.target: window.HTMLInputElement).value
+});
       }
     };
   }
 
-  isSaveButtonDisabled({
-    reportPropertyValue,
-    statePropertyValue,
+isSaveButtonDisabled({
+  reportPropertyValue,
+  statePropertyValue,
+  isLoading
+}: any) {
+  return isLoading || statePropertyValue === reportPropertyValue;
+}
+
+renderTextareaSection({
+  key,
+  stateProperty,
+  title,
+  subtitle,
+  inputKey,
+  placeholder,
+  optional
+}: any) {
+  const { report, isLoading } = this.props;
+  const isDisabled = this.isSaveButtonDisabled({
+    reportPropertyValue: report[stateProperty],
+    statePropertyValue: this.state[stateProperty],
     isLoading
-  }: any) {
-    return isLoading || statePropertyValue === reportPropertyValue;
-  }
+  });
+  return (
+    <ReportSectionComponent
+      data-test-id={key}
+      title={title}
+      subtitle={subtitle}
+      disabled={isDisabled}
+      onSave={this.saveReport(stateProperty)}
+      optional={optional}
+    >
+      <OutlinedInput
+        data-test-id={inputKey}
+        fullWidth={true}
+        id="component-outlined"
+        placeholder={placeholder}
+        value={this.state[stateProperty] || ""}
+        multiline
+        rows={10}
+        rowsMax={100}
+        labelWidth={0}
+        onChange={this.onSectionInputChange(stateProperty)}
+      />
+    </ReportSectionComponent>
+  );
+}
 
-  renderTextareaSection({
-    key,
-    stateProperty,
-    title,
-    subtitle,
-    inputKey,
-    placeholder,
-    optional
-  }: any) {
-    const { report, isLoading } = this.props;
-    const isDisabled = this.isSaveButtonDisabled({
-      reportPropertyValue: report[stateProperty],
-      statePropertyValue: this.state[stateProperty],
-      isLoading
-    });
-    return (
-      <ReportSectionComponent
-        data-test-id={key}
-        title={title}
-        subtitle={subtitle}
-        disabled={isDisabled}
-        onSave={this.saveReport(stateProperty)}
-        optional={optional}
-      >
-        <OutlinedInput
-          data-test-id={inputKey}
-          fullWidth={true}
-          id="component-outlined"
-          placeholder={placeholder}
-          value={this.state[stateProperty] || ""}
-          multiline
-          rows={10}
-          rowsMax={100}
-          labelWidth={0}
-          onChange={this.onSectionInputChange(stateProperty)}
-        />
-      </ReportSectionComponent>
-    );
+activitiesAreEqual(first: KeyActivity[], second: KeyActivity[]): boolean {
+  if (first.length !== second.length) {
+    return false;
   }
-
-  activitiesAreEqual(first: KeyActivity[], second: KeyActivity[]): boolean {
-    if (first.length !== second.length) {
-      return false;
-    }
-    for (let index = 0; index < first.length; index++) {
-      for (let field of [
-        "activityName",
-        "numberOfParticipants",
-        "demographicInfo",
-        "impactOutcome"
-      ]) {
-        if (first[index][field] !== second[index][field]) {
-          return false;
-        }
+  for (let index = 0; index < first.length; index++) {
+    for (let field of [
+      "activityName",
+      "numberOfParticipants",
+      "demographicInfo",
+      "impactOutcome"
+    ]) {
+      if (first[index][field] !== second[index][field]) {
+        return false;
       }
     }
-    return true;
+  }
+  return true;
+}
+
+renderKeyActivitiesSection() {
+  const { report, isLoading } = this.props;
+  return (
+    <ActivitiesSectionComponent
+      activities={this.state.keyActivities}
+      disabled={this.activitiesAreEqual(
+        this.state.keyActivities,
+        report.keyActivities
+      )}
+      isLoading={isLoading}
+      onChange={this.onSectionInputChange("keyActivities")}
+      onSave={this.saveReport("keyActivities")}
+    />
+  );
+}
+
+render() {
+  const { report, classes, account, logout, isLoading } = this.props;
+  if (!report) {
+    if (isLoading) {
+      return <>Loading</>
+    }
+    return <Redirect to="/notFound" />;
   }
 
-  renderKeyActivitiesSection() {
-    const { report, isLoading } = this.props;
-    return (
-      <ActivitiesSectionComponent
-        activities={this.state.keyActivities}
-        disabled={this.activitiesAreEqual(
-          this.state.keyActivities,
-          report.keyActivities
-        )}
-        isLoading={isLoading}
-        onChange={this.onSectionInputChange("keyActivities")}
-        onSave={this.saveReport("keyActivities")}
-      />
-    );
+  if (report.completed) {
+    return <Redirect to="/my-reports" />;
   }
 
-  render() {
-    const { report, classes, account, logout } = this.props;
-    if (!report) {
-      return <Redirect to="/notFound" />;
-    }
-
-    if (report.completed) {
-      return <Redirect to="/my-reports" />;
-    }
-
-    return (
-      <Fragment>
-        <HeaderComponent logout={logout} account={account} />
-        {this.renderToolbar(classes, report)}
-        <Grid container spacing={24} className={classes.outerContainer}>
-          <Grid container justify="center">
-            <Grid item xs={6}>
-              {this.renderTextareaSection(sectionConfiguration.grantProgress)}
-              {this.renderTextareaSection(
-                sectionConfiguration.operatingEnvironment
-              )}
-              {this.renderKeyActivitiesSection()}
-              {this.renderTextareaSection(
-                sectionConfiguration.beneficiaryFeedback
-              )}
-              {this.renderTextareaSection(sectionConfiguration.challengesFaced)}
-              {this.renderTextareaSection(sectionConfiguration.incidents)}
-              {this.renderTextareaSection(sectionConfiguration.otherIssues)}
-              {this.renderTextareaSection(
-                sectionConfiguration.materialsForFundraising
-              )}
-            </Grid>
+  return (
+    <Fragment>
+      <HeaderComponent logout={logout} account={account} />
+      {this.renderToolbar(classes, report)}
+      <Grid container spacing={24} className={classes.outerContainer}>
+        <Grid container justify="center">
+          <Grid item xs={6}>
+            {this.renderTextareaSection(sectionConfiguration.grantProgress)}
+            {this.renderTextareaSection(
+              sectionConfiguration.operatingEnvironment
+            )}
+            {this.renderKeyActivitiesSection()}
+            {this.renderTextareaSection(
+              sectionConfiguration.beneficiaryFeedback
+            )}
+            {this.renderTextareaSection(sectionConfiguration.challengesFaced)}
+            {this.renderTextareaSection(sectionConfiguration.incidents)}
+            {this.renderTextareaSection(sectionConfiguration.otherIssues)}
+            {this.renderTextareaSection(
+              sectionConfiguration.materialsForFundraising
+            )}
           </Grid>
         </Grid>
-      </Fragment>
-    );
-  }
+      </Grid>
+    </Fragment>
+  );
+}
 }
 
 export default withStyles(styles)(MyReportEditComponent);

@@ -86,6 +86,38 @@ export const loadReports = () => (dispatch: Dispatch<any>) => {
   );
 };
 
+export const loadReportDetailsStarted = () => ({
+  type: "LOAD_REPORT_DETAILS_START"
+});
+
+export const loadReportDetailsSuccessful = (report: Report) => ({
+  type: "LOAD_REPORT_DETAILS_SUCCESS",
+  payload: report
+});
+
+export const loadReportDetailsFailed = () => ({
+  type: "LOAD_REPORT_DETAILS_FAIL"
+});
+
+
+export const loadReportDetails = (id: string) => (dispatch: Dispatch<any>) => {
+  dispatch(loadReportDetailsStarted());
+  makeRequest(dispatch, `/api/reports/${id}`, {
+    method: "GET",
+    headers: { "content-type": "application/json" }
+  }, res => {
+    if (res.status === 200) {
+      return res.json().then((report: Report) => {
+        dispatch(loadReportDetailsSuccessful(report));
+      });
+    }
+    else {
+      dispatch(loadReportDetailsFailed());
+    }
+  }
+  )
+}
+
 export const updateReportStarted = () => ({
   type: "SAVE_REPORT_START"
 });
@@ -161,7 +193,7 @@ export const makeRequest = (
   dispatch: Dispatch<any>,
   url: string,
   options?: any = undefined,
-  callback?: any => any = () => {}
+  callback?: any => any = () => { }
 ) => {
   dispatch(requestStarted());
   return fetch(url, options)

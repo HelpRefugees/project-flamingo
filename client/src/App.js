@@ -56,7 +56,7 @@ export class App extends Component<Props> {
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
-
+            
             <PrivateRoute
               path="/my-reports/:id/edit"
               allowed={["implementing-partner"]}

@@ -82,6 +82,38 @@ describe("actions", () => {
         type: "SAVE_REPORT_START"
       });
     });
+
+    it("loadReportDetailsStarted should create LOAD_REPORT_DETAILS_START action", () => {
+      expect(actions.loadReportDetailsStarted()).toEqual({
+        type: "LOAD_REPORT_DETAILS_START"
+      });
+    });
+
+    it("loadReportDetailsSuccessful should create LOAD_REPORT_DETAILS_SUCCESS action", () => {
+      const report: Report = {
+        id: 123,
+        grant: "mitchell",
+        overview: "everything is fine",
+        completed: false,
+        reportPeriod: "2018-10-01T00:00:00.000Z",
+        keyActivities: [{}],
+        operatingEnvironment: "",
+        beneficiaryFeedback: "",
+        challengesFaced: "",
+        incidents: "",
+        otherIssues: ""
+      };
+      expect(actions.loadReportDetailsSuccessful(report)).toEqual({
+        type: "LOAD_REPORT_DETAILS_SUCCESS",
+        payload: report
+      });
+    });
+
+    it("loadReportDetailsFailed should create LOAD_REPORT_DETAILS_FAIL action", () => {
+      expect(actions.loadReportDetailsFailed()).toEqual({
+        type: "LOAD_REPORT_DETAILS_FAIL"
+      });
+    });
   });
 
   describe("loadReports", () => {
@@ -139,6 +171,92 @@ describe("actions", () => {
       });
     });
   });
+
+  describe("getInfo", () => {
+    it("requests the info endpoint", done => {
+      fetch.mockResponseOnce('{"environment":"test"}');
+
+      const action = actions.getInfo();
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          actions.getInfoSuccess({ environment: "test" })
+        );
+      });
+    });
+  });
+
+
+
+  describe("loadReportDetails", () => {
+    let report;
+    beforeEach(() => {
+      report = {
+        id: 123,
+        grant: "mitchell",
+        overview: "everything is fine",
+        completed: false,
+        reportPeriod: "2018-10-01T00:00:00.000Z",
+        keyActivities: [{}],
+        operatingEnvironment: "",
+        beneficiaryFeedback: "",
+        challengesFaced: "",
+        incidents: "",
+        otherIssues: ""
+      };
+      action = actions.loadReportDetails(report.id.toString());
+    });
+
+    it("makes a request to the backend", () => {
+
+      fetch.mockResponseOnce(JSON.stringify(report));
+
+      action(mockDispatch);
+
+      expect(fetch.mock.calls).toHaveLength(1);
+      const [url] = fetch.mock.calls[0];
+      expect(url).toEqual(`/api/reports/${report.id}`);
+    });
+
+    it("dispatches the loadReportDetailsStarted", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.loadReportDetailsStarted());
+    });
+
+    it("dispatches the request started when calling the backend", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.requestStarted());
+    });
+
+    it("dispatches the request finished when request is done", done => {
+      fetch.mockResponseOnce(JSON.stringify(report));
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(actions.requestFinished());
+      });
+    });
+
+    it("dispatches reports when the request succeed", done => {
+      fetch.mockResponseOnce(JSON.stringify(report));
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          actions.loadReportDetailsSuccessful(report)
+        );
+      });
+    });
+  })
 
   describe("logout", () => {
     beforeEach(() => {
@@ -378,7 +496,7 @@ describe("actions", () => {
 
       it("dispatches error occurred when the request fails", done => {
         fetch.mockReject(new Error("update report error"));
-        action(mockDispatch).catch(() => {});
+        action(mockDispatch).catch(() => { });
 
         assertLater(done, () => {
           expect(mockDispatch).toHaveBeenCalledWith(
@@ -390,7 +508,7 @@ describe("actions", () => {
       it("dispatches save report failed when the request returns a 4xx", done => {
         fetch.mockResponseOnce("", { status: 400 });
 
-        action(mockDispatch).catch(() => {});
+        action(mockDispatch).catch(() => { });
 
         assertLater(done, () => {
           expect(mockDispatch).toHaveBeenCalledWith(
@@ -421,7 +539,7 @@ describe("actions", () => {
 
       actions
         .makeRequest(mockDispatch, requestUrl, requestOptions)
-        .catch(() => {});
+        .catch(() => { });
 
       assertLater(done, () => {
         expect(mockDispatch).toHaveBeenCalledWith(actions.requestFinished());

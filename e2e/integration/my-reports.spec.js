@@ -64,6 +64,7 @@ context("My Reports Page", () => {
     
     it("submits a report", () => {
       myReportsPage.getFirstUnsubmittedReport(report => report.click());
+      cy.wait(500);
 
       const reportPage = new ReportPage(1);
       reportPage.isAt();

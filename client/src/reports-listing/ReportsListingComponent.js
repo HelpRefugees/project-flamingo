@@ -130,7 +130,7 @@ export class ReportsListingComponent extends Component<
     filter?: string,
     tabValue: number
   }
-> {
+  > {
   constructor() {
     super();
     this.state = {
@@ -216,10 +216,10 @@ export class ReportsListingComponent extends Component<
     reports,
     reportSelector
   }: {
-    classes: any,
-    reports: Report[],
-    reportSelector: string
-  }) {
+      classes: any,
+      reports: Report[],
+      reportSelector: string
+    }) {
     return (
       <Table data-test-id={reportSelector}>
         <TableHead className={classes.tableHead}>
@@ -275,18 +275,18 @@ export class ReportsListingComponent extends Component<
                       report.submissionDate ? (
                         moment(report.submissionDate).format("DD/MM/YYYY")
                       ) : (
-                        ""
-                      )
+                          ""
+                        )
                     ) : (
-                      <Chip
-                        className={classes.chip}
-                        label={
-                          moment(new Date()).diff(report.dueDate, "days")
-                          + " days late"
-                        }
-                        variant="outlined"
-                      />
-                    )}
+                        <Chip
+                          className={classes.chip}
+                          label={
+                            moment(new Date()).diff(report.dueDate, "days") +
+                            " days late"
+                          }
+                          variant="outlined"
+                        />
+                      )}
                   </div>
                 </TableCell>
               </TableRow>
@@ -298,9 +298,9 @@ export class ReportsListingComponent extends Component<
   }
 
   reportsTabs(classes: any, reports: ?(Report[])) {
-    const submittedReportsContent
-      = reports
-      && this.getFilteredReports(this.getSubmittedReports(reports)).length > 0
+    const submittedReportsContent =
+      reports &&
+        this.getFilteredReports(this.getSubmittedReports(reports)).length > 0
         ? this.reportsTable({
           classes: classes,
           reports: this.getFilteredReports(this.getSubmittedReports(reports)),
@@ -311,9 +311,9 @@ export class ReportsListingComponent extends Component<
           "No submitted reports yet!",
           "Once you’ve a completed report it will appear here."
         );
-    const overdueReportsContent
-      = reports
-      && this.getFilteredReports(this.getOverdueReports(reports)).length > 0
+    const overdueReportsContent =
+      reports &&
+        this.getFilteredReports(this.getOverdueReports(reports)).length > 0
         ? this.reportsTable({
           classes: classes,
           reports: this.getFilteredReports(this.getOverdueReports(reports)),

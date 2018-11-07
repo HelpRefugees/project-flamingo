@@ -11,15 +11,16 @@ import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import ReportViewComponent from "../my-report/ReportViewComponent";
-import type { Account } from "../authentication/models";
-import type { Report } from "../my-report/models";
+import { type Account } from "../authentication/models";
+import { type Report } from "../my-report/models";
 
 type Props = {
   classes: any,
   logout: () => void,
   account: Account,
-  reports: Report[],
-  match: any
+  report: ?Report,
+  match: any,
+  loadReportDetails: (id: string) => void
 };
 
 type State = {};
@@ -53,16 +54,13 @@ const styles = themes => ({
 });
 
 export class SubmittedReportComponent extends Component<Props, State> {
-  get report(): Report {
-    // TODO it's not very efficient to keep calling this
-    return (this.props.reports.find(
-      report => report.id === parseInt(this.props.match.params.id, 10)
-    ): any);
+
+  componentWillMount() {
+    this.props.loadReportDetails(this.props.match.params.id)
   }
 
   render() {
-    const { classes, account, logout } = this.props;
-    const report = this.report;
+    const { account, logout, report } = this.props;
     if (!report) {
       return <Redirect to="/notFound" />;
     }

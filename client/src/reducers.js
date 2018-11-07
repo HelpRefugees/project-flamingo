@@ -1,12 +1,15 @@
-import type { Report } from "./my-report/models";
-import type { Account } from "./authentication/models";
+import { type Report } from "./my-report/models";
+import { Account } from "./authentication/models";
+import { type Grant } from "./grants/models";
 
 export type State = {
   isAuthenticated: ?boolean,
   reports: ?(Report[]),
   account: ?Account,
   isLoading: boolean,
-  errorMessage: ?string
+  errorMessage: ?string,
+  environment: ?string,
+  currentReport: ?Report
 };
 
 export const initialState: State = {
@@ -14,7 +17,9 @@ export const initialState: State = {
   reports: undefined,
   account: undefined,
   isLoading: false,
-  errorMessage: undefined
+  errorMessage: undefined,
+  environment: undefined,
+  currentReport: undefined
 };
 
 type Action = {
@@ -93,7 +98,21 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
-    case "LOAD_REPORTS_FAILURE":
+    case "GET_INFO_SUCCESS": {
+      const { environment } = action.payload || {};
+      return {
+        ...state,
+        environment
+      };
+    }
+
+    case "LOAD_REPORT_DETAILS_SUCCESS": {
+      return {
+        ...state,
+        currentReport: action.payload
+      }
+    }
+
     default: {
       return state;
     }

@@ -46,6 +46,19 @@ module.exports = db => {
     }
   });
 
+  router.get("/:id", ensureLoggedIn, (req, res) => {
+    const id = parseInt(req.params.id, 10);
+
+    db.collection(collection).findOne({ id }).then(
+      report => {
+        if (!report) {
+          return res.sendStatus(404);
+        }
+        return res.json(filterObjectProps(report, AllowedKeys.detailed));
+      }
+    )
+  });
+
   router.patch("/:id", ensureLoggedIn, (req, res) => {
     const changes = req.body;
     const id = parseInt(req.params.id, 10);
@@ -76,3 +89,15 @@ module.exports = db => {
 
   return router;
 };
+
+
+const AllowedKeys = {
+  detailed: ["id", "overview", "keyActivities", "operatingEnvironment", "beneficiaryFeedback", "challengesFaced", "incidents", "otherIssues", "materialsForFundraising", "grant", "completed", "reportPeriod", "dueDate", "submissionDate"]
+};
+
+const filterObjectProps = (rawObject, allowedKeys) => (Object.keys(rawObject)
+  .filter(key => allowedKeys.includes(key))
+  .reduce((obj, key) => {
+    obj[key] = rawObject[key];
+    return obj;
+  }, {}));

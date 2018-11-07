@@ -10,7 +10,7 @@ import type { Account } from "../authentication/models";
 describe("SubmittedReportComponent", () => {
   let wrapper;
   let mockLogout;
-
+  let mockLoadReportDetails;
   const report1: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
@@ -32,19 +32,7 @@ describe("SubmittedReportComponent", () => {
     incidents: "",
     otherIssues: ""
   };
-  const report2: $Shape<Report> = {
-    id: 2,
-    grant: "Grant Shapps",
-    overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
-    completed: true,
-    reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivities: [{}],
-    operatingEnvironment: "",
-    beneficiaryFeedback: "",
-    challengesFaced: "",
-    incidents: "",
-    otherIssues: ""
-  };
+
 
   const account: Account = {
     username: "steve@ip.org",
@@ -54,14 +42,15 @@ describe("SubmittedReportComponent", () => {
 
   beforeEach(() => {
     mockLogout = jest.fn();
-
+    mockLoadReportDetails = jest.fn();
     wrapper = shallow(
       <SubmittedReportComponent
         logout={mockLogout}
         match={{ params: { id: "1" } }}
         classes={{}}
-        reports={[report1, report2]}
+        report={report1}
         account={account}
+        loadReportDetails={mockLoadReportDetails}
       />
     );
   });
