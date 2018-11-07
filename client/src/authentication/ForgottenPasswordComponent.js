@@ -25,13 +25,13 @@ const styles = theme => ({
 type Props = {
   classes: any,
   resetPassword: string => Promise<any>,
-  history: { push: string => void }
+  history: { push: string => void },
+  isLoading: boolean
 };
 
-export class ForgottenPasswordComponent extends Component<
-  Props,
-  { username: string }
-> {
+type State = { username: string };
+
+export class ForgottenPasswordComponent extends Component<Props, State> {
   constructor() {
     super();
     this.state = { username: "" };
@@ -51,7 +51,7 @@ export class ForgottenPasswordComponent extends Component<
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, isLoading } = this.props;
     return (
       <AuthenticationFormComponent>
         <Typography variant="h3">Forgot your password?</Typography>
@@ -82,6 +82,7 @@ export class ForgottenPasswordComponent extends Component<
                 color="primary"
                 data-test-id="reset-password"
                 className={classes.button}
+                disabled={isLoading}
               >
                 Request a reset mail
               </Button>

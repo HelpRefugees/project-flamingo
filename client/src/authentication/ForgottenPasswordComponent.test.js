@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import Deferred from "promise-deferred";
+import { Button } from "@material-ui/core";
 
 import { ForgottenPasswordComponent } from "./ForgottenPasswordComponent";
 import { assertLater } from "../testHelpers";
@@ -21,6 +22,7 @@ describe("ForgottenPasswordComponent", () => {
         classes={{}}
         resetPassword={mockResetPassword}
         history={{ push: mockHistoryPush }}
+        isLoading={false}
       />
     );
   });
@@ -54,5 +56,11 @@ describe("ForgottenPasswordComponent", () => {
     assertLater(done, () => {
       expect(mockHistoryPush).not.toHaveBeenCalled();
     });
+  });
+
+  it("disables the button when a request is loading", () => {
+    wrapper.setProps({ isLoading: true });
+
+    expect(wrapper.find(Button).prop("disabled")).toBe(true);
   });
 });

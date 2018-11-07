@@ -222,8 +222,17 @@ export const forgotPassword = (username: string) => (dispatch: Dispatch<any>) =>
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ username })
     },
-    res => res.status === 200
-  );
+    res => {
+      if (res.status !== 200) {
+        dispatch(errorOccurred("Request to reset password failed"));
+        return false;
+      }
+      return true;
+    }
+  ).catch(err => {
+    dispatch(errorOccurred("Request to reset password failed"));
+    throw err;
+  });
 
 export const resetPassword = (resetToken: string, password: string) => (
   dispatch: Dispatch<any>
@@ -236,8 +245,17 @@ export const resetPassword = (resetToken: string, password: string) => (
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ resetToken, password })
     },
-    res => res.status === 200
-  );
+    res => {
+      if (res.status !== 200) {
+        dispatch(errorOccurred("Password reset failed"));
+        return false;
+      }
+      return true;
+    }
+  ).catch(err => {
+    dispatch(errorOccurred("Password reset failed"));
+    throw err;
+  });
 
 export const makeRequest = (
   dispatch: Dispatch<any>,

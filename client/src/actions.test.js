@@ -5,6 +5,7 @@ import * as actions from "./actions";
 import { assertLater } from "./testHelpers";
 import type { Account } from "./authentication/models";
 import type { Grant } from "./grants/models";
+import { errorOccurred } from "./actions";
 
 describe("actions", () => {
   let action: (dispatch: Dispatch<any>) => any;
@@ -510,6 +511,31 @@ describe("actions", () => {
 
       return expect(action(mockDispatch)).rejects.toBe(error);
     });
+
+    it("dispatches error occurred when the request fails", done => {
+      fetch.mockResponseOnce("", { status: 500 });
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          errorOccurred("Request to reset password failed")
+        );
+      });
+    });
+
+    it("dispatches error occurred when the request errors", done => {
+      let error = new Error("request failed");
+      fetch.mockReject(error);
+
+      action(mockDispatch).catch(() => {});
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          errorOccurred("Request to reset password failed")
+        );
+      });
+    });
   });
 
   describe("resetPassword", () => {
@@ -545,11 +571,36 @@ describe("actions", () => {
       return expect(action(mockDispatch)).resolves.toBe(false);
     });
 
-    it("rejects the promise when the request fails", () => {
+    it("dispatches error occurred when the request fails", done => {
+      fetch.mockResponseOnce("", { status: 404 });
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          errorOccurred("Password reset failed")
+        );
+      });
+    });
+
+    it("rejects the promise when the request errors", () => {
       let error = new Error("request failed");
       fetch.mockReject(error);
 
       return expect(action(mockDispatch)).rejects.toBe(error);
+    });
+
+    it("dispatches error occurred when the request errors", done => {
+      let error = new Error("request failed");
+      fetch.mockReject(error);
+
+      action(mockDispatch).catch(() => {});
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          errorOccurred("Password reset failed")
+        );
+      });
     });
   });
 

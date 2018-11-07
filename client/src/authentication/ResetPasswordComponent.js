@@ -3,6 +3,7 @@ import {
   Button,
   FormControl,
   FormGroup,
+  FormHelperText,
   TextField,
   Typography,
   withStyles
@@ -30,7 +31,8 @@ type Props = {
   resetPassword: (token: string, password: string) => Promise<any>,
   location: { search: string },
   history: { push: string => void },
-  classes: any
+  classes: any,
+  isLoading: boolean
 };
 
 type State = { firstPassword: string, secondPassword: string };
@@ -48,12 +50,16 @@ export class ResetPasswordComponent extends Component<Props, State> {
     return this.state.firstPassword === this.state.secondPassword;
   }
 
+  get passwordsEmpty() {
+    return this.state.firstPassword === "" || this.state.secondPassword === "";
+  }
+
   updateState = (prop: string, event: any) => {
     this.setState({ [prop]: event.target.value });
   };
 
   resetPassword = (event: any) => {
-    if (this.passwordsMatch) {
+    if (this.passwordsMatch && !this.passwordsEmpty) {
       const params = parse(this.props.location.search, {
         ignoreQueryPrefix: true
       });
@@ -66,8 +72,12 @@ export class ResetPasswordComponent extends Component<Props, State> {
     event.preventDefault();
   };
 
+  get error() {
+    return !this.passwordsMatch && this.state.secondPassword !== "";
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, isLoading } = this.props;
     return (
       <AuthenticationFormComponent>
         <Typography variant="h3" className={classes.centered}>
@@ -102,13 +112,24 @@ export class ResetPasswordComponent extends Component<Props, State> {
                 variant="outlined"
                 onChange={event => this.updateState("secondPassword", event)}
                 value={this.state.secondPassword}
+                error={this.error}
               />
+            </FormControl>
+            <FormControl>
+              {this.error ? (
+                <FormHelperText error={true}>
+                  Passwords do not match
+                </FormHelperText>
+              ) : (
+                <span>&nbsp;</span>
+              )}
             </FormControl>
             <FormControl margin="normal">
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
+                disabled={isLoading || this.passwordsEmpty}
                 data-test-id="save-password-button"
                 className={classes.button}
               >

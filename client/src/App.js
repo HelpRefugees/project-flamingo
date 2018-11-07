@@ -49,7 +49,7 @@ export class App extends Component<Props> {
             <Route
               exact
               path="/forgotten-password"
-              component={ForgottenPasswordPage}
+              component={withErrorHandler(ForgottenPasswordPage)}
             />
 
             <Route
@@ -58,7 +58,11 @@ export class App extends Component<Props> {
               component={ResetSubmittedPage}
             />
 
-            <Route exact path="/reset-password" component={ResetPasswordPage} />
+            <Route
+              exact
+              path="/reset-password"
+              component={withErrorHandler(ResetPasswordPage)}
+            />
 
             <Route exact path="/reset-success" component={ResetSuccessPage} />
 

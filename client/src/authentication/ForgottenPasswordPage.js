@@ -3,8 +3,9 @@ import type { Dispatch } from "redux";
 
 import ForgottenPasswordComponent from "./ForgottenPasswordComponent";
 import { forgotPassword } from "../actions";
+import type { State } from "../reducers";
 
-const mapStateToProps = (): any => ({});
+const mapStateToProps = ({ isLoading }: State): any => ({ isLoading });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   resetPassword: credentials => dispatch(forgotPassword(credentials))

@@ -128,6 +128,13 @@ describe("/api/password", async () => {
 
         expect(updatedUser.resetToken).toBeUndefined();
       });
+
+      it("rejects an empty password", () => {
+        return request(app)
+          .post(route)
+          .send({ resetToken: user.resetToken, password: "" })
+          .expect(422);
+      });
     });
 
     describe("if the user does not exist", () => {

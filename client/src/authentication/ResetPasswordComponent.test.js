@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import Deferred from "promise-deferred";
+import { Button, FormHelperText } from "@material-ui/core";
 
 import { ResetPasswordComponent } from "./ResetPasswordComponent";
 import { assertLater } from "../testHelpers";
@@ -24,8 +25,15 @@ describe("ForgottenPasswordComponent", () => {
         resetPassword={mockResetPassword}
         history={{ push: mockHistoryPush }}
         location={{ search: `?token=${resetToken}` }}
+        isLoading={false}
       />
     );
+  });
+
+  it("disables the button when a request is loading", () => {
+    wrapper.setProps({ isLoading: true });
+
+    expect(wrapper.find(Button).prop("disabled")).toBe(true);
   });
 
   describe("when both passwords are the same", () => {
@@ -70,6 +78,36 @@ describe("ForgottenPasswordComponent", () => {
       wrapper
         .find('[data-test-id="password-input-two"]')
         .simulate("change", { target: { value: "somethingelse" } });
+    });
+
+    it("does not send the new password when submitting the form", () => {
+      wrapper.find("form").simulate("submit", {
+        preventDefault: () => {}
+      });
+
+      expect(mockResetPassword).not.toHaveBeenCalled();
+    });
+
+    it("shows a message", () => {
+      expect(wrapper.find(FormHelperText).exists()).toBe(true);
+    });
+  });
+
+  describe("when the second password is empty", () => {
+    beforeEach(() => {
+      wrapper
+        .find('[data-test-id="password-input-one"]')
+        .simulate("change", { target: { value: "something" } });
+    });
+
+    it("does not show a message", () => {
+      expect(wrapper.find(FormHelperText).exists()).toBe(false);
+    });
+  });
+
+  describe("when passwords are empty", () => {
+    it("disables the button", () => {
+      expect(wrapper.find(Button).prop("disabled")).toBe(true);
     });
 
     it("does not send the new password when submitting the form", () => {

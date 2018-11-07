@@ -42,6 +42,10 @@ module.exports = db => {
 
   router.post("/reset", (req, res) => {
     const { resetToken, password } = req.body;
+    if (!password) {
+      return res.sendStatus(422);
+    }
+
     db.collection(collection)
       .findOne({ resetToken })
       .then(user => {
