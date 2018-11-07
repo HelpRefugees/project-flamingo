@@ -5,6 +5,7 @@ import type { Grant } from "./grants/models";
 export type State = {
   isAuthenticated: ?boolean,
   reports: ?(Report[]),
+  report: ?Report,
   grants: ?(Grant[]),
   account: ?Account,
   isLoading: boolean,
@@ -15,6 +16,7 @@ export type State = {
 export const initialState: State = {
   isAuthenticated: undefined,
   reports: undefined,
+  report: undefined,
   grants: undefined,
   account: undefined,
   isLoading: false,
@@ -57,6 +59,20 @@ const reducers = (state: State = initialState, action: Action): State => {
       return {
         ...state,
         reports: action.payload
+      };
+    }
+
+    case "LOAD_REPORT_SUCCESS": {
+      return {
+        ...state,
+        report: action.payload
+      };
+    }
+
+    case "LOAD_REPORT_START": {
+      return {
+        ...state,
+        report: undefined
       };
     }
 

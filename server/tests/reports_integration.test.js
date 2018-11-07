@@ -137,31 +137,40 @@ describe("reports endpoint", () => {
         {
           id: 1,
           completed: false,
-          overview: "",
           grant: "Grant Mitchell",
-          owner: implementingPartner.username,
-          keyActivities: [{}]
+          owner: implementingPartner.username
         },
         {
           id: 3,
           completed: true,
-          overview: "this report is completed",
           grant: "Grant Mitchell",
           owner: implementingPartner.username,
-          keyActivities: [{}],
           submissionDate: "2018-10-10T10:10:10.101ZZ"
         },
         {
           id: 4,
           completed: false,
-          overview: "this report is completed",
           grant: "Grant Mitchell",
           owner: implementingPartner.username,
-          keyActivities: [{}],
           dueDate: "2018-10-20T03:24:00.000Z",
           reportPeriod: "2018-10-01T00:00:00.000Z"
         }
       ]);
+    });
+
+    test("GET /:id returns the details of a report", () => {
+      return agent.get("/api/reports/1").expect(200, {
+        id: 1,
+        completed: false,
+        overview: "",
+        grant: "Grant Mitchell",
+        owner: implementingPartner.username,
+        keyActivities: [{}]
+      });
+    });
+
+    test("GET /:id returns 404 for missing report", () => {
+      return agent.get("/api/reports/123").expect(404);
     });
 
     test("PATCH updates the report", async () => {
@@ -199,10 +208,8 @@ describe("reports endpoint", () => {
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual(submittedReport);
 
-      const allReports = await agent.get("/api/reports");
-      expect(allReports.body.filter(report => report.id === 1)).toEqual([
-        submittedReport
-      ]);
+      const updatedReport = await agent.get("/api/reports/1");
+      expect(updatedReport.body).toEqual(submittedReport);
     });
 
     test("PATCH rejects changes to protected fields", async () => {
@@ -234,6 +241,7 @@ describe("reports endpoint", () => {
 
     test("you cannot see other users' reports", async () => {
       await agent.get("/api/reports").expect(200, []);
+      await agent.get("/api/reports/1").expect(403);
     });
 
     test("you cannot edit other users' reports", async () => {
@@ -255,28 +263,20 @@ describe("reports endpoint", () => {
         .expect(200);
     });
 
-    test("you cannot see unsubmitted not overdue reports and Grant name, report period and due date incase of overdue", async () => {
-      const response = await agent.get("/api/reports").expect(200);
+    test("you can see details of submitted reports", () => {
+      return agent.get("/api/reports/3").expect(200, {
+        id: 3,
+        completed: true,
+        overview: "this report is completed",
+        grant: "Grant Mitchell",
+        owner: implementingPartner.username,
+        keyActivities: [{}],
+        submissionDate: "2018-10-10T10:10:10.101ZZ"
+      });
+    });
 
-      expect(response.body).toEqual([
-        {
-          id: 3,
-          completed: true,
-          overview: "this report is completed",
-          grant: "Grant Mitchell",
-          owner: implementingPartner.username,
-          keyActivities: [{}],
-          submissionDate: "2018-10-10T10:10:10.101ZZ"
-        },
-        {
-          id: 4,
-          completed: false,
-          grant: "Grant Mitchell",
-          owner: implementingPartner.username,
-          dueDate: "2018-10-20T03:24:00.000Z",
-          reportPeriod: "2018-10-01T00:00:00.000Z"
-        }
-      ]);
+    test("you cannot see details of unsubmitted reports", () => {
+      return agent.get("/api/reports/1").expect(403);
     });
   });
 });

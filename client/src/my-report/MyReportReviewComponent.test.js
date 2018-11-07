@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+import Deferred from "promise-deferred";
 
 import { MyReportReviewComponent } from "./MyReportReviewComponent";
 import MyReportHeader from "./MyReportHeader";
@@ -13,6 +14,8 @@ describe("MyReportReviewComponent", () => {
   let mockLogout;
   let mockHistoryPush;
   let mockUpdateReport;
+  let mockLoadReport;
+  let deferred;
 
   const report: $Shape<Report> = {
     id: 1,
@@ -43,9 +46,11 @@ describe("MyReportReviewComponent", () => {
   };
 
   beforeEach(() => {
+    deferred = new Deferred();
     mockHistoryPush = jest.fn();
     mockLogout = jest.fn();
     mockUpdateReport = jest.fn().mockImplementation(() => Promise.resolve());
+    mockLoadReport = jest.fn().mockReturnValue(deferred.promise);
 
     wrapper = shallow(
       <MyReportReviewComponent
@@ -57,7 +62,28 @@ describe("MyReportReviewComponent", () => {
         history={{ push: mockHistoryPush }}
         updateReport={mockUpdateReport}
         isLoading={false}
+        loadReport={mockLoadReport}
       />
+    );
+  });
+
+  it("requests report when mounting", () => {
+    expect(mockLoadReport).toHaveBeenCalledWith(1);
+  });
+
+  it("redirects if report load fails", done => {
+    deferred.resolve(false);
+
+    assertLater(done, () => {
+      expect(mockHistoryPush).toHaveBeenCalledWith("/notFound");
+    });
+  });
+
+  it("shows a loading placeholder if report is undefined", () => {
+    wrapper.setProps({ report: undefined });
+
+    expect(wrapper.find(`[data-test-id="loading-placeholder"]`).exists()).toBe(
+      true
     );
   });
 

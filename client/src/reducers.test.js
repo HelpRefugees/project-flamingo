@@ -34,6 +34,30 @@ describe("reducers", () => {
     expect(newState.account).toEqual(account);
   });
 
+  it("should handle LOAD_REPORT_SUCCESS", () => {
+    const report: $Shape<Report> = {};
+
+    expect(
+      reducers(initialState, {
+        type: "LOAD_REPORT_SUCCESS",
+        payload: report
+      }).report
+    ).toEqual(report);
+  });
+
+  it("should handle LOAD_REPORT_START", () => {
+    const report: $Shape<Report> = {};
+
+    expect(
+      reducers(
+        { ...initialState, report: report },
+        {
+          type: "LOAD_REPORT_START"
+        }
+      ).report
+    ).toBeUndefined();
+  });
+
   it("should handle LOAD_REPORTS_SUCCESS", () => {
     const reports: $Shape<Report>[] = [
       {

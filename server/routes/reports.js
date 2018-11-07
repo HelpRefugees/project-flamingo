@@ -7,43 +7,53 @@ module.exports = db => {
   const collection = "reports";
   const router = new express.Router();
 
+  router.get("/:id", ensureLoggedIn, (req, res) => {
+    const id = parseInt(req.params.id, 10);
+
+    db.collection(collection)
+      .findOne({ id })
+      .then(wholeReport => {
+        if (!wholeReport) {
+          return res.sendStatus(404);
+        }
+        const { _id, ...report } = wholeReport;
+        if (req.user.role === "implementing-partner") {
+          if (report.owner !== req.user.username) {
+            return res.sendStatus(403);
+          }
+        } else {
+          if (!report.completed) {
+            return res.sendStatus(403);
+          }
+        }
+        return res.json(report);
+      });
+  });
+
   router.get("/", ensureLoggedIn, (req, res) => {
     let query = {};
 
     if (req.user.role === "implementing-partner") {
       query.owner = req.user.username;
-      db.collection(collection)
-        .find(query)
-        .toArray(async (err, reports) => {
-          return res.json(reports.map(({ _id, ...report }) => ({ ...report })));
-        });
-    } else {
-      query = {
-        $or: [
-          { completed: true },
-          { dueDate: { $lt: new Date().toISOString() } }
-        ]
-      };
-      db.collection(collection)
-        .find(query)
-        .toArray(async (err, reports) => {
-          return res.json(
-            reports.map(({ _id, ...report }) => {
-              if (report.completed) {
-                return { ...report };
-              }
-              return {
-                id: report.id,
-                grant: report.grant,
-                dueDate: report.dueDate,
-                completed: report.completed,
-                reportPeriod: report.reportPeriod,
-                owner: report.owner
-              };
-            })
-          );
-        });
     }
+
+    db.collection(collection)
+      .find(query, {
+        projection: {
+          _id: 0,
+          grant: 1,
+          completed: 1,
+          reportPeriod: 1,
+          dueDate: 1,
+          submissionDate: 1,
+          owner: 1,
+          id: 1
+        }
+      })
+      .toArray()
+      .then(reports => {
+        res.json(reports);
+      });
   });
 
   router.patch("/:id", ensureLoggedIn, (req, res) => {

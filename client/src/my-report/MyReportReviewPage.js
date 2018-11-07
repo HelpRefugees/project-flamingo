@@ -2,18 +2,14 @@ import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
 import MyReportReviewComponent from "./MyReportReviewComponent";
-import { logout, updateReport } from "../actions";
+import { logout, updateReport, loadReport } from "../actions";
 import type { State } from "../reducers";
 import type { Report } from "./models";
 
-const mapStateToProps = (state: State, ownProps: any): any => {
-  const reportId = ownProps.match.params.id;
-  const report = (state.reports || []).find(
-    report => report.id === parseInt(reportId, 10)
-  );
+const mapStateToProps = (state: State): any => {
   return {
     isAuthenticated: state.isAuthenticated,
-    report,
+    report: state.report,
     account: state.account,
     isLoading: state.isLoading
   };
@@ -21,6 +17,7 @@ const mapStateToProps = (state: State, ownProps: any): any => {
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   logout: () => dispatch(logout()),
+  loadReport: (id: number) => dispatch(loadReport(id)),
   updateReport: (report: Report, errorMessage: string) =>
     dispatch(updateReport(report, errorMessage))
 });

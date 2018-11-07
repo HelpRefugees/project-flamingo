@@ -15,6 +15,8 @@ type Props = {
   report: Report,
   history: any,
   isLoading: boolean,
+  match: { params: { id: string } },
+  loadReport: (id: number) => Promise<any>,
   updateReport: (report: Report, errorMessage: string) => Promise<any>
 };
 
@@ -37,6 +39,16 @@ const styles = theme => ({
 });
 
 export class MyReportReviewComponent extends Component<Props> {
+  componentWillMount() {
+    this.props
+      .loadReport(parseInt(this.props.match.params.id, 10))
+      .then(loaded => {
+        if (!loaded) {
+          this.props.history.push("/notFound");
+        }
+      });
+  }
+
   submitReport = () => {
     const { report } = this.props;
     this.props
@@ -55,7 +67,7 @@ export class MyReportReviewComponent extends Component<Props> {
   render() {
     const { report, classes, isLoading, account, logout } = this.props;
     if (!report) {
-      return <Redirect to="/notFound" />;
+      return <div data-test-id="loading-placeholder">Loading...</div>;
     }
 
     if (report.completed) {

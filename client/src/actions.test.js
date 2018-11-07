@@ -61,11 +61,25 @@ describe("actions", () => {
       });
     });
 
-    it("receiveReports should create LOAD_REPORTS_SUCCESS action", () => {
+    it("loadReportsSuccessful should create LOAD_REPORTS_SUCCESS action", () => {
       const reports = [];
       expect(actions.loadReportsSuccessful(reports)).toEqual({
         type: "LOAD_REPORTS_SUCCESS",
         payload: reports
+      });
+    });
+
+    it("loadReport should create LOAD_REPORT_SUCCESS action", () => {
+      const report: $Shape<Report> = { id: 123, grant: "hello" };
+      expect(actions.loadReportSuccessful(report)).toEqual({
+        type: "LOAD_REPORT_SUCCESS",
+        payload: report
+      });
+    });
+
+    it("loadReportStarted should create LOAD_REPORT_START action", () => {
+      expect(actions.loadReportStarted()).toEqual({
+        type: "LOAD_REPORT_START"
       });
     });
 
@@ -139,6 +153,63 @@ describe("actions", () => {
           actions.loadReportsSuccessful(reports)
         );
       });
+    });
+  });
+
+  describe("loadReport", () => {
+    beforeEach(() => {
+      action = actions.loadReport(123);
+    });
+
+    it("dispatches loadReportStarted", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(mockDispatch).toHaveBeenCalledWith(actions.loadReportStarted());
+    });
+
+    it("makes a request to the backend", () => {
+      fetch.mockResponseOnce("{}");
+
+      action(mockDispatch);
+
+      expect(fetch.mock.calls).toHaveLength(1);
+      const [url] = fetch.mock.calls[0];
+      expect(url).toEqual("/api/reports/123");
+    });
+
+    it("dispatches report when the request succeed", done => {
+      const report: $Shape<Report> = { id: 123, grant: "Our report" };
+
+      fetch.mockResponseOnce(JSON.stringify(report));
+
+      action(mockDispatch);
+
+      assertLater(done, () => {
+        expect(mockDispatch).toHaveBeenCalledWith(
+          actions.loadReportSuccessful(report)
+        );
+      });
+    });
+
+    it("returns a promise resolving to the report on success", () => {
+      fetch.mockResponseOnce('{"id": 123}');
+
+      return expect(action(mockDispatch)).resolves.toEqual({ id: 123 });
+    });
+
+    it("returns a promise resolving to undefined on failure", () => {
+      fetch.mockResponseOnce("", { status: 403 });
+
+      return expect(action(mockDispatch)).resolves.toBeUndefined();
+    });
+
+    it("returns a promise rejecting on error", () => {
+      const err = new Error("lol whoops");
+      fetch.mockReject(err);
+
+      return expect(action(mockDispatch)).rejects.toBe(err);
     });
   });
 
@@ -389,6 +460,21 @@ describe("actions", () => {
         assertLater(done, () => {
           expect(mockDispatch).toHaveBeenCalledWith(
             actions.updateReportSuccessful(updatedReport)
+          );
+        });
+      });
+
+      it("dispatches load report success when the request succeeds", done => {
+        const updatedReport: any = {
+          grant: "Hugh Grant"
+        };
+        fetch.mockResponseOnce(JSON.stringify(updatedReport));
+
+        action(mockDispatch);
+
+        assertLater(done, () => {
+          expect(mockDispatch).toHaveBeenCalledWith(
+            actions.loadReportSuccessful(updatedReport)
           );
         });
       });

@@ -23,6 +23,8 @@ type Props = {
   classes: any,
   logout: () => void,
   updateReport: (report: Report, errorMessage: string) => Promise<any>,
+  loadReport: (id: number) => Promise<any>,
+  match: { params: { id: string } },
   report: Report,
   history: any,
   account: Account,
@@ -142,11 +144,20 @@ const sectionConfiguration = {
 };
 
 export class MyReportEditComponent extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      ...props.report
-    };
+  componentWillMount() {
+    this.props
+      .loadReport(parseInt(this.props.match.params.id, 10))
+      .then(report => {
+        if (!report) {
+          this.props.history.push("/notFound");
+        } else {
+          this.setState(report);
+        }
+      });
+  }
+
+  get emptyState() {
+    return !this.state || Object.keys(this.state).length === 0;
   }
 
   reviewAndSubmitReport = () => {
@@ -353,8 +364,8 @@ export class MyReportEditComponent extends Component<Props, State> {
 
   render() {
     const { report, classes, account, logout } = this.props;
-    if (!report) {
-      return <Redirect to="/notFound" />;
+    if (!report || this.emptyState) {
+      return <div data-test-id="loading-placeholder">Loading...</div>;
     }
 
     if (report.completed) {

@@ -1,17 +1,22 @@
 import React from "react";
 import { shallow } from "enzyme";
+import Deferred from "promise-deferred";
 
 import { SubmittedReportComponent } from "./SubmittedReportComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report } from "../my-report/models";
 import ReportViewComponent from "../my-report/ReportViewComponent";
 import type { Account } from "../authentication/models";
+import { assertLater } from "../testHelpers";
 
 describe("SubmittedReportComponent", () => {
   let wrapper;
   let mockLogout;
+  let mockLoadReport;
+  let deferred;
+  let mockHistoryPush;
 
-  const report1: $Shape<Report> = {
+  const report: $Shape<Report> = {
     id: 1,
     grant: "Hugh Grant",
     overview: "Hugh Overview",
@@ -32,19 +37,6 @@ describe("SubmittedReportComponent", () => {
     incidents: "",
     otherIssues: ""
   };
-  const report2: $Shape<Report> = {
-    id: 2,
-    grant: "Grant Shapps",
-    overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
-    completed: true,
-    reportPeriod: "2018-10-01T00:00:00.000Z",
-    keyActivities: [{}],
-    operatingEnvironment: "",
-    beneficiaryFeedback: "",
-    challengesFaced: "",
-    incidents: "",
-    otherIssues: ""
-  };
 
   const account: Account = {
     username: "steve@ip.org",
@@ -53,15 +45,40 @@ describe("SubmittedReportComponent", () => {
   };
 
   beforeEach(() => {
+    deferred = new Deferred();
     mockLogout = jest.fn();
+    mockLoadReport = jest.fn().mockReturnValue(deferred.promise);
+    mockHistoryPush = jest.fn();
 
     wrapper = shallow(
       <SubmittedReportComponent
         logout={mockLogout}
         match={{ params: { id: "1" } }}
-        reports={[report1, report2]}
+        report={report}
         account={account}
+        loadReport={mockLoadReport}
+        history={{ push: mockHistoryPush }}
       />
+    );
+  });
+
+  it("requests report when mounting", () => {
+    expect(mockLoadReport).toHaveBeenCalledWith(1);
+  });
+
+  it("redirects if report load fails", done => {
+    deferred.resolve(false);
+
+    assertLater(done, () => {
+      expect(mockHistoryPush).toHaveBeenCalledWith("/notFound");
+    });
+  });
+
+  it("shows a loading placeholder if report is undefined", () => {
+    wrapper.setProps({ report: undefined });
+
+    expect(wrapper.find(`[data-test-id="loading-placeholder"]`).exists()).toBe(
+      true
     );
   });
 
@@ -71,7 +88,7 @@ describe("SubmittedReportComponent", () => {
   });
 
   it("renders the report view component", () => {
-    expect(wrapper.find(ReportViewComponent).prop("report")).toBe(report1);
+    expect(wrapper.find(ReportViewComponent).prop("report")).toBe(report);
   });
 
   it("renders the grant name", () => {

@@ -87,6 +87,28 @@ export const loadReports = () => (dispatch: Dispatch<any>) => {
   );
 };
 
+export const loadReportSuccessful = (report: Report) => ({
+  type: "LOAD_REPORT_SUCCESS",
+  payload: report
+});
+
+export const loadReportStarted = () => ({
+  type: "LOAD_REPORT_START"
+});
+
+export const loadReport = (id: number) => (dispatch: Dispatch<any>) => {
+  dispatch(loadReportStarted());
+  return makeRequest(dispatch, `/api/reports/${id}`, {}, res => {
+    if (res.status === 200) {
+      return res.json().then(report => {
+        dispatch(loadReportSuccessful(report));
+        return report;
+      });
+    }
+    return;
+  });
+};
+
 export const updateReportStarted = () => ({
   type: "SAVE_REPORT_START"
 });
@@ -143,6 +165,7 @@ export const updateReport = (report: Report, errorMessage: string) => (
         if (res.status === 200) {
           res.json().then(updatedReport => {
             dispatch(updateReportSuccessful(updatedReport));
+            dispatch(loadReportSuccessful(updatedReport));
             resolve();
           });
         } else {

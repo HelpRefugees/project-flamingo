@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Redirect } from "react-router-dom";
-import { Grid, AppBar, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Grid, Toolbar, Typography } from "@material-ui/core";
 import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
@@ -11,25 +10,27 @@ import type { Report } from "../my-report/models";
 type Props = {
   logout: () => void,
   account: Account,
-  reports: Report[],
-  match: any
+  report: Report,
+  match: any,
+  loadReport: number => Promise<any>,
+  history: any
 };
 
-type State = {};
-
-export class SubmittedReportComponent extends Component<Props, State> {
-  get report(): Report {
-    // TODO it's not very efficient to keep calling this
-    return (this.props.reports.find(
-      report => report.id === parseInt(this.props.match.params.id, 10)
-    ): any);
+export class SubmittedReportComponent extends Component<Props> {
+  componentWillMount() {
+    this.props
+      .loadReport(parseInt(this.props.match.params.id, 10))
+      .then(loaded => {
+        if (!loaded) {
+          this.props.history.push("/notFound");
+        }
+      });
   }
 
   render() {
-    const { account, logout } = this.props;
-    const report = this.report;
+    const { account, logout, report } = this.props;
     if (!report) {
-      return <Redirect to="/notFound" />;
+      return <div data-test-id="loading-placeholder">Loading...</div>;
     }
     return (
       <Fragment>
