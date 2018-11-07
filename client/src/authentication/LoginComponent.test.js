@@ -43,6 +43,12 @@ describe("LoginComponent", () => {
     expect(preventDefaultMock).toHaveBeenCalled();
   });
 
+  it("displays a forgotten password link", () => {
+    expect(wrapper.find('[data-test-id="forgot-password"]').prop("to")).toBe(
+      "/forgotten-password"
+    );
+  });
+
   function enterCredentials(username, password) {
     wrapper
       .find('[data-test-id="username-input"]')

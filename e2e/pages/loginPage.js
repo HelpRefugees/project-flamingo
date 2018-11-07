@@ -20,6 +20,10 @@ export default class LoginPage extends BasePage {
     return cy.get(testId("login-error"));
   }
 
+  get forgottenPasswordButton() {
+    return cy.get(testId("forgot-password"));
+  }
+
   setUsername(username) {
     this.usernameInput.type(username);
   }

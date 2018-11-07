@@ -37,6 +37,18 @@ describe("email sender", () => {
       });
   });
 
+  it("adds extra parameters", () => {
+    const task = "some-message";
+    const recipients = ["foo@bar.com", "daisy@hr.com"];
+    const scope = nock(domain)
+      .post(hook, { task, recipients, foo: "bar" })
+      .reply(200);
+
+    return emailSender
+      .send(task, recipients, { foo: "bar" })
+      .then(() => scope.done());
+  });
+
   it("rejects the promise if the request fails", done => {
     const task = "some-message";
     const recipients = ["foo@bar.com", "daisy@hr.com"];

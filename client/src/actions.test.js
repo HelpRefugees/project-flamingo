@@ -473,6 +473,86 @@ describe("actions", () => {
     });
   });
 
+  describe("forgotPassword", () => {
+    const username = "foo@bar.com";
+    beforeEach(() => {
+      action = actions.forgotPassword(username);
+    });
+
+    it("makes a request to the backend with the username", () => {
+      fetch.mockResponseOnce();
+
+      action(mockDispatch);
+
+      expect(fetch.mock.calls).toHaveLength(1);
+      const [url, options] = fetch.mock.calls[0];
+      expect(url).toEqual("/api/password/forgot");
+      expect(options.method).toBe("POST");
+      expect(options.headers["content-type"]).toBe("application/json");
+      expect(JSON.parse(options.body)).toEqual({ username });
+    });
+
+    it("resolves the promise with true when the request succeeds", () => {
+      fetch.mockResponseOnce();
+
+      return expect(action(mockDispatch)).resolves.toBe(true);
+    });
+
+    it("resolves the promise with false when the request fails", () => {
+      fetch.mockResponseOnce("", { status: 404 });
+
+      return expect(action(mockDispatch)).resolves.toBe(false);
+    });
+
+    it("rejects the promise when the request fails", () => {
+      let error = new Error("request failed");
+      fetch.mockReject(error);
+
+      return expect(action(mockDispatch)).rejects.toBe(error);
+    });
+  });
+
+  describe("resetPassword", () => {
+    const password = "passw0rd";
+    const resetToken = "thisisatoken";
+
+    beforeEach(() => {
+      action = actions.resetPassword(resetToken, password);
+    });
+
+    it("makes a request to the backend with the password and token", () => {
+      fetch.mockResponseOnce();
+
+      action(mockDispatch);
+
+      expect(fetch.mock.calls).toHaveLength(1);
+      const [url, options] = fetch.mock.calls[0];
+      expect(url).toEqual("/api/password/reset");
+      expect(options.method).toBe("POST");
+      expect(options.headers["content-type"]).toBe("application/json");
+      expect(JSON.parse(options.body)).toEqual({ password, resetToken });
+    });
+
+    it("resolves the promise with true when the request succeeds", () => {
+      fetch.mockResponseOnce();
+
+      return expect(action(mockDispatch)).resolves.toBe(true);
+    });
+
+    it("resolves the promise with false when the request fails", () => {
+      fetch.mockResponseOnce("", { status: 404 });
+
+      return expect(action(mockDispatch)).resolves.toBe(false);
+    });
+
+    it("rejects the promise when the request fails", () => {
+      let error = new Error("request failed");
+      fetch.mockReject(error);
+
+      return expect(action(mockDispatch)).rejects.toBe(error);
+    });
+  });
+
   describe("makeRequest", () => {
     const requestUrl = "http://example.org";
     const requestOptions = { method: "GET" };

@@ -8,6 +8,7 @@ context("Login Page", () => {
   const reportsListingPage = new ReportsListingPage();
 
   beforeEach(() => {
+    cy.seed("one-incomplete-report.json");
     loginPage.visit();
 
     cy.logout();

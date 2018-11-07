@@ -213,6 +213,32 @@ export const getInfo = () => (dispatch: Dispatch<any>) => {
   return promise;
 };
 
+export const forgotPassword = (username: string) => (dispatch: Dispatch<any>) =>
+  makeRequest(
+    dispatch,
+    "/api/password/forgot",
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ username })
+    },
+    res => res.status === 200
+  );
+
+export const resetPassword = (resetToken: string, password: string) => (
+  dispatch: Dispatch<any>
+) =>
+  makeRequest(
+    dispatch,
+    "/api/password/reset",
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ resetToken, password })
+    },
+    res => res.status === 200
+  );
+
 export const makeRequest = (
   dispatch: Dispatch<any>,
   url: string,
@@ -222,8 +248,9 @@ export const makeRequest = (
   dispatch(requestStarted());
   return fetch(url, options)
     .then(res => callback(res))
-    .then(() => {
+    .then(value => {
       dispatch(requestFinished());
+      return value;
     })
     .catch(err => {
       dispatch(requestFinished());
