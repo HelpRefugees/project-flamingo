@@ -54,11 +54,13 @@
     "type": "git",
     "url": "git+https://github.com/HelpRefugees/project-flamingo.git"
   },
+  "license": "ISC",
   "author": "Team Flamingo",
   "contributors": [
     "Ada Solcan",
     "Eslam Elsayed",
     "Islam Gad",
+    "Jack Galilee",
     "Jonathan Sharpe"
   ],
   "bugs": {
