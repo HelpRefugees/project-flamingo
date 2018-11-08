@@ -8,6 +8,7 @@ services:
       - DATABASE_URL=mongodb://flamongo:27017/flamingo
       - EMAIL_WEBHOOK=http://zapier
       - NODE_ENV=development  # no https
+      - PORT=80
     links:
       - flamongo
       - zapier
@@ -17,11 +18,13 @@ services:
       dockerfile: ./e2e/Dockerfile
     image: flamingo/cypress
     environment:
-      - CYPRESS_BASE_URL=http://flamingo:3000
+      - CYPRESS_BASE_URL=http://flamingo
+      - CYPRESS_WEBHOOK=http://zapier
       - DATABASE_URL=mongodb://flamongo:27017/flamingo
     links:
       - flamingo
       - flamongo
+      - zapier
   flamongo:
     image: mongo:4-xenial
   zapier:

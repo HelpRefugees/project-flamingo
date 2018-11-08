@@ -9,21 +9,21 @@ describe("resetting a password", () => {
   const loginPage = new LoginPage();
   const forgotPasswordPage = new ForgotPasswordPage();
   const resetRequestedPage = new ResetSubmittedPage();
-  const resetPasswordPage = new ResetPasswordPage("thisismytoken");
   const resetSuccessPage = new ResetSuccessPage();
   const reportsListingPage = new ReportsListingPage();
 
   beforeEach(() => {
-    cy.seed("one-reset-user.json");
+    cy.seed("one-incomplete-report.json");
+    cy.request("DELETE", `${Cypress.env("WEBHOOK")}/_calls`);
     loginPage.visit();
   });
 
-  it("allows the user to request a reset", () => {
+  it("allows the user to reset their password", () => {
     loginPage.forgottenPasswordButton.click();
 
     forgotPasswordPage.isAt();
 
-    forgotPasswordPage.requestReset("foo@bar.com");
+    forgotPasswordPage.requestReset("daisy@hr.org");
 
     resetRequestedPage.isAt();
 
@@ -34,21 +34,27 @@ describe("resetting a password", () => {
 
     resetRequestedPage.backToLogin.click();
     loginPage.isAt();
-  });
 
-  it("allows the user to reset their password", () => {
-    resetPasswordPage.visit();
+    cy.request(`${Cypress.env("WEBHOOK")}/_calls`).then(({ body }) => {
+      expect(body.length).to.eq(1);
+      expect(body[0].resetToken).to.match(/[0-9a-f]{32}/);
+      expect(body[0].recipients).to.deep.eq(["daisy@hr.org"]);
+      expect(body[0].task).to.eq("reset-password");
 
-    resetPasswordPage.resetPassword("new-password");
+      const resetPasswordPage = new ResetPasswordPage(body[0].resetToken);
+      resetPasswordPage.visit();
 
-    resetSuccessPage.isAt();
-    resetSuccessPage.backToLogin.click();
+      resetPasswordPage.setNewPassword("new-password");
 
-    loginPage.isAt();
-    loginPage.setUsername("foo@bar.com");
-    loginPage.setPassword("new-password");
-    loginPage.clickLogin();
+      resetSuccessPage.isAt();
+      resetSuccessPage.backToLogin.click();
 
-    reportsListingPage.isAt();
+      loginPage.isAt();
+      loginPage.setUsername("daisy@hr.org");
+      loginPage.setPassword("new-password");
+      loginPage.clickLogin();
+
+      reportsListingPage.isAt();
+    });
   });
 });
