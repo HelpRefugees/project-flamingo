@@ -1,6 +1,8 @@
 import React from "react";
-import type { Report } from "./models";
-import type { Account } from "../authentication/models";
+import Deferred from "promise-deferred";
+
+import { type Report } from "./models";
+import { type Account } from "../authentication/models";
 import { MyReportComponent } from "./MyReportComponent";
 import MyReportHeader from "./MyReportHeader";
 import ReportViewComponent from "./ReportViewComponent";
@@ -11,6 +13,8 @@ import { mountWithProvider } from "../setupTests";
 describe("MyReportComponent", () => {
   let wrapper;
   let mockLogout;
+  let mockLoadReport;
+  let deferred;
 
   const report: $Shape<Report> = {
     id: 1,
@@ -41,6 +45,10 @@ describe("MyReportComponent", () => {
   };
 
   beforeEach(() => {
+    deferred = new Deferred();
+    mockLogout = jest.fn();
+    mockLoadReport = jest.fn().mockReturnValue(deferred.promise);
+
     wrapper = mountWithProvider(
       <MemoryRouter>
         <MyReportComponent
@@ -48,6 +56,9 @@ describe("MyReportComponent", () => {
           classes={{}}
           report={report}
           account={account}
+          loadReport={mockLoadReport}
+          match={{ params: { id: "1" } }}
+          history={{}}
         />
       </MemoryRouter>
     );
@@ -65,5 +76,9 @@ describe("MyReportComponent", () => {
   it("renders the back button", () => {
     const backButton = wrapper.find(ButtonLink);
     expect(backButton.prop("to")).toEqual("/my-reports");
+  });
+
+  it("requests report on mounting", () => {
+    expect(mockLoadReport).toBeCalledWith(1);
   });
 });

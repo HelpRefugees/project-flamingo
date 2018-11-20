@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
 import { withStyles } from "@material-ui/core";
 
 import ReportViewComponent from "./ReportViewComponent";
-import type { Account } from "../authentication/models";
-import type { Report } from "./models";
+import { type Account } from "../authentication/models";
+import { type Report } from "./models";
 import MyReportHeader from "./MyReportHeader";
 import ButtonLink from "../page-layout/ButtonLink";
 
@@ -12,7 +11,10 @@ type Props = {
   classes: any,
   logout: () => void,
   account: Account,
-  report: Report
+  report: Report,
+  loadReport: (id: number) => Promise<any>,
+  match: { params: { id: string } },
+  history: any
 };
 
 type State = {};
@@ -24,10 +26,20 @@ const styles = () => ({
 });
 
 export class MyReportComponent extends Component<Props, State> {
+  componentWillMount() {
+    this.props
+      .loadReport(parseInt(this.props.match.params.id, 10))
+      .then(report => {
+        if (!report) {
+          this.props.history.push("/not-found");
+        }
+      });
+  }
+
   render() {
     const { classes, account, logout, report } = this.props;
     if (!report) {
-      return <Redirect to="/not-found" />;
+      return <div data-test-id="loading-placeholder">Loading...</div>;
     }
     return (
       <>

@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
-import type { Dispatch } from "redux";
+import { type Dispatch } from "redux";
 
-import { logout } from "../actions";
-import type { State } from "../reducers";
+import { logout, loadReport } from "../actions";
+import { type State } from "../reducers";
 import MyReportComponent from "./MyReportComponent";
 
 const mapStateToProps = (state: State): any => ({
@@ -12,7 +12,8 @@ const mapStateToProps = (state: State): any => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  loadReport: (id: number) => dispatch(loadReport(id))
 });
 
 export default connect(
