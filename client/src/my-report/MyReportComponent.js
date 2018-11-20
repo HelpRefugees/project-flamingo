@@ -27,7 +27,7 @@ export class MyReportComponent extends Component<Props, State> {
   render() {
     const { classes, account, logout, report } = this.props;
     if (!report) {
-      return <Redirect to="/notFound" />;
+      return <Redirect to="/not-found" />;
     }
     return (
       <>

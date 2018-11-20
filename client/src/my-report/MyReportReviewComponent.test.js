@@ -75,7 +75,7 @@ describe("MyReportReviewComponent", () => {
     deferred.resolve(false);
 
     assertLater(done, () => {
-      expect(mockHistoryPush).toHaveBeenCalledWith("/notFound");
+      expect(mockHistoryPush).toHaveBeenCalledWith("/not-found");
     });
   });
 

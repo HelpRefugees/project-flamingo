@@ -44,7 +44,7 @@ export class MyReportReviewComponent extends Component<Props> {
       .loadReport(parseInt(this.props.match.params.id, 10))
       .then(loaded => {
         if (!loaded) {
-          this.props.history.push("/notFound");
+          this.props.history.push("/not-found");
         }
       });
   }

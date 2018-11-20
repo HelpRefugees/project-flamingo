@@ -149,7 +149,7 @@ export class MyReportEditComponent extends Component<Props, State> {
       .loadReport(parseInt(this.props.match.params.id, 10))
       .then(report => {
         if (!report) {
-          this.props.history.push("/notFound");
+          this.props.history.push("/not-found");
         } else {
           this.setState(report);
         }
