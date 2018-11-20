@@ -5660,6 +5660,11 @@ run-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/run-node/-/run-node-1.0.0.tgz#46b50b946a2aa2d4947ae1d886e9856fd9cabe5e"
   integrity sha512-kc120TBlQ3mih1LSzdAJXo4xn/GWS2ec0l3S+syHDXP9uRr0JAT8Qd3mdMuyjqCzeZktgP3try92cEgf9Nks8A==
 
+run-script-os@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/run-script-os/-/run-script-os-1.0.3.tgz#e153737786b86321301b75d22665d5ef85f4be9a"
+  integrity sha512-CRZRyBfQBh+kHq32rZ6A6zxq6Hx3LzgwgcJ8crozey4Va4IMGsTo+agfmlx3/q2As7egn+Jo9w2T6P0//BJg3A==
+
 rx@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/rx/-/rx-4.1.0.tgz#a5f13ff79ef3b740fe30aa803fb09f98805d4782"

@@ -1,7 +1,7 @@
 {
   "name": "project-flamingo",
   "private": true,
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Impact tracking tool for Help Refugees",
   "scripts": {
     "client": "cd client && yarn",
@@ -26,7 +26,9 @@
     "start": "yarn build && yarn start:server",
     "prestart:server": "yarn mm migrate",
     "start:server": "node ./server/server.js",
-    "ship": "yarn lint && yarn test && yarn e2e:ci",
+    "ship": "run-script-os",
+    "ship:win32": "yarn lint && yarn test && yarn e2e:docker",
+    "ship:linux:darwin": "yarn lint && yarn test && yarn e2e:ci",
     "lint": "eslint . && yarn client flow check",
     "lint:fix": "eslint . --fix && yarn client flow check",
     "dev": "concurrently -k -s first -n \"client,server,zapier\" \"yarn dev:client\" \"yarn dev:server\" \"cross-env PORT=4321 yarn zapier\"",
@@ -110,6 +112,7 @@
     "nodemon": "^1.18.4",
     "prettier": "^1.14.3",
     "rimraf": "^2.6.2",
+    "run-script-os": "^1.0.3",
     "supertest": "^3.3.0",
     "wait-on": "^3.0.1"
   },
