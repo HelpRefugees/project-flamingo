@@ -14,7 +14,7 @@ import moment from "moment";
 
 import ReportSectionComponent from "./ReportSectionComponent";
 
-import type { Report } from "./models";
+import { type Report } from "./models";
 import ActivitiesSectionComponent from "./ActivitiesSectionComponent";
 import { type Account } from "../authentication/models";
 import { type KeyActivity } from "./models";

@@ -27,18 +27,25 @@ describe("GrantsListingComponent", () => {
   });
 
   describe("grants", () => {
-    it("renders the list of grants", () => {
-      const grants = [{ grant: "grant", name: "name", username: "a username" }];
-      const wrapper = shallow(
+    let grants;
+    let wrapper;
+    let mockHistoryPush;
+    beforeEach(() => {
+      mockHistoryPush = jest.fn();
+      grants = [{ grant: "grant", name: "name", username: "a username" }];
+      wrapper = shallow(
         <GrantsListingComponent
           loadGrants={() => {}}
           classes={{}}
           account={account}
           grants={grants}
           logout={() => {}}
+          history={{ push: mockHistoryPush }}
         />
       );
+    });
 
+    it("renders the list of grants", () => {
       expect(
         wrapper
           .find('[data-test-id="grant-name"]')

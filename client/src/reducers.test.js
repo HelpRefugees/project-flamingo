@@ -238,4 +238,6 @@ describe("reducers", () => {
       })
     ).toEqual(expectedState);
   });
+
+  it("should handle ADD_GRANT_SUCCESS", () => {});
 });

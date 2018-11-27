@@ -379,7 +379,7 @@ export class ReportsListingComponent extends Component<
         <Grid container className={classes.rowContainer}>
           <Grid item xs={1} />
           <Grid item container xs={10}>
-            <BannerHeader>Reports</BannerHeader>
+            <BannerHeader title="Reports" />
           </Grid>
         </Grid>
         <Grid container className={classes.rowContainer}>

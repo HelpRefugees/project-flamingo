@@ -8,6 +8,10 @@ export default class GrantsListingPage extends BasePage {
     cy.get(testId("nav-link-grants")).click();
   }
 
+  get addGrantButton() {
+    return cy.get(testId("add-grant-button"));
+  }
+
   grantAt(index, callback) {
     return cy
       .get(testId("grant-list"))
