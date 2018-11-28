@@ -24,6 +24,7 @@ import Forbidden from "./authorization/Forbidden";
 import MyReportPage from "./my-report/MyReportPage";
 import withErrorHandler from "./withErrorHandler";
 import GrantsListingPage from "./grants/GrantsListingPage";
+import AddGrantPage from "./add-grant/AddGrantPage";
 
 const mapStateToProps = (state: State) => {
   return {
@@ -68,8 +69,17 @@ export class App extends Component<Props> {
 
             <PrivateRoute
               path="/grants"
+              exact
               allowed={["help-refugees"]}
               component={withErrorHandler(GrantsListingPage)}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
+
+            <PrivateRoute
+              path="/grants/new"
+              allowed={["help-refugees"]}
+              component={withErrorHandler(AddGrantPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />

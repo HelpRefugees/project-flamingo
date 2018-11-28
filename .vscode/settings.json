@@ -5,5 +5,8 @@
   "flow.useNPMPackagedFlow": true,
   "javascript.validate.enable": false,
   "prettier.eslintIntegration": true,
-  "prettier.proseWrap": "always"
+  "prettier.proseWrap": "always",
+  "search.exclude": {
+    "**/node_modules": true
+  }
 }

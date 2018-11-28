@@ -238,4 +238,24 @@ describe("reducers", () => {
       })
     ).toEqual(expectedState);
   });
+
+  it("should handle ADD_GRANT_SUCCESS", () => {
+    const grants = [
+      {
+        username: "abnc",
+        grant: "dbdde",
+        name: "ali"
+      }
+    ];
+    const expectedState = {
+      ...initialState,
+      grants: grants
+    };
+
+    const nextState = reducers(initialState, {
+      type: "ADD_GRANT_SUCCESS",
+      payload: grants
+    });
+    expect(nextState).toEqual(expectedState);
+  });
 });

@@ -68,18 +68,52 @@ describe("grants endpoint", () => {
     });
 
     describe("as help-refugees", () => {
+      const grants = [
+        {
+          username: "user@flamingo.life",
+          grant: "some grant",
+          name: "some name"
+        }
+      ];
+      beforeEach(async () => {
+        agent = await loginAs(app, helpRefugees);
+      });
       it("returns all the implementing partners", async () => {
-        const agent = await loginAs(app, helpRefugees);
         const response = await agent.get("/api/grants");
 
         expect(response.statusCode).toBe(200);
-        expect(response.body).toEqual([
+        expect(response.body).toEqual(grants);
+      });
+
+      it("add new grant when method POST", async () => {
+        const newGrant = {
+          grantName: "string",
+          organizationName: "string",
+          sector: "string",
+          grantDescription: "string",
+          country: "string",
+          region: "string",
+          otherInfo: "string",
+          accountEmail: "string",
+          accountPassword: "password"
+        };
+        const expectedGrants = [
+          ...grants,
           {
-            username: "user@flamingo.life",
-            grant: "some grant",
-            name: "some name"
+            grant: "string",
+            name: "string",
+            sector: "string",
+            description: "string",
+            country: "string",
+            region: "string",
+            otherInfo: "string",
+            username: "string"
           }
-        ]);
+        ];
+        const response = await agent.post("/api/grants").send(newGrant);
+        expect(response.statusCode).toEqual(200);
+
+        expect(response.body).toEqual(expectedGrants);
       });
     });
   });

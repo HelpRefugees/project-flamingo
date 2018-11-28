@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withStyles, Typography } from "@material-ui/core";
+import { withStyles, Typography, Grid } from "@material-ui/core";
 
 const background = {
   minHeight: "310px",
@@ -34,26 +34,38 @@ const styles = () => ({
     background: "linear-gradient(80deg, #004d46, #00857b)",
     zIndex: "-1",
     opacity: 0.8
+  },
+  containerGrid: {
+    justifyContent: "space-between"
+  },
+  addGrantButton: {
+    width: "171px",
+    height: "36px",
+    background: "#ffffff"
   }
 });
 
 type Props = {
   classes: any,
-  children: ?any
+  children: ?any,
+  title: string
 };
 
 class BannerHeader extends Component<Props> {
   render() {
-    const { children, classes } = this.props;
+    const { children, classes, title } = this.props;
     return (
       <>
-        <Typography
-          className={classes.header}
-          variant="h3"
-          data-test-id="page-title"
-        >
+        <Grid container className={classes.containerGrid}>
+          <Typography
+            className={classes.header}
+            variant="h3"
+            data-test-id="page-title"
+          >
+            {title}
+          </Typography>
           {children}
-        </Typography>
+        </Grid>
         <div className={classes.backgroundImage} />
         <div className={classes.backgroundGradient} />
       </>

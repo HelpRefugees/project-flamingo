@@ -128,6 +128,12 @@ const reducers = (state: State = initialState, action: Action): State => {
         environment
       };
     }
+    case "ADD_GRANT_SUCCESS": {
+      return {
+        ...state,
+        grants: action.payload
+      };
+    }
     default: {
       return state;
     }

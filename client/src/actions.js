@@ -1,8 +1,8 @@
-import type { Dispatch } from "redux";
+import { type Dispatch } from "redux";
 
-import type { Report } from "./my-report/models";
-import type { Grant } from "./grants/models";
-import type { Credentials, Account } from "./authentication/models";
+import { type Report } from "./my-report/models";
+import { type Grant, type AddGrantModel } from "./grants/models";
+import { type Credentials, type Account } from "./authentication/models";
 
 export const loginSuccessful = (account: Account) => ({
   type: "SET_LOGGED_IN",
@@ -279,6 +279,51 @@ export const resetPassword = (resetToken: string, password: string) => (
     dispatch(errorOccurred("Password reset failed"));
     throw err;
   });
+
+export const addGrantStarted = () => {
+  return { type: "ADD_GRANT_STARTED" };
+};
+
+export const addGrantFaild = (error: string) => {
+  return {
+    type: "ADD_GRANT_FAILED",
+    payload: error
+  };
+};
+
+export const addGrantSuccessful = (grants: Grant[]) => {
+  return {
+    type: "ADD_GRANT_SUCCESS",
+    payload: grants
+  };
+};
+
+export const addGrant = (grant: AddGrantModel) => (dispatch: Dispatch<any>) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(addGrantStarted());
+    makeRequest(
+      dispatch,
+      "/api/grants/",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(grant)
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(grants => {
+            dispatch(addGrantSuccessful(grants));
+            resolve();
+          });
+        } else {
+          dispatch(addGrantFaild("Unable to insert grant"));
+          reject("Unable to insert grant");
+        }
+      }
+    );
+  });
+  return promise;
+};
 
 export const makeRequest = (
   dispatch: Dispatch<any>,

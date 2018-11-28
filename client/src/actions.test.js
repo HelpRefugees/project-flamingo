@@ -98,6 +98,34 @@ describe("actions", () => {
         type: "SAVE_REPORT_START"
       });
     });
+
+    it("addGrantStarted should create ADD_GRANT_START action", () => {
+      expect(actions.addGrantStarted()).toEqual({
+        type: "ADD_GRANT_STARTED"
+      });
+    });
+
+    it("addGrantSuccessful should create ADD_GRANT_SUCCESS action", () => {
+      const grants = [
+        {
+          username: "abnc",
+          grant: "dbdde",
+          name: "ali"
+        }
+      ];
+      expect(actions.addGrantSuccessful(grants)).toEqual({
+        type: "ADD_GRANT_SUCCESS",
+        payload: grants
+      });
+    });
+
+    it("addGrantFailed should create ADD_GRANT_FAILED action", () => {
+      const error = "Error msg";
+      expect(actions.addGrantFaild(error)).toEqual({
+        type: "ADD_GRANT_FAILED",
+        payload: error
+      });
+    });
   });
 
   describe("loadReports", () => {
