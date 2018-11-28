@@ -128,7 +128,7 @@ export class AddGrantComponent extends Component<Props, any> {
   };
 
   render() {
-    const { logout, classes, account, ...others } = this.props;
+    const { logout, classes, account } = this.props;
     const title = "Add a new grant";
 
     return (
