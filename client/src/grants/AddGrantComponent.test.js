@@ -1,6 +1,7 @@
 import React from "react";
-import { AddGrantComponent } from "./AddGrantComponent";
 import { shallow } from "enzyme";
+
+import { AddGrantComponent } from "./AddGrantComponent";
 
 describe("AddGrantComponent", () => {
   let wrapper;

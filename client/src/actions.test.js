@@ -110,7 +110,14 @@ describe("actions", () => {
         {
           username: "abnc",
           grant: "dbdde",
-          name: "ali"
+          name: "ali",
+          id: 10,
+          organization: "string",
+          sector: "string",
+          description: "string",
+          country: "string",
+          region: "string",
+          otherInfo: "string"
         }
       ];
       expect(actions.addGrantSuccessful(grants)).toEqual({

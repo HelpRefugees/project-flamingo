@@ -218,7 +218,14 @@ describe("reducers", () => {
       {
         name: "grant name",
         grant: "hugh grant",
-        username: "some user"
+        username: "some user",
+        id: 10,
+        organization: "string",
+        sector: "string",
+        description: "string",
+        country: "string",
+        region: "string",
+        otherInfo: "string"
       }
     ];
     const startingState: State = {
@@ -244,7 +251,14 @@ describe("reducers", () => {
       {
         username: "abnc",
         grant: "dbdde",
-        name: "ali"
+        id: 10,
+        name: "ali",
+        organization: "string",
+        sector: "string",
+        description: "string",
+        country: "string",
+        region: "string",
+        otherInfo: "string"
       }
     ];
     const expectedState = {

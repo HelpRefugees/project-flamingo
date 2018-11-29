@@ -32,7 +32,20 @@ describe("GrantsListingComponent", () => {
     let mockHistoryPush;
     beforeEach(() => {
       mockHistoryPush = jest.fn();
-      grants = [{ grant: "grant", name: "name", username: "a username" }];
+      grants = [
+        {
+          grant: "grant",
+          name: "name",
+          username: "a username",
+          id: 10,
+          organization: "string",
+          sector: "string",
+          description: "string",
+          country: "string",
+          region: "string",
+          otherInfo: "string"
+        }
+      ];
       wrapper = shallow(
         <GrantsListingComponent
           loadGrants={() => {}}

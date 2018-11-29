@@ -24,7 +24,7 @@ import Forbidden from "./authorization/Forbidden";
 import MyReportPage from "./my-report/MyReportPage";
 import withErrorHandler from "./withErrorHandler";
 import GrantsListingPage from "./grants/GrantsListingPage";
-import AddGrantPage from "./add-grant/AddGrantPage";
+import AddGrantPage from "./grants/AddGrantPage";
 
 const mapStateToProps = (state: State) => {
   return {

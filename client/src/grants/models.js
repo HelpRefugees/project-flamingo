@@ -1,7 +1,14 @@
 export type Grant = {
+  id: number,
   name: string,
   grant: string,
-  username: string
+  username: string,
+  organization: string,
+  sector: string,
+  description: string,
+  country: string,
+  region: string,
+  otherInfo: string
 };
 
 export type AddGrantModel = {

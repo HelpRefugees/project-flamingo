@@ -12,7 +12,7 @@ import {
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
-import { type AddGrantModel } from "../grants/models";
+import { type AddGrantModel } from "./models";
 import { type Account } from "../authentication/models";
 
 type Props = {
