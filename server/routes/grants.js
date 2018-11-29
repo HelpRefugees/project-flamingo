@@ -20,6 +20,7 @@ module.exports = db => {
           {
             projection: {
               _id: 0,
+              id: 1,
               grant: 1,
               name: 1,
               organizationName: 1,
@@ -43,6 +44,9 @@ module.exports = db => {
     ensureLoggedIn,
     ensureHasRole("help-refugees"),
     async (req, res) => {
+      const lastGrant = await db
+        .collection(collection)
+        .findOne({}, { sort: { id: -1 } });
       const salt = bcrypt.genSaltSync();
       const newGrant = {
         grant: req.body.grantName,
@@ -54,7 +58,8 @@ module.exports = db => {
         otherInfo: req.body.otherInfo,
         username: req.body.accountEmail,
         password: bcrypt.hashSync(req.body.accountPassword, salt),
-        role: "implementing-partner"
+        role: "implementing-partner",
+        id: (lastGrant ? lastGrant.id : 0) + 1
       };
       const commandResult = await db.collection(collection).insertOne(newGrant);
       if (commandResult.result.ok === 1) {
@@ -67,6 +72,7 @@ module.exports = db => {
             {
               projection: {
                 _id: 0,
+                id: 1,
                 grant: 1,
                 name: 1,
                 sector: 1,

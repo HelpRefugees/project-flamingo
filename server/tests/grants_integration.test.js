@@ -38,12 +38,14 @@ describe("grants endpoint", () => {
         password: hashPassword(implementingPartner.password),
         role: "implementing-partner",
         name: "some name",
-        grant: "some grant"
+        grant: "some grant",
+        id: 0
       },
       {
         username: helpRefugees.username,
         password: hashPassword(helpRefugees.password),
-        role: "help-refugees"
+        role: "help-refugees",
+        id: 1
       }
     ]);
   });
@@ -72,7 +74,8 @@ describe("grants endpoint", () => {
         {
           username: "user@flamingo.life",
           grant: "some grant",
-          name: "some name"
+          name: "some name",
+          id: 0
         }
       ];
       beforeEach(async () => {
@@ -107,7 +110,8 @@ describe("grants endpoint", () => {
             country: "string",
             region: "string",
             otherInfo: "string",
-            username: "string"
+            username: "string",
+            id: 2
           }
         ];
         const response = await agent.post("/api/grants").send(newGrant);
