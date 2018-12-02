@@ -26,11 +26,13 @@ module.exports = {
       new LocalStrategy((username, password, done) => {
         debug("logging in", username);
         db.collection(collection).findOne({ username }, (err, user) => {
-          if (user && bcrypt.compareSync(password, user.password)) {
-            const { username, name, role } = user;
-            return done(null, { username, name, role });
-          }
-          return done(null, false, { message: "Incorrect credentials." });
+          bcrypt.compare(password, user ? user.password : "").then(match => {
+            if (user && match) {
+              const { username, name, role } = user;
+              return done(null, { username, name, role });
+            }
+            return done(null, false, { message: "Incorrect credentials." });
+          });
         });
       })
     );

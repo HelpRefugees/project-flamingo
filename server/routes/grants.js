@@ -1,6 +1,7 @@
-const { Router } = require("express");
-const { ensureLoggedIn, ensureHasRole } = require("../auth");
 const bcrypt = require("bcrypt");
+const { Router } = require("express");
+
+const { ensureLoggedIn, ensureHasRole } = require("../auth");
 
 module.exports = db => {
   const collection = "users";
@@ -47,7 +48,9 @@ module.exports = db => {
       const lastGrant = await db
         .collection(collection)
         .findOne({}, { sort: { id: -1 } });
-      const salt = bcrypt.genSaltSync();
+      const password = await bcrypt
+        .genSalt()
+        .then(salt => bcrypt.hash(req.body.accountPassword, salt));
       const newGrant = {
         grant: req.body.grantName,
         name: req.body.organizationName,
@@ -57,7 +60,7 @@ module.exports = db => {
         region: req.body.region,
         otherInfo: req.body.otherInfo,
         username: req.body.accountEmail,
-        password: bcrypt.hashSync(req.body.accountPassword, salt),
+        password,
         role: "implementing-partner",
         id: (lastGrant ? lastGrant.id : 0) + 1
       };
