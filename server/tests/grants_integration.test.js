@@ -30,8 +30,7 @@ describe("grants endpoint", () => {
     const appFactory = require("../app");
     app = appFactory(global.DATABASE, session => new session.MemoryStore());
 
-    await safeDrop("users");
-    await safeDrop("grants");
+    safeDrop("users");
 
     await global.DATABASE.collection("users").insertMany([
       {
