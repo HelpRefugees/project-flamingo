@@ -38,12 +38,12 @@ describe("GrantsListingComponent", () => {
           name: "name",
           username: "a username",
           id: 10,
-          organization: "string",
-          sector: "string",
-          description: "string",
-          country: "string",
-          region: "string",
-          otherInfo: "string"
+          organization: "organization",
+          sector: "sector",
+          description: "desc",
+          country: "country",
+          region: "region",
+          otherInfo: "info"
         }
       ];
       wrapper = shallow(
@@ -64,21 +64,21 @@ describe("GrantsListingComponent", () => {
           .find('[data-test-id="grant-name"]')
           .render()
           .text()
-      ).toEqual("name");
+      ).toEqual(grants[0].grant);
 
       expect(
         wrapper
           .find('[data-test-id="grant-organisation"]')
           .render()
           .text()
-      ).toEqual("grant");
+      ).toEqual(grants[0].name);
 
       expect(
         wrapper
-          .find('[data-test-id="grant-username"]')
+          .find('[data-test-id="grant-region"]')
           .render()
           .text()
-      ).toEqual("a username");
+      ).toEqual(grants[0].region);
     });
   });
 });
