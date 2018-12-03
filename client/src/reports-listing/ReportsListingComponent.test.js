@@ -18,7 +18,7 @@ describe("ReportsListingComponent", () => {
     completed: false,
     overview: "Mitchell Overview completed",
     grant: "Grant Mitchell",
-    reportPeriod: "2018-12-01T00:00:00.000Z",
+    reportPeriod: "2025-12-01T00:00:00.000Z",
     submissionDate: "",
     keyActivities: [{}],
     operatingEnvironment: "",
@@ -26,7 +26,7 @@ describe("ReportsListingComponent", () => {
     challengesFaced: "",
     incidents: "",
     otherIssues: "",
-    dueDate: "2018-12-01T00:00:00.000Z",
+    dueDate: "2025-12-01T00:00:00.000Z",
     materialsForFundraising: ""
   };
 
