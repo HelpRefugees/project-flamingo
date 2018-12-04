@@ -19,6 +19,7 @@ describe("GrantsListingComponent", () => {
           account={account}
           grants={[]}
           logout={() => {}}
+          history={{ push: jest.fn() }}
         />
       );
 

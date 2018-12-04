@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { shallow } from "enzyme";
 
 import { type Grant } from "./models";
 import { EditGrantComponent } from "./EditGrantComponent";
@@ -70,10 +70,8 @@ describe("EditGrantComponent", () => {
     ).toEqual(grant.username);
 
     expect(
-      expect(
-        wrapper.find('[data-test-id="save-grant-button"]').prop("disabled")
-      ).toEqual(true)
-    );
+      wrapper.find('[data-test-id="save-grant-button"]').prop("disabled")
+    ).toEqual(true);
   });
 
   it("Edits the current grant", () => {
@@ -89,10 +87,8 @@ describe("EditGrantComponent", () => {
       otherInfo: "string"
     };
     expect(
-      expect(
-        wrapper.find('[data-test-id="save-grant-button"]').prop("disabled")
-      ).toEqual(true)
-    );
+      wrapper.find('[data-test-id="save-grant-button"]').prop("disabled")
+    ).toEqual(true);
     wrapper
       .find('[data-test-id="grant-name-text"]')
       .simulate("change", { target: { value: editedGrant.grant } });

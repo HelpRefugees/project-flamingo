@@ -53,7 +53,7 @@ export class GrantsListingComponent extends Component<Props> {
     this.props.loadGrants();
   }
 
-  renderListItems(classes) {
+  renderListItems(classes: any) {
     const grants = this.props.grants || [];
     return grants.map((grant: Grant, index: number) => (
       <TableRow data-test-id="report" key={index}>
