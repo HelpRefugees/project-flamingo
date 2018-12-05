@@ -48,49 +48,60 @@ module.exports = db => {
       const lastGrant = await db
         .collection(collection)
         .findOne({}, { sort: { id: -1 } });
-      const password = await bcrypt
-        .genSalt()
-        .then(salt => bcrypt.hash(req.body.accountPassword, salt));
-      const newGrant = {
-        grant: req.body.grantName,
-        name: req.body.organizationName,
-        sector: req.body.sector,
-        description: req.body.grantDescription,
-        country: req.body.country,
-        region: req.body.region,
-        otherInfo: req.body.otherInfo,
-        username: req.body.accountEmail,
-        password,
-        role: "implementing-partner",
-        id: (lastGrant ? lastGrant.id : 0) + 1
-      };
-      const commandResult = await db.collection(collection).insertOne(newGrant);
-      if (commandResult.result.ok === 1) {
-        const grants = await db
-          .collection(collection)
-          .find(
-            {
-              role: "implementing-partner"
-            },
-            {
-              projection: {
-                _id: 0,
-                id: 1,
-                grant: 1,
-                name: 1,
-                sector: 1,
-                description: 1,
-                country: 1,
-                region: 1,
-                otherInfo: 1,
-                username: 1
-              }
-            }
-          )
-          .toArray();
-        res.json(grants);
+      const allGrants = await db
+        .collection(collection)
+        .find({ role: "implementing-partner" })
+        .toArray();
+
+      if (allGrants.find(grant => grant.grant === req.body.grantName)) {
+        res.sendStatus(422);
       } else {
-        res.sendStatus(404);
+        const password = await bcrypt
+          .genSalt()
+          .then(salt => bcrypt.hash(req.body.accountPassword, salt));
+        const newGrant = {
+          grant: req.body.grantName,
+          name: req.body.organizationName,
+          sector: req.body.sector,
+          description: req.body.grantDescription,
+          country: req.body.country,
+          region: req.body.region,
+          otherInfo: req.body.otherInfo,
+          username: req.body.accountEmail,
+          password,
+          role: "implementing-partner",
+          id: (lastGrant ? lastGrant.id : 0) + 1
+        };
+        const commandResult = await db
+          .collection(collection)
+          .insertOne(newGrant);
+        if (commandResult.result.ok === 1) {
+          const grants = await db
+            .collection(collection)
+            .find(
+              {
+                role: "implementing-partner"
+              },
+              {
+                projection: {
+                  _id: 0,
+                  id: 1,
+                  grant: 1,
+                  name: 1,
+                  sector: 1,
+                  description: 1,
+                  country: 1,
+                  region: 1,
+                  otherInfo: 1,
+                  username: 1
+                }
+              }
+            )
+            .toArray();
+          res.json(grants);
+        } else {
+          res.sendStatus(404);
+        }
       }
     }
   );

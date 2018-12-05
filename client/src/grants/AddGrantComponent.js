@@ -19,8 +19,9 @@ type Props = {
   classes: any,
   logout: () => void,
   account: Account,
-  addGrant: (grant: AddGrantModel) => Promise<any>,
-  history: any
+  addGrant: (grant: AddGrantModel, errorMessage: string) => Promise<any>,
+  history: any,
+  isLoading: boolean
 };
 
 const styles = themes => ({
@@ -75,6 +76,38 @@ export class AddGrantComponent extends Component<Props, any> {
     };
   }
 
+  isAddGrantDisabled() {
+    const { isLoading } = this.props;
+
+    const {
+      grantName,
+      organizationName,
+      sector,
+      grantDescription,
+      country,
+      region,
+      otherInfo,
+      accountEmail,
+      accountPassword
+    } = this.state;
+
+    let isDisabled = true;
+    if (
+      grantName !== "" &&
+      organizationName !== "" &&
+      sector !== "" &&
+      grantDescription !== "" &&
+      country !== "" &&
+      region !== "" &&
+      otherInfo !== "" &&
+      accountEmail !== "" &&
+      accountPassword !== ""
+    ) {
+      isDisabled = false;
+    }
+    return isLoading || isDisabled;
+  }
+
   renderToolbar = (classes: any) => {
     return (
       <AppBar position="static" color="inherit">
@@ -90,7 +123,7 @@ export class AddGrantComponent extends Component<Props, any> {
               justify="flex-start"
             >
               <Grid item container direction="column" xs={3} sm={6}>
-                <Button>
+                <Button onClick={() => this.props.history.push("/grants")}>
                   <ArrowBack className={classes.icon} />
                 </Button>
               </Grid>
@@ -105,13 +138,16 @@ export class AddGrantComponent extends Component<Props, any> {
               justify="flex-end"
             >
               <Button
+                disabled={this.isAddGrantDisabled()}
                 data-test-id="add-grant-button"
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  this.props.addGrant(this.state).then(() => {
-                    this.props.history.push("/grants");
-                  });
+                  this.props
+                    .addGrant(this.state, "Unable to insert grant")
+                    .then(() => {
+                      this.props.history.push("/grants");
+                    });
                 }}
               >
                 Add Grant
@@ -124,7 +160,9 @@ export class AddGrantComponent extends Component<Props, any> {
   };
 
   updateField = (event: Event, key: string) => {
-    this.setState({ [key]: (event.target: window.HTMLInputElement).value });
+    this.setState({
+      [key]: (event.target: window.HTMLInputElement).value
+    });
   };
 
   render() {

@@ -120,6 +120,37 @@ describe("grants endpoint", () => {
 
         expect(response.body).toEqual(expectedGrants);
       });
+
+      it("reject add new grant if not unique", async () => {
+        await global.DATABASE.collection("users").drop();
+        await global.DATABASE.collection("users").insertOne({
+          grant: "string",
+          name: "string",
+          sector: "string",
+          description: "string",
+          country: "string",
+          region: "string",
+          otherInfo: "string",
+          username: "string",
+          password: bcrypt.hashSync("password", bcrypt.genSaltSync()),
+          role: "implementing-partner",
+          id: 22
+        });
+        const newGrant = {
+          grantName: "string",
+          organizationName: "string",
+          sector: "string",
+          grantDescription: "string",
+          country: "string",
+          region: "string",
+          otherInfo: "string",
+          accountEmail: "string",
+          accountPassword: "password"
+        };
+
+        const response = await agent.post("/api/grants").send(newGrant);
+        expect(response.statusCode).toEqual(422);
+      });
     });
   });
 });
