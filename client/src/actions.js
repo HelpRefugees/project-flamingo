@@ -298,7 +298,9 @@ export const addGrantSuccessful = (grants: Grant[]) => {
   };
 };
 
-export const addGrant = (grant: AddGrantModel) => (dispatch: Dispatch<any>) => {
+export const addGrant = (grant: AddGrantModel, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
   const promise: Promise<any> = new Promise((resolve, reject) => {
     dispatch(addGrantStarted());
     makeRequest(
@@ -316,11 +318,14 @@ export const addGrant = (grant: AddGrantModel) => (dispatch: Dispatch<any>) => {
             resolve();
           });
         } else {
-          dispatch(addGrantFaild("Unable to insert grant"));
+          dispatch(errorOccurred(errorMessage));
           reject("Unable to insert grant");
         }
       }
-    );
+    ).catch(err => {
+      dispatch(errorOccurred(errorMessage));
+      reject(err);
+    });
   });
   return promise;
 };

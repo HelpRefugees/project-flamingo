@@ -19,9 +19,10 @@ describe("AddGrantComponent", () => {
       <AddGrantComponent
         account={account}
         classes={{}}
-        logout={() => {}}
+        logout={jest.fn()}
         addGrant={mockAddGrant}
         history={{}}
+        isLoading={false}
       />
     );
   });

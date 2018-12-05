@@ -4,6 +4,7 @@ import type { Dispatch } from "redux";
 import AddGrantComponent from "./AddGrantComponent";
 import { logout, addGrant } from "../actions";
 import type { State } from "../reducers";
+import type { AddGrantModel } from "./models";
 
 const mapStateToProps = (state: State): any => ({
   isAuthenticated: state.isAuthenticated,
@@ -13,7 +14,8 @@ const mapStateToProps = (state: State): any => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   logout: () => dispatch(logout()),
-  addGrant: grant => dispatch(addGrant(grant))
+  addGrant: (grant: AddGrantModel, errorMessage: string) =>
+    dispatch(addGrant(grant, errorMessage))
 });
 
 export default connect(
