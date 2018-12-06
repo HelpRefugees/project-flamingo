@@ -106,5 +106,41 @@ module.exports = db => {
     }
   );
 
+  router.put(
+    "/:id",
+    ensureLoggedIn,
+    ensureHasRole("help-refugees"),
+    async (req, res) => {
+      let changes = req.body;
+      const id = parseInt(req.params.id, 10);
+      changes.id = id;
+      let grant = await db.collection(collection).findOne({ id });
+      if (!grant) {
+        return res.sendStatus(404);
+      } else {
+        const allGrants = await db
+          .collection(collection)
+          .find({ role: "implementing-partner" })
+          .toArray();
+        if (grant.grant !== changes.grant) {
+          if (allGrants.find(grant => grant.grant === req.body.grant)) {
+            res.sendStatus(422);
+          } else {
+            grant = { ...grant, ...changes };
+            db.collection(collection).replaceOne({ id }, grant, () => {
+              const { _id, ...updatedGrant } = grant;
+              return res.send(updatedGrant);
+            });
+          }
+        } else {
+          grant = { ...grant, ...changes };
+          db.collection(collection).replaceOne({ id }, grant, () => {
+            const { _id, ...updatedGrant } = grant;
+            return res.send(updatedGrant);
+          });
+        }
+      }
+    }
+  );
   return router;
 };

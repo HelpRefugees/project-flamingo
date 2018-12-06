@@ -8,6 +8,7 @@ import {
   TableCell,
   TableBody
 } from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
 
 import { Account } from "../authentication/models";
 import { type Grant } from "./models";
@@ -20,7 +21,9 @@ type Props = {
   loadGrants: () => void,
   grants: Grant[],
   logout: () => void,
-  classes: any
+  classes: any,
+  history: any,
+  selectGrant: (grant: Grant) => void
 };
 
 const styles = theme => ({
@@ -35,6 +38,14 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 5.5,
     fontSize: "14px",
     borderRadius: "0px"
+  },
+  tableGrant: {
+    margin: "2px",
+    borderLeft: "1px solid #d9d9d9",
+    paddingLeft: "24px"
+  },
+  clickable: {
+    cursor: "pointer"
   }
 });
 
@@ -43,13 +54,29 @@ export class GrantsListingComponent extends Component<Props> {
     this.props.loadGrants();
   }
 
-  renderListItems() {
+  renderListItems(classes: any) {
     const grants = this.props.grants || [];
+
     return grants.map((grant: Grant, index: number) => (
       <TableRow data-test-id="report" key={index}>
-        <TableCell data-test-id="grant-name">{grant.name}</TableCell>
-        <TableCell data-test-id="grant-organisation">{grant.grant}</TableCell>
-        <TableCell data-test-id="grant-username">{grant.username}</TableCell>
+        <TableCell data-test-id="grant-organisation">{grant.name}</TableCell>
+        <TableCell data-test-id="grant-name">
+          <div className={classes.tableGrant}>{grant.grant}</div>
+        </TableCell>
+        <TableCell data-test-id="grant-region">
+          <div className={classes.tableGrant}>{grant.region}</div>
+        </TableCell>
+        <TableCell data-test-id="grant-action">
+          <div className={classes.tableGrant}>
+            <CreateIcon
+              className={classes.clickable}
+              onClick={() => {
+                this.props.selectGrant(grant);
+                this.props.history.push(`/grants/${grant.id}/edit`);
+              }}
+            />
+          </div>
+        </TableCell>
       </TableRow>
     ));
   }
@@ -78,18 +105,19 @@ export class GrantsListingComponent extends Component<Props> {
               <Table data-test-id="grant-list">
                 <TableHead>
                   <TableRow>
-                    <TableCell className={classes.tableReportGrant}>
-                      Organisation
+                    <TableCell>Organisation</TableCell>
+                    <TableCell>
+                      <div className={classes.tableGrant}>Grant Name </div>
                     </TableCell>
-                    <TableCell className={classes.tableReportGrant}>
-                      Grant
+                    <TableCell>
+                      <div className={classes.tableGrant}>Region</div>
                     </TableCell>
-                    <TableCell className={classes.tableReportGrant}>
-                      Account Name
+                    <TableCell>
+                      <div className={classes.tableGrant}>{"  "}</div>
                     </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>{this.renderListItems()}</TableBody>
+                <TableBody>{this.renderListItems(classes)}</TableBody>
               </Table>
             </Grid>
           </Grid>

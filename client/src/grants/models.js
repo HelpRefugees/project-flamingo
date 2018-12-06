@@ -3,7 +3,6 @@ export type Grant = {
   name: string,
   grant: string,
   username: string,
-  organization: string,
   sector: string,
   description: string,
   country: string,
@@ -19,5 +18,6 @@ export type AddGrantModel = {
   country: string,
   region: string,
   otherInfo: string,
-  accountEmail: string
+  accountEmail: string,
+  accountPassword: string
 };

@@ -127,10 +127,8 @@ describe("actions", () => {
     });
 
     it("addGrantFailed should create ADD_GRANT_FAILED action", () => {
-      const error = "Error msg";
-      expect(actions.addGrantFaild(error)).toEqual({
-        type: "ADD_GRANT_FAILED",
-        payload: error
+      expect(actions.addGrantFaild()).toEqual({
+        type: "ADD_GRANT_FAILED"
       });
     });
   });

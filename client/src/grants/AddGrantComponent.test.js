@@ -21,7 +21,7 @@ describe("AddGrantComponent", () => {
         classes={{}}
         logout={jest.fn()}
         addGrant={mockAddGrant}
-        history={{}}
+        history={{ push: jest.fn() }}
         isLoading={false}
       />
     );

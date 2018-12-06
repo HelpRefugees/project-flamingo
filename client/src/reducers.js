@@ -7,6 +7,7 @@ export type State = {
   reports: ?(Report[]),
   report: ?Report,
   grants: ?(Grant[]),
+  grant: ?Grant,
   account: ?Account,
   isLoading: boolean,
   errorMessage: ?string,
@@ -18,6 +19,7 @@ export const initialState: State = {
   reports: undefined,
   report: undefined,
   grants: undefined,
+  grant: undefined,
   account: undefined,
   isLoading: false,
   errorMessage: undefined,
@@ -128,12 +130,21 @@ const reducers = (state: State = initialState, action: Action): State => {
         environment
       };
     }
+
     case "ADD_GRANT_SUCCESS": {
       return {
         ...state,
         grants: action.payload
       };
     }
+
+    case "SELECT_GRANT": {
+      return {
+        ...state,
+        grant: action.payload
+      };
+    }
+
     default: {
       return state;
     }

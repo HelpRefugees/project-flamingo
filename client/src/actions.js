@@ -169,6 +169,7 @@ export const updateReport = (report: Report, errorMessage: string) => (
             resolve();
           });
         } else {
+          dispatch(updateReportFailed());
           dispatch(errorOccurred(errorMessage));
           reject("did not return 200");
         }
@@ -284,10 +285,9 @@ export const addGrantStarted = () => {
   return { type: "ADD_GRANT_STARTED" };
 };
 
-export const addGrantFaild = (error: string) => {
+export const addGrantFaild = () => {
   return {
-    type: "ADD_GRANT_FAILED",
-    payload: error
+    type: "ADD_GRANT_FAILED"
   };
 };
 
@@ -318,11 +318,69 @@ export const addGrant = (grant: AddGrantModel, errorMessage: string) => (
             resolve();
           });
         } else {
+          dispatch(addGrantFaild());
           dispatch(errorOccurred(errorMessage));
           reject("Unable to insert grant");
         }
       }
     ).catch(err => {
+      dispatch(addGrantFaild());
+      dispatch(errorOccurred(errorMessage));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
+export const selectGrant = (grant: Grant) => {
+  return {
+    type: "SELECT_GRANT",
+    payload: grant
+  };
+};
+
+export const updateGrantStarted = () => {
+  return { type: "UPDATE_GRANT_STARTED" };
+};
+
+export const updateGrantSuccessful = (grant: Grant) => {
+  return {
+    type: "UPDATE_GRANT_SUCCESS",
+    payload: grant
+  };
+};
+
+export const updateGrantFailed = () => {
+  return { type: "UPDATE_GRANT_FAILED" };
+};
+
+export const updateGrant = (grant: Grant, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(updateGrantStarted());
+    makeRequest(
+      dispatch,
+      `/api/grants/${grant.id}`,
+      {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(grant)
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(grant => {
+            dispatch(updateGrantSuccessful(grant));
+            resolve();
+          });
+        } else {
+          dispatch(updateGrantFailed());
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to update");
+        }
+      }
+    ).catch(err => {
+      dispatch(updateGrantFailed());
       dispatch(errorOccurred(errorMessage));
       reject(err);
     });
