@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { AppBar, Grid, Toolbar, Typography } from "@material-ui/core";
 import moment from "moment";
 
@@ -33,7 +33,7 @@ export class SubmittedReportComponent extends Component<Props> {
       return <div data-test-id="loading-placeholder">Loading...</div>;
     }
     return (
-      <Fragment>
+      <>
         <HeaderComponent logout={logout} account={account} />
         <AppBar position="static" color="inherit">
           <Toolbar>
@@ -68,7 +68,7 @@ export class SubmittedReportComponent extends Component<Props> {
           </Toolbar>
         </AppBar>
         <ReportViewComponent report={report} />
-      </Fragment>
+      </>
     );
   }
 }

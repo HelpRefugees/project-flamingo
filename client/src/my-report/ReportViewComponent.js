@@ -32,7 +32,8 @@ const styles = themes => ({
   },
   outerContainer: {
     height: "100vh",
-    marginTop: themes.spacing.unit * 5
+    marginTop: themes.spacing.unit * 5,
+    width: "100%"
   },
   rule: {
     marginTop: themes.spacing.unit * 2,

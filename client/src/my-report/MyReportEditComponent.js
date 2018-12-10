@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import HeaderComponent from "../page-layout/HeaderComponent";
 import {
   Button,
@@ -48,7 +48,8 @@ const styles = themes => ({
   },
   outerContainer: {
     height: "100vh",
-    marginTop: themes.spacing.unit * 5
+    marginTop: themes.spacing.unit * 5,
+    width: "100%"
   }
 });
 
@@ -373,7 +374,7 @@ export class MyReportEditComponent extends Component<Props, State> {
     }
 
     return (
-      <Fragment>
+      <>
         <HeaderComponent logout={logout} account={account} />
         {this.renderToolbar(classes, report)}
         <Grid container spacing={24} className={classes.outerContainer}>
@@ -396,7 +397,7 @@ export class MyReportEditComponent extends Component<Props, State> {
             </Grid>
           </Grid>
         </Grid>
-      </Fragment>
+      </>
     );
   }
 }
