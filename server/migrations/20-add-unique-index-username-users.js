@@ -10,5 +10,4 @@ module.exports.up = function(done) {
 
 module.exports.down = function(done) {
   this.db.collection("users").dropIndex("username", () => done());
-  done();
 };
