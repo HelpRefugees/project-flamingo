@@ -108,9 +108,8 @@ describe("actions", () => {
     it("addGrantSuccessful should create ADD_GRANT_SUCCESS action", () => {
       const grants = [
         {
-          username: "abnc",
+          owner: "abnc",
           grant: "dbdde",
-          name: "ali",
           id: 10,
           organization: "string",
           sector: "string",

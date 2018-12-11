@@ -39,8 +39,7 @@ describe("GrantsListingComponent", () => {
       grants = [
         {
           grant: "grant",
-          name: "name",
-          username: "a username",
+          owner: "a username",
           id: 10,
           organization: "organization",
           sector: "sector",
@@ -76,7 +75,7 @@ describe("GrantsListingComponent", () => {
           .find('[data-test-id="grant-organisation"]')
           .render()
           .text()
-      ).toEqual(grants[0].name);
+      ).toEqual(grants[0].organization);
 
       expect(
         wrapper

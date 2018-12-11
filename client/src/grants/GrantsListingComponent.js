@@ -59,7 +59,9 @@ export class GrantsListingComponent extends Component<Props> {
 
     return grants.map((grant: Grant, index: number) => (
       <TableRow data-test-id="report" key={index}>
-        <TableCell data-test-id="grant-organisation">{grant.name}</TableCell>
+        <TableCell data-test-id="grant-organisation">
+          {grant.organization}
+        </TableCell>
         <TableCell data-test-id="grant-name">
           <div className={classes.tableGrant}>{grant.grant}</div>
         </TableCell>

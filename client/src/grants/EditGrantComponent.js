@@ -65,9 +65,9 @@ export class EditGrantComponent extends Component<Props, Grant> {
     super();
     this.state = {
       id: 0,
-      name: "",
+      organization: "",
       grant: "",
-      username: "",
+      owner: "",
       sector: "",
       description: "",
       country: "",
@@ -192,8 +192,10 @@ export class EditGrantComponent extends Component<Props, Grant> {
                       className={classes.formControl}
                       data-test-id="organization-name-text"
                       fullWidth={true}
-                      value={this.state.name}
-                      onChange={value => this.updateField(value, "name")}
+                      value={this.state.organization}
+                      onChange={value =>
+                        this.updateField(value, "organization")
+                      }
                       variant="outlined"
                       label="Organization name"
                     />
@@ -262,8 +264,8 @@ export class EditGrantComponent extends Component<Props, Grant> {
                       className={classes.formControl}
                       data-test-id="account-email"
                       fullWidth={true}
-                      value={this.state.username}
-                      onChange={value => this.updateField(value, "username")}
+                      value={this.state.owner}
+                      onChange={value => this.updateField(value, "owner")}
                       variant="outlined"
                       label="Account email"
                     />

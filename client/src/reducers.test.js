@@ -216,9 +216,8 @@ describe("reducers", () => {
   it("should handle LOAD_GRANTS_SUCCESS", () => {
     const grants: Grant[] = [
       {
-        name: "grant name",
         grant: "hugh grant",
-        username: "some user",
+        owner: "some user",
         id: 10,
         organization: "string",
         sector: "string",

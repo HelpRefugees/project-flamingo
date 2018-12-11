@@ -39,14 +39,28 @@ describe("grants endpoint", () => {
         password: hashPassword(implementingPartner.password),
         role: "implementing-partner",
         name: "some name",
-        grant: "some grant",
         id: 0
       },
       {
         username: helpRefugees.username,
         password: hashPassword(helpRefugees.password),
         role: "help-refugees",
+        name: "Daisy",
         id: 1
+      }
+    ]);
+
+    await global.DATABASE.collection("grants").insertMany([
+      {
+        owner: implementingPartner.username,
+        organization: "some organization",
+        grant: "some grant",
+        region: "Europe",
+        country: "Greece",
+        otherInfo: "info...",
+        description: "some desc...",
+        sector: "some sector",
+        id: 0
       }
     ]);
   });
@@ -73,16 +87,21 @@ describe("grants endpoint", () => {
     describe("as help-refugees", () => {
       const grants = [
         {
-          username: "user@flamingo.life",
+          owner: implementingPartner.username,
           grant: "some grant",
-          name: "some name",
+          organization: "some organization",
+          region: "Europe",
+          country: "Greece",
+          otherInfo: "info...",
+          description: "some desc...",
+          sector: "some sector",
           id: 0
         }
       ];
       beforeEach(async () => {
         agent = await loginAs(app, helpRefugees);
       });
-      it("returns all the implementing partners", async () => {
+      it("returns all the grants", async () => {
         const response = await agent.get("/api/grants");
 
         expect(response.statusCode).toBe(200);
@@ -105,39 +124,54 @@ describe("grants endpoint", () => {
           ...grants,
           {
             grant: "string",
-            name: "string",
+            organization: "string",
             sector: "string",
             description: "string",
             country: "string",
             region: "string",
             otherInfo: "string",
+            owner: "string",
+            id: 1
+          }
+        ];
+
+        const expectedUsers = [
+          {
+            username: implementingPartner.username,
+            role: "implementing-partner",
+            name: "some name",
+            id: 0
+          },
+          {
+            username: helpRefugees.username,
+            role: "help-refugees",
+            name: "Daisy",
+            id: 1
+          },
+          {
             username: "string",
+            role: "implementing-partner",
+            name: null,
             id: 2
           }
         ];
+
         const response = await agent.post("/api/grants").send(newGrant);
+
         expect(response.statusCode).toEqual(200);
 
         expect(response.body).toEqual(expectedGrants);
+
+        const usersResponse = await agent.get("/api/users");
+
+        expect(usersResponse.statusCode).toEqual(200);
+
+        expect(usersResponse.body).toEqual(expectedUsers);
       });
 
       it("reject add new grant if not unique", async () => {
-        await global.DATABASE.collection("users").drop();
-        await global.DATABASE.collection("users").insertOne({
-          grant: "string",
-          name: "string",
-          sector: "string",
-          description: "string",
-          country: "string",
-          region: "string",
-          otherInfo: "string",
-          username: "string",
-          password: bcrypt.hashSync("password", bcrypt.genSaltSync()),
-          role: "implementing-partner",
-          id: 22
-        });
         const newGrant = {
-          grantName: "string",
+          grantName: "some grant",
           organizationName: "string",
           sector: "string",
           grantDescription: "string",

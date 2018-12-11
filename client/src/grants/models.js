@@ -1,8 +1,8 @@
 export type Grant = {
   id: number,
-  name: string,
+  organization: string,
   grant: string,
-  username: string,
+  owner: string,
   sector: string,
   description: string,
   country: string,

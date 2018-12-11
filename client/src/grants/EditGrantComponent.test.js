@@ -14,9 +14,9 @@ describe("EditGrantComponent", () => {
     mockSaveGrant = jest.fn().mockImplementation(() => Promise.resolve());
     grant = {
       id: 10,
-      name: "string",
+      organization: "string",
       grant: "string",
-      username: "string",
+      owner: "string",
       sector: "string",
       description: "string",
       country: "string",
@@ -47,7 +47,7 @@ describe("EditGrantComponent", () => {
 
     expect(
       wrapper.find('[data-test-id="organization-name-text"]').prop("value")
-    ).toEqual(grant.name);
+    ).toEqual(grant.organization);
 
     expect(wrapper.find('[data-test-id="sector-text"]').prop("value")).toEqual(
       grant.sector
@@ -67,7 +67,7 @@ describe("EditGrantComponent", () => {
 
     expect(
       wrapper.find('[data-test-id="account-email"]').prop("value")
-    ).toEqual(grant.username);
+    ).toEqual(grant.owner);
 
     expect(
       wrapper.find('[data-test-id="save-grant-button"]').prop("disabled")
@@ -77,9 +77,9 @@ describe("EditGrantComponent", () => {
   it("Edits the current grant", () => {
     const editedGrant: Grant = {
       id: 10,
-      name: "organization name",
+      organization: "organization name",
       grant: "some grant",
-      username: "string",
+      owner: "string",
       sector: "string",
       description: "string",
       country: "string",
@@ -99,11 +99,11 @@ describe("EditGrantComponent", () => {
 
     wrapper
       .find('[data-test-id="organization-name-text"]')
-      .simulate("change", { target: { value: editedGrant.name } });
+      .simulate("change", { target: { value: editedGrant.organization } });
 
     expect(
       wrapper.find('[data-test-id="organization-name-text"]').prop("value")
-    ).toEqual(editedGrant.name);
+    ).toEqual(editedGrant.organization);
 
     expect(
       wrapper.find('[data-test-id="save-grant-button"]').prop("disabled")
