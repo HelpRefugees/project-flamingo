@@ -79,9 +79,9 @@ export class AddGrantComponent extends Component<Props, any> {
   isAddGrantDisabled() {
     const { isLoading } = this.props;
 
-    let isDisabled = Object.keys(this.state).some((key) => {
-      return this.state[key] === ""
-    });
+    let isDisabled = Object.keys(this.state).some(
+      key => this.state[key] === ""
+    );
 
     return isLoading || isDisabled;
   }
@@ -140,161 +140,161 @@ export class AddGrantComponent extends Component<Props, any> {
   updateField = (event: Event, key: string) => {
     this.setState({
       [key]: (event.target: window.HTMLInputElement).value
-  });
-};
+    });
+  };
 
-render() {
-  const { logout, classes, account } = this.props;
-  const title = "Add a new grant";
+  render() {
+    const { logout, classes, account } = this.props;
+    const title = "Add a new grant";
 
-  return (
-    <Fragment>
-      <HeaderComponent logout={logout} account={account} />
-      {this.renderToolbar(classes)}
-      <Grid container spacing={24} className={classes.outerContainer}>
-        <Grid container justify="center">
-          <Grid item xs={6}>
-            <Typography
-              variant="h4"
-              align="center"
-              className={classes.title}
-              data-test-id="page-title"
-            >
-              {title}
-            </Typography>
-            <Paper
-              justify="center"
-              data-test-id="add-grant-form"
-              className={classes.pagePaper}
-            >
-              <Grid container direction="column" spacing={32}>
-                <Grid item>
-                  <Grid container alignItems="flex-end">
-                    <Typography data-test-id="grant-info-title" variant="h4">
-                      Grant information
+    return (
+      <Fragment>
+        <HeaderComponent logout={logout} account={account} />
+        {this.renderToolbar(classes)}
+        <Grid container spacing={24} className={classes.outerContainer}>
+          <Grid container justify="center">
+            <Grid item xs={6}>
+              <Typography
+                variant="h4"
+                align="center"
+                className={classes.title}
+                data-test-id="page-title"
+              >
+                {title}
+              </Typography>
+              <Paper
+                justify="center"
+                data-test-id="add-grant-form"
+                className={classes.pagePaper}
+              >
+                <Grid container direction="column" spacing={32}>
+                  <Grid item>
+                    <Grid container alignItems="flex-end">
+                      <Typography data-test-id="grant-info-title" variant="h4">
+                        Grant information
                       </Typography>
-                  </Grid>
+                    </Grid>
 
-                  <p
-                    data-test-id="grant-info-subtitle"
-                    className={classes.subtitleText}
-                  >
-                    Please fill out the form below with the grant information.
-                    </p>
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="grant-name-text"
-                    fullWidth={true}
-                    value={this.state.grantName}
-                    onChange={value => this.updateField(value, "grantName")}
-                    variant="outlined"
-                    label="Grant name"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="organization-name-text"
-                    fullWidth={true}
-                    value={this.state.organizationName}
-                    onChange={value =>
-                      this.updateField(value, "organizationName")
-                    }
-                    variant="outlined"
-                    label="Organization name"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="sector-text"
-                    fullWidth={true}
-                    value={this.state.sector}
-                    onChange={value => this.updateField(value, "sector")}
-                    variant="outlined"
-                    label="Sector"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="grant-description-text"
-                    fullWidth={true}
-                    value={this.state.grantDescription}
-                    onChange={value =>
-                      this.updateField(value, "grantDescription")
-                    }
-                    variant="outlined"
-                    label="Grant description"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="country-text"
-                    fullWidth={true}
-                    value={this.state.country}
-                    onChange={value => this.updateField(value, "country")}
-                    variant="outlined"
-                    label="Country"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="region-text"
-                    fullWidth={true}
-                    value={this.state.region}
-                    onChange={value => this.updateField(value, "region")}
-                    variant="outlined"
-                    label="Region"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="other-info-text"
-                    fullWidth={true}
-                    value={this.state.otherInfo}
-                    onChange={value => this.updateField(value, "otherInfo")}
-                    variant="outlined"
-                    label="Other info"
-                  />
-                  <Grid container alignItems="flex-end">
-                    <Typography
-                      data-test-id="account-info-title"
-                      variant="h4"
+                    <p
+                      data-test-id="grant-info-subtitle"
+                      className={classes.subtitleText}
                     >
-                      Account information
-                      </Typography>
-                  </Grid>
-
-                  <p
-                    data-test-id="account-info-subtitle"
-                    className={classes.subtitleText}
-                  >
-                    By adding an email address you are inviting a user to this
-                    grant. There can be only a single email added.
+                      Please fill out the form below with the grant information.
                     </p>
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="account-email"
-                    fullWidth={true}
-                    value={this.state.accountEmail}
-                    onChange={value =>
-                      this.updateField(value, "accountEmail")
-                    }
-                    variant="outlined"
-                    label="Account email"
-                  />
-                  <TextField
-                    className={classes.formControl}
-                    data-test-id="account-password"
-                    fullWidth={true}
-                    value={this.state.accountPassword}
-                    onChange={value =>
-                      this.updateField(value, "accountPassword")
-                    }
-                    type="password"
-                    variant="outlined"
-                    label="Password"
-                  />
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="grant-name-text"
+                      fullWidth={true}
+                      value={this.state.grantName}
+                      onChange={value => this.updateField(value, "grantName")}
+                      variant="outlined"
+                      label="Grant name"
+                    />
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="organization-name-text"
+                      fullWidth={true}
+                      value={this.state.organizationName}
+                      onChange={value =>
+                        this.updateField(value, "organizationName")
+                      }
+                      variant="outlined"
+                      label="Organization name"
+                    />
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="sector-text"
+                      fullWidth={true}
+                      value={this.state.sector}
+                      onChange={value => this.updateField(value, "sector")}
+                      variant="outlined"
+                      label="Sector"
+                    />
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="grant-description-text"
+                      fullWidth={true}
+                      value={this.state.grantDescription}
+                      onChange={value =>
+                        this.updateField(value, "grantDescription")
+                      }
+                      variant="outlined"
+                      label="Grant description"
+                    />
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="country-text"
+                      fullWidth={true}
+                      value={this.state.country}
+                      onChange={value => this.updateField(value, "country")}
+                      variant="outlined"
+                      label="Country"
+                    />
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="region-text"
+                      fullWidth={true}
+                      value={this.state.region}
+                      onChange={value => this.updateField(value, "region")}
+                      variant="outlined"
+                      label="Region"
+                    />
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="other-info-text"
+                      fullWidth={true}
+                      value={this.state.otherInfo}
+                      onChange={value => this.updateField(value, "otherInfo")}
+                      variant="outlined"
+                      label="Other info"
+                    />
+                    <Grid container alignItems="flex-end">
+                      <Typography
+                        data-test-id="account-info-title"
+                        variant="h4"
+                      >
+                        Account information
+                      </Typography>
+                    </Grid>
+
+                    <p
+                      data-test-id="account-info-subtitle"
+                      className={classes.subtitleText}
+                    >
+                      By adding an email address you are inviting a user to this
+                      grant. There can be only a single email added.
+                    </p>
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="account-email"
+                      fullWidth={true}
+                      value={this.state.accountEmail}
+                      onChange={value =>
+                        this.updateField(value, "accountEmail")
+                      }
+                      variant="outlined"
+                      label="Account email"
+                    />
+                    <TextField
+                      className={classes.formControl}
+                      data-test-id="account-password"
+                      fullWidth={true}
+                      value={this.state.accountPassword}
+                      onChange={value =>
+                        this.updateField(value, "accountPassword")
+                      }
+                      type="password"
+                      variant="outlined"
+                      label="Password"
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Fragment>
-  );
-}
+      </Fragment>
+    );
+  }
 }
 export default withStyles(styles)(AddGrantComponent);
