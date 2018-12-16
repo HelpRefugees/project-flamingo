@@ -40,4 +40,11 @@ describe("HeaderComponent", () => {
   it("renders the navigation", () => {
     expect(wrapper.find(Navigation).exists()).toEqual(true);
   });
+
+  it("doesnot render settings navigation when ellen is logged in", () => {
+    wrapper.find('[data-test-id="user-menu"]').simulate("click", {});
+    expect(wrapper.find('[data-test-id="settings-menuitem"]').exists()).toEqual(
+      false
+    );
+  });
 });

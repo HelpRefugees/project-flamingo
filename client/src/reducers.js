@@ -1,6 +1,7 @@
-import type { Report } from "./my-report/models";
+import { type Report } from "./my-report/models";
 import { Account } from "./authentication/models";
-import type { Grant } from "./grants/models";
+import { type Grant } from "./grants/models";
+import { type User } from "./settings/models";
 
 export type State = {
   isAuthenticated: ?boolean,
@@ -11,7 +12,8 @@ export type State = {
   account: ?Account,
   isLoading: boolean,
   errorMessage: ?string,
-  environment: ?string
+  environment: ?string,
+  users: ?(User[])
 };
 
 export const initialState: State = {
@@ -23,7 +25,8 @@ export const initialState: State = {
   account: undefined,
   isLoading: false,
   errorMessage: undefined,
-  environment: undefined
+  environment: undefined,
+  users: undefined
 };
 
 type Action = {
@@ -106,6 +109,13 @@ const reducers = (state: State = initialState, action: Action): State => {
       return {
         ...state,
         grants: action.payload
+      };
+    }
+
+    case "LOAD_USERS_SUCCESS": {
+      return {
+        ...state,
+        users: action.payload
       };
     }
 

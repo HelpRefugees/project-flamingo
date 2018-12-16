@@ -26,6 +26,7 @@ import withErrorHandler from "./withErrorHandler";
 import GrantsListingPage from "./grants/GrantsListingPage";
 import AddGrantPage from "./grants/AddGrantPage";
 import EditGrantPage from "./grants/EditGrantPage";
+import SettingsPage from "./settings/UsersListingPage";
 
 const mapStateToProps = (state: State) => {
   return {
@@ -67,6 +68,15 @@ export class App extends Component<Props> {
             />
 
             <Route exact path="/reset-success" component={ResetSuccessPage} />
+
+            <PrivateRoute
+              path="/settings/Users"
+              exact
+              allowed={["help-refugees"]}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+              component={SettingsPage}
+            />
 
             <PrivateRoute
               path="/grants"

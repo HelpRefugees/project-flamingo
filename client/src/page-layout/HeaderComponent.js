@@ -7,7 +7,8 @@ import {
   MenuItem,
   Menu,
   Button,
-  Icon
+  Icon,
+  Typography
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
@@ -35,6 +36,10 @@ const styles = theme => ({
   userMenu: {
     textTransform: "none",
     paddingRight: "0px"
+  },
+  settings: {
+    textDecoration: "none",
+    minWidth: "150px"
   }
 });
 
@@ -55,6 +60,15 @@ export class HeaderComponent extends Component<Props, State> {
     anchorElement: null
   };
 
+  renderSettingsNavigations = (classes: any) => {
+    return (
+      <MenuItem data-test-id="settings-menuitem" className={classes.menuItem}>
+        <Link to={`/settings/users`} className={classes.settings}>
+          <Typography> Settings</Typography>
+        </Link>
+      </MenuItem>
+    );
+  };
   render() {
     const { classes, account } = this.props;
     const { anchorElement } = this.state;
@@ -92,6 +106,9 @@ export class HeaderComponent extends Component<Props, State> {
                 open={Boolean(anchorElement)}
                 onClose={this.collapseMenu}
               >
+                {account &&
+                  account.role === "help-refugees" &&
+                  this.renderSettingsNavigations(classes)}
                 <MenuItem
                   data-test-id="logout-menuitem"
                   className={classes.menuItem}

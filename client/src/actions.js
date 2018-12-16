@@ -1,6 +1,7 @@
 import { type Dispatch } from "redux";
 
 import { type Report } from "./my-report/models";
+import { type User } from "./settings/models";
 import { type Grant, type AddGrantModel } from "./grants/models";
 import { type Credentials, type Account } from "./authentication/models";
 
@@ -211,6 +212,40 @@ export const loadGrants = () => (dispatch: Dispatch<any>) => {
         });
       } else {
         dispatch(loadGrantsFailed());
+      }
+    }
+  );
+};
+
+export const loadUsersStarted = () => ({
+  type: "LOAD_USERS_STARTED"
+});
+
+export const loadUsersSuccessful = (users: User[]) => ({
+  type: "LOAD_USERS_SUCCESS",
+  payload: users
+});
+
+export const loadUsersFailed = () => ({
+  type: "LOAD_USERS_FAILURE"
+});
+
+export const loadUsers = () => (dispatch: Dispatch<any>) => {
+  dispatch(loadUsersStarted());
+  makeRequest(
+    dispatch,
+    "/api/users",
+    {
+      method: "GET",
+      headers: { "content-type": "application/json" }
+    },
+    res => {
+      if (res.status === 200) {
+        return res.json().then((users: any) => {
+          dispatch(loadUsersSuccessful(users));
+        });
+      } else {
+        dispatch(loadUsersFailed());
       }
     }
   );
