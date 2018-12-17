@@ -100,8 +100,8 @@ describe("grants endpoint", () => {
       ];
       beforeEach(async () => {
         agent = await loginAs(app, helpRefugees);
-        const domain = "http://example.org";
-        const hook = "/some/hook/";
+        const domain = "https://hooks.zapier.com";
+        const hook = "/hooks/catch/3099735/cjq3kk/";
         process.env.EMAIL_WEBHOOK = `${domain}${hook}`;
       });
       it("returns all the grants", async () => {
