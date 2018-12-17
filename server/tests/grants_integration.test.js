@@ -100,6 +100,9 @@ describe("grants endpoint", () => {
       ];
       beforeEach(async () => {
         agent = await loginAs(app, helpRefugees);
+        const domain = "http://example.org";
+        const hook = "/some/hook/";
+        process.env.EMAIL_WEBHOOK = `${domain}${hook}`;
       });
       it("returns all the grants", async () => {
         const response = await agent.get("/api/grants");

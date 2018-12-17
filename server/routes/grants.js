@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { Router } = require("express");
+const emailSender = require("../../scripts/email-sender");
 
 const { ensureLoggedIn, ensureHasRole } = require("../auth");
 
@@ -113,6 +114,8 @@ module.exports = db => {
               }
             )
             .toArray();
+          const reportData = { grant: newGrant.grant, name: newGrant.name };
+          emailSender.send("grant-assigned", [newGrant.username], reportData);
           res.json(grants);
         } else {
           await db.collection(collection).deleteOne({ grant: newGrant.grant });
