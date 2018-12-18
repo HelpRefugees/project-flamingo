@@ -73,9 +73,9 @@ export class App extends Component<Props> {
               path="/settings/Users"
               exact
               allowed={["help-refugees"]}
+              component={withErrorHandler(SettingsPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
-              component={SettingsPage}
             />
 
             <PrivateRoute

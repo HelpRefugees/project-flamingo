@@ -12,18 +12,38 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  Typography
+  Typography,
+  Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  OutlinedInput,
+  Modal
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import BannerHeader from "../page-layout/BannerHeader";
-import ButtonLink from "../page-layout/ButtonLink";
 
 import { type Account } from "../authentication/models";
 import { type User } from "./models";
 
 const styles = theme => ({
+  formControl: {
+    marginBottom: theme.spacing.unit * 2.5,
+    minWidth: 120
+  },
+  addUserForm: {
+    padding: theme.spacing.unit * 5
+  },
+  AddUserModal: {
+    marginTop: "15%",
+    marginLeft: "30%",
+    width: "40%",
+    borderRadius: "8px"
+  },
   sideNav: {
     borderRadius: "0px",
     flex: 1
@@ -47,7 +67,7 @@ const styles = theme => ({
   rowContainer: {
     marginTop: theme.spacing.unit * 4
   },
-  addGrantButton: {
+  addUserButton: {
     width: "171px",
     height: "36px",
     background: "#ffffff",
@@ -76,13 +96,142 @@ type Props = {
   classes: any,
   users: User[],
   loadUsers: () => void,
-  history: any
+  history: any,
+  addUser: (user: $Shape<User>, errorMsg: string) => Promise<any>
 };
 
-class UsersListingComponent extends Component<Props> {
+type state = {
+  name: string,
+  username: string,
+  role: string,
+  open: boolean
+};
+
+class UsersListingComponent extends Component<Props, state> {
+  constructor() {
+    super();
+    this.state = {
+      name: "",
+      username: "",
+      role: "",
+      open: false
+    };
+  }
   componentWillMount() {
     this.props.loadUsers();
   }
+
+  closeModal = () =>
+    this.setState({
+      open: false,
+      name: "",
+      username: "",
+      role: ""
+    });
+
+  openModal = () =>
+    this.setState({
+      open: true
+    });
+
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  updateField = (event: Event, key: string) => {
+    this.setState({
+      [key]: (event.target: window.HTMLInputElement).value
+    });
+  };
+  renderAddUserModal = classes => {
+    return (
+      <Modal
+        open={this.state.open}
+        onClose={this.closeModal}
+        className={classes.AddUserModal}
+      >
+        <Paper>
+          <Grid container direction="column">
+            <Grid item className={classes.addUserForm}>
+              <Grid container alignItems="flex-end">
+                <Typography data-test-id="grant-info-title" variant="h4">
+                  Add new user
+                </Typography>
+              </Grid>
+              <p />
+              <TextField
+                className={classes.formControl}
+                data-test-id="name-text"
+                fullWidth={true}
+                value={this.state.name}
+                onChange={value => this.updateField(value, "name")}
+                variant="outlined"
+                label="Name"
+              />
+              <TextField
+                className={classes.formControl}
+                data-test-id="username-text"
+                fullWidth={true}
+                value={this.state.username}
+                onChange={value => this.updateField(value, "username")}
+                variant="outlined"
+                label="Email"
+              />
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                fullWidth={true}
+              >
+                <InputLabel htmlFor="outlined-age">Role</InputLabel>
+                <Select
+                  value={this.state.role}
+                  onChange={this.handleChange}
+                  input={
+                    <OutlinedInput
+                      labelWidth={30}
+                      name="role"
+                      id="outlined-age"
+                    />
+                  }
+                >
+                  <MenuItem value={"implementing-partner"}>
+                    implementing partner
+                  </MenuItem>
+                  <MenuItem value={"help-refugees"}>help refugees</MenuItem>
+                </Select>
+              </FormControl>
+              <Grid container alignItems="flex-end" direction="row-reverse">
+                <Button color="secondary" onClick={this.closeModal}>
+                  cancel
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    this.props
+                      .addUser(
+                        {
+                          username: this.state.username,
+                          name: this.state.name,
+                          role: this.state.role
+                        },
+                        "Unable to add user"
+                      )
+                      .then(() => {
+                        this.closeModal();
+                        this.props.history.push("/settings/users");
+                      });
+                  }}
+                >
+                  save
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Modal>
+    );
+  };
+
   render() {
     const users = this.props.users || [];
     const { classes, logout, account } = this.props;
@@ -93,6 +242,7 @@ class UsersListingComponent extends Component<Props> {
           account={account}
           history={this.props.history}
         />
+        {this.renderAddUserModal(classes)}
         <Grid container>
           <Grid item xs={3}>
             <Grid container>
@@ -115,13 +265,12 @@ class UsersListingComponent extends Component<Props> {
               <Grid item xs={1} />
               <Grid item container xs={10}>
                 <BannerHeader title="Users">
-                  <ButtonLink
-                    to={"/grants/new"}
-                    data-test-id="add-grant-button"
-                    className={classes.addGrantButton}
+                  <Button
+                    onClick={this.openModal}
+                    className={classes.addUserButton}
                   >
                     ADD NEW USER
-                  </ButtonLink>
+                  </Button>
                 </BannerHeader>
               </Grid>
               <Grid container className={classes.rowContainer}>

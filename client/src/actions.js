@@ -367,6 +367,57 @@ export const addGrant = (grant: AddGrantModel, errorMessage: string) => (
   return promise;
 };
 
+export const addUserStarted = () => {
+  return { type: "ADD_USER_STARTED" };
+};
+
+export const addUserFaild = () => {
+  return {
+    type: "ADD_USER_FAILED"
+  };
+};
+
+export const addUserSuccessful = (users: User[]) => {
+  return {
+    type: "ADD_USER_SUCCESS",
+    payload: users
+  };
+};
+
+export const addUser = (user: User, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(addUserStarted());
+    makeRequest(
+      dispatch,
+      "/api/users/",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(user)
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(users => {
+            dispatch(addUserSuccessful(users));
+            resolve();
+          });
+        } else {
+          dispatch(addUserFaild());
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to insert user");
+        }
+      }
+    ).catch(err => {
+      dispatch(addUserFaild());
+      dispatch(errorOccurred(errorMessage));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
 export const selectGrant = (grant: Grant) => {
   return {
     type: "SELECT_GRANT",

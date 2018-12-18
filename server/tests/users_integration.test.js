@@ -81,5 +81,36 @@ describe("users endpoint", () => {
       expect(response.statusCode).toEqual(200);
       expect(response.body).toEqual(expectedUsers);
     });
+
+    it("adds new user when POST", async () => {
+      const newUser = {
+        username: "test@t.com",
+        name: "test",
+        role: "implementing-partner"
+      };
+      const expectedUsers = [
+        {
+          username: implementingPartner.username,
+          role: "implementing-partner",
+          name: "some name",
+          id: 0
+        },
+        {
+          username: helpRefugees.username,
+          role: "help-refugees",
+          name: "Daisy",
+          id: 1
+        },
+        {
+          username: newUser.username,
+          name: newUser.name,
+          role: newUser.role,
+          id: 2
+        }
+      ];
+      const response = await agent.post("/api/users").send(newUser);
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toEqual(expectedUsers);
+    });
   });
 });

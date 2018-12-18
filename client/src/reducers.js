@@ -115,7 +115,8 @@ const reducers = (state: State = initialState, action: Action): State => {
     case "LOAD_USERS_SUCCESS": {
       return {
         ...state,
-        users: action.payload
+        users: action.payload,
+        errorMessage: undefined
       };
     }
 
@@ -148,6 +149,13 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
+    case "ADD_USER_SUCCESS": {
+      return {
+        ...state,
+        users: action.payload,
+        errorMessage: undefined
+      };
+    }
     case "SELECT_GRANT": {
       return {
         ...state,
