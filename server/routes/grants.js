@@ -114,8 +114,11 @@ module.exports = db => {
               }
             )
             .toArray();
-          const reportData = { grant: newGrant.grant, name: newGrant.name };
-          emailSender.send("grant-assigned", [newGrant.username], reportData);
+          const reportData = {
+            grant: newGrant.grant,
+            name: newGrant.organization
+          };
+          emailSender.send("grant-assigned", [newGrant.owner], reportData);
           res.json(grants);
         } else {
           await db.collection(collection).deleteOne({ grant: newGrant.grant });
