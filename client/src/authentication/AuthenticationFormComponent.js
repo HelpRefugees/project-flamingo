@@ -14,7 +14,8 @@ const styles = themes => ({
     paddingBottom: themes.spacing.unit * 3
   },
   outerContainer: {
-    height: "100vh"
+    height: "100vh",
+    width: "100%"
   }
 });
 
