@@ -60,6 +60,9 @@ describe("users endpoint", () => {
 
     beforeEach(async () => {
       agent = await loginAs(app, helpRefugees);
+      const domain = "https://hooks.zapier.com";
+      const hook = "/hooks/catch/3099735/cjq3kk/";
+      process.env.EMAIL_WEBHOOK = `${domain}${hook}`;
     });
 
     it("returns all users when method GET", async () => {
