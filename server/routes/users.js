@@ -1,4 +1,3 @@
-const bcrypt = require("bcrypt");
 const { Router } = require("express");
 
 const emailSender = require("../../scripts/email-sender");
