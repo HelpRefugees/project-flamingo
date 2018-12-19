@@ -120,8 +120,7 @@ describe("grants endpoint", () => {
           country: "string",
           region: "string",
           otherInfo: "string",
-          accountEmail: "string",
-          accountPassword: "password"
+          accountEmail: implementingPartner.username
         };
         const expectedGrants = [
           ...grants,
@@ -133,7 +132,7 @@ describe("grants endpoint", () => {
             country: "string",
             region: "string",
             otherInfo: "string",
-            owner: "string",
+            owner: implementingPartner.username,
             id: 1
           }
         ];
@@ -150,12 +149,6 @@ describe("grants endpoint", () => {
             role: "help-refugees",
             name: "Daisy",
             id: 1
-          },
-          {
-            username: "string",
-            role: "implementing-partner",
-            name: null,
-            id: 2
           }
         ];
 

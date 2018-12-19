@@ -18,6 +18,5 @@ export type AddGrantModel = {
   country: string,
   region: string,
   otherInfo: string,
-  accountEmail: string,
-  accountPassword: string
+  accountEmail: string
 };

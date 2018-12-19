@@ -7,13 +7,19 @@ import {
   withStyles,
   AppBar,
   Toolbar,
-  Button
+  Button,
+  Select,
+  MenuItem,
+  OutlinedInput,
+  FormControl,
+  InputLabel
 } from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import { type Grant } from "./models";
 import { type Account } from "../authentication/models";
+import { type User } from "../settings/models";
 
 type Props = {
   classes: any,
@@ -21,7 +27,9 @@ type Props = {
   account: Account,
   updateGrant: (grant: Grant, errorMessage: string) => Promise<any>,
   history: any,
-  grant: Grant
+  grant: Grant,
+  users: $Shape<User>[],
+  loadUsers: () => void
 };
 
 const styles = themes => ({
@@ -76,6 +84,7 @@ export class EditGrantComponent extends Component<Props, Grant> {
     };
   }
   componentWillMount() {
+    this.props.loadUsers();
     this.setState(this.props.grant);
   }
 
@@ -146,6 +155,7 @@ export class EditGrantComponent extends Component<Props, Grant> {
 
   render() {
     const { logout, classes, account } = this.props;
+    const users = this.props.users || [];
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
@@ -260,15 +270,34 @@ export class EditGrantComponent extends Component<Props, Grant> {
                       By adding an email address you are inviting a user to this
                       grant. There can be only a single email added.
                     </p>
-                    <TextField
-                      className={classes.formControl}
-                      data-test-id="account-email"
-                      fullWidth={true}
-                      value={this.state.owner}
-                      onChange={value => this.updateField(value, "owner")}
+                    <FormControl
                       variant="outlined"
-                      label="Account email"
-                    />
+                      className={classes.formControl}
+                      fullWidth={true}
+                    >
+                      <InputLabel htmlFor="outlined-age">Username</InputLabel>
+                      <Select
+                        data-test-id="account-email"
+                        fullWidth={true}
+                        value={this.state.owner}
+                        onChange={value => this.updateField(value, "owner")}
+                        input={
+                          <OutlinedInput
+                            labelWidth={80}
+                            name="username"
+                            id="outlined-username"
+                          />
+                        }
+                      >
+                        {users.map((user: User, key: number) => {
+                          return (
+                            <MenuItem key={key} value={user.username}>
+                              {user.username}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
                   </Grid>
                 </Grid>
               </Paper>

@@ -30,38 +30,3 @@ context("Grants Listing Page", () => {
     });
   });
 });
-
-context.only("Add new grant Page", () => {
-  let loginPage;
-  let addGrantPage;
-  let grantsListingPage;
-
-  beforeEach(() => {
-    cy.seed("one-completed-report.json");
-    loginPage = new LoginPage();
-    addGrantPage = new AddGrantPage();
-    grantsListingPage = new GrantsListingPage();
-    loginPage.login("daisy@hr.org", "chooselove");
-  });
-
-  it("adds a new grant", () => {
-    addGrantPage.visit();
-    const newGrant = {
-      grantName: "string",
-      organizationName: "string",
-      sector: "string",
-      grantDescription: "string",
-      country: "string",
-      region: "string",
-      otherInfo: "string",
-      accountEmail: "string",
-      accountPassword: "password"
-    };
-    addGrantPage.isAt();
-
-    addGrantPage.pageTitle.should("contain.text", "Add a new grant");
-    addGrantPage.editForm(newGrant);
-    cy.get(testId("add-grant-button")).click();
-    grantsListingPage.isAt();
-  });
-});

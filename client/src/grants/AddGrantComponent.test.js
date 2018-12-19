@@ -4,9 +4,31 @@ import { shallow } from "enzyme";
 import { AddGrantComponent } from "./AddGrantComponent";
 
 describe("AddGrantComponent", () => {
+  const users = [
+    {
+      username: "user1@user.org",
+      name: "user1",
+      id: 1,
+      role: "implementing-partner"
+    },
+    {
+      username: "user2@user.org",
+      name: "user2",
+      id: 2,
+      role: "implementing-partner"
+    },
+    {
+      username: "user3@user.org",
+      name: "user3",
+      id: 3,
+      role: "help-refugees"
+    }
+  ];
   let wrapper;
   let account;
   let mockAddGrant;
+  let mockLoadUsers;
+
   beforeEach(() => {
     account = {
       username: "a@a.com",
@@ -14,6 +36,7 @@ describe("AddGrantComponent", () => {
       role: "help-refugees"
     };
     mockAddGrant = jest.fn().mockImplementation(() => Promise.resolve());
+    mockLoadUsers = jest.fn();
 
     wrapper = shallow(
       <AddGrantComponent
@@ -23,6 +46,8 @@ describe("AddGrantComponent", () => {
         addGrant={mockAddGrant}
         history={{ push: jest.fn() }}
         isLoading={false}
+        loadUsers={mockLoadUsers}
+        users={users}
       />
     );
   });
@@ -79,10 +104,6 @@ describe("AddGrantComponent", () => {
     );
 
     expect(wrapper.find('[data-test-id="account-email"]').exists()).toEqual(
-      true
-    );
-
-    expect(wrapper.find('[data-test-id="account-password"]').exists()).toEqual(
       true
     );
   });

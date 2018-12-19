@@ -5,13 +5,36 @@ import { type Grant } from "./models";
 import { EditGrantComponent } from "./EditGrantComponent";
 
 describe("EditGrantComponent", () => {
+  const users = [
+    {
+      username: "user1@user.org",
+      name: "user1",
+      id: 1,
+      role: "implementing-partner"
+    },
+    {
+      username: "user2@user.org",
+      name: "user2",
+      id: 2,
+      role: "implementing-partner"
+    },
+    {
+      username: "user3@user.org",
+      name: "user3",
+      id: 3,
+      role: "help-refugees"
+    }
+  ];
   let wrapper;
   let account;
   let grant;
   let mockSaveGrant;
+  let mockLoadUsers;
 
   beforeEach(() => {
     mockSaveGrant = jest.fn().mockImplementation(() => Promise.resolve());
+    mockLoadUsers = jest.fn();
+
     grant = {
       id: 10,
       organization: "string",
@@ -36,6 +59,8 @@ describe("EditGrantComponent", () => {
         logout={() => {}}
         classes={{}}
         updateGrant={mockSaveGrant}
+        loadUsers={mockLoadUsers}
+        users={users}
       />
     );
   });

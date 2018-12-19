@@ -1,4 +1,3 @@
-const bcrypt = require("bcrypt");
 const { Router } = require("express");
 const emailSender = require("../../scripts/email-sender");
 
@@ -55,10 +54,6 @@ module.exports = db => {
       if (allGrants.find(grant => grant.grant === req.body.grantName)) {
         res.sendStatus(422);
       } else {
-        const password = await bcrypt
-          .genSalt()
-          .then(salt => bcrypt.hash(req.body.accountPassword, salt));
-
         const newGrant = {
           grant: req.body.grantName,
           organization: req.body.organizationName,
@@ -74,26 +69,7 @@ module.exports = db => {
         const grantsCommandResult = await db
           .collection(collection)
           .insertOne(newGrant);
-
-        const lastUser = await db
-          .collection("users")
-          .findOne({}, { sort: { id: -1 } });
-
-        const newUser = {
-          username: req.body.accountEmail,
-          password,
-          name: null,
-          role: "implementing-partner",
-          id: (lastUser ? lastUser.id : 0) + 1
-        };
-
-        const usersCommandResult = await db
-          .collection("users")
-          .insertOne(newUser);
-        if (
-          grantsCommandResult.result.ok === 1 &&
-          usersCommandResult.result.ok === 1
-        ) {
+        if (grantsCommandResult.result.ok === 1) {
           const grants = await db
             .collection(collection)
             .find(
@@ -121,11 +97,7 @@ module.exports = db => {
           emailSender.send("grant-assigned", [newGrant.owner], reportData);
           res.json(grants);
         } else {
-          await db.collection(collection).deleteOne({ grant: newGrant.grant });
-          await db
-            .collection("users")
-            .deleteOne({ username: newUser.username });
-          res.sendStatus(404);
+          res.sendStatus(422);
         }
       }
     }
@@ -149,15 +121,13 @@ module.exports = db => {
             .find({})
             .toArray();
           let allUsers;
-          if (grant.owner !== changes.owner) {
-            allUsers = db
-              .collection("users")
-              .findOne({})
-              .toArray();
-          }
+          allUsers = db
+            .collection("users")
+            .find({})
+            .toArray();
           if (
             allGrants.find(grant => grant.grant === req.body.grant) ||
-            allUsers.find(user => user.username === req.body.owner)
+            !allUsers.find(user => user.username === req.body.owner)
           ) {
             res.sendStatus(422);
           } else {
