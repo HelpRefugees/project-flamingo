@@ -131,6 +131,13 @@ module.exports = db => {
           ) {
             res.sendStatus(422);
           } else {
+            if (changes.owner !== grant.owner) {
+              const reportData = {
+                grant: changes.grant,
+                name: changes.organization
+              };
+              emailSender.send("grant-assigned", [changes.owner], reportData);
+            }
             grant = { ...grant, ...changes };
             db.collection(collection).replaceOne({ id }, grant, () => {
               const { _id, ...updatedGrant } = grant;
