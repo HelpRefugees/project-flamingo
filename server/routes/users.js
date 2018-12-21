@@ -84,7 +84,7 @@ module.exports = db => {
             .toArray();
           emailSender.send("reset-password", [newUser.username], {
             resetToken,
-            invite: true
+            invite: "True"
           });
           res.json(users);
         } else {
