@@ -17,14 +17,12 @@ context("Grants Listing Page", () => {
     grantsListingPage.isAt();
     grantsListingPage.pageTitle.should("contain.text", "Grants");
     grantsListingPage.grantAt(0, grantListItem => {
-      grantListItem.name.should("contain.text", "Ellen Smith");
-      grantListItem.organisation.should("contain.text", "Grant Mitchell");
-      grantListItem.username.should("contain.text", "ellen@ip.org");
+      grantListItem.name.should("contain.text", "Hugh Grant");
+      grantListItem.organisation.should("contain.text", "Helen Brown");
     });
     grantsListingPage.grantAt(1, grantListItem => {
-      grantListItem.name.should("contain.text", "Helen Brown");
-      grantListItem.organisation.should("contain.text", "Hugh Grant");
-      grantListItem.username.should("contain.text", "helen@ip.org");
+      grantListItem.name.should("contain.text", "Grant Mitchell");
+      grantListItem.organisation.should("contain.text", "Ellen Smith");
     });
   });
 });

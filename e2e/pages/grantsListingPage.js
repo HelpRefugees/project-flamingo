@@ -32,7 +32,7 @@ export class GrantListItemPage {
     return cy.get(testId("grant-organisation")).eq(this.index);
   }
 
-  get username() {
-    return cy.get(testId("grant-username")).eq(this.index);
+  get region() {
+    return cy.get(testId("grant-region")).eq(this.index);
   }
 }
