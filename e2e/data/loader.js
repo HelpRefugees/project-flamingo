@@ -6,6 +6,7 @@ const { getDatabaseUrl } = require("../../scripts/utils");
 
 const defaultUsers = [
   {
+    id: 1,
     username: "ellen@ip.org",
     role: "implementing-partner",
     name: "Ellen Smith",
@@ -13,12 +14,14 @@ const defaultUsers = [
     password: "$2b$10$TVA4ZBXoheEKSlwUaBUb5OeF.fbayvTuCPnatKB/CzxGGgfFra9w2"
   },
   {
+    id: 2,
     username: "daisy@hr.org",
     role: "help-refugees",
     name: "Daisy Jones",
     password: "$2b$10$lcgKUBTrTjHWLC7w1dHrJupwgygR2o9MDQS7nDXW2NedOj.h.DE4q"
   },
   {
+    id: 3,
     username: "helen@ip.org",
     role: "implementing-partner",
     grant: "Hugh Grant",

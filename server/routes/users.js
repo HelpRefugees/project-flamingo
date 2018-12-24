@@ -101,7 +101,6 @@ module.exports = db => {
     async (req, res) => {
       const id = parseInt(req.params.id, 10);
       let dbUser = await db.collection(collection).findOne({ id: id });
-      console.log(dbUser, "username", dbUser.username);
       if (dbUser) {
         let grants = await db
           .collection("grants")

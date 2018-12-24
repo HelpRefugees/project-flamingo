@@ -146,12 +146,7 @@ class UsersListingComponent extends Component<Props, state> {
   };
 
   deleteUser = (userId: number) => {
-    this.props
-      .deleteUser(userId, "Can't delete user linked to Grant")
-      .then(() => {
-        console.log("test");
-        // this.props.history.push("/settings/users");
-      });
+    this.props.deleteUser(userId, "Can't delete user linked to Grant");
   };
   renderAddUserModal = classes => {
     return (

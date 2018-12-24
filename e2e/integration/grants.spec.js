@@ -16,11 +16,11 @@ context("Grants Listing Page", () => {
   it("shows a list of grants", () => {
     grantsListingPage.isAt();
     grantsListingPage.pageTitle.should("contain.text", "Grants");
-    grantsListingPage.grantAt(0, grantListItem => {
+    grantsListingPage.grantAt(1, grantListItem => {
       grantListItem.name.should("contain.text", "Grant Mitchell");
       grantListItem.organisation.should("contain.text", "Ellen Smith");
     });
-    grantsListingPage.grantAt(1, grantListItem => {
+    grantsListingPage.grantAt(0, grantListItem => {
       grantListItem.name.should("contain.text", "Hugh Grant");
       grantListItem.organisation.should("contain.text", "Helen Brown");
     });

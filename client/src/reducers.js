@@ -164,7 +164,9 @@ const reducers = (state: State = initialState, action: Action): State => {
     }
 
     case "DELETE_USER_SUCCESS": {
-      let newUsers = state.users.filter(user => user.id !== action.payload);
+      const newUsers = (state.users || []).filter(
+        user => user.id !== action.payload
+      );
       return {
         ...state,
         errorMessage: undefined,
