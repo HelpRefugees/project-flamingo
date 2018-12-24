@@ -97,7 +97,8 @@ type Props = {
   users: User[],
   loadUsers: () => void,
   history: any,
-  addUser: (user: $Shape<User>, errorMsg: string) => Promise<any>
+  addUser: (user: $Shape<User>, errorMsg: string) => Promise<any>,
+  deleteUser: (userId: number, errorMsg: string) => Promise<any>
 };
 
 type state = {
@@ -142,6 +143,15 @@ class UsersListingComponent extends Component<Props, state> {
     this.setState({
       [key]: (event.target: window.HTMLInputElement).value
     });
+  };
+
+  deleteUser = (userId: number) => {
+    this.props
+      .deleteUser(userId, "Can't delete user linked to Grant")
+      .then(() => {
+        console.log("test");
+        // this.props.history.push("/settings/users");
+      });
   };
   renderAddUserModal = classes => {
     return (
@@ -309,7 +319,9 @@ class UsersListingComponent extends Component<Props, state> {
                             <div className={classes.tableUser}>
                               <DeleteIcon
                                 className={classes.clickable}
-                                onClick={() => {}}
+                                onClick={() => {
+                                  this.deleteUser(user.id);
+                                }}
                               />
                             </div>
                           </TableCell>

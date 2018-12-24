@@ -474,6 +474,55 @@ export const updateGrant = (grant: Grant, errorMessage: string) => (
   return promise;
 };
 
+export const deleteUserStarted = () => {
+  return { type: "DELETE_USER_STARTED" };
+};
+
+export const deleteUserSuccess = (userId: number) => {
+  return {
+    type: "DELETE_USER_SUCCESS",
+    payload: userId
+  };
+};
+
+export const deleteUserFailed = (errorMessage: string) => {
+  return {
+    type: "DELETE_USER_FAILED",
+    payload: errorMessage
+  };
+};
+
+export const deleteUser = (userId: number, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(deleteUserStarted());
+    makeRequest(
+      dispatch,
+      `/api/users/${userId}`,
+      {
+        method: "DELETE",
+        headers: { "content-type": "application/json" }
+      },
+      res => {
+        if (res.status === 200) {
+          dispatch(deleteUserSuccess(userId));
+          resolve();
+        } else {
+          dispatch(deleteUserFailed(errorMessage));
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to delete");
+        }
+      }
+    ).catch(err => {
+      dispatch(deleteUserFailed(err));
+      dispatch(errorOccurred(err));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
 export const makeRequest = (
   dispatch: Dispatch<any>,
   url: string,

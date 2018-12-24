@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { type Dispatch } from "redux";
 
 import { type State } from "../reducers";
-import { loadUsers, logout, addUser } from "../actions";
+import { loadUsers, logout, addUser, deleteUser } from "../actions";
 import UsersListingComponent from "./UsersListingComponent";
 
 import { type User } from "./models";
@@ -17,7 +17,9 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   loadUsers: () => dispatch(loadUsers()),
   logout: () => dispatch(logout()),
   addUser: (user: User, errorMessage: string) =>
-    dispatch(addUser(user, errorMessage))
+    dispatch(addUser(user, errorMessage)),
+  deleteUser: (userId: number, errorMessage: string) =>
+    dispatch(deleteUser(userId, errorMessage))
 });
 
 export default connect(

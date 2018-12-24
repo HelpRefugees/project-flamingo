@@ -93,5 +93,36 @@ module.exports = db => {
       }
     }
   );
+
+  router.delete(
+    "/:id",
+    ensureLoggedIn,
+    ensureHasRole("help-refugees"),
+    async (req, res) => {
+      const id = parseInt(req.params.id, 10);
+      let dbUser = await db.collection(collection).findOne({ id: id });
+      console.log(dbUser, "username", dbUser.username);
+      if (dbUser) {
+        let grants = await db
+          .collection("grants")
+          .find({ owner: dbUser.username })
+          .toArray();
+        if (grants.length > 0) {
+          return res.sendStatus(422);
+        } else {
+          let usersDeleteResult = await db
+            .collection(collection)
+            .deleteOne({ id });
+          if (usersDeleteResult.result.ok === 1) {
+            return res.sendStatus(200);
+          } else {
+            return res.sendStatus(422);
+          }
+        }
+      } else {
+        return res.sendStatus(422);
+      }
+    }
+  );
   return router;
 };
