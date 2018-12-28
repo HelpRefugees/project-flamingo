@@ -29,7 +29,8 @@ module.exports = db => {
         return Promise.all([
           db.collection(collection).updateOne(user, { $set: { resetToken } }),
           emailSender.send("reset-password", [user.username], {
-            resetToken
+            resetToken,
+            invite: "False"
           })
         ]);
       })
