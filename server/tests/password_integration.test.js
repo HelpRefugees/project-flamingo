@@ -28,7 +28,8 @@ describe("/api/password", async () => {
         .post(hook, {
           task: "reset-password",
           recipients: [user.username],
-          resetToken: /[0-9a-f]{32}/
+          resetToken: /[0-9a-f]{32}/,
+          invite: "False"
         })
         .reply(200);
       await db.collection(collection).insertOne({ ...user });
