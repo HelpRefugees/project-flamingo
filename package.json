@@ -21,9 +21,14 @@
     "generate-reports": "node ./scripts/generate-reports",
     "hash-password": "node ./scripts/hash-password",
     "send-due-emails": "node ./scripts/send-due-emails",
-    "build": "cd client && yarn build",
-    "postbuild": "copy \"./client/build/**/*\" ./server/static",
-    "start": "yarn build && yarn start:server",
+    "build": "run-script-os",
+    "build:linux:darwin": "cd client && yarn build",
+    "build:win32": "cd client && yarn build",
+    "postbuild:linux:darwin": "copy \"./client/build/**/*\" ./server/static",
+    "postbuild:win32": "XCOPY /Y /E .\\client\\build .\\server\\static ",
+    "start:win32": "yarn build:win32 && yarn start:server",
+    "start:linux:darwin": "yarn build:linux:darwin && yarn start:server",
+    "start": "run-script-os",
     "prestart:server": "yarn mm migrate",
     "start:server": "node ./server/server.js",
     "ship": "run-script-os",
@@ -84,7 +89,9 @@
     "passport-local": "^1.0.0",
     "request": "^2.88.0"
   },
-  "resolutions": {"**/event-stream": "^4.0.1"},
+  "resolutions": {
+    "**/event-stream": "^4.0.1"
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "concurrently": "^4.0.1",
