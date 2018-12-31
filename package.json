@@ -84,6 +84,7 @@
     "passport-local": "^1.0.0",
     "request": "^2.88.0"
   },
+  "resolutions": {"**/event-stream": "^4.0.1"},
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "concurrently": "^4.0.1",
