@@ -95,7 +95,8 @@ describe("grants endpoint", () => {
           otherInfo: "info...",
           description: "some desc...",
           sector: "some sector",
-          id: 0
+          id: 0,
+          archived: false
         }
       ];
       beforeEach(async () => {
@@ -120,7 +121,8 @@ describe("grants endpoint", () => {
           country: "string",
           region: "string",
           otherInfo: "string",
-          accountEmail: implementingPartner.username
+          accountEmail: implementingPartner.username,
+          archived: false
         };
         const expectedGrants = [
           ...grants,
@@ -133,7 +135,8 @@ describe("grants endpoint", () => {
             region: "string",
             otherInfo: "string",
             owner: implementingPartner.username,
-            id: 1
+            id: 1,
+            archived: false
           }
         ];
 
