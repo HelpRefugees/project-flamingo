@@ -100,7 +100,7 @@ describe("EditGrantComponent", () => {
   });
 
   it("Edits the current grant", () => {
-    const editedGrant: Grant = {
+    const editedGrant: $Shape<Grant> = {
       id: 10,
       organization: "organization name",
       grant: "some grant",

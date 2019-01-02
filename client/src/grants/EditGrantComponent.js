@@ -25,9 +25,9 @@ type Props = {
   classes: any,
   logout: () => void,
   account: Account,
-  updateGrant: (grant: Grant, errorMessage: string) => Promise<any>,
+  updateGrant: (grant: $Shape<Grant>, errorMessage: string) => Promise<any>,
   history: any,
-  grant: Grant,
+  grant: $Shape<Grant>,
   users: $Shape<User>[],
   loadUsers: () => void
 };
@@ -68,7 +68,7 @@ const styles = themes => ({
   }
 });
 
-export class EditGrantComponent extends Component<Props, Grant> {
+export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
   constructor() {
     super();
     this.state = {

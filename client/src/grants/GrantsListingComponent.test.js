@@ -1,46 +1,65 @@
 import React from "react";
 import { GrantsListingComponent } from "./GrantsListingComponent";
-import { Account } from "../authentication/models";
+import { type Account } from "../authentication/models";
+import { type Grant } from "./models";
 import { shallow } from "enzyme";
 
 describe("GrantsListingComponent", () => {
   const account: $Shape<Account> = {};
+  let grants;
+  let wrapper;
+  let mockHistoryPush;
+  let mockSelectGrant;
+  let mockUpdateGrant;
+  let mockLoadGrants;
+  const grant: $Shape<Grant> = {
+    id: 1,
+    grant: "selected grant",
+    owner: "selected username",
+    organization: "selected organization",
+    sector: "selected sector",
+    description: "selected desc",
+    country: "selected country",
+    region: "selected region",
+    otherInfo: "selected info"
+  };
+
+  beforeEach(() => {
+    mockHistoryPush = jest.fn();
+    mockSelectGrant = jest.fn();
+    mockUpdateGrant = jest.fn();
+    mockLoadGrants = jest.fn();
+  });
 
   describe("onMount", () => {
     it("requests the list of grants", () => {
-      const loadGrants = jest.fn();
-      const mockSelectGrant = jest.fn();
-      expect(loadGrants).not.toHaveBeenCalled();
+      expect(mockLoadGrants).not.toHaveBeenCalled();
 
       shallow(
         <GrantsListingComponent
-          loadGrants={loadGrants}
+          loadGrants={mockLoadGrants}
           classes={{}}
           account={account}
           grants={[]}
           logout={() => {}}
           history={{ push: jest.fn() }}
           selectGrant={mockSelectGrant}
+          grant={grant}
+          updateGrant={mockUpdateGrant}
         />
       );
 
-      expect(loadGrants).toHaveBeenCalledTimes(1);
+      expect(mockLoadGrants).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("grants", () => {
-    let grants;
-    let wrapper;
-    let mockHistoryPush;
-    let mockSelectGrant;
     beforeEach(() => {
-      mockHistoryPush = jest.fn();
-      mockSelectGrant = jest.fn();
       grants = [
         {
+          id: 10,
           grant: "grant",
           owner: "a username",
-          id: 10,
           organization: "organization",
           sector: "sector",
           description: "desc",
@@ -51,13 +70,15 @@ describe("GrantsListingComponent", () => {
       ];
       wrapper = shallow(
         <GrantsListingComponent
-          loadGrants={() => {}}
+          loadGrants={mockLoadGrants}
           classes={{}}
           account={account}
           grants={grants}
           logout={() => {}}
           history={{ push: mockHistoryPush }}
           selectGrant={mockSelectGrant}
+          grant={grant}
+          updateGrant={mockUpdateGrant}
         />
       );
     });

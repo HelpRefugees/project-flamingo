@@ -1,7 +1,7 @@
 import reducers, { type State, initialState } from "./reducers";
 import { Account } from "./authentication/models";
-import type { Report } from "./my-report/models";
-import type { Grant } from "./grants/models";
+import { type Report } from "./my-report/models";
+import { type Grant } from "./grants/models";
 
 describe("reducers", () => {
   const account: Account = {
@@ -214,7 +214,7 @@ describe("reducers", () => {
   });
 
   it("should handle LOAD_GRANTS_SUCCESS", () => {
-    const grants: Grant[] = [
+    const grants: $Shape<Grant>[] = [
       {
         grant: "hugh grant",
         owner: "some user",

@@ -187,7 +187,7 @@ export const loadGrantsStarted = () => ({
   type: "LOAD_GRANTS_STARTED"
 });
 
-export const loadGrantsSuccessful = (grants: Grant[]) => ({
+export const loadGrantsSuccessful = (grants: $Shape<Grant>[]) => ({
   type: "LOAD_GRANTS_SUCCESS",
   payload: grants
 });
@@ -326,7 +326,7 @@ export const addGrantFaild = () => {
   };
 };
 
-export const addGrantSuccessful = (grants: Grant[]) => {
+export const addGrantSuccessful = (grants: $Shape<$Shape<Grant>>[]) => {
   return {
     type: "ADD_GRANT_SUCCESS",
     payload: grants
@@ -418,7 +418,7 @@ export const addUser = (user: User, errorMessage: string) => (
   return promise;
 };
 
-export const selectGrant = (grant: Grant) => {
+export const selectGrant = (grant: $Shape<Grant>) => {
   return {
     type: "SELECT_GRANT",
     payload: grant
@@ -429,7 +429,7 @@ export const updateGrantStarted = () => {
   return { type: "UPDATE_GRANT_STARTED" };
 };
 
-export const updateGrantSuccessful = (grant: Grant) => {
+export const updateGrantSuccessful = (grant: $Shape<Grant>) => {
   return {
     type: "UPDATE_GRANT_SUCCESS",
     payload: grant
@@ -440,7 +440,7 @@ export const updateGrantFailed = () => {
   return { type: "UPDATE_GRANT_FAILED" };
 };
 
-export const updateGrant = (grant: Grant, errorMessage: string) => (
+export const updateGrant = (grant: $Shape<Grant>, errorMessage: string) => (
   dispatch: Dispatch<any>
 ) => {
   const promise: Promise<any> = new Promise((resolve, reject) => {

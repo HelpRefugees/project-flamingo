@@ -14,6 +14,7 @@ describe("Report generation script", () => {
   beforeEach(async () => {
     await safeDrop("reports");
     await safeDrop("users");
+    await safeDrop("grants");
   });
 
   describe("with a single user", () => {
@@ -105,6 +106,7 @@ describe("Report generation script", () => {
           role: "help-refugees"
         }
       ]);
+
       await global.DATABASE.collection("reports").insertOne({
         id: 12
       });

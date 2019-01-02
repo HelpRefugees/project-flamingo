@@ -52,6 +52,7 @@ describe("grants endpoint", () => {
 
     await global.DATABASE.collection("grants").insertMany([
       {
+        archived: false,
         owner: implementingPartner.username,
         organization: "some organization",
         grant: "some grant",

@@ -7,7 +7,8 @@ export type Grant = {
   description: string,
   country: string,
   region: string,
-  otherInfo: string
+  otherInfo: string,
+  archived: boolean
 };
 
 export type AddGrantModel = {

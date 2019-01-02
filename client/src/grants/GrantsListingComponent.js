@@ -32,13 +32,13 @@ import ButtonLink from "../page-layout/ButtonLink";
 type Props = {
   account: Account,
   loadGrants: () => void,
-  grants: Grant[],
+  grants: $Shape<Grant>[],
   logout: () => void,
   classes: any,
-  updateGrant: (grant: Grant, errorMessage: string) => Promise<any>,
-  grant: Grant,
+  updateGrant: (grant: $Shape<Grant>, errorMessage: string) => Promise<any>,
+  grant: $Shape<Grant>,
   history: any,
-  selectGrant: (grant: Grant) => void
+  selectGrant: (grant: $Shape<Grant>) => void
 };
 
 const defaultText = {
@@ -104,9 +104,6 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit,
     borderRadius: theme.spacing.unit / 2
   },
-  rowContainer: {
-    marginTop: theme.spacing.unit * 4
-  },
   messagePaper: {
     textAlign: "center",
     paddingTop: theme.spacing.unit * 3,
@@ -147,11 +144,10 @@ export class GrantsListingComponent extends Component<Props, any> {
   };
 
   renderDialog(archive: string) {
-    const { grant, updateGrant } = this.props;
+    const { updateGrant } = this.props;
     return (
       <Dialog
         open={this.state.dialogOpen}
-        onClose={this.handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -206,9 +202,11 @@ export class GrantsListingComponent extends Component<Props, any> {
     this.props.loadGrants();
   }
 
-  getFilteredGrants(grants: Grant[]): Grant[] {
+  getFilteredGrants(grants: $Shape<Grant>[]): $Shape<Grant>[] {
     return this.state.filter
-      ? grants.filter((grant: Grant) => grant.grant === this.state.filter)
+      ? grants.filter(
+          (grant: $Shape<Grant>) => grant.grant === this.state.filter
+        )
       : grants;
   }
 
@@ -216,11 +214,11 @@ export class GrantsListingComponent extends Component<Props, any> {
     let currentTabGrants = this.props.grants || [];
     if (this.state.tabValue === 0) {
       currentTabGrants = currentTabGrants.filter(
-        (grant: Grant) => !grant.archived
+        (grant: $Shape<Grant>) => !grant.archived
       );
     } else {
       currentTabGrants = currentTabGrants.filter(
-        (grant: Grant) => grant.archived
+        (grant: $Shape<Grant>) => grant.archived
       );
     }
 
@@ -235,12 +233,12 @@ export class GrantsListingComponent extends Component<Props, any> {
       .map(grant => ({ value: grant, label: grant }));
   }
 
-  getArchivedGrants(grants: ?(Grant[])) {
-    return (grants || []).filter((grant: Grant) => grant.archived);
+  getArchivedGrants(grants: ?($Shape<Grant>[])) {
+    return (grants || []).filter((grant: $Shape<Grant>) => grant.archived);
   }
 
-  getOngoingGrants(grants: Grant[]) {
-    return grants.filter((grant: Grant) => !grant.archived);
+  getOngoingGrants(grants: $Shape<Grant>[]) {
+    return grants.filter((grant: $Shape<Grant>) => !grant.archived);
   }
 
   getSelectedFilterValue() {
@@ -268,52 +266,56 @@ export class GrantsListingComponent extends Component<Props, any> {
     );
   }
 
-  renderListItems(classes: any, grants: Grant[], archived: string) {
-    return grants.map((grant: Grant, index: number) => (
-      <TableRow data-test-id="grant" key={index}>
-        <TableCell data-test-id="grant-organisation">
-          {grant.organization}
-        </TableCell>
-        <TableCell data-test-id="grant-name">
-          <div className={classes.tableGrant}>{grant.grant}</div>
-        </TableCell>
-        <TableCell data-test-id="grant-region">
-          <div className={classes.tableGrant}>{grant.region}</div>
-        </TableCell>
-        <TableCell data-test-id="grant-archive">
-          <div className={classes.tableGrant}>
-            {archived === "archive" ? (
-              <Archive
-                className={classes.clickable}
-                onClick={() => {
-                  this.handleArchiveOpen();
-                  this.setState({ grant: { ...grant } });
-                }}
-              />
-            ) : (
-              <Unarchive
-                className={classes.clickable}
-                onClick={() => {
-                  this.handleArchiveOpen();
-                  this.setState({ grant: { ...grant } });
-                }}
-              />
-            )}
-          </div>
-        </TableCell>
-        <TableCell data-test-id="grant-action">
-          <div className={classes.tableGrant}>
-            <CreateIcon
-              className={classes.clickable}
-              onClick={() => {
-                this.props.selectGrant(grant);
-                this.props.history.push(`/grants/${grant.id}/edit`);
-              }}
-            />
-          </div>
-        </TableCell>
-      </TableRow>
-    ));
+  renderListItems(classes: any, grants: $Shape<Grant>[], archived: string) {
+    return (
+      <>
+        {grants.map((grant: $Shape<Grant>, index: number) => (
+          <TableRow data-test-id="grant" key={index}>
+            <TableCell data-test-id="grant-organisation">
+              {grant.organization}
+            </TableCell>
+            <TableCell data-test-id="grant-name">
+              <div className={classes.tableGrant}>{grant.grant}</div>
+            </TableCell>
+            <TableCell data-test-id="grant-region">
+              <div className={classes.tableGrant}>{grant.region}</div>
+            </TableCell>
+            <TableCell data-test-id="grant-archive">
+              <div className={classes.tableGrant}>
+                {archived === "archive" ? (
+                  <Archive
+                    className={classes.clickable}
+                    onClick={() => {
+                      this.handleArchiveOpen();
+                      this.setState({ grant: { ...grant } });
+                    }}
+                  />
+                ) : (
+                  <Unarchive
+                    className={classes.clickable}
+                    onClick={() => {
+                      this.handleArchiveOpen();
+                      this.setState({ grant: { ...grant } });
+                    }}
+                  />
+                )}
+              </div>
+            </TableCell>
+            <TableCell data-test-id="grant-action">
+              <div className={classes.tableGrant}>
+                <CreateIcon
+                  className={classes.clickable}
+                  onClick={() => {
+                    this.props.selectGrant(grant);
+                    this.props.history.push(`/grants/${grant.id}/edit`);
+                  }}
+                />
+              </div>
+            </TableCell>
+          </TableRow>
+        ))}
+      </>
+    );
   }
 
   grantsTable({
@@ -322,7 +324,7 @@ export class GrantsListingComponent extends Component<Props, any> {
     grantSelector
   }: {
     classes: any,
-    grants: Grants[],
+    grants: $Shape<Grant>[],
     grantSelector: string
   }) {
     return (
@@ -366,7 +368,7 @@ export class GrantsListingComponent extends Component<Props, any> {
     );
   }
 
-  grantsTabs(classes: any, grants: ?(Grants[])) {
+  grantsTabs(classes: any, grants: ?($Shape<Grant>[])) {
     const ongoingGrantsContent =
       grants && this.getFilteredGrants(this.getOngoingGrants(grants)).length > 0
         ? this.grantsTable({
@@ -469,8 +471,6 @@ export class GrantsListingComponent extends Component<Props, any> {
             </Grid>
           </Grid>
         </Grid>
-        {/* {this.renderDialog()} */}
-        {console.log(this.state.grant)}
       </Fragment>
     );
   }
