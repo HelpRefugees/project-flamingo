@@ -280,7 +280,7 @@ export class GrantsListingComponent extends Component<Props, any> {
         <TableCell data-test-id="grant-region">
           <div className={classes.tableGrant}>{grant.region}</div>
         </TableCell>
-        <TableCell data-test-id="grant-region">
+        <TableCell data-test-id="grant-archive">
           <div className={classes.tableGrant}>
             {archived === "archive" ? (
               <Archive
