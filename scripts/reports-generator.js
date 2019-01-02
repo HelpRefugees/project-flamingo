@@ -15,12 +15,12 @@ module.exports = async dbUrl => {
     .toArray();
 
   if (reports.length === 0) {
-    const users = await db
-      .collection("users")
-      .find({ role: "implementing-partner" })
+    const grants = await db
+      .collection("grants")
+      .find({ archived: false })
       .toArray();
     const lastReport = await getLastReport(db);
-    const newReports = createReports(reportPeriod, lastReport, users);
+    const newReports = createReports(reportPeriod, lastReport, grants);
     const { result } = await db.collection("reports").insertMany(newReports);
     insertedDocumentCount = result.n;
   }
@@ -28,21 +28,21 @@ module.exports = async dbUrl => {
   return insertedDocumentCount;
 };
 
-function createReports(reportPeriod, lastReport, users) {
+function createReports(reportPeriod, lastReport, grants) {
   const firstId = (lastReport ? lastReport.id : 0) + 1;
-  return users.map((user, index) =>
-    createReport(reportPeriod, firstId + index, user)
+  return grants.map((grant, index) =>
+    createReport(reportPeriod, firstId + index, grant)
   );
 }
 
-function createReport(reportPeriod, id, user) {
+function createReport(reportPeriod, id, grant) {
   return {
     overview: "",
-    grant: user.grant,
+    grant: grant.grant,
     completed: false,
     reportPeriod,
     dueDate: generateDueDate(reportPeriod),
-    owner: user.username,
+    owner: grant.owner,
     id,
     keyActivities: [{}]
   };

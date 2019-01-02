@@ -27,7 +27,8 @@ module.exports = db => {
               country: 1,
               region: 1,
               otherInfo: 1,
-              owner: 1
+              owner: 1,
+              archived: 1
             }
           }
         )
@@ -63,6 +64,7 @@ module.exports = db => {
           region: req.body.region,
           otherInfo: req.body.otherInfo,
           owner: req.body.accountEmail,
+          archived: false,
           id: (lastGrant ? lastGrant.id : 0) + 1
         };
 
@@ -85,7 +87,8 @@ module.exports = db => {
                   country: 1,
                   region: 1,
                   otherInfo: 1,
-                  owner: 1
+                  owner: 1,
+                  archived: 1
                 }
               }
             )
