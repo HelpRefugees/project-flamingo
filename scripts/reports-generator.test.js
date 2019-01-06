@@ -24,6 +24,12 @@ describe("Report generation script", () => {
         role: "implementing-partner",
         grant: "Grant Mitchell"
       });
+
+      await global.DATABASE.collection("grants").insertOne({
+        owner: username,
+        grant: "Grant Mitchell",
+        archived: false
+      });
     });
 
     it("should do nothing if the report exists", async () => {
@@ -110,6 +116,19 @@ describe("Report generation script", () => {
       await global.DATABASE.collection("reports").insertOne({
         id: 12
       });
+
+      await global.DATABASE.collection("grants").insertMany([
+        {
+          grant: "Grant Mitchell",
+          owner: username,
+          archived: false
+        },
+        {
+          grant: "Hugh Grant",
+          owner: "helen@ip.org",
+          archived: false
+        }
+      ]);
     });
 
     it("should create a new report per implementing partner", async () => {

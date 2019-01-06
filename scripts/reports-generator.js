@@ -21,7 +21,6 @@ module.exports = async dbUrl => {
       .toArray();
     const lastReport = await getLastReport(db);
     const newReports = createReports(reportPeriod, lastReport, grants);
-    console.log(newReports);
     const { result } = await db.collection("reports").insertMany(newReports);
     insertedDocumentCount = result.n;
   }
