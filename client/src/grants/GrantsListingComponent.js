@@ -138,6 +138,9 @@ export class GrantsListingComponent extends Component<Props, any> {
       grant: undefined
     };
   }
+  componentWillMount() {
+    this.props.loadGrants();
+  }
 
   handleArchiveOpen = () => {
     this.setState({ dialogOpen: true });
@@ -174,9 +177,11 @@ export class GrantsListingComponent extends Component<Props, any> {
               }
               updateGrant(grant, `unable to  ${archive} grant`)
                 .then(() => {
+                  this.props.loadGrants();
                   this.setState({ dialogOpen: false });
                 })
                 .catch(() => {
+                  this.props.loadGrants();
                   this.setState({ dialogOpen: false });
                 });
             }}
@@ -196,10 +201,6 @@ export class GrantsListingComponent extends Component<Props, any> {
         </DialogActions>
       </Dialog>
     );
-  }
-
-  componentWillMount() {
-    this.props.loadGrants();
   }
 
   getFilteredGrants(grants: $Shape<Grant>[]): $Shape<Grant>[] {
