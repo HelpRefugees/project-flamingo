@@ -4,15 +4,15 @@ import { Grid, Typography, withStyles } from "@material-ui/core";
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
 import SubmittedReportListComponent from "./SubmittedReportListComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
-import type { Report } from "./models";
-import type { Account } from "../authentication/models";
+import { type Report } from "./models";
+import { type Account } from "../authentication/models";
 
 export type Props = {
   classes: any,
   logout: () => void,
   loadReports: () => void,
-  reports: ?(Report[]),
-  updateReport: (report: Report, errorMessage: string) => void,
+  reports: ?($Shape<Report>[]),
+  updateReport: (report: $Shape<Report>, errorMessage: string) => void,
   account: ?Account
 };
 
@@ -31,7 +31,7 @@ export class MyReportsComponent extends Component<Props, State> {
     this.props.loadReports();
   }
 
-  filterReportByCompletion(isCompleted: boolean): Report[] {
+  filterReportByCompletion(isCompleted: boolean): $Shape<Report>[] {
     const { reports = [] } = this.props;
     if (reports) {
       return reports.filter(report => report.completed === isCompleted);

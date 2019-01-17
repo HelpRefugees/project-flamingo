@@ -4,13 +4,13 @@ import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import ReportViewComponent from "../my-report/ReportViewComponent";
-import type { Account } from "../authentication/models";
-import type { Report } from "../my-report/models";
+import { type Account } from "../authentication/models";
+import { type Report } from "../my-report/models";
 
 type Props = {
   logout: () => void,
   account: Account,
-  report: Report,
+  report: $Shape<Report>,
   match: any,
   loadReport: number => Promise<any>,
   history: any

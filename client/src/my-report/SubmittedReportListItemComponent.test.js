@@ -1,12 +1,12 @@
 import React from "react";
 
-import type { Report } from "./models";
+import { type Report } from "./models";
 import SubmittedReportListItemComponent from "./SubmittedReportListItemComponent";
 import { Link, MemoryRouter } from "react-router-dom";
 import { mountWithProvider } from "../setupTests";
 
 describe("SubmittedReportListItemComponent", () => {
-  const submittedReport: Report = {
+  const submittedReport: $Shape<Report> = {
     id: 2,
     grant: "Grant Shapps",
     overview: "Shapps",

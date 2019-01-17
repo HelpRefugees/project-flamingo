@@ -7,7 +7,7 @@ import moment from "moment";
 import Select from "react-select";
 
 import { ReportsListingComponent } from "./ReportsListingComponent";
-import type { Report } from "../my-report/models";
+import { type Report } from "../my-report/models";
 import { mountWithProvider } from "../setupTests";
 
 describe("ReportsListingComponent", () => {
@@ -183,7 +183,7 @@ describe("ReportsListingComponent", () => {
   });
 
   describe("no overdue reports", () => {
-    const reports: Report[] = [
+    const reports: $Shape<Report>[] = [
       report1,
       {
         id: 1,
@@ -193,7 +193,6 @@ describe("ReportsListingComponent", () => {
         reportPeriod: "2018-10-01T00:00:00.000Z",
         submissionDate: "2018-10-15T03:24:00.000Z",
         keyActivities: [{}],
-        keyActivity: {},
         operatingEnvironment: "",
         beneficiaryFeedback: "",
         challengesFaced: "",
@@ -232,7 +231,7 @@ describe("ReportsListingComponent", () => {
   });
 
   describe("with one report", () => {
-    const reports: Report[] = [
+    const reports: $Shape<Report>[] = [
       {
         id: 1,
         completed: true,
@@ -318,7 +317,7 @@ describe("ReportsListingComponent", () => {
   });
 
   describe("with many reports from different grants", () => {
-    const reports: Report[] = [
+    const reports: $Shape<Report>[] = [
       {
         id: 3,
         completed: true,

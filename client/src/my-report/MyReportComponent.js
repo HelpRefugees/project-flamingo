@@ -11,7 +11,7 @@ type Props = {
   classes: any,
   logout: () => void,
   account: Account,
-  report: Report,
+  report: $Shape<Report>,
   loadReport: (id: number) => Promise<any>,
   match: { params: { id: string } },
   history: any

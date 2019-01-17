@@ -3,8 +3,8 @@ import { Redirect } from "react-router-dom";
 import { Grid, withStyles, Typography, Button } from "@material-ui/core";
 
 import ReportViewComponent from "./ReportViewComponent";
-import type { Account } from "../authentication/models";
-import type { Report } from "./models";
+import { type Account } from "../authentication/models";
+import { type Report } from "./models";
 import MyReportHeader from "./MyReportHeader";
 import ButtonLink from "../page-layout/ButtonLink";
 

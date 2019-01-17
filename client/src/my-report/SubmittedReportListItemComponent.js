@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import moment from "moment";
 import { Button, TableCell, TableRow, withStyles } from "@material-ui/core";
 
-import type { Report } from "./models";
+import { type Report } from "./models";
 import { Link } from "react-router-dom";
 import AcceptanceFilter from "../AcceptanceFilter";
 
@@ -19,8 +19,8 @@ const styles = {
 };
 
 type Props = {
-  report: Report,
-  updateReport: (report: Report, errorMessage: string) => void,
+  report: $Shape<Report>,
+  updateReport: (report: $Shape<Report>, errorMessage: string) => void,
   classes: any
 };
 

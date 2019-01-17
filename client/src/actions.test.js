@@ -174,7 +174,7 @@ describe("actions", () => {
     });
 
     it("dispatches reports when the request succeed", done => {
-      const reports: Report[] = [];
+      const reports: $Shape<Report>[] = [];
 
       fetch.mockResponseOnce(JSON.stringify(reports));
 
@@ -367,7 +367,8 @@ describe("actions", () => {
         beneficiaryFeedback: "",
         challengesFaced: "",
         incidents: "",
-        otherIssues: ""
+        otherIssues: "",
+        attachments: []
       };
       expect(actions.updateReportSuccessful(report)).toEqual({
         type: "SAVE_REPORT_SUCCESS",
@@ -395,7 +396,8 @@ describe("actions", () => {
         beneficiaryFeedback: "beneficiaryFeedback",
         challengesFaced: "",
         incidents: "",
-        otherIssues: ""
+        otherIssues: "",
+        attachments: []
       };
 
       beforeEach(() => {
@@ -459,6 +461,11 @@ describe("actions", () => {
             op: "replace",
             path: "/materialsForFundraising",
             value: report.materialsForFundraising
+          },
+          {
+            op: "replace",
+            path: "/attachments",
+            value: report.attachments
           }
         ]);
       });

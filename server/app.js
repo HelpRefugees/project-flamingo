@@ -17,11 +17,21 @@ const appFactory = (db, sessionStoreProvider) => {
   const app = express();
   const API_ROOT_PATH = "/api";
 
-  app.use(express.json());
+  app.use(
+    express.json({
+      limit: "50mb"
+    })
+  );
   app.use(morgan("dev"));
 
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(
+    bodyParser.urlencoded({
+      limit: "50mb",
+      parameterLimit: 1000 * 1000 * 50,
+      extended: true
+    })
+  );
+  app.use(bodyParser.json({ limit: "50mb" }));
 
   const sessionSettings = {
     cookie: {},

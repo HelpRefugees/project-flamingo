@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { ReportViewComponent } from "./ReportViewComponent";
-import type { Report } from "./models";
+import { type Report } from "./models";
 
 describe("ReportViewComponent", () => {
   let wrapper;
@@ -27,7 +27,8 @@ describe("ReportViewComponent", () => {
     challengesFaced: "",
     incidents: "",
     otherIssues: "",
-    materialsForFundraising: ""
+    materialsForFundraising: "",
+    attachments: []
   };
 
   const report2: $Shape<Report> = {
@@ -42,7 +43,8 @@ describe("ReportViewComponent", () => {
     challengesFaced: "",
     incidents: "",
     otherIssues: "",
-    materialsForFundraising: ""
+    materialsForFundraising: "",
+    attachments: []
   };
 
   describe("with completed report", () => {

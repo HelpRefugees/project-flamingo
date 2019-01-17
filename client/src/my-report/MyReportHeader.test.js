@@ -1,6 +1,6 @@
 import React from "react";
 import { MyReportHeader } from "./MyReportHeader";
-import type { Report } from "./models";
+import { type Report } from "./models";
 import { shallow } from "enzyme";
 
 describe("MyReportHeader", () => {

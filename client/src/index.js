@@ -7,6 +7,8 @@ import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 
 import configureStore from "./configureStore";
 import "./index.css";
+import "./my-report/dropzone.min.css";
+import "./my-report/filepicker.css";
 import App from "./App";
 import theme from "./theme";
 import Initializer from "./Initializer";

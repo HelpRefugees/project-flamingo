@@ -11,9 +11,9 @@ import {
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
+import DropzoneComponent from "react-dropzone-component";
 
 import ReportSectionComponent from "./ReportSectionComponent";
-
 import { type Report } from "./models";
 import ActivitiesSectionComponent from "./ActivitiesSectionComponent";
 import { type Account } from "../authentication/models";
@@ -22,10 +22,10 @@ import { type KeyActivity } from "./models";
 type Props = {
   classes: any,
   logout: () => void,
-  updateReport: (report: Report, errorMessage: string) => Promise<any>,
+  updateReport: (report: $Shape<Report>, errorMessage: string) => Promise<any>,
   loadReport: (id: number) => Promise<any>,
   match: { params: { id: string } },
-  report: Report,
+  report: $Shape<Report>,
   history: any,
   account: Account,
   isLoading: boolean
@@ -61,7 +61,8 @@ type State = {
   challengesFaced?: string,
   incidents?: string,
   otherIssues?: string,
-  materialsForFundraising?: string
+  materialsForFundraising?: string,
+  attachments: any[]
 };
 
 const sectionConfiguration = {
@@ -157,6 +158,68 @@ export class MyReportEditComponent extends Component<Props, State> {
       });
   }
 
+  dropZone = null;
+
+  get dropZoneConfig() {
+    return {
+      postUrl: `/api/reports/uploadhandler/${this.props.report.id}`,
+      iconFiletypes: [".jpg", ".png", ".gif"],
+      showFiletypeIcon: true
+    };
+  }
+
+  get dropZonedJsConfig() {
+    return {
+      autoProcessQueue: true,
+      addRemoveLinks: true,
+      acceptedFiles: "image/jpeg,image/png,image/gif"
+    };
+  }
+
+  get dropZoneEventHandlers() {
+    return {
+      init: (dz: any) => {
+        this.dropzone = dz;
+        // this.dropzone.files = this.state.attachments;
+        if (this.state.attachments.length > 0)
+          this.state.attachments.forEach(attachment => {
+            this.dropzone.emit("addedfile", attachment);
+            this.dropzone.emit("thumbnail", attachment, attachment.dataURL);
+            this.dropzone.emit("complete", attachment);
+            this.dropzone.emit("success", attachment);
+          });
+        // this.dropzone.options.maxFiles =
+        //   this.dropzone.options.maxFiles - this.state.attachments.length;
+        // this.dropzone.files = this.state.attachments;
+      },
+      addedfile: (file: any) => {},
+      success: (file: any) => {
+        let attachments: Array<any> = this.state.attachments
+          ? this.state.attachments
+          : [];
+        this.setState({
+          attachments: [
+            ...attachments,
+            {
+              fileName: file.name,
+              dataURL: file.dataURL,
+              type: file.type,
+              size: file.size
+            }
+          ]
+        });
+      },
+      removedfile: (file: any) => {
+        const attachments: Array<any> = this.state.attachments.filter(
+          attachment => attachment.fileName !== file.fileName
+        );
+        this.setState({
+          attachments: [...attachments]
+        });
+      }
+    };
+  }
+
   get emptyState() {
     return !this.state || Object.keys(this.state).length === 0;
   }
@@ -201,7 +264,7 @@ export class MyReportEditComponent extends Component<Props, State> {
     return isLoading || allBlank(requiredFields(this.state));
   }
 
-  renderToolbar = (classes: any, report: Report) => {
+  renderToolbar = (classes: any, report: $Shape<Report>) => {
     return (
       <AppBar position="static" color="inherit">
         <Toolbar>
@@ -372,7 +435,8 @@ export class MyReportEditComponent extends Component<Props, State> {
     if (report.completed) {
       return <Redirect to="/my-reports" />;
     }
-
+    const isDisabled =
+      this.state.attachments.length === report.attachments.length;
     return (
       <>
         <HeaderComponent logout={logout} account={account} />
@@ -394,6 +458,20 @@ export class MyReportEditComponent extends Component<Props, State> {
               {this.renderTextareaSection(
                 sectionConfiguration.materialsForFundraising
               )}
+              <ReportSectionComponent
+                data-test-id={"upload"}
+                title={"Attach files"}
+                subtitle={""}
+                disabled={isDisabled}
+                onSave={this.saveReport("attachments")}
+                optional={true}
+              >
+                <DropzoneComponent
+                  config={this.dropZoneConfig}
+                  eventHandlers={this.dropZoneEventHandlers}
+                  djsConfig={this.dropZonedJsConfig}
+                />
+              </ReportSectionComponent>
             </Grid>
           </Grid>
         </Grid>

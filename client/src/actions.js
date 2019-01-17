@@ -58,7 +58,7 @@ export const loadReportsStarted = () => ({
   type: "LOAD_REPORTS_STARTED"
 });
 
-export const loadReportsSuccessful = (reports: Report[]) => ({
+export const loadReportsSuccessful = (reports: $Shape<Report>[]) => ({
   type: "LOAD_REPORTS_SUCCESS",
   payload: reports
 });
@@ -88,7 +88,7 @@ export const loadReports = () => (dispatch: Dispatch<any>) => {
   );
 };
 
-export const loadReportSuccessful = (report: Report) => ({
+export const loadReportSuccessful = (report: $Shape<Report>) => ({
   type: "LOAD_REPORT_SUCCESS",
   payload: report
 });
@@ -114,7 +114,7 @@ export const updateReportStarted = () => ({
   type: "SAVE_REPORT_START"
 });
 
-export const updateReportSuccessful = (report: Report) => ({
+export const updateReportSuccessful = (report: $Shape<Report>) => ({
   type: "SAVE_REPORT_SUCCESS",
   payload: report
 });
@@ -132,7 +132,7 @@ export const errorExpired = () => ({
   type: "CLEAR_ERROR_MESSAGE"
 });
 
-export const updateReport = (report: Report, errorMessage: string) => (
+export const updateReport = (report: $Shape<Report>, errorMessage: string) => (
   dispatch: Dispatch<any>
 ) => {
   const promise: Promise<any> = new Promise((resolve, reject) => {
@@ -145,7 +145,8 @@ export const updateReport = (report: Report, errorMessage: string) => (
       "challengesFaced",
       "incidents",
       "otherIssues",
-      "materialsForFundraising"
+      "materialsForFundraising",
+      "attachments"
     ].map(field => ({
       op: "replace",
       path: `/${field}`,
@@ -153,7 +154,6 @@ export const updateReport = (report: Report, errorMessage: string) => (
     }));
 
     dispatch(updateReportStarted());
-
     makeRequest(
       dispatch,
       `/api/reports/${report.id}`,
@@ -164,11 +164,10 @@ export const updateReport = (report: Report, errorMessage: string) => (
       },
       res => {
         if (res.status === 200) {
-          res.json().then(updatedReport => {
-            dispatch(updateReportSuccessful(updatedReport));
-            dispatch(loadReportSuccessful(updatedReport));
-            resolve();
-          });
+          dispatch(updateReportSuccessful(report));
+          dispatch(loadReportSuccessful(report));
+          loadReport(report.id);
+          resolve();
         } else {
           dispatch(updateReportFailed());
           dispatch(errorOccurred(errorMessage));

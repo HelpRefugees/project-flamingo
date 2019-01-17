@@ -133,7 +133,7 @@ describe("reducers", () => {
       incidents: "",
       otherIssues: ""
     };
-    const reportAfterEditing: Report = {
+    const reportAfterEditing: $Shape<Report> = {
       ...reportToBeEdited,
       overview: "after"
     };
@@ -160,7 +160,7 @@ describe("reducers", () => {
       payload: reportAfterEditing
     });
 
-    const newReports: Report[] = (finishingState.reports: any);
+    const newReports: $Shape<Report>[] = (finishingState.reports: any);
     expect(
       newReports.find(report => report.id === reportToBeEdited.id)
     ).toEqual(reportAfterEditing);

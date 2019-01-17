@@ -2,10 +2,10 @@ import React, { PureComponent } from "react";
 import { Link } from "react-router-dom";
 
 import ReportCardComponent from "./ReportCardComponent";
-import type { Report } from "./models";
+import { type Report } from "./models";
 
 type Props = {
-  reports: Report[]
+  reports: $Shape<Report>[]
 };
 
 export default class UnsubmittedReportListComponent extends PureComponent<

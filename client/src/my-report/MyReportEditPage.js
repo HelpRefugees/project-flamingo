@@ -18,7 +18,7 @@ const mapStateToProps = (state: State): any => {
 const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   logout: () => dispatch(logout()),
   loadReport: (id: number) => dispatch(loadReport(id)),
-  updateReport: (report: Report, errorMessage: string) =>
+  updateReport: (report: $Shape<Report>, errorMessage: string) =>
     dispatch(updateReport(report, errorMessage))
 });
 

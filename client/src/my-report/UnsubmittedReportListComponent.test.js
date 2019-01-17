@@ -2,11 +2,11 @@ import React from "react";
 import { shallow } from "enzyme";
 import { Link } from "react-router-dom";
 
-import type { Report } from "./models";
+import { type Report } from "./models";
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
 
 describe("UnsubmittedReportListComponent", () => {
-  const unsubmittedReports: Report[] = [
+  const unsubmittedReports: $Shape<Report>[] = [
     {
       id: 1,
       grant: "Hugh Grant",

@@ -3,10 +3,10 @@ import MockDate from "mockdate";
 import { shallow } from "enzyme";
 
 import { ReportCardComponent } from "./ReportCardComponent";
-import type { Report } from "./models";
+import { type Report } from "./models";
 
 describe("ReportCardComponent", () => {
-  const report: Report = {
+  const report: $Shape<Report> = {
     grant: "Hello world",
     overview: "Hi!",
     completed: false,

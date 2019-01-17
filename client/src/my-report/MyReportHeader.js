@@ -3,11 +3,11 @@ import { AppBar, Grid, Toolbar, Typography } from "@material-ui/core";
 import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
-import type { Report } from "./models";
-import type { Account } from "../authentication/models";
+import { type Report } from "./models";
+import { type Account } from "../authentication/models";
 
 type Props = {
-  report: Report,
+  report: $Shape<Report>,
   account: Account,
   logout: () => void,
   children: any

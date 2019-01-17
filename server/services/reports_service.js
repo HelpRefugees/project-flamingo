@@ -7,7 +7,8 @@ const editableFields = [
   "/challengesFaced",
   "/incidents",
   "/otherIssues",
-  "/materialsForFundraising"
+  "/materialsForFundraising",
+  "/attachments"
 ];
 
 const replace = (object, path, value) => {

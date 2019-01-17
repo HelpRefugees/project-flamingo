@@ -4,7 +4,7 @@ import Deferred from "promise-deferred";
 
 import { MyReportReviewComponent } from "./MyReportReviewComponent";
 import MyReportHeader from "./MyReportHeader";
-import type { Report } from "./models";
+import { type Report } from "./models";
 import ReportViewComponent from "./ReportViewComponent";
 import type { Account } from "../authentication/models";
 import { assertLater } from "../testHelpers";

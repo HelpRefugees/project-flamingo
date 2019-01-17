@@ -5,8 +5,8 @@ import { type User } from "./settings/models";
 
 export type State = {
   isAuthenticated: ?boolean,
-  reports: ?(Report[]),
-  report: ?Report,
+  reports: ?($Shape<Report>[]),
+  report: ?$Shape<Report>,
   grants: ?($Shape<Grant>[]),
   grant: ?$Shape<Grant>,
   account: ?Account,
@@ -82,7 +82,7 @@ const reducers = (state: State = initialState, action: Action): State => {
     }
 
     case "SAVE_REPORT_SUCCESS": {
-      const updatedReport: Report = (action.payload: any);
+      const updatedReport: $Shape<Report> = (action.payload: any);
       return {
         ...state,
         reports: (state.reports || []).map(report => {

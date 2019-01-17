@@ -35,7 +35,8 @@ describe("MyReportComponent", () => {
     beneficiaryFeedback: "",
     challengesFaced: "",
     incidents: "",
-    otherIssues: ""
+    otherIssues: "",
+    attachments: []
   };
 
   const account: Account = {

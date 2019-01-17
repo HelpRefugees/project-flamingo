@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import moment from "moment";
 
-import type { Report } from "./models";
+import { type Report } from "./models";
 import theme from "../theme";
 
 const styles = () => {
@@ -56,11 +56,11 @@ const styles = () => {
 
 type Props = {
   classes: any,
-  report: Report
+  report: $Shape<Report>
 };
 
 export class ReportCardComponent extends Component<Props> {
-  renderReportStatus(report: Report, classes: any) {
+  renderReportStatus(report: $Shape<Report>, classes: any) {
     let status: string;
     let chipClasses = {
       label: classes.statusLabel,

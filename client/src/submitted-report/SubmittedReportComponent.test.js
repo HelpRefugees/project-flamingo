@@ -4,9 +4,9 @@ import Deferred from "promise-deferred";
 
 import { SubmittedReportComponent } from "./SubmittedReportComponent";
 import HeaderComponent from "../page-layout/HeaderComponent";
-import type { Report } from "../my-report/models";
+import { type Report } from "../my-report/models";
 import ReportViewComponent from "../my-report/ReportViewComponent";
-import type { Account } from "../authentication/models";
+import { type Account } from "../authentication/models";
 import { assertLater } from "../testHelpers";
 
 describe("SubmittedReportComponent", () => {

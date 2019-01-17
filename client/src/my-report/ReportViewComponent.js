@@ -1,9 +1,15 @@
 import React from "react";
 import { Grid, Paper, Typography, withStyles } from "@material-ui/core";
 
-import type { Report } from "./models";
+import { type Report } from "./models";
 
 const styles = themes => ({
+  image: {
+    width: "120px",
+    height: "120px",
+    borderRadius: "5px",
+    margin: "24px"
+  },
   definitionListTitle: {
     fontSize: "10px",
     letterSpacing: "1.5px",
@@ -55,7 +61,7 @@ const styles = themes => ({
 });
 
 export class ReportViewComponent extends React.PureComponent<{
-  report: Report,
+  report: $Shape<Report>,
   classes: any
 }> {
   formatParagraph(content?: string): ?any {
@@ -213,6 +219,32 @@ export class ReportViewComponent extends React.PureComponent<{
             {this.renderTextSection(incidentsSection)}
             {this.renderTextSection(otherIssuesSection)}
             {this.renderTextSection(materialsForFundraisingSection)}
+            <Paper
+              justify="center"
+              className={classes.pagePaper}
+              data-test-id={"attachments"}
+            >
+              <Grid container direction="column" spacing={32}>
+                <Grid item>
+                  <Typography variant="h4" data-test-id="report-section-title">
+                    {"Attached files"}
+                  </Typography>
+                  <hr className={classes.rule} />
+                </Grid>
+                <Grid item>
+                  {report.attachments.map((attachment, key) => {
+                    return (
+                      <img
+                        alt={`${attachment.fileName}`}
+                        className={classes.image}
+                        key={key}
+                        src={`${attachment.dataURL}`}
+                      />
+                    );
+                  })}
+                </Grid>
+              </Grid>
+            </Paper>
           </Grid>
         </Grid>
       </Grid>

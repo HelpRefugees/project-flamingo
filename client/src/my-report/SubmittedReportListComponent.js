@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 
 import SubmittedReportListItemComponent from "./SubmittedReportListItemComponent";
-import type { Report } from "./models";
+import { type Report } from "./models";
 import AcceptanceFilter from "../AcceptanceFilter";
 
 const styles = {
@@ -24,8 +24,8 @@ const styles = {
 };
 
 type Props = {
-  reports: Report[],
-  updateReport: (report: Report, errorMessage: string) => void,
+  reports: $Shape<Report>[],
+  updateReport: (report: $Shape<Report>, errorMessage: string) => void,
   classes: any
 };
 

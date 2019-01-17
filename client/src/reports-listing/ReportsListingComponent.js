@@ -21,15 +21,15 @@ import Select from "react-select";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 
-import type { Account } from "../authentication/models";
-import type { Report } from "../my-report/models";
+import { type Account } from "../authentication/models";
+import { type Report } from "../my-report/models";
 import BannerHeader from "../page-layout/BannerHeader";
 
 type Props = {
   classes: any,
   logout: () => void,
   account: ?Account,
-  reports: ?(Report[]),
+  reports: ?($Shape<Report>[]),
   loadReports: () => void,
   history: any
 };
@@ -127,9 +127,11 @@ export class ReportsListingComponent extends Component<
     this.props.loadReports();
   }
 
-  getFilteredReports(reports: Report[]): Report[] {
+  getFilteredReports(reports: $Shape<Report>[]): $Shape<Report>[] {
     return this.state.filter
-      ? reports.filter((report: Report) => report.grant === this.state.filter)
+      ? reports.filter(
+          (report: $Shape<Report>) => report.grant === this.state.filter
+        )
       : reports;
   }
 
@@ -137,11 +139,11 @@ export class ReportsListingComponent extends Component<
     let currentTabReports = this.props.reports || [];
     if (this.state.tabValue === 0) {
       currentTabReports = currentTabReports.filter(
-        (report: Report) => report.completed
+        (report: $Shape<Report>) => report.completed
       );
     } else {
       currentTabReports = currentTabReports.filter(
-        (report: Report) => !report.completed
+        (report: $Shape<Report>) => !report.completed
       );
     }
 
@@ -156,15 +158,15 @@ export class ReportsListingComponent extends Component<
       .map(grant => ({ value: grant, label: grant }));
   }
 
-  getOverdueReports(reports: ?(Report[])) {
+  getOverdueReports(reports: ?($Shape<Report>[])) {
     return (reports || []).filter(
-      (report: Report) =>
+      (report: $Shape<Report>) =>
         !report.completed && moment(report.dueDate).isBefore(moment())
     );
   }
 
-  getSubmittedReports(reports: Report[]) {
-    return reports.filter((report: Report) => report.completed);
+  getSubmittedReports(reports: $Shape<Report>[]) {
+    return reports.filter((report: $Shape<Report>) => report.completed);
   }
 
   getSelectedFilterValue() {
@@ -202,7 +204,7 @@ export class ReportsListingComponent extends Component<
     reportSelector
   }: {
     classes: any,
-    reports: Report[],
+    reports: $Shape<Report>[],
     reportSelector: string
   }) {
     return (
@@ -225,7 +227,7 @@ export class ReportsListingComponent extends Component<
           </TableRow>
         </TableHead>
         <TableBody>
-          {reports.map((report: Report) => {
+          {reports.map((report: $Shape<Report>) => {
             return (
               <TableRow
                 data-test-id="report"
@@ -296,7 +298,7 @@ export class ReportsListingComponent extends Component<
     );
   }
 
-  reportsTabs(classes: any, reports: ?(Report[])) {
+  reportsTabs(classes: any, reports: ?($Shape<Report>[])) {
     const submittedReportsContent =
       reports &&
       this.getFilteredReports(this.getSubmittedReports(reports)).length > 0

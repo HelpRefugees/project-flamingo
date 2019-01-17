@@ -19,5 +19,6 @@ export type Report = {
   completed: boolean,
   reportPeriod: string,
   dueDate: string,
-  submissionDate?: string
+  submissionDate?: string,
+  attachments: any[]
 };

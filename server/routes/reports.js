@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { ensureLoggedIn } = require("../auth");
+const { ensureLoggedIn, ensureHasRole } = require("../auth");
 const reportsService = require("../services/reports_service");
 
 module.exports = db => {
@@ -78,11 +78,20 @@ module.exports = db => {
         }
 
         db.collection(collection).replaceOne({ id }, report, () => {
-          const { _id, ...updatedReport } = report;
-          return res.send(updatedReport);
+          return res.send({});
         });
       });
   });
 
+  router.post(
+    "/uploadHandler/:id",
+    ensureLoggedIn,
+    ensureHasRole("implementing-partner"),
+    (req, res) => {
+      // if (req.file && req.file.originalname) {
+      // }
+      res.send({ responseText: "req.file.path" }); // You can send any response to the user here
+    }
+  );
   return router;
 };

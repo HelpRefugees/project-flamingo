@@ -7,7 +7,7 @@ import { MyReportsComponent } from "./MyReportsComponent";
 import UnsubmittedReportListComponent from "./UnsubmittedReportListComponent";
 import SubmittedReportListComponent from "./SubmittedReportListComponent";
 
-import type { Report } from "./models";
+import { type Report } from "./models";
 import { mountWithProvider } from "../setupTests";
 
 describe("MyReportsComponent", () => {
@@ -59,7 +59,7 @@ describe("MyReportsComponent", () => {
       incidents: "",
       otherIssues: ""
     };
-    let reports: Report[] = [completedReport, incompleteReport];
+    let reports: $Shape<Report>[] = [completedReport, incompleteReport];
 
     beforeEach(() => {
       wrapper = shallow(
