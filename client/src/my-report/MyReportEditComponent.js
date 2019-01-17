@@ -158,7 +158,7 @@ export class MyReportEditComponent extends Component<Props, State> {
       });
   }
 
-  dropZone = null;
+  dropzone: any = null;
 
   get dropZoneConfig() {
     return {

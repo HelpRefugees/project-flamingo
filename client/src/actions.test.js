@@ -492,28 +492,21 @@ describe("actions", () => {
         const updatedReport: any = {
           grant: "Hugh Grant"
         };
-        fetch.mockResponseOnce(JSON.stringify(updatedReport));
+        fetch.mockResponseOnce(JSON.stringify({}));
 
         action(mockDispatch);
 
+        // expect(mockDispatch).toBeCalledWith(
+        //   actions.loadReportSuccessful(updatedReport)
+        // );
         assertLater(done, () => {
-          expect(mockDispatch).toHaveBeenCalledWith(
-            actions.updateReportSuccessful(updatedReport)
+          expect(mockDispatch).toHaveBeenNthCalledWith(
+            3,
+            actions.updateReportSuccessful({ ...updatedReport, ...report })
           );
-        });
-      });
-
-      it("dispatches load report success when the request succeeds", done => {
-        const updatedReport: any = {
-          grant: "Hugh Grant"
-        };
-        fetch.mockResponseOnce(JSON.stringify(updatedReport));
-
-        action(mockDispatch);
-
-        assertLater(done, () => {
-          expect(mockDispatch).toHaveBeenCalledWith(
-            actions.loadReportSuccessful(updatedReport)
+          expect(mockDispatch).toHaveBeenNthCalledWith(
+            4,
+            actions.loadReportSuccessful({ ...updatedReport, ...report })
           );
         });
       });

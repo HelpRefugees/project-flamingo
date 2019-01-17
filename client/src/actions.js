@@ -166,7 +166,6 @@ export const updateReport = (report: $Shape<Report>, errorMessage: string) => (
         if (res.status === 200) {
           dispatch(updateReportSuccessful(report));
           dispatch(loadReportSuccessful(report));
-          loadReport(report.id);
           resolve();
         } else {
           dispatch(updateReportFailed());

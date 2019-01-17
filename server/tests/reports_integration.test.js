@@ -206,7 +206,7 @@ describe("reports endpoint", () => {
         .set("Accept", "application/json");
 
       expect(response.statusCode).toBe(200);
-      expect(response.body).toEqual(submittedReport);
+      expect(response.body).toEqual({});
 
       const updatedReport = await agent.get("/api/reports/1");
       expect(updatedReport.body).toEqual(submittedReport);
