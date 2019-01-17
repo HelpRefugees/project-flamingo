@@ -85,6 +85,14 @@ export class LoginComponent extends Component<Props, State> {
     ) {
       return <Redirect to="/reports" />;
     }
+    if (
+      this.props.isAuthenticated &&
+      !this.props.isLoading &&
+      this.props.role === "prism"
+    ) {
+      return <Redirect to="/reports" />;
+    }
+
     const { classes } = this.props;
     return (
       <AuthenticationFormComponent>

@@ -105,7 +105,7 @@ export class App extends Component<Props> {
 
             <PrivateRoute
               path="/reports/:id"
-              allowed={["help-refugees"]}
+              allowed={["help-refugees", "prism"]}
               component={withErrorHandler(SubmittedReportPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
@@ -113,7 +113,7 @@ export class App extends Component<Props> {
 
             <PrivateRoute
               path="/reports"
-              allowed={["help-refugees"]}
+              allowed={["help-refugees", "prism"]}
               component={withErrorHandler(ReportsListingPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}

@@ -203,6 +203,7 @@ class UsersListingComponent extends Component<Props, state> {
                     implementing partner
                   </MenuItem>
                   <MenuItem value={"help-refugees"}>help refugees</MenuItem>
+                  <MenuItem value={"prism"}>prism</MenuItem>
                 </Select>
               </FormControl>
               <Grid container alignItems="flex-end" direction="row-reverse">
