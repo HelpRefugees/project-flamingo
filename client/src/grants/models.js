@@ -8,6 +8,8 @@ export type Grant = {
   country: string,
   region: string,
   otherInfo: string,
+  startDate: string,
+  endDate: string,
   archived: boolean
 };
 

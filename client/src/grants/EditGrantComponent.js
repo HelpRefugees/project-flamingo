@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
+import moment from "moment";
 import HeaderComponent from "../page-layout/HeaderComponent";
 import { type Grant } from "./models";
 import { type Account } from "../authentication/models";
@@ -80,7 +81,9 @@ export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
       description: "",
       country: "",
       region: "",
-      otherInfo: ""
+      otherInfo: "",
+      startDate: "",
+      endDate: ""
     };
   }
   componentWillMount() {
@@ -140,7 +143,12 @@ export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
   };
 
   updateField = (event: Event, key: string) => {
-    this.setState({ [key]: (event.target: window.HTMLInputElement).value });
+    if (key === "endDate" || key === "startDate") {
+      const date = new Date((event.target: window.HTMLInputElement).value);
+      this.setState({ [key]: date.toISOString() });
+    } else {
+      this.setState({ [key]: (event.target: window.HTMLInputElement).value });
+    }
   };
 
   isSaveButtonDisabled = () => {
@@ -254,6 +262,55 @@ export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
                       variant="outlined"
                       label="Other info"
                     />
+                    <Grid
+                      container
+                      justify="space-between"
+                      direction="row"
+                      spacing={24}
+                    >
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth={true}
+                          className={classes.formControl}
+                          label="Start Date"
+                          type="date"
+                          variant="outlined"
+                          InputLabelProps={{
+                            shrink: true
+                          }}
+                          value={moment(this.state.startDate).format(
+                            "YYYY-MM-DD"
+                          )}
+                          onChange={value =>
+                            this.updateField(value, "startDate")
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          disabled={this.state.startDate === ""}
+                          fullWidth={true}
+                          className={classes.formControl}
+                          label="End Date"
+                          type="date"
+                          variant="outlined"
+                          InputLabelProps={{
+                            shrink: true
+                          }}
+                          inputProps={{
+                            min: `${moment(this.state.startDate).format(
+                              "YYYY-MM-DD"
+                            )}`
+                          }}
+                          value={moment(this.state.endDate).format(
+                            "YYYY-MM-DD"
+                          )}
+                          onChange={value => {
+                            this.updateField(value, "endDate");
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
                     <Grid container alignItems="flex-end">
                       <Typography
                         data-test-id="account-info-title"

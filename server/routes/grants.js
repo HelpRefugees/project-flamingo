@@ -28,7 +28,9 @@ module.exports = db => {
               region: 1,
               otherInfo: 1,
               owner: 1,
-              archived: 1
+              archived: 1,
+              startDate: 1,
+              endDate: 1
             }
           }
         )
@@ -65,6 +67,8 @@ module.exports = db => {
           otherInfo: req.body.otherInfo,
           owner: req.body.accountEmail,
           archived: false,
+          startDate: req.body.startDate,
+          endDate: req.body.endDate,
           id: (lastGrant ? lastGrant.id : 0) + 1
         };
 
@@ -88,7 +92,9 @@ module.exports = db => {
                   region: 1,
                   otherInfo: 1,
                   owner: 1,
-                  archived: 1
+                  archived: 1,
+                  startDate: 1,
+                  endDate: 1
                 }
               }
             )

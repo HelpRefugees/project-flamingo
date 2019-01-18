@@ -16,11 +16,14 @@ import {
   DialogActions,
   DialogContent,
   DialogContentText,
-  DialogTitle
+  DialogTitle,
+  Chip,
+  Tooltip
 } from "@material-ui/core";
 import CreateIcon from "@material-ui/icons/Create";
 import Archive from "@material-ui/icons/Archive";
 import Unarchive from "@material-ui/icons/Unarchive";
+import moment from "moment";
 // $FlowIgnore: react-select types don't seem to work
 import Select from "react-select";
 import { Account } from "../authentication/models";
@@ -125,6 +128,17 @@ const styles = theme => ({
   },
   grantNameCell: {
     width: "66%"
+  },
+  expiredLabel: {
+    color: "#ea1024"
+  },
+  expiredOutlined: {
+    borderColor: "#ea1024"
+  },
+  expiryDev: {
+    margin: "2px",
+    borderLeft: "1px solid #d9d9d9",
+    paddingLeft: "24px"
   }
 });
 
@@ -267,6 +281,31 @@ export class GrantsListingComponent extends Component<Props, any> {
     );
   }
 
+  renderExpiryIndicator(endDate: any, classes: any) {
+    let status = moment(endDate).format("DD/MM/YYYY");
+    let chipClasses = {
+      label: classes.expiredLabel,
+      outlined: classes.expiredOutlined
+    };
+    const dueDate = moment(endDate);
+    const delta = dueDate.diff(moment(), "days");
+    if (delta >= -7 && delta < 0) {
+      return (
+        <Tooltip title="Expiring Soon" placement="top-end">
+          <Chip label={status} classes={chipClasses} variant="outlined" />
+        </Tooltip>
+      );
+    } else if (delta < 0) {
+      return (
+        <Tooltip title="Grant Expired" placement="top-end">
+          <Chip label={status} classes={chipClasses} variant="outlined" />
+        </Tooltip>
+      );
+    } else {
+      return status;
+    }
+  }
+
   renderListItems(classes: any, grants: $Shape<Grant>[], archived: string) {
     return (
       <>
@@ -280,6 +319,11 @@ export class GrantsListingComponent extends Component<Props, any> {
             </TableCell>
             <TableCell data-test-id="grant-region">
               <div className={classes.tableGrant}>{grant.region}</div>
+            </TableCell>
+            <TableCell data-test-id="grant-end-date">
+              <div className={classes.tableGrant}>
+                {this.renderExpiryIndicator(grant.endDate, classes)}
+              </div>
             </TableCell>
             <TableCell data-test-id="grant-archive">
               <div className={classes.tableGrant}>
@@ -339,6 +383,9 @@ export class GrantsListingComponent extends Component<Props, any> {
               </TableCell>
               <TableCell>
                 <div className={classes.tableGrant}>Region</div>
+              </TableCell>
+              <TableCell>
+                <div className={classes.tableGrant}>Expiry Date</div>
               </TableCell>
               <TableCell>
                 <div className={classes.tableGrant}>

@@ -14,6 +14,7 @@ import {
   FormControl,
   InputLabel
 } from "@material-ui/core";
+
 import ArrowBack from "@material-ui/icons/ArrowBack";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
@@ -78,7 +79,9 @@ export class AddGrantComponent extends Component<Props, any> {
       country: "",
       region: "",
       otherInfo: "",
-      accountEmail: ""
+      accountEmail: "",
+      startDate: "",
+      endDate: ""
     };
   }
 
@@ -254,6 +257,48 @@ export class AddGrantComponent extends Component<Props, any> {
                       variant="outlined"
                       label="Other info"
                     />
+                    <Grid
+                      container
+                      justify="space-between"
+                      direction="row"
+                      spacing={24}
+                    >
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth={true}
+                          className={classes.formControl}
+                          label="Start Date"
+                          type="date"
+                          variant="outlined"
+                          InputLabelProps={{
+                            shrink: true
+                          }}
+                          value={this.state.startDate}
+                          onChange={value =>
+                            this.updateField(value, "startDate")
+                          }
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          disabled={this.state.startDate === ""}
+                          fullWidth={true}
+                          className={classes.formControl}
+                          label="End Date"
+                          type="date"
+                          variant="outlined"
+                          InputLabelProps={{
+                            shrink: true
+                          }}
+                          inputProps={{
+                            min: `${this.state.startDate}`
+                          }}
+                          value={this.state.endDate}
+                          onChange={value => this.updateField(value, "endDate")}
+                        />
+                      </Grid>
+                    </Grid>
+
                     <Grid container alignItems="flex-end">
                       <Typography
                         data-test-id="account-info-title"
