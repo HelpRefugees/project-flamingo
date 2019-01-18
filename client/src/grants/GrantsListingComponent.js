@@ -289,13 +289,14 @@ export class GrantsListingComponent extends Component<Props, any> {
     };
     const dueDate = moment(endDate);
     const delta = dueDate.diff(moment(), "days");
+    console.log(delta);
     if (delta >= -7 && delta < 0) {
       return (
         <Tooltip title="Expiring Soon" placement="top-end">
           <Chip label={status} classes={chipClasses} variant="outlined" />
         </Tooltip>
       );
-    } else if (delta < 0) {
+    } else if (delta > 0) {
       return (
         <Tooltip title="Grant Expired" placement="top-end">
           <Chip label={status} classes={chipClasses} variant="outlined" />
