@@ -61,7 +61,9 @@ describe("grants endpoint", () => {
         otherInfo: "info...",
         description: "some desc...",
         sector: "some sector",
-        id: 0
+        id: 0,
+        startDate: "1-10-2018",
+        endDate: "1-10-2028"
       }
     ]);
   });
@@ -97,7 +99,9 @@ describe("grants endpoint", () => {
           description: "some desc...",
           sector: "some sector",
           id: 0,
-          archived: false
+          archived: false,
+          startDate: "1-10-2018",
+          endDate: "1-10-2028"
         }
       ];
       beforeEach(async () => {
@@ -123,7 +127,9 @@ describe("grants endpoint", () => {
           region: "string",
           otherInfo: "string",
           accountEmail: implementingPartner.username,
-          archived: false
+          archived: false,
+          startDate: "1-10-2018",
+          endDate: "1-10-2028"
         };
         const expectedGrants = [
           ...grants,
@@ -137,7 +143,9 @@ describe("grants endpoint", () => {
             otherInfo: "string",
             owner: implementingPartner.username,
             id: 1,
-            archived: false
+            archived: false,
+            startDate: "1-10-2018",
+            endDate: "1-10-2028"
           }
         ];
 
@@ -179,7 +187,9 @@ describe("grants endpoint", () => {
           region: "string",
           otherInfo: "string",
           accountEmail: "string",
-          accountPassword: "password"
+          accountPassword: "password",
+          startDate: "1-10-2018",
+          endDate: "1-10-2028"
         };
 
         const response = await agent.post("/api/grants").send(newGrant);
