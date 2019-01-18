@@ -37,14 +37,21 @@ function createReports(reportPeriod, lastReport, grants) {
 
 function createReport(reportPeriod, id, grant) {
   return {
-    overview: "",
-    grant: grant.grant,
     completed: false,
-    reportPeriod,
     dueDate: generateDueDate(reportPeriod),
+    grant: grant.grant,
     owner: grant.owner,
+    reportPeriod,
     id,
-    keyActivities: [{}]
+    overview: "",
+    keyActivities: [{}],
+    incidents: "",
+    challengesFaced: "",
+    operatingEnvironment: "",
+    beneficiaryFeedback: "",
+    otherIssues: "",
+    materialsForFundraising: "",
+    attachments: []
   };
 }
 

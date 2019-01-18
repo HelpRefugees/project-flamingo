@@ -66,7 +66,14 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: username,
           id: 1,
-          keyActivities: [{}]
+          keyActivities: [{}],
+          incidents: "",
+          challengesFaced: "",
+          operatingEnvironment: "",
+          beneficiaryFeedback: "",
+          otherIssues: "",
+          materialsForFundraising: "",
+          attachments: []
         }
       ]);
     });
@@ -153,7 +160,14 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: username,
           id: 13,
-          keyActivities: [{}]
+          keyActivities: [{}],
+          incidents: "",
+          challengesFaced: "",
+          operatingEnvironment: "",
+          beneficiaryFeedback: "",
+          otherIssues: "",
+          materialsForFundraising: "",
+          attachments: []
         },
         {
           overview: "",
@@ -163,7 +177,14 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: "helen@ip.org",
           id: 14,
-          keyActivities: [{}]
+          keyActivities: [{}],
+          incidents: "",
+          challengesFaced: "",
+          operatingEnvironment: "",
+          beneficiaryFeedback: "",
+          otherIssues: "",
+          materialsForFundraising: "",
+          attachments: []
         }
       ]);
     });
