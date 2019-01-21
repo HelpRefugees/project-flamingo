@@ -83,7 +83,8 @@ export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
       region: "",
       otherInfo: "",
       startDate: "",
-      endDate: ""
+      endDate: "",
+      periods: []
     };
   }
   componentWillMount() {
@@ -126,6 +127,13 @@ export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
                 color="primary"
                 disabled={this.isSaveButtonDisabled()}
                 onClick={() => {
+                  const periods = this.state.periods;
+                  periods.pop();
+                  periods.push({
+                    startDate: this.state.startDate,
+                    endDate: this.state.endDate
+                  });
+                  this.setState({ periods: periods });
                   this.props
                     .updateGrant(this.state, "Unable to update grant")
                     .then(() => {

@@ -46,7 +46,8 @@ describe("EditGrantComponent", () => {
       region: "string",
       otherInfo: "string",
       startDate: "",
-      endDate: ""
+      endDate: "",
+      periods: [{ startDate: "", endDate: "" }]
     };
     account = {
       username: "a@a.com",
@@ -113,7 +114,13 @@ describe("EditGrantComponent", () => {
       region: "string",
       otherInfo: "string",
       endDate: "",
-      startDate: ""
+      startDate: "",
+      periods: [
+        {
+          startDate: "",
+          endDate: ""
+        }
+      ]
     };
     expect(
       wrapper.find('[data-test-id="save-grant-button"]').prop("disabled")

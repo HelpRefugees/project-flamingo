@@ -318,7 +318,7 @@ export class GrantsListingComponent extends Component<Props, any> {
               </div>
             </TableCell>
             <TableCell data-test-id="grant-organisation">
-              <div className={classes.tableGrant}> {grant.organization}</div>
+              <div className={classes.tableGrant}>{grant.organization}</div>
             </TableCell>
             <TableCell data-test-id="grant-region">
               <div className={classes.tableGrant}>{grant.region}</div>

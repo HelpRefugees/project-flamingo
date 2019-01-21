@@ -65,7 +65,13 @@ describe("GrantsListingComponent", () => {
           description: "desc",
           country: "country",
           region: "region",
-          otherInfo: "info"
+          otherInfo: "info",
+          periods: [
+            {
+              startDate: "",
+              endDate: ""
+            }
+          ]
         }
       ];
       wrapper = shallow(

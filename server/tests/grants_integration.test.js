@@ -63,7 +63,13 @@ describe("grants endpoint", () => {
         sector: "some sector",
         id: 0,
         startDate: "1-10-2018",
-        endDate: "1-10-2028"
+        endDate: "1-10-2028",
+        periods: [
+          {
+            startDate: "1-10-2018",
+            endDate: "1-10-2028"
+          }
+        ]
       }
     ]);
   });
@@ -101,7 +107,13 @@ describe("grants endpoint", () => {
           id: 0,
           archived: false,
           startDate: "1-10-2018",
-          endDate: "1-10-2028"
+          endDate: "1-10-2028",
+          periods: [
+            {
+              startDate: "1-10-2018",
+              endDate: "1-10-2028"
+            }
+          ]
         }
       ];
       beforeEach(async () => {
@@ -145,7 +157,13 @@ describe("grants endpoint", () => {
             id: 1,
             archived: false,
             startDate: "1-10-2018",
-            endDate: "1-10-2028"
+            endDate: "1-10-2028",
+            periods: [
+              {
+                startDate: "1-10-2018",
+                endDate: "1-10-2028"
+              }
+            ]
           }
         ];
 
