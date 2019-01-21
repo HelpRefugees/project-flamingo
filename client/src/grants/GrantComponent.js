@@ -347,7 +347,7 @@ export class GrantComponent extends Component<
                 <Grid item xs={12} sm={6}>
                   <TextViewSectionComponent
                     classes={classes}
-                    value={grant.startDate}
+                    value={moment(grant.startDate).format("DD/MM/YYYY")}
                     valueKey={"startDate"}
                     titleKey={"StartDate"}
                     title={"Start date"}
@@ -357,7 +357,7 @@ export class GrantComponent extends Component<
                 <Grid item xs={12} sm={6}>
                   <TextViewSectionComponent
                     classes={classes}
-                    value={grant.endDate}
+                    value={moment(grant.endDate).format("DD/MM/YYYY")}
                     valueKey={"endDate"}
                     titleKey={"endDate"}
                     title={"End date"}

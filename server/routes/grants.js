@@ -30,7 +30,8 @@ module.exports = db => {
               owner: 1,
               archived: 1,
               startDate: 1,
-              endDate: 1
+              endDate: 1,
+              periods: 1
             }
           }
         )
@@ -69,7 +70,10 @@ module.exports = db => {
           archived: false,
           startDate: req.body.startDate,
           endDate: req.body.endDate,
-          id: (lastGrant ? lastGrant.id : 0) + 1
+          id: (lastGrant ? lastGrant.id : 0) + 1,
+          periods: [
+            { startDate: req.body.startDate, endDate: req.body.endDate }
+          ]
         };
 
         const grantsCommandResult = await db
@@ -94,7 +98,8 @@ module.exports = db => {
                   owner: 1,
                   archived: 1,
                   startDate: 1,
-                  endDate: 1
+                  endDate: 1,
+                  periods: 1
                 }
               }
             )

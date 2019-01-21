@@ -10,7 +10,8 @@ export type Grant = {
   otherInfo: string,
   startDate: string,
   endDate: string,
-  archived: boolean
+  archived: boolean,
+  periods: any[]
 };
 
 export type AddGrantModel = {

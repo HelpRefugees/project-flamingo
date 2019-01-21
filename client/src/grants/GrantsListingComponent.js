@@ -311,11 +311,14 @@ export class GrantsListingComponent extends Component<Props, any> {
       <>
         {grants.map((grant: $Shape<Grant>, index: number) => (
           <TableRow data-test-id="grant" key={index}>
-            <TableCell data-test-id="grant-organisation">
-              {grant.organization}
+            <TableCell data-test-id="grant-name">{grant.grant}</TableCell>
+            <TableCell data-test-id="grant-periods-no">
+              <div className={classes.tableGrant}>
+                {grant.periods ? grant.periods.length : 1}
+              </div>
             </TableCell>
-            <TableCell data-test-id="grant-name">
-              <div className={classes.tableGrant}>{grant.grant}</div>
+            <TableCell data-test-id="grant-organisation">
+              <div className={classes.tableGrant}> {grant.organization}</div>
             </TableCell>
             <TableCell data-test-id="grant-region">
               <div className={classes.tableGrant}>{grant.region}</div>
@@ -377,9 +380,12 @@ export class GrantsListingComponent extends Component<Props, any> {
         <Table data-test-id={grantSelector}>
           <TableHead>
             <TableRow>
-              <TableCell>Organisation</TableCell>
+              <TableCell>Grant Name</TableCell>
               <TableCell>
-                <div className={classes.tableGrant}>Grant Name </div>
+                <div className={classes.tableGrant}>No. of periods</div>
+              </TableCell>
+              <TableCell>
+                <div className={classes.tableGrant}>Organisation</div>
               </TableCell>
               <TableCell>
                 <div className={classes.tableGrant}>Region</div>
