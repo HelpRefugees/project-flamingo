@@ -27,6 +27,7 @@ import GrantsListingPage from "./grants/GrantsListingPage";
 import AddGrantPage from "./grants/AddGrantPage";
 import EditGrantPage from "./grants/EditGrantPage";
 import SettingsPage from "./settings/UsersListingPage";
+import GrantPage from "./grants/GrantPage";
 
 const mapStateToProps = (state: State) => {
   return {
@@ -99,6 +100,14 @@ export class App extends Component<Props> {
               path="/grants/:id/edit"
               allowed={["help-refugees"]}
               component={withErrorHandler(EditGrantPage)}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
+
+            <PrivateRoute
+              path="/grants/:id"
+              allowed={["help-refugees"]}
+              component={withErrorHandler(GrantPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />

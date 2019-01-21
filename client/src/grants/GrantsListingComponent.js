@@ -20,7 +20,7 @@ import {
   Chip,
   Tooltip
 } from "@material-ui/core";
-import CreateIcon from "@material-ui/icons/Create";
+import RemoveRedEye from "@material-ui/icons/RemoveRedEye";
 import Archive from "@material-ui/icons/Archive";
 import Unarchive from "@material-ui/icons/Unarchive";
 import moment from "moment";
@@ -348,11 +348,11 @@ export class GrantsListingComponent extends Component<Props, any> {
             </TableCell>
             <TableCell data-test-id="grant-action">
               <div className={classes.tableGrant}>
-                <CreateIcon
+                <RemoveRedEye
                   className={classes.clickable}
                   onClick={() => {
                     this.props.selectGrant(grant);
-                    this.props.history.push(`/grants/${grant.id}/edit`);
+                    this.props.history.push(`/grants/${grant.id}`);
                   }}
                 />
               </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Paper, Typography, withStyles } from "@material-ui/core";
 
+import { TextViewSectionComponent } from "./TextViewSectionComponent";
 import { type Report } from "./models";
 
 const styles = themes => ({
@@ -132,31 +133,6 @@ export class ReportViewComponent extends React.PureComponent<{
     );
   }
 
-  renderTextSection({ titleKey, title, valueKey, value }: any) {
-    const { classes } = this.props;
-    return (
-      <Paper
-        justify="center"
-        className={classes.pagePaper}
-        data-test-id={titleKey}
-      >
-        <Grid container direction="column" spacing={32}>
-          <Grid item>
-            <Typography variant="h4" data-test-id="report-section-title">
-              {title}
-            </Typography>
-            <hr className={classes.rule} />
-          </Grid>
-          <Grid item>
-            <Typography data-test-id={valueKey} className={classes.progress}>
-              {this.formatParagraph(value)}
-            </Typography>
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  }
-
   render() {
     const { classes, report } = this.props;
     const grantProgressSection = {
@@ -211,14 +187,65 @@ export class ReportViewComponent extends React.PureComponent<{
       >
         <Grid container justify="center">
           <Grid item xs={6}>
-            {this.renderTextSection(grantProgressSection)}
-            {this.renderTextSection(operatingEnvironmentSection)}
+            <TextViewSectionComponent
+              data-test-id={grantProgressSection.valueKey}
+              title={grantProgressSection.title}
+              titleKey={grantProgressSection.titleKey}
+              value={grantProgressSection.value}
+              valueKey={grantProgressSection.valueKey}
+              classes={classes}
+            />
+            <TextViewSectionComponent
+              data-test-id={operatingEnvironmentSection.valueKey}
+              title={operatingEnvironmentSection.title}
+              titleKey={operatingEnvironmentSection.titleKey}
+              value={operatingEnvironmentSection.value}
+              valueKey={operatingEnvironmentSection.valueKey}
+              classes={classes}
+            />
+
             {this.renderKeyActivities()}
-            {this.renderTextSection(beneficiaryFeedbackSection)}
-            {this.renderTextSection(challengesFacedSection)}
-            {this.renderTextSection(incidentsSection)}
-            {this.renderTextSection(otherIssuesSection)}
-            {this.renderTextSection(materialsForFundraisingSection)}
+            <TextViewSectionComponent
+              data-test-id={beneficiaryFeedbackSection.valueKey}
+              title={beneficiaryFeedbackSection.title}
+              titleKey={beneficiaryFeedbackSection.titleKey}
+              value={beneficiaryFeedbackSection.value}
+              valueKey={beneficiaryFeedbackSection.valueKey}
+              classes={classes}
+            />
+
+            <TextViewSectionComponent
+              data-test-id={challengesFacedSection.valueKey}
+              title={challengesFacedSection.title}
+              titleKey={challengesFacedSection.titleKey}
+              value={challengesFacedSection.value}
+              valueKey={challengesFacedSection.valueKey}
+              classes={classes}
+            />
+            <TextViewSectionComponent
+              data-test-id={incidentsSection.valueKey}
+              title={incidentsSection.title}
+              titleKey={incidentsSection.titleKey}
+              value={incidentsSection.value}
+              valueKey={incidentsSection.valueKey}
+              classes={classes}
+            />
+            <TextViewSectionComponent
+              data-test-id={otherIssuesSection.valueKey}
+              title={otherIssuesSection.title}
+              titleKey={otherIssuesSection.titleKey}
+              value={otherIssuesSection.value}
+              valueKey={otherIssuesSection.valueKey}
+              classes={classes}
+            />
+            <TextViewSectionComponent
+              data-test-id={materialsForFundraisingSection.valueKey}
+              title={materialsForFundraisingSection.title}
+              titleKey={materialsForFundraisingSection.titleKey}
+              value={materialsForFundraisingSection.value}
+              valueKey={materialsForFundraisingSection.valueKey}
+              classes={classes}
+            />
             <Paper
               justify="center"
               className={classes.pagePaper}
