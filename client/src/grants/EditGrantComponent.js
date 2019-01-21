@@ -15,8 +15,8 @@ import {
   InputLabel
 } from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
-
 import moment from "moment";
+
 import HeaderComponent from "../page-layout/HeaderComponent";
 import { type Grant } from "./models";
 import { type Account } from "../authentication/models";

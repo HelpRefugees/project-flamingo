@@ -1,6 +1,18 @@
 import React, { Component, Fragment } from "react";
-import { Grid, withStyles, AppBar, Toolbar, Button } from "@material-ui/core";
+import {
+  Grid,
+  withStyles,
+  AppBar,
+  Toolbar,
+  Button,
+  Modal,
+  FormControl,
+  Paper,
+  Typography,
+  TextField
+} from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
+import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import { TextViewSectionComponent } from "../my-report/TextViewSectionComponent";
@@ -16,10 +28,29 @@ type Props = {
   history: any,
   grant: $Shape<Grant>,
   users: $Shape<User>[],
-  loadUsers: () => void
+  loadUsers: () => void,
+  extendGrant: (
+    id: number,
+    startDate: string,
+    endDate: string,
+    errorMessage: string
+  ) => Promise<any>
 };
 
 const styles = themes => ({
+  formControl: {
+    marginBottom: themes.spacing.unit * 2.5,
+    minWidth: 120
+  },
+  extendGrantForm: {
+    padding: themes.spacing.unit * 5
+  },
+  extendGrantModal: {
+    marginTop: "15%",
+    marginLeft: "35%",
+    width: "30%",
+    borderRadius: "8px"
+  },
   headerButton: {
     marginRight: themes.spacing.unit * 2.5,
     marginLeft: themes.spacing.unit * 2.5
@@ -79,7 +110,106 @@ const styles = themes => ({
     letterSpacing: "0.3px"
   }
 });
-export class GrantComponent extends Component<Props> {
+export class GrantComponent extends Component<
+  Props,
+  { open: boolean, startDate: string, endDate: string }
+> {
+  constructor() {
+    super();
+    this.state = {
+      open: false,
+      startDate: "",
+      endDate: ""
+    };
+  }
+  closeModal = () =>
+    this.setState({
+      open: false
+    });
+
+  openModal = () =>
+    this.setState({
+      open: true
+    });
+
+  updateField = (event: Event, key: string) => {
+    const date = new Date((event.target: window.HTMLInputElement).value);
+    this.setState({ [key]: date.toISOString() });
+  };
+  renderExtendGrantModal = (classes: any) => {
+    return (
+      <Modal
+        open={this.state.open}
+        onClose={this.closeModal}
+        className={classes.extendGrantModal}
+      >
+        <Paper>
+          <Grid container direction="column">
+            <Grid item className={classes.extendGrantForm}>
+              <Grid container alignItems="flex-end">
+                <Typography variant="h4">Extend Grant</Typography>
+              </Grid>
+              <p />
+
+              <FormControl
+                variant="outlined"
+                className={classes.formControl}
+                fullWidth={true}
+              >
+                <TextField
+                  fullWidth={true}
+                  className={classes.formControl}
+                  label="Period start Date"
+                  type="date"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  value={moment(this.state.startDate).format("YYYY-MM-DD")}
+                  onChange={value => this.updateField(value, "startDate")}
+                />
+                <TextField
+                  fullWidth={true}
+                  className={classes.formControl}
+                  label="Period end Date"
+                  type="date"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  value={moment(this.state.endDate).format("YYYY-MM-DD")}
+                  onChange={value => this.updateField(value, "endDate")}
+                />
+              </FormControl>
+              <Grid container alignItems="flex-end" direction="row-reverse">
+                <Button color="secondary" onClick={this.closeModal}>
+                  cancel
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    this.props
+                      .extendGrant(
+                        this.props.grant.id,
+                        this.state.startDate,
+                        this.state.endDate,
+                        "Unable to extend grant"
+                      )
+                      .then(() => {
+                        this.props.history.push("/grants");
+                      });
+                  }}
+                >
+                  save
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Modal>
+    );
+  };
+
   renderToolbar = (classes: any) => {
     return (
       <AppBar position="static" color="inherit">
@@ -115,9 +245,7 @@ export class GrantComponent extends Component<Props> {
                 variant="outlined"
                 color="primary"
                 disabled={false}
-                onClick={() => {
-                  this.props.history.push("/grants");
-                }}
+                onClick={this.openModal}
               >
                 EXTEND
               </Button>
@@ -146,6 +274,7 @@ export class GrantComponent extends Component<Props> {
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
+        {this.renderExtendGrantModal(classes)}
         {this.renderToolbar(classes)}
         <Grid
           container
@@ -183,20 +312,59 @@ export class GrantComponent extends Component<Props> {
                 titleKey={"description"}
                 title={"Grant description"}
               />
-              <TextViewSectionComponent
-                classes={classes}
-                value={grant.country}
-                valueKey={"country"}
-                titleKey={"country"}
-                title={"Country"}
-              />
-              <TextViewSectionComponent
-                classes={classes}
-                value={grant.region}
-                valueKey={"region"}
-                titleKey={"region"}
-                title={"Region"}
-              />
+              <Grid
+                container
+                justify="space-between"
+                direction="row"
+                spacing={24}
+              >
+                <Grid item xs={12} sm={6}>
+                  <TextViewSectionComponent
+                    classes={classes}
+                    value={grant.country}
+                    valueKey={"country"}
+                    titleKey={"country"}
+                    title={"Country"}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <TextViewSectionComponent
+                    classes={classes}
+                    value={grant.region}
+                    valueKey={"region"}
+                    titleKey={"region"}
+                    title={"Region"}
+                  />
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                justify="space-between"
+                direction="row"
+                spacing={24}
+              >
+                <Grid item xs={12} sm={6}>
+                  <TextViewSectionComponent
+                    classes={classes}
+                    value={grant.startDate}
+                    valueKey={"startDate"}
+                    titleKey={"StartDate"}
+                    title={"Start date"}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <TextViewSectionComponent
+                    classes={classes}
+                    value={grant.endDate}
+                    valueKey={"endDate"}
+                    titleKey={"endDate"}
+                    title={"End date"}
+                  />
+                </Grid>
+              </Grid>
+
               <TextViewSectionComponent
                 classes={classes}
                 value={grant.otherInfo}

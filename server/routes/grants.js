@@ -163,5 +163,35 @@ module.exports = db => {
       }
     }
   );
+
+  router.post(
+    "/:id/extend",
+    ensureLoggedIn,
+    ensureHasRole("help-refugees"),
+    async (req, res) => {
+      const id = parseInt(req.params.id, 10);
+      const { startDate, endDate } = req.body;
+
+      const grant = await db.collection(collection).findOne({ id: id });
+      if (grant) {
+        if (grant.endDate > startDate) {
+          res.sendStatus(422);
+        } else {
+          grant.periods.push({
+            startDate,
+            endDate
+          });
+          grant.startDate = startDate;
+          grant.endDate = endDate;
+          db.collection(collection).replaceOne({ id }, grant, () => {
+            const { _id, ...updatedGrant } = grant;
+            return res.send(updatedGrant);
+          });
+        }
+      } else {
+        res.sendStatus(422);
+      }
+    }
+  );
   return router;
 };

@@ -472,6 +472,59 @@ export const updateGrant = (grant: $Shape<Grant>, errorMessage: string) => (
   return promise;
 };
 
+export const extendGrantStarted = () => {
+  return { type: "EXTEND_GRANT_STARTED" };
+};
+
+export const extendGrantSuccessful = (grant: $Shape<Grant>) => {
+  return {
+    type: "EXTEND_GRANT_SUCCESS",
+    payload: grant
+  };
+};
+
+export const extendGrantFailed = () => {
+  return { type: "EXTEND_GRANT_FAILED" };
+};
+
+export const extendGrant = (
+  id: number,
+  startDate: string,
+  endDate: string,
+  errorMessage: string
+) => (dispatch: Dispatch<any>) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(extendGrantStarted());
+
+    makeRequest(
+      dispatch,
+      `/api/grants/${id}/extend`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ startDate, endDate })
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(grant => {
+            dispatch(extendGrantSuccessful(grant));
+            resolve();
+          });
+        } else {
+          dispatch(extendGrantFailed());
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to extend");
+        }
+      }
+    ).catch(err => {
+      dispatch(extendGrantFailed());
+      dispatch(errorOccurred(errorMessage));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
 export const deleteUserStarted = () => {
   return { type: "DELETE_USER_STARTED" };
 };

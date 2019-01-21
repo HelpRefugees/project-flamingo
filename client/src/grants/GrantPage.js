@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
 import GrantComponent from "./GrantComponent";
-import { logout, updateGrant, loadUsers } from "../actions";
+import { logout, updateGrant, loadUsers, extendGrant } from "../actions";
 import type { State } from "../reducers";
 import type { Grant } from "./models";
 
@@ -19,6 +19,12 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   logout: () => dispatch(logout()),
   updateGrant: (grant: Grant, errorMessage: string) =>
     dispatch(updateGrant(grant, errorMessage)),
+  extendGrant: (
+    id: number,
+    startDate: string,
+    endDate: string,
+    errorMessage: string
+  ) => dispatch(extendGrant(id, startDate, endDate, errorMessage)),
   loadUsers: () => dispatch(loadUsers())
 });
 

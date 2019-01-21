@@ -88,8 +88,6 @@ module.exports = db => {
     ensureLoggedIn,
     ensureHasRole("implementing-partner"),
     (req, res) => {
-      // if (req.file && req.file.originalname) {
-      // }
       res.send({ responseText: "req.file.path" }); // You can send any response to the user here
     }
   );

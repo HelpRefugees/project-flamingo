@@ -31,22 +31,6 @@ describe("ReportViewComponent", () => {
     attachments: []
   };
 
-  // const report2: $Shape<Report> = {
-  //   id: 2,
-  //   grant: "Grant Shapps",
-  //   overview: "Shapps Overview\nGrant writes more than Hugh\nSeriously shut up",
-  //   completed: true,
-  //   reportPeriod: "2018-10-01T00:00:00.000Z",
-  //   keyActivities: [{}],
-  //   operatingEnvironment: "",
-  //   beneficiaryFeedback: "",
-  //   challengesFaced: "",
-  //   incidents: "",
-  //   otherIssues: "",
-  //   materialsForFundraising: "",
-  //   attachments: []
-  // };
-
   describe("with completed report", () => {
     beforeEach(() => {
       wrapper = shallow(<ReportViewComponent classes={{}} report={report1} />);
@@ -78,19 +62,4 @@ describe("ReportViewComponent", () => {
       });
     });
   });
-
-  // describe("with multiline report", () => {
-  //   beforeEach(() => {
-  //     wrapper = shallow(<ReportViewComponent classes={{}} report={report2} />);
-  //   });
-
-  //   it("splits up the text", () => {
-  //     expect(
-  //       wrapper
-  //         .find('[data-test-id="report-progress"]')
-  //         .render()
-  //         .children()
-  //     ).toHaveLength(3);
-  //   });
-  // });
 });
