@@ -39,6 +39,7 @@ const styles = themes => ({
   },
   outerContainer: {
     height: "100vh",
+    width: "100%",
     marginTop: themes.spacing.unit * 5
   },
   pagePaper: {

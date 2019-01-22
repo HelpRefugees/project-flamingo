@@ -135,7 +135,7 @@ module.exports = db => {
             .find({})
             .toArray();
           let allUsers;
-          allUsers = db
+          allUsers = await db
             .collection("users")
             .find({})
             .toArray();
