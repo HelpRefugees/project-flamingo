@@ -3,6 +3,7 @@
  */
 const { generateDueDate, generateReportPeriod } = require("./utils");
 const dbModule = require("../server/db");
+var moment = require("moment");
 
 module.exports = async dbUrl => {
   let insertedDocumentCount = 0;
@@ -13,16 +14,30 @@ module.exports = async dbUrl => {
     .collection("reports")
     .find({ reportPeriod })
     .toArray();
-
   if (reports.length === 0) {
     const grants = await db
       .collection("grants")
       .find({ archived: false })
       .toArray();
-    const lastReport = await getLastReport(db);
-    const newReports = createReports(reportPeriod, lastReport, grants);
-    const { result } = await db.collection("reports").insertMany(newReports);
-    insertedDocumentCount = result.n;
+
+    const filteredGrants = grants.filter(grant => {
+      const expiryDate = moment(grant.endDate);
+      const delta = expiryDate.diff(moment(), "days");
+      if (delta > 0) {
+        return grant;
+      }
+    });
+
+    if (filteredGrants !== undefined || filteredGrants.length !== 0) {
+      const lastReport = await getLastReport(db);
+      const newReports = createReports(
+        reportPeriod,
+        lastReport,
+        filteredGrants
+      );
+      const { result } = await db.collection("reports").insertMany(newReports);
+      insertedDocumentCount = result.n;
+    }
   }
   await dbModule.close();
   return insertedDocumentCount;

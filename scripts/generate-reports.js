@@ -11,6 +11,6 @@ reportGenerator(getDatabaseUrl())
     process.exit(0);
   })
   .catch(err => {
-    console.err(err);
+    console.log(err);
     process.exit(1);
   });
