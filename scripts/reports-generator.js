@@ -3,7 +3,7 @@
  */
 const { generateDueDate, generateReportPeriod } = require("./utils");
 const dbModule = require("../server/db");
-var moment = require("moment");
+const moment = require("moment");
 
 module.exports = async dbUrl => {
   let insertedDocumentCount = 0;
@@ -28,7 +28,7 @@ module.exports = async dbUrl => {
       }
     });
 
-    if (filteredGrants !== undefined || filteredGrants.length !== 0) {
+    if (filteredGrants !== undefined && filteredGrants.length !== 0) {
       const lastReport = await getLastReport(db);
       const newReports = createReports(
         reportPeriod,

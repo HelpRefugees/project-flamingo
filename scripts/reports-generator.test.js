@@ -28,7 +28,9 @@ describe("Report generation script", () => {
       await global.DATABASE.collection("grants").insertOne({
         owner: username,
         grant: "Grant Mitchell",
-        archived: false
+        archived: false,
+        endDate: "11-10-2028",
+        startDate: "1-1-2010"
       });
     });
 
@@ -128,12 +130,16 @@ describe("Report generation script", () => {
         {
           grant: "Grant Mitchell",
           owner: username,
-          archived: false
+          archived: false,
+          endDate: "11-10-2028",
+          startDate: "1-1-2010"
         },
         {
           grant: "Hugh Grant",
           owner: "helen@ip.org",
-          archived: false
+          archived: false,
+          endDate: "11-10-2028",
+          startDate: "1-1-2010"
         }
       ]);
     });
