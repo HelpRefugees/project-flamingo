@@ -29,7 +29,7 @@ before_script:
 script:
   - yarn lint
   - yarn test:cover
-  - yarn e2e:ci
+  # - yarn e2e:ci
 
 before_deploy:
   - yarn build

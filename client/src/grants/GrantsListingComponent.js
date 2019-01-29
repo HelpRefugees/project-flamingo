@@ -6,7 +6,6 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
   Paper,
   Typography,
   Tab,
@@ -23,6 +22,13 @@ import {
 import RemoveRedEye from "@material-ui/icons/RemoveRedEye";
 import Archive from "@material-ui/icons/Archive";
 import Unarchive from "@material-ui/icons/Unarchive";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+// $FlowIgnore: ExpansionPanel types don't seem to work
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+// $FlowIgnore: ExpansionPanel types don't seem to work
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+// $FlowIgnore: ExpansionPanel types don't seem to work
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import moment from "moment";
 // $FlowIgnore: react-select types don't seem to work
 import Select from "react-select";
@@ -77,6 +83,23 @@ const grantNameFilterControlStyles = {
 };
 
 const styles = theme => ({
+  grantExtension: {
+    backgroundColor: "#f4f4f4",
+    borderBottom: "1px solid #d9d9d9",
+    flexDirection: "row",
+    padding: theme.spacing.unit * 3.5,
+    display: "flex"
+  },
+  grantPeriod: {
+    margin: "2px",
+    width: theme.spacing.unit * 82
+  },
+  grantExpansionDetails: {
+    flexDirection: "column",
+    backgroundColor: "#f4f4f4",
+    margin: "0px",
+    padding: "0px"
+  },
   rowContainer: {
     marginTop: theme.spacing.unit * 4
   },
@@ -92,7 +115,12 @@ const styles = theme => ({
   tableGrant: {
     margin: "2px",
     borderLeft: "1px solid #d9d9d9",
-    paddingLeft: "24px"
+    paddingLeft: "24px",
+    width: theme.spacing.unit * 10 //TO BE CHECKED
+  },
+  tableGrantFirstCell: {
+    margin: "2px",
+    width: theme.spacing.unit * 10
   },
   clickable: {
     cursor: "pointer"
@@ -127,7 +155,8 @@ const styles = theme => ({
     cursor: "pointer"
   },
   grantNameCell: {
-    width: "66%"
+    width: theme.spacing.unit * 20,
+    paddingRight: theme.spacing.unit * 1
   },
   expiredLabel: {
     color: "#ea1024"
@@ -139,6 +168,18 @@ const styles = theme => ({
     margin: "2px",
     borderLeft: "1px solid #d9d9d9",
     paddingLeft: "24px"
+  },
+  spanTd: {
+    margin: 2,
+    borderLeft: "1px solid #d9d9d9",
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit * 7
+  },
+  spanDiv: {
+    width: theme.spacing.unit * 10
+  },
+  spanDivGrantName: {
+    width: theme.spacing.unit * 19.6
   }
 });
 
@@ -309,59 +350,192 @@ export class GrantsListingComponent extends Component<Props, any> {
   renderListItems(classes: any, grants: $Shape<Grant>[], archived: string) {
     return (
       <>
-        {grants.map((grant: $Shape<Grant>, index: number) => (
-          <TableRow data-test-id="grant" key={index}>
-            <TableCell data-test-id="grant-name">{grant.grant}</TableCell>
-            <TableCell data-test-id="grant-periods-no">
-              <div className={classes.tableGrant}>
-                {grant.periods ? grant.periods.length : 1}
+        {grants.map((grant: $Shape<Grant>, index: number) => {
+          const renderOutput =
+            grant.periods.length > 1 ? (
+              <div data-test-id="grant" key={index}>
+                <ExpansionPanel>
+                  <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                    <span data-test-id="grant-name">
+                      <div className={classes.spanDivGrantName}>
+                        {grant.grant}
+                      </div>
+                    </span>
+                    <span
+                      data-test-id="grant-periods-no"
+                      className={classes.spanTd}
+                    >
+                      <div className={classes.spanDiv}>
+                        {grant.periods ? grant.periods.length : 1}
+                      </div>
+                    </span>
+                    <span
+                      data-test-id="grant-organisation"
+                      className={classes.spanTd}
+                    >
+                      <div className={classes.spanDiv}>
+                        {grant.organization}
+                      </div>
+                    </span>
+                    <span
+                      data-test-id="grant-region"
+                      className={classes.spanTd}
+                    >
+                      <div className={classes.spanDiv}>{grant.region}</div>
+                    </span>
+                    <span
+                      data-test-id="grant-end-date"
+                      className={classes.spanTd}
+                    >
+                      <div className={classes.spanDiv}>
+                        {this.renderExpiryIndicator(grant.endDate, classes)}
+                      </div>
+                    </span>
+                    <span
+                      data-test-id="grant-archive"
+                      className={classes.spanTd}
+                    >
+                      <div className={classes.spanDiv}>
+                        {archived === "archive" ? (
+                          <Archive
+                            className={classes.clickable}
+                            onClick={() => {
+                              this.handleArchiveOpen();
+                              this.setState({ grant: { ...grant } });
+                            }}
+                          />
+                        ) : (
+                          <Unarchive
+                            className={classes.clickable}
+                            onClick={() => {
+                              this.handleArchiveOpen();
+                              this.setState({ grant: { ...grant } });
+                            }}
+                          />
+                        )}
+                      </div>
+                    </span>
+                    <span
+                      data-test-id="grant-action"
+                      className={classes.spanTd}
+                    >
+                      <div className={classes.spanDiv}>
+                        <RemoveRedEye
+                          className={classes.clickable}
+                          onClick={() => {
+                            this.props.selectGrant(grant);
+                            this.props.history.push(`/grants/${grant.id}`);
+                          }}
+                        />
+                      </div>
+                    </span>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails
+                    className={classes.grantExpansionDetails}
+                  >
+                    {grant.periods.reverse().map((period, index) => (
+                      <div key={index} className={classes.grantExtension}>
+                        <div
+                          data-test-id="grant-name"
+                          className={classes.grantPeriod}
+                        >
+                          {grant.grant}
+                        </div>
+                        <div
+                          data-test-id="grant-name"
+                          className={classes.spanTd}
+                        >
+                          {`${moment(period.endDate).format("DD/MM/YYYY")}`}
+                        </div>
+                        {index !== 0 && (
+                          <div
+                            data-test-id="grant-name"
+                            className={classes.spanTd}
+                          >
+                            EXPIRED
+                          </div>
+                        )}
+                        {index === 0 && (
+                          <div
+                            data-test-id="grant-name"
+                            className={classes.spanTd}
+                            style={{ color: "#00857b" }}
+                          >
+                            ONGOING
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
               </div>
-            </TableCell>
-            <TableCell data-test-id="grant-organisation">
-              <div className={classes.tableGrant}>{grant.organization}</div>
-            </TableCell>
-            <TableCell data-test-id="grant-region">
-              <div className={classes.tableGrant}>{grant.region}</div>
-            </TableCell>
-            <TableCell data-test-id="grant-end-date">
-              <div className={classes.tableGrant}>
-                {this.renderExpiryIndicator(grant.endDate, classes)}
+            ) : (
+              <div key={index}>
+                <TableRow>
+                  <TableCell
+                    data-test-id="grant-name"
+                    className={classes.grantNameCell}
+                  >
+                    {grant.grant}
+                  </TableCell>
+                  <TableCell data-test-id="grant-periods-no">
+                    <div className={classes.tableGrant}>
+                      {grant.periods ? grant.periods.length : 1}
+                    </div>
+                  </TableCell>
+                  <TableCell data-test-id="grant-organisation">
+                    <div className={classes.tableGrant}>
+                      {grant.organization}
+                    </div>
+                  </TableCell>
+                  <TableCell data-test-id="grant-region">
+                    <div className={classes.tableGrant}>{grant.region}</div>
+                  </TableCell>
+                  <TableCell data-test-id="grant-end-date">
+                    <div className={classes.tableGrant}>
+                      {this.renderExpiryIndicator(grant.endDate, classes)}
+                    </div>
+                  </TableCell>
+                  <TableCell data-test-id="grant-archive">
+                    <div className={classes.tableGrant}>
+                      {archived === "archive" ? (
+                        <Archive
+                          className={classes.clickable}
+                          onClick={() => {
+                            this.handleArchiveOpen();
+                            this.setState({ grant: { ...grant } });
+                          }}
+                        />
+                      ) : (
+                        <Unarchive
+                          className={classes.clickable}
+                          onClick={() => {
+                            this.handleArchiveOpen();
+                            this.setState({ grant: { ...grant } });
+                          }}
+                        />
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell data-test-id="grant-action">
+                    <div className={classes.tableGrant}>
+                      <RemoveRedEye
+                        className={classes.clickable}
+                        onClick={() => {
+                          this.props.selectGrant(grant);
+                          this.props.history.push(`/grants/${grant.id}`);
+                        }}
+                      />
+                    </div>
+                  </TableCell>
+                  <TableCell data-test-id="grant-action">
+                    <div className={classes.tableGrant} />
+                  </TableCell>
+                </TableRow>
               </div>
-            </TableCell>
-            <TableCell data-test-id="grant-archive">
-              <div className={classes.tableGrant}>
-                {archived === "archive" ? (
-                  <Archive
-                    className={classes.clickable}
-                    onClick={() => {
-                      this.handleArchiveOpen();
-                      this.setState({ grant: { ...grant } });
-                    }}
-                  />
-                ) : (
-                  <Unarchive
-                    className={classes.clickable}
-                    onClick={() => {
-                      this.handleArchiveOpen();
-                      this.setState({ grant: { ...grant } });
-                    }}
-                  />
-                )}
-              </div>
-            </TableCell>
-            <TableCell data-test-id="grant-action">
-              <div className={classes.tableGrant}>
-                <RemoveRedEye
-                  className={classes.clickable}
-                  onClick={() => {
-                    this.props.selectGrant(grant);
-                    this.props.history.push(`/grants/${grant.id}`);
-                  }}
-                />
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
+            );
+          return renderOutput;
+        })}
       </>
     );
   }
@@ -399,20 +573,22 @@ export class GrantsListingComponent extends Component<Props, any> {
                 </div>
               </TableCell>
               <TableCell>
-                <div className={classes.tableGrant}>{"  "}</div>
+                <div className={classes.tableGrant}>view</div>
+              </TableCell>
+              <TableCell>
+                <div className={classes.tableGrant}>expand</div>
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {this.renderListItems(
-              classes,
-              grantSelector === "ongoing-grants"
-                ? this.getOngoingGrants(grants)
-                : this.getArchivedGrants(grants),
-              grantSelector === "ongoing-grants" ? "archive" : "unarchive"
-            )}
-          </TableBody>
         </Table>
+        {this.renderListItems(
+          classes,
+          grantSelector === "ongoing-grants"
+            ? this.getOngoingGrants(grants)
+            : this.getArchivedGrants(grants),
+          grantSelector === "ongoing-grants" ? "archive" : "unarchive"
+        )}
+
         <div>
           {this.renderDialog(
             grantSelector === "ongoing-grants" ? "archive" : "unarchive"
