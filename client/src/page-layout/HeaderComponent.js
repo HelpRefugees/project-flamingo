@@ -31,7 +31,8 @@ type State = {
 const styles = theme => ({
   headerLogo: {
     margin: theme.spacing.unit,
-    maxHeight: "45px"
+    maxHeight: "45px",
+    cursor: "pointer"
   },
   menuItem: {
     minWidth: "150px"
