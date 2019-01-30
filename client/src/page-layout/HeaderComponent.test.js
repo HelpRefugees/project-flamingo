@@ -17,7 +17,13 @@ describe("HeaderComponent", () => {
   beforeEach(() => {
     mockLogout = jest.fn();
     wrapper = shallow(
-      <HeaderComponent classes={{}} logout={mockLogout} account={account} />
+      <HeaderComponent
+        classes={{}}
+        logout={mockLogout}
+        account={account}
+        navigateToHome={() => {}}
+        history={{}}
+      />
     );
   });
 

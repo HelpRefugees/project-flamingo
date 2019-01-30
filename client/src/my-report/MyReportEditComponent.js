@@ -7,7 +7,12 @@ import {
   OutlinedInput,
   AppBar,
   Toolbar,
-  Typography
+  Typography,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
 } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
@@ -62,7 +67,9 @@ type State = {
   incidents?: string,
   otherIssues?: string,
   materialsForFundraising?: string,
-  attachments: any[]
+  attachments: any[],
+  dialogOpen: boolean,
+  dialogTrigger: string
 };
 
 const sectionConfiguration = {
@@ -153,7 +160,7 @@ export class MyReportEditComponent extends Component<Props, State> {
         if (!report) {
           this.props.history.push("/not-found");
         } else {
-          this.setState(report);
+          this.setState({ ...report, dialogOpen: false, dialogTrigger: "" });
         }
       });
   }
@@ -226,11 +233,12 @@ export class MyReportEditComponent extends Component<Props, State> {
 
   reviewAndSubmitReport = () => {
     const { report } = this.props;
+    const { dialogOpen, dialogTrigger, ...newReport } = this.state;
     this.props
       .updateReport(
         {
           ...report,
-          ...this.state
+          ...newReport
         },
         "Error saving report"
       )
@@ -262,6 +270,82 @@ export class MyReportEditComponent extends Component<Props, State> {
       });
 
     return isLoading || allBlank(requiredFields(this.state));
+  }
+
+  openUnsavedDialog = (dialogTriggerr: string) => {
+    this.setState({ dialogOpen: true, dialogTrigger: dialogTriggerr });
+  };
+
+  renderDialog() {
+    return (
+      <Dialog
+        open={this.state.dialogOpen}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Hey, you have unsaved changes
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Do you want to save it now?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              this.setState({ dialogOpen: false });
+            }}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              const { report } = this.props;
+              const { dialogOpen, dialogTrigger, ...newReport } = this.state;
+              this.props
+                .updateReport(
+                  {
+                    ...report,
+                    ...newReport
+                  },
+                  "Error saving report"
+                )
+                .then(() => {
+                  if (this.state.dialogTrigger === "logout") {
+                    this.props.logout();
+                  } else if (this.state.dialogTrigger === "logo") {
+                    this.props.history.push("/");
+                  }
+                });
+            }}
+            color="primary"
+            autoFocus
+          >
+            Save & Exit
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
+  checkSaved() {
+    // true if no changes, false if   changed
+    const { isLoading, report } = this.props;
+    const { dialogOpen, dialogTrigger, ...newReport } = this.state;
+
+    const allSaved = (old, newObj) =>
+      Object.entries(old).every(([key, value]) => {
+        if (key === "attachments") {
+          return newObj.attachments.length === old.attachments.length;
+        }
+        if (typeof value === "object") {
+          return allSaved(newObj[key], old[key]);
+        }
+        return old[key] === newObj[key];
+      });
+    return allSaved(newReport, report) || isLoading;
   }
 
   renderToolbar = (classes: any, report: $Shape<Report>) => {
@@ -425,9 +509,15 @@ export class MyReportEditComponent extends Component<Props, State> {
       />
     );
   }
-
+  logout = () => {
+    if (this.checkSaved()) {
+      this.props.logout();
+    } else {
+      this.openUnsavedDialog("logout");
+    }
+  };
   render() {
-    const { report, classes, account, logout } = this.props;
+    const { report, classes, account } = this.props;
     if (!report || this.emptyState) {
       return <div data-test-id="loading-placeholder">Loading...</div>;
     }
@@ -439,7 +529,17 @@ export class MyReportEditComponent extends Component<Props, State> {
       this.state.attachments.length === report.attachments.length;
     return (
       <>
-        <HeaderComponent logout={logout} account={account} />
+        <HeaderComponent
+          logout={this.logout}
+          account={account}
+          navigateToHome={() => {
+            if (this.checkSaved()) {
+              this.props.history.push("/");
+            } else {
+              this.openUnsavedDialog("logo");
+            }
+          }}
+        />
         {this.renderToolbar(classes, report)}
         <Grid container spacing={24} className={classes.outerContainer}>
           <Grid container justify="center">
@@ -475,6 +575,7 @@ export class MyReportEditComponent extends Component<Props, State> {
             </Grid>
           </Grid>
         </Grid>
+        <div>{this.renderDialog()}</div>
       </>
     );
   }

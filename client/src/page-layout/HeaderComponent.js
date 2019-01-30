@@ -10,15 +10,18 @@ import {
   Icon,
   Typography
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import type { Account } from "../authentication/models";
 import Navigation from "./Navigation";
+// import  withRouter  from "react-router-dom/withRouter";
 
 type Props = {
   classes: any,
   logout: () => void,
-  account: Account
+  account: Account,
+  history: any,
+  navigateToHome: (props: any) => void
 };
 
 type State = {
@@ -44,6 +47,11 @@ const styles = theme => ({
 });
 
 export class HeaderComponent extends Component<Props, State> {
+  static defaultProps = {
+    navigateToHome: (props: any) => {
+      props.history.push("/");
+    }
+  };
   expandMenu = (event: Event) => {
     this.setState({ anchorElement: event.currentTarget });
   };
@@ -77,14 +85,15 @@ export class HeaderComponent extends Component<Props, State> {
         <Toolbar>
           <Grid container justify="space-between" alignItems="center">
             <Grid item>
-              <Link to={`/`}>
-                <img
-                  data-test-id="logo"
-                  src="/logo-wide.png"
-                  alt="Help Refugees Logo"
-                  className={classes.headerLogo}
-                />
-              </Link>
+              <img
+                data-test-id="logo"
+                src="/logo-wide.png"
+                alt="Help Refugees Logo"
+                className={classes.headerLogo}
+                onClick={() => {
+                  this.props.navigateToHome(this.props);
+                }}
+              />
             </Grid>
             <Grid item>
               <Navigation />
@@ -125,4 +134,9 @@ export class HeaderComponent extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(HeaderComponent);
+HeaderComponent.defaultProps = {
+  navigateToHome: (props: any) => {
+    props.history.push("/");
+  }
+};
+export default withRouter(withStyles(styles)(HeaderComponent));
