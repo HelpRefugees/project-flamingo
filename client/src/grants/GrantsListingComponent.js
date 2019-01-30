@@ -447,7 +447,7 @@ export class GrantsListingComponent extends Component<Props, any> {
                         >
                           {`${moment(period.endDate).format("DD/MM/YYYY")}`}
                         </div>
-                        {index !== 0 && (
+                        {moment(period.endDate).diff(moment(), "days") < 0 && (
                           <div
                             data-test-id="grant-name"
                             className={classes.spanTd}
@@ -455,7 +455,8 @@ export class GrantsListingComponent extends Component<Props, any> {
                             EXPIRED
                           </div>
                         )}
-                        {index === 0 && (
+
+                        {moment(period.endDate).diff(moment(), "days") > 0 && (
                           <div
                             data-test-id="grant-name"
                             className={classes.spanTd}
