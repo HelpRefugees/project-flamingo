@@ -35,7 +35,6 @@ import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 // $FlowIgnore: ExpansionPanel types don't seem to work
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import SideNav from "../page-layout/SideNav";
 
 import { type Account } from "../authentication/models";
 import { type User } from "./models";
@@ -125,7 +124,7 @@ type state = {
   expand: boolean
 };
 
-class UsersListingComponent extends Component<Props, state> {
+class DemographicInfoListingComponent extends Component<Props, state> {
   constructor() {
     super();
     this.state = {
@@ -133,7 +132,7 @@ class UsersListingComponent extends Component<Props, state> {
       username: "",
       role: "",
       open: false,
-      expand: false
+      expand: true
     };
   }
   componentWillMount() {
@@ -144,10 +143,6 @@ class UsersListingComponent extends Component<Props, state> {
     this.setState({
       expand: !this.state.expand
     });
-  };
-
-  navigateTo = url => {
-    this.props.history.push(url);
   };
 
   closeModal = () =>
@@ -162,6 +157,10 @@ class UsersListingComponent extends Component<Props, state> {
     this.setState({
       open: true
     });
+
+  navigateTo = url => {
+    this.props.history.push(url);
+  };
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
@@ -279,7 +278,47 @@ class UsersListingComponent extends Component<Props, state> {
         {this.renderAddUserModal(classes)}
         <Grid container>
           <Grid item xs={3}>
-            <SideNav />
+            <Grid container>
+              <Paper className={classes.sideNav}>
+                <Typography className={classes.sideNavHeader}>
+                  settings
+                </Typography>
+                <List component="nav" className={classes.list}>
+                  <ListItem
+                    button
+                    className={classes.item}
+                    onClick={() => {
+                      this.navigateTo("/settings/users");
+                    }}
+                  >
+                    <ListItemText primary="Manage users" />
+                  </ListItem>
+                  <Divider />
+                  <ListItem
+                    onClick={this.expandMenu}
+                    button
+                    className={classes.item}
+                  >
+                    <ListItemText primary="Report settings" />
+                    {this.state.expand ? <ExpandLess /> : <ExpandMore />}
+                  </ListItem>
+                  <Collapse in={this.state.expand}>
+                    <ListItem button selected className={classes.subItem}>
+                      <ListItemText
+                        color="white"
+                        primary="Demographic information"
+                        className={classes.subItemText}
+                        style={{ color: "white" }}
+                        onClick={() => {
+                          this.navigateTo("/settings/report");
+                        }}
+                      />
+                    </ListItem>
+                  </Collapse>
+                  <Divider />
+                </List>
+              </Paper>
+            </Grid>
           </Grid>
           <Grid item xs={9}>
             <Grid container className={classes.rowContainer}>
@@ -349,4 +388,4 @@ class UsersListingComponent extends Component<Props, state> {
     );
   }
 }
-export default withStyles(styles)(UsersListingComponent);
+export default withStyles(styles)(DemographicInfoListingComponent);
