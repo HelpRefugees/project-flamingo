@@ -73,6 +73,10 @@ export class NavComponent extends Component {
   navigateTo = url => {
     this.props.history.push(url);
   };
+  expandMenu = () => {
+    this.setState(state => ({ expand: !state.expand }));
+  };
+
   render() {
     const { classes } = this.props;
     return (

@@ -187,7 +187,7 @@ class DemographicInfoListingComponent extends Component<Props, state> {
             <Grid item className={classes.addUserForm}>
               <Grid container alignItems="flex-end">
                 <Typography data-test-id="grant-info-title" variant="h4">
-                  Add new user
+                  Add new sector
                 </Typography>
               </Grid>
               <p />
@@ -324,12 +324,12 @@ class DemographicInfoListingComponent extends Component<Props, state> {
             <Grid container className={classes.rowContainer}>
               <Grid item xs={1} />
               <Grid item container xs={10}>
-                <BannerHeader title="Users">
+                <BannerHeader title="Report Settings">
                   <Button
                     onClick={this.openModal}
                     className={classes.addUserButton}
                   >
-                    ADD NEW USER
+                    ADD NEW SECTOR
                   </Button>
                 </BannerHeader>
               </Grid>
