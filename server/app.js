@@ -12,6 +12,7 @@ const passwordRouterFactory = require("./routes/password");
 const grantsRouterFactory = require("./routes/grants");
 const reportsRouterFactory = require("./routes/reports");
 const usersRouterFactory = require("./routes/users");
+const settingsRouterFactory = require("./routes/settings");
 
 const appFactory = (db, sessionStoreProvider) => {
   const app = express();
@@ -58,6 +59,7 @@ const appFactory = (db, sessionStoreProvider) => {
   app.use(`${API_ROOT_PATH}/grants`, grantsRouterFactory(db));
   app.use(`${API_ROOT_PATH}/reports`, reportsRouterFactory(db));
   app.use(`${API_ROOT_PATH}/users`, usersRouterFactory(db));
+  app.use(`${API_ROOT_PATH}/settings`, settingsRouterFactory(db));
 
   app.use(express.static(path.join(__dirname, "static")));
 

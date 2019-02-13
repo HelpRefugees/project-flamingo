@@ -8,10 +8,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  List,
-  ListItem,
-  ListItemText,
-  Divider,
   Typography,
   Button,
   TextField,
@@ -26,11 +22,18 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import BannerHeader from "../page-layout/BannerHeader";
+import SideNav from "../page-layout/SideNav";
 
 import { type Account } from "../authentication/models";
 import { type User } from "./models";
 
 const styles = theme => ({
+  subItem: {
+    backgroundColor: theme.palette.primary.main
+  },
+  subItemText: {
+    color: theme.palette.background.paper
+  },
   formControl: {
     marginBottom: theme.spacing.unit * 2.5,
     minWidth: 120
@@ -105,7 +108,8 @@ type state = {
   name: string,
   username: string,
   role: string,
-  open: boolean
+  open: boolean,
+  expand: boolean
 };
 
 class UsersListingComponent extends Component<Props, state> {
@@ -115,12 +119,23 @@ class UsersListingComponent extends Component<Props, state> {
       name: "",
       username: "",
       role: "",
-      open: false
+      open: false,
+      expand: false
     };
   }
   componentWillMount() {
     this.props.loadUsers();
   }
+
+  expandMenu = () => {
+    this.setState({
+      expand: !this.state.expand
+    });
+  };
+
+  navigateTo = url => {
+    this.props.history.push(url);
+  };
 
   closeModal = () =>
     this.setState({
@@ -251,21 +266,8 @@ class UsersListingComponent extends Component<Props, state> {
         {this.renderAddUserModal(classes)}
         <Grid container>
           <Grid item xs={3}>
-            <Grid container>
-              <Paper className={classes.sideNav}>
-                <Typography className={classes.sideNavHeader}>
-                  settings
-                </Typography>
-                <List component="nav" className={classes.list}>
-                  <ListItem button selected={true}>
-                    <ListItemText primary="Manage users" />
-                  </ListItem>
-                  <Divider />
-                </List>
-              </Paper>
-            </Grid>
+            <SideNav />
           </Grid>
-
           <Grid item xs={9}>
             <Grid container className={classes.rowContainer}>
               <Grid item xs={1} />

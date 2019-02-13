@@ -249,6 +249,40 @@ export const loadUsers = () => (dispatch: Dispatch<any>) => {
   );
 };
 
+export const loadSectorsStarted = () => ({
+  type: "LOAD_SECTORS_STARTED"
+});
+
+export const loadSectorsSuccessful = (Sectors: string[]) => ({
+  type: "LOAD_SECTORS_SUCCESS",
+  payload: Sectors
+});
+
+export const loadSectorsFailed = () => ({
+  type: "LOAD_SECTORS_FAILURE"
+});
+
+export const loadSectors = () => (dispatch: Dispatch<any>) => {
+  dispatch(loadSectorsStarted());
+  makeRequest(
+    dispatch,
+    "/api/settings/demo-info",
+    {
+      method: "GET",
+      headers: { "content-type": "application/json" }
+    },
+    res => {
+      if (res.status === 200) {
+        return res.json().then((Sectors: any) => {
+          dispatch(loadSectorsSuccessful(Sectors));
+        });
+      } else {
+        dispatch(loadSectorsFailed());
+      }
+    }
+  );
+};
+
 export const appStarted = () => ({ type: "APP_STARTED" });
 
 export const getInfoSuccess = (payload: { environment: string }) => ({
@@ -416,6 +450,57 @@ export const addUser = (user: User, errorMessage: string) => (
   return promise;
 };
 
+export const addSectorStarted = () => {
+  return { type: "ADD_SECTOR_STARTED" };
+};
+
+export const addSectorFaild = () => {
+  return {
+    type: "ADD_SECTOR_FAILED"
+  };
+};
+
+export const addSectorSuccessful = (Sectors: string[]) => {
+  return {
+    type: "ADD_SECTOR_SUCCESS",
+    payload: Sectors
+  };
+};
+
+export const addSector = (sector: string, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(addSectorStarted());
+    makeRequest(
+      dispatch,
+      "/api/settings/demo-info",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ name: sector })
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(sectors => {
+            dispatch(addSectorSuccessful(sectors));
+            resolve();
+          });
+        } else {
+          dispatch(addSectorFaild());
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to insert Sector");
+        }
+      }
+    ).catch(err => {
+      dispatch(addSectorFaild());
+      dispatch(errorOccurred(errorMessage));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
 export const selectGrant = (grant: $Shape<Grant>) => {
   return {
     type: "SELECT_GRANT",
@@ -573,7 +658,57 @@ export const deleteUser = (userId: number, errorMessage: string) => (
   });
   return promise;
 };
+////
 
+export const deleteSectorStarted = () => {
+  return { type: "DELETE_SECTOR_STARTED" };
+};
+
+export const deleteSectorSuccess = (sector: string) => {
+  return {
+    type: "DELETE_SECTOR_SUCCESS",
+    payload: sector
+  };
+};
+
+export const deleteSectorFailed = (errorMessage: string) => {
+  return {
+    type: "DELETE_SECTOR_FAILED",
+    payload: errorMessage
+  };
+};
+
+export const deleteSector = (sector: string, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(deleteSectorStarted());
+    makeRequest(
+      dispatch,
+      `/api/settings/demo-info/${sector}`,
+      {
+        method: "DELETE",
+        headers: { "content-type": "application/json" }
+      },
+      res => {
+        if (res.status === 200) {
+          dispatch(deleteSectorSuccess(sector));
+          resolve();
+        } else {
+          dispatch(deleteSectorFailed(errorMessage));
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to delete");
+        }
+      }
+    ).catch(err => {
+      dispatch(deleteSectorFailed(err));
+      dispatch(errorOccurred(err));
+      reject(err);
+    });
+  });
+  return promise;
+};
+////
 export const makeRequest = (
   dispatch: Dispatch<any>,
   url: string,

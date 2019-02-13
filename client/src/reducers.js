@@ -13,7 +13,8 @@ export type State = {
   isLoading: boolean,
   errorMessage: ?string,
   environment: ?string,
-  users: ?(User[])
+  users: ?(User[]),
+  sectors: ?(string[])
 };
 
 export const initialState: State = {
@@ -26,12 +27,13 @@ export const initialState: State = {
   isLoading: false,
   errorMessage: undefined,
   environment: undefined,
-  users: undefined
+  users: undefined,
+  sectors: undefined
 };
 
 type Action = {
   type: string,
-  payload?: ?any
+  payload: any
 };
 
 const reducers = (state: State = initialState, action: Action): State => {
@@ -120,6 +122,15 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
+    case "LOAD_SECTORS_SUCCESS": {
+      const demoInfo = action.payload;
+      return {
+        ...state,
+        sectors: demoInfo.values,
+        errorMessage: undefined
+      };
+    }
+
     case "SET_LOADING": {
       return {
         ...state,
@@ -156,6 +167,28 @@ const reducers = (state: State = initialState, action: Action): State => {
         errorMessage: undefined
       };
     }
+
+    case "ADD_SECTOR_SUCCESS": {
+      const demoInfo = action.payload;
+
+      return {
+        ...state,
+        sectors: demoInfo.values,
+        errorMessage: undefined
+      };
+    }
+
+    case "DELETE_SECTOR_SUCCESS": {
+      const newSectors = (state.sectors || []).filter(
+        sector => sector !== action.payload
+      );
+      return {
+        ...state,
+        errorMessage: undefined,
+        sectors: newSectors
+      };
+    }
+
     case "SELECT_GRANT": {
       return {
         ...state,
@@ -175,6 +208,13 @@ const reducers = (state: State = initialState, action: Action): State => {
     }
 
     case "DELETE_USER_FAILED": {
+      return {
+        ...state,
+        errorMessage: action.payload
+      };
+    }
+
+    case "DELETE_SECTOR_FAILED": {
       return {
         ...state,
         errorMessage: action.payload
