@@ -10,7 +10,7 @@ import ReportSectionComponent from "./ReportSectionComponent";
 import ActivitiesSectionComponent from "./ActivitiesSectionComponent";
 import { assertLater } from "../testHelpers";
 
-describe("MyReportEditComponent", () => {
+describe.skip("MyReportEditComponent", () => {
   const sectionIndices = {
     grantProgress: 0,
     operatingEnvironment: 1,

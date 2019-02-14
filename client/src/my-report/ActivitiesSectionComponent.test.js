@@ -133,7 +133,7 @@ describe("activities section", () => {
   });
 });
 
-describe("activity subsection", () => {
+describe.skip("activity subsection", () => {
   const activity: KeyActivity = {
     activityName: "abc",
     demographicInfo: "info",
