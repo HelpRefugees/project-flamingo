@@ -206,6 +206,7 @@ export class KeyActivitySubsection extends Component<
                     className={classes.inputNumber}
                     labelWidth={0}
                     placeholder="Add a number"
+                    data-test-id="report-demographic-info-number"
                     type="number"
                     value={this.state.number || ""}
                     onChange={event => {
@@ -225,6 +226,7 @@ export class KeyActivitySubsection extends Component<
                       Choose a demographic indicator
                     </InputLabel>
                     <Select
+                      data-test-id="report-demographic-info-type"
                       value={this.state.type || ""}
                       onChange={event => {
                         let value = event.target.value;
@@ -252,10 +254,8 @@ export class KeyActivitySubsection extends Component<
                   <OutlinedInput
                     className={classes.inputNotes}
                     labelWidth={0}
-                    multiline
-                    rows={2}
                     placeholder="Type in your notes"
-                    data-test-id="report-demographic-info-input"
+                    data-test-id="report-demographic-info-note"
                     value={this.state.note || ""}
                     onChange={event => {
                       let value = event.target.value;

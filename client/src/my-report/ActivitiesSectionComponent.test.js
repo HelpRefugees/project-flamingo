@@ -18,13 +18,21 @@ describe("activities section", () => {
   const activities: KeyActivity[] = [
     {
       activityName: "act1",
-      demographicInfo: "demoinfo",
+      demographicInfo: {
+        number: 12,
+        type: "men",
+        note: "text"
+      },
       impactOutcome: "out1",
       numberOfParticipants: "133"
     },
     {
       activityName: "act2",
-      demographicInfo: "demoinfo",
+      demographicInfo: {
+        number: 12,
+        type: "men",
+        note: "text"
+      },
       impactOutcome: "out2",
       numberOfParticipants: "143"
     }
@@ -133,10 +141,14 @@ describe("activities section", () => {
   });
 });
 
-describe.skip("activity subsection", () => {
+describe("activity subsection", () => {
   const activity: KeyActivity = {
     activityName: "abc",
-    demographicInfo: "info",
+    demographicInfo: {
+      number: 12,
+      type: "men",
+      note: "text"
+    },
     impactOutcome: "outcomes",
     numberOfParticipants: "10239"
   };
@@ -179,13 +191,40 @@ describe.skip("activity subsection", () => {
         dataId: "report-participants-number-input",
         field: "numberOfParticipants"
       },
-      { dataId: "report-demographic-info-input", field: "demographicInfo" },
+      // { dataId: "report-demographic-info-input", field: "demographicInfo" },
       { dataId: "report-impact-outcome-input", field: "impactOutcome" }
     ].forEach(({ dataId, field }) => {
       const selector = `[data-test-id='${dataId}']`;
       expect(wrapper.find(selector).exists()).toEqual(true);
       expect(wrapper.find(selector).prop("value")).toEqual(activity[field]);
     });
+
+    expect(
+      wrapper.find("[data-test-id='report-demographic-info-number']").exists()
+    ).toEqual(true);
+    expect(
+      wrapper
+        .find("[data-test-id='report-demographic-info-number']")
+        .prop("value")
+    ).toEqual(12);
+
+    expect(
+      wrapper.find("[data-test-id='report-demographic-info-type']").exists()
+    ).toEqual(true);
+    expect(
+      wrapper
+        .find("[data-test-id='report-demographic-info-type']")
+        .prop("value")
+    ).toEqual("men");
+
+    expect(
+      wrapper.find("[data-test-id='report-demographic-info-note']").exists()
+    ).toEqual(true);
+    expect(
+      wrapper
+        .find("[data-test-id='report-demographic-info-note']")
+        .prop("value")
+    ).toEqual("text");
 
     expect(
       wrapper
