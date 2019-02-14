@@ -41,7 +41,16 @@ export class ActivitiesSectionComponent extends Component<Props, State> {
   };
 
   onSubsectionAddition = () => {
-    this.updateActivities([...this.props.activities, {}]);
+    this.updateActivities([
+      ...this.props.activities,
+      {
+        demographicInfo: {
+          number: 0,
+          type: "",
+          note: ""
+        }
+      }
+    ]);
   };
 
   onSubsectionRemoval = (removedIndex: number) => {
@@ -100,7 +109,7 @@ export class KeyActivitySubsection extends Component<
   constructor() {
     super();
     this.state = {
-      number: "",
+      number: 0,
       type: "",
       note: ""
     };

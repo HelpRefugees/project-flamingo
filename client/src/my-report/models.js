@@ -1,11 +1,13 @@
+export type DemographicInfo = {
+  number: number,
+  type: string,
+  note: string
+};
+
 export type KeyActivity = {
   activityName?: string,
   numberOfParticipants?: string,
-  demographicInfo?: {
-    number: number,
-    type: string,
-    note: string
-  },
+  demographicInfo: DemographicInfo,
   impactOutcome?: string
 };
 

@@ -114,7 +114,9 @@ export class ReportViewComponent extends React.PureComponent<{
                   data-test-id="report-demographic-info"
                   className={classes.definitionListItem}
                 >
-                  {activity.demographicInfo || ""}
+                  {activity.demographicInfo.number || ""}{" "}
+                  {activity.demographicInfo.type || ""}{" "}
+                  {activity.demographicInfo.note || ""}
                 </dd>
                 <dt className={classes.definitionListTitle}>
                   Positive impacts and outcome
