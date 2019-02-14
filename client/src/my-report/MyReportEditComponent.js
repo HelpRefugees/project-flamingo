@@ -33,7 +33,9 @@ type Props = {
   report: $Shape<Report>,
   history: any,
   account: Account,
-  isLoading: boolean
+  isLoading: boolean,
+  loadSectors: () => void,
+  sectors: string[]
 };
 
 const styles = themes => ({
@@ -154,6 +156,7 @@ const sectionConfiguration = {
 
 export class MyReportEditComponent extends Component<Props, State> {
   componentWillMount() {
+    this.props.loadSectors();
     this.props
       .loadReport(parseInt(this.props.match.params.id, 10))
       .then(report => {
@@ -506,6 +509,7 @@ export class MyReportEditComponent extends Component<Props, State> {
         isLoading={isLoading}
         onChange={this.onSectionInputChange("keyActivities")}
         onSave={this.saveReport("keyActivities")}
+        sectors={this.props.sectors}
       />
     );
   }

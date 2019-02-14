@@ -6,7 +6,10 @@ import {
   OutlinedInput,
   Paper,
   Typography,
-  withStyles
+  withStyles,
+  Select,
+  MenuItem,
+  FormControl
 } from "@material-ui/core";
 
 import { type KeyActivity } from "./models";
@@ -17,7 +20,8 @@ export type Props = {
   onChange: (event: { target: { value: KeyActivity[] } }) => void,
   onSave: (key: string) => void,
   disabled: boolean,
-  isLoading: boolean
+  isLoading: boolean,
+  sectors: string[]
 };
 
 export type State = {
@@ -67,6 +71,7 @@ export class ActivitiesSectionComponent extends Component<Props, State> {
             isLoading={isLoading}
             addActivity={this.onSubsectionAddition}
             removeActivity={() => this.onSubsectionRemoval(index)}
+            sectors={this.props.sectors}
           />
         ))}
       </div>
@@ -84,11 +89,30 @@ type SubsectionProps = {
   addActivity: () => void,
   removeActivity: (index: number) => void,
   disabled: boolean,
-  isLoading: boolean
+  isLoading: boolean,
+  sectors: string[]
 };
 
-export class KeyActivitySubsection extends Component<SubsectionProps> {
-  changeInput = (key: string, value: string) => {
+export class KeyActivitySubsection extends Component<
+  SubsectionProps,
+  { number: number, type: string, note: string }
+> {
+  constructor() {
+    super();
+    this.state = {
+      number: "",
+      type: "",
+      note: ""
+    };
+  }
+  componentWillMount() {
+    this.setState({
+      number: this.props.activity.demographicInfo.number,
+      type: this.props.activity.demographicInfo.type,
+      note: this.props.activity.demographicInfo.note
+    });
+  }
+  changeInput = (key: string, value: any) => {
     this.props.onChange(this.props.index, {
       ...this.props.activity,
       [key]: value
@@ -177,7 +201,73 @@ export class KeyActivitySubsection extends Component<SubsectionProps> {
                 <InputLabel className={classes.label}>
                   Demographic info
                 </InputLabel>
-                <OutlinedInput
+                <Grid container direction="row">
+                  <OutlinedInput
+                    className={classes.inputNumber}
+                    labelWidth={0}
+                    placeholder="Add a number"
+                    data-test-id="report-demographic-info-number"
+                    type="number"
+                    value={this.state.number || ""}
+                    onChange={event => {
+                      let value = event.target.value;
+                      this.setState(state => {
+                        state.number = value;
+                        this.changeInput("demographicInfo", state);
+                        return state;
+                      });
+                    }}
+                  />
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                  >
+                    <InputLabel htmlFor="outlined-demo-info">
+                      Choose a demographic indicator
+                    </InputLabel>
+                    <Select
+                      data-test-id="report-demographic-info-type"
+                      value={this.state.type || ""}
+                      onChange={event => {
+                        let value = event.target.value;
+                        this.setState(state => {
+                          state.type = value;
+                          this.changeInput("demographicInfo", state);
+                          return state;
+                        });
+                      }}
+                      input={
+                        <OutlinedInput
+                          labelWidth={250}
+                          name="Choose a demographic indicator"
+                          id="outlined-demo-info"
+                        />
+                      }
+                    >
+                      {(this.props.sectors || []).map((sector, key) => (
+                        <MenuItem key={key} value={sector}>
+                          {sector}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <OutlinedInput
+                    className={classes.inputNotes}
+                    labelWidth={0}
+                    placeholder="Type in your notes"
+                    data-test-id="report-demographic-info-note"
+                    value={this.state.note || ""}
+                    onChange={event => {
+                      let value = event.target.value;
+                      this.setState(state => {
+                        state.note = value;
+                        this.changeInput("demographicInfo", state);
+                        return state;
+                      });
+                    }}
+                  />
+                </Grid>
+                {/* <OutlinedInput
                   className={classes.input}
                   fullWidth={true}
                   labelWidth={0}
@@ -189,7 +279,7 @@ export class KeyActivitySubsection extends Component<SubsectionProps> {
                   onChange={event => {
                     this.changeInput("demographicInfo", event.target.value);
                   }}
-                />
+                /> */}
                 <InputLabel className={classes.label}>
                   Positive Impacts & outcome
                 </InputLabel>
@@ -218,7 +308,10 @@ export class KeyActivitySubsection extends Component<SubsectionProps> {
                       variant="outlined"
                       disabled={disabled || isLoading}
                       fullWidth={false}
-                      onClick={() => onSave()}
+                      onClick={() => {
+                        // this.changeInput("demographicInfo", this.state);
+                        onSave();
+                      }}
                     >
                       Save
                     </Button>
@@ -304,5 +397,19 @@ export default withStyles(theme => ({
   },
   saveButton: {
     minWidth: "140px"
+  },
+  formControl: {
+    marginBottom: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit,
+    minWidth: 300
+  },
+  inputNumber: {
+    marginRight: theme.spacing.unit,
+    marginBottom: theme.spacing.unit * 2,
+    width: theme.spacing.unit * 17
+  },
+  inputNotes: {
+    width: theme.spacing.unit * 26.4,
+    height: theme.spacing.unit * 7
   }
 }))(ActivitiesSectionComponent);

@@ -3,7 +3,6 @@ import { shallow } from "enzyme";
 import Deferred from "promise-deferred";
 
 import { MyReportEditComponent } from "./MyReportEditComponent";
-// import HeaderComponent from "../page-layout/HeaderComponent";
 import type { Report, KeyActivity } from "./models";
 import type { Account } from "../authentication/models";
 import ReportSectionComponent from "./ReportSectionComponent";
@@ -27,6 +26,7 @@ describe("MyReportEditComponent", () => {
   let mockLogout;
   let mockHistoryPush;
   let deferred;
+  let mockLoadSectors;
 
   const isLoading = false;
 
@@ -58,12 +58,16 @@ describe("MyReportEditComponent", () => {
     role: "implementing-partner"
   };
 
+  const sectors = ["Men", "Women"];
+
   beforeEach(() => {
     deferred = new Deferred();
     mockUpdateReport = jest.fn().mockImplementation(() => Promise.resolve());
     mockLogout = jest.fn();
     mockHistoryPush = jest.fn();
     mockLoadReport = jest.fn().mockReturnValue(deferred.promise);
+    mockLoadSectors = jest.fn();
+
     const emptyReport: any = undefined;
 
     wrapper = shallow(
@@ -77,6 +81,8 @@ describe("MyReportEditComponent", () => {
         isLoading={isLoading}
         match={{ params: { id: "1" } }}
         loadReport={mockLoadReport}
+        loadSectors={mockLoadSectors}
+        sectors={sectors}
       />
     );
   });

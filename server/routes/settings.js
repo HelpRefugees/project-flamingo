@@ -6,26 +6,21 @@ module.exports = db => {
   const collection = "settings";
   const router = new Router();
 
-  router.get(
-    "/demo-info",
-    ensureLoggedIn,
-    ensureHasRole("help-refugees"),
-    async (req, res) => {
-      const demographicInfo = await db.collection(collection).findOne(
-        { name: "demographicInfo" },
-        {
-          projection: {
-            _id: 0,
-            id: 1,
-            name: 1,
-            values: 1
-          }
+  router.get("/demo-info", ensureLoggedIn, async (req, res) => {
+    const demographicInfo = await db.collection(collection).findOne(
+      { name: "demographicInfo" },
+      {
+        projection: {
+          _id: 0,
+          id: 1,
+          name: 1,
+          values: 1
         }
-      );
+      }
+    );
 
-      res.json(demographicInfo);
-    }
-  );
+    res.json(demographicInfo);
+  });
 
   router.post(
     "/demo-info",

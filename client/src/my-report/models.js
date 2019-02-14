@@ -1,7 +1,11 @@
 export type KeyActivity = {
   activityName?: string,
   numberOfParticipants?: string,
-  demographicInfo?: string,
+  demographicInfo?: {
+    number: number,
+    type: string,
+    note: string
+  },
   impactOutcome?: string
 };
 
