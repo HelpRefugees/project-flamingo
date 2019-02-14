@@ -18,7 +18,11 @@ describe("ReportViewComponent", () => {
       {
         activityName: "Test activity",
         numberOfParticipants: "200",
-        demographicInfo: "any value",
+        demographicInfo: {
+          number: 12,
+          type: "men",
+          note: "text"
+        },
         impactOutcome: "impact"
       }
     ],
@@ -42,7 +46,11 @@ describe("ReportViewComponent", () => {
       "report-key-activity-name": report1.keyActivities[0].activityName,
       "report-number-of-participants":
         report1.keyActivities[0].numberOfParticipants,
-      "report-demographic-info": report1.keyActivities[0].demographicInfo,
+      "report-demographic-info": `${
+        report1.keyActivities[0].demographicInfo.number
+      } ${report1.keyActivities[0].demographicInfo.type} ${
+        report1.keyActivities[0].demographicInfo.note
+      }`,
       "report-impact-outcome": report1.keyActivities[0].impactOutcome,
       "report-beneficiary-feedback": report1.beneficiaryFeedback,
       "report-challenges-faced": report1.challengesFaced,

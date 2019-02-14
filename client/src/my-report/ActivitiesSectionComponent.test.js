@@ -122,7 +122,16 @@ describe("activities section", () => {
 
     expect(onChange).toHaveBeenCalledWith({
       target: {
-        value: [...activities, {}]
+        value: [
+          ...activities,
+          {
+            demographicInfo: {
+              number: 0,
+              type: "",
+              note: ""
+            }
+          }
+        ]
       }
     });
   });
