@@ -128,6 +128,14 @@ export class KeyActivitySubsection extends Component<
     });
   };
 
+  updateValue = (value: any, key: string) => {
+    this.setState(state => {
+      state[key] = value;
+      this.changeInput("demographicInfo", state);
+      return state;
+    });
+  };
+
   get isLast() {
     const { index, numberOfActivities } = this.props;
     return index === numberOfActivities - 1;
@@ -218,14 +226,9 @@ export class KeyActivitySubsection extends Component<
                     data-test-id="report-demographic-info-number"
                     type="number"
                     value={this.state.number || ""}
-                    onChange={event => {
-                      let value = event.target.value;
-                      this.setState(state => {
-                        state.number = value;
-                        this.changeInput("demographicInfo", state);
-                        return state;
-                      });
-                    }}
+                    onChange={event =>
+                      this.updateValue(event.target.value, "number")
+                    }
                   />
                   <FormControl
                     variant="outlined"
@@ -237,19 +240,14 @@ export class KeyActivitySubsection extends Component<
                     <Select
                       data-test-id="report-demographic-info-type"
                       value={this.state.type || ""}
-                      onChange={event => {
-                        let value = event.target.value;
-                        this.setState(state => {
-                          state.type = value;
-                          this.changeInput("demographicInfo", state);
-                          return state;
-                        });
-                      }}
+                      onChange={event =>
+                        this.updateValue(event.target.value, "type")
+                      }
                       input={
                         <OutlinedInput
                           labelWidth={250}
                           name="Choose a demographic indicator"
-                          id="outlined-demo-info"
+                          id="outlined-demo-info-type"
                         />
                       }
                     >
@@ -266,29 +264,11 @@ export class KeyActivitySubsection extends Component<
                     placeholder="Type in your notes"
                     data-test-id="report-demographic-info-note"
                     value={this.state.note || ""}
-                    onChange={event => {
-                      let value = event.target.value;
-                      this.setState(state => {
-                        state.note = value;
-                        this.changeInput("demographicInfo", state);
-                        return state;
-                      });
-                    }}
+                    onChange={event =>
+                      this.updateValue(event.target.value, "note")
+                    }
                   />
                 </Grid>
-                {/* <OutlinedInput
-                  className={classes.input}
-                  fullWidth={true}
-                  labelWidth={0}
-                  multiline
-                  rows={2}
-                  placeholder="Please add an overview"
-                  data-test-id="report-demographic-info-input"
-                  value={activity.demographicInfo || ""}
-                  onChange={event => {
-                    this.changeInput("demographicInfo", event.target.value);
-                  }}
-                /> */}
                 <InputLabel className={classes.label}>
                   Positive Impacts & outcome
                 </InputLabel>
