@@ -40,7 +40,13 @@ describe("MyReportEditComponent", () => {
       {
         activityName: "activityName",
         numberOfParticipants: "123",
-        demographicInfo: "demographicInfo",
+        demographicInfo: [
+          {
+            number: 0,
+            type: "",
+            note: "demographicInfo"
+          }
+        ],
         impactOutcome: "impactOutcome"
       }
     ],

@@ -7,7 +7,7 @@ const { getDatabaseUrl } = require("../scripts/utils");
 const port = normalizePort(process.env.PORT || "3000");
 
 const dbModule = require("./db");
-
+const appFactory = require("./app");
 let server;
 
 dbModule.connect(
@@ -18,7 +18,7 @@ dbModule.connect(
       return process.exit(1);
     }
 
-    let app = require("./app")(db, session => {
+    let app = appFactory(db, session => {
       const MongoStore = connectMongo(session);
       return new MongoStore({ db, collection: "_sessions" });
     });

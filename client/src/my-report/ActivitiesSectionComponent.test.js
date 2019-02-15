@@ -18,21 +18,25 @@ describe("activities section", () => {
   const activities: KeyActivity[] = [
     {
       activityName: "act1",
-      demographicInfo: {
-        number: 12,
-        type: "men",
-        note: "text"
-      },
+      demographicInfo: [
+        {
+          number: 12,
+          type: "men",
+          note: "text"
+        }
+      ],
       impactOutcome: "out1",
       numberOfParticipants: "133"
     },
     {
       activityName: "act2",
-      demographicInfo: {
-        number: 12,
-        type: "men",
-        note: "text"
-      },
+      demographicInfo: [
+        {
+          number: 12,
+          type: "men",
+          note: "text"
+        }
+      ],
       impactOutcome: "out2",
       numberOfParticipants: "143"
     }
@@ -125,11 +129,13 @@ describe("activities section", () => {
         value: [
           ...activities,
           {
-            demographicInfo: {
-              number: 0,
-              type: "",
-              note: ""
-            }
+            demographicInfo: [
+              {
+                number: 0,
+                type: "",
+                note: ""
+              }
+            ]
           }
         ]
       }
@@ -153,11 +159,13 @@ describe("activities section", () => {
 describe("activity subsection", () => {
   const activity: KeyActivity = {
     activityName: "abc",
-    demographicInfo: {
-      number: 12,
-      type: "men",
-      note: "text"
-    },
+    demographicInfo: [
+      {
+        number: 12,
+        type: "men",
+        note: "text"
+      }
+    ],
     impactOutcome: "outcomes",
     numberOfParticipants: "10239"
   };
@@ -200,6 +208,7 @@ describe("activity subsection", () => {
         dataId: "report-participants-number-input",
         field: "numberOfParticipants"
       },
+      // TO BE MADE
       // { dataId: "report-demographic-info-input", field: "demographicInfo" },
       { dataId: "report-impact-outcome-input", field: "impactOutcome" }
     ].forEach(({ dataId, field }) => {

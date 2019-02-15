@@ -44,11 +44,13 @@ export class ActivitiesSectionComponent extends Component<Props, State> {
     this.updateActivities([
       ...this.props.activities,
       {
-        demographicInfo: {
-          number: 0,
-          type: "",
-          note: ""
-        }
+        demographicInfo: [
+          {
+            number: 0,
+            type: "",
+            note: ""
+          }
+        ]
       }
     ]);
   };
@@ -111,6 +113,43 @@ export class KeyActivitySubsection extends Component<
       ...this.props.activity,
       [key]: value
     });
+  };
+
+  onDemoInfosectionChange = (
+    updatedIndex: number,
+    updatedDemoInfoSection: DemographicInfo
+  ) => {
+    this.changeInput(
+      "demographicInfo",
+      this.props.activity.demographicInfo.map(
+        (demoInfo: DemographicInfo, index: number) => {
+          if (index === updatedIndex) {
+            return updatedDemoInfoSection;
+          }
+          return demoInfo;
+        }
+      )
+    );
+  };
+
+  onDemoInfoSectionAddition = () => {
+    this.changeInput("demographicInfo", [
+      ...this.props.activity.demographicInfo,
+      {
+        number: 0,
+        type: "",
+        note: ""
+      }
+    ]);
+  };
+
+  onDemoInfosectionRemoval = (removedIndex: number) => {
+    this.changeInput(
+      "demographicInfo",
+      this.props.activity.demographicInfo.filter(
+        (demoInfo: DemographicInfo, index: number) => index !== removedIndex
+      )
+    );
   };
 
   get isLast() {
@@ -195,13 +234,23 @@ export class KeyActivitySubsection extends Component<
                 <InputLabel className={classes.label}>
                   Demographic info
                 </InputLabel>
-                <DemographicInfoSection
-                  data-test-id="report-demographic-info"
-                  sectors={this.props.sectors}
-                  changeInput={this.changeInput}
-                  classes={classes}
-                  demographicInfo={this.props.activity.demographicInfo}
-                />
+                {activity.demographicInfo.map(
+                  (demoInfo: DemographicInfo, index: number) => (
+                    <DemographicInfoSection
+                      key={index}
+                      index={index}
+                      data-test-id="report-demographic-info"
+                      sectors={this.props.sectors}
+                      changeInput={this.onDemoInfosectionChange}
+                      classes={classes}
+                      demographicInfo={demoInfo}
+                      addDemoInfoSection={this.onDemoInfoSectionAddition}
+                      removeDemoInfoSection={this.onDemoInfosectionRemoval}
+                      numberOfDemoInfo={activity.demographicInfo.length}
+                    />
+                  )
+                )}
+
                 <InputLabel className={classes.label}>
                   Positive Impacts & outcome
                 </InputLabel>
@@ -276,8 +325,12 @@ export class KeyActivitySubsection extends Component<
 type DemographicInfoSectionProps = {
   classes: any,
   demographicInfo: DemographicInfo,
-  changeInput: (key: string, value: any) => void,
-  sectors: string[]
+  changeInput: (index: number, value: any) => void,
+  sectors: string[],
+  index: number,
+  addDemoInfoSection: (index: number) => void,
+  removeDemoInfoSection: (index: number) => void,
+  numberOfDemoInfo: number
 };
 
 type DemographicInfoSectionState = {
@@ -298,6 +351,24 @@ export class DemographicInfoSection extends Component<
       note: ""
     };
   }
+
+  get isLast() {
+    const { index, numberOfDemoInfo } = this.props;
+    return index === numberOfDemoInfo - 1;
+  }
+
+  get isFirst() {
+    return this.props.index === 0;
+  }
+
+  componentWillReceiveProps(nextProps: DemographicInfoSectionProps) {
+    this.setState({
+      number: nextProps.demographicInfo.number,
+      type: nextProps.demographicInfo.type,
+      note: nextProps.demographicInfo.note
+    });
+  }
+
   componentWillMount() {
     this.setState({
       number: this.props.demographicInfo.number,
@@ -309,56 +380,82 @@ export class DemographicInfoSection extends Component<
   updateValue = (value: any, key: string) => {
     this.setState(state => {
       state[key] = value;
-      this.props.changeInput("demographicInfo", state);
+      this.props.changeInput(this.props.index, state);
       return state;
     });
   };
 
   render() {
-    const { classes, sectors } = this.props;
+    const { classes, sectors, index, numberOfDemoInfo } = this.props;
     return (
-      <Grid container direction="row">
-        <OutlinedInput
-          className={classes.inputNumber}
-          labelWidth={0}
-          placeholder="Add a number"
-          data-test-id="report-demographic-info-number"
-          type="number"
-          value={this.state.number || ""}
-          onChange={event => this.updateValue(event.target.value, "number")}
-        />
-        <FormControl variant="outlined" className={classes.formControl}>
-          <InputLabel htmlFor="outlined-demo-info">
-            Choose a demographic indicator
-          </InputLabel>
-          <Select
-            data-test-id="report-demographic-info-type"
-            value={this.state.type || ""}
-            onChange={event => this.updateValue(event.target.value, "type")}
-            input={
-              <OutlinedInput
-                labelWidth={250}
-                name="Choose a demographic indicator"
-                id="outlined-demo-info-type"
-              />
-            }
-          >
-            {(sectors || []).map((sector, key) => (
-              <MenuItem key={key} value={sector}>
-                {sector}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <OutlinedInput
-          className={classes.inputNotes}
-          labelWidth={0}
-          placeholder="Type in your notes"
-          data-test-id="report-demographic-info-note"
-          value={this.state.note || ""}
-          onChange={event => this.updateValue(event.target.value, "note")}
-        />
-      </Grid>
+      <div>
+        <Grid container direction="row">
+          <OutlinedInput
+            className={classes.inputNumber}
+            labelWidth={0}
+            placeholder="Add a number"
+            data-test-id="report-demographic-info-number"
+            type="number"
+            value={this.state.number || ""}
+            onChange={event => this.updateValue(event.target.value, "number")}
+          />
+          <FormControl variant="outlined" className={classes.formControl}>
+            <InputLabel htmlFor="outlined-demo-info">
+              Choose a demographic indicator
+            </InputLabel>
+            <Select
+              data-test-id="report-demographic-info-type"
+              value={this.state.type || ""}
+              onChange={event => this.updateValue(event.target.value, "type")}
+              input={
+                <OutlinedInput
+                  labelWidth={250}
+                  name="Choose a demographic indicator"
+                  id="outlined-demo-info-type"
+                />
+              }
+            >
+              {(sectors || []).map((sector, key) => (
+                <MenuItem key={key} value={sector}>
+                  {sector}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <OutlinedInput
+            className={classes.inputNotes}
+            labelWidth={0}
+            placeholder="Type in your notes"
+            data-test-id="report-demographic-info-note"
+            value={this.state.note || ""}
+            onChange={event => this.updateValue(event.target.value, "note")}
+          />
+        </Grid>
+        <Grid container direction="row-reverse">
+          {this.isLast && (
+            <Button
+              className={classes.saveButton}
+              data-test-id="add-demo-info-button"
+              color="primary"
+              fullWidth={false}
+              onClick={() => this.props.addDemoInfoSection(index)}
+            >
+              Add Another demographic info
+            </Button>
+          )}
+          {numberOfDemoInfo !== 1 && (
+            <Button
+              className={classes.removeButton}
+              data-test-id="remove-demo-info-button"
+              color="secondary"
+              fullWidth={false}
+              onClick={() => this.props.removeDemoInfoSection(index)}
+            >
+              remove this demographic info
+            </Button>
+          )}
+        </Grid>
+      </div>
     );
   }
 }

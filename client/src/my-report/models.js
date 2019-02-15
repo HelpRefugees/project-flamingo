@@ -7,7 +7,7 @@ export type DemographicInfo = {
 export type KeyActivity = {
   activityName?: string,
   numberOfParticipants?: string,
-  demographicInfo: DemographicInfo,
+  demographicInfo: DemographicInfo[],
   impactOutcome?: string
 };
 

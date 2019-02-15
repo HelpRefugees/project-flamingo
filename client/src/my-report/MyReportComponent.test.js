@@ -27,7 +27,13 @@ describe("MyReportComponent", () => {
       {
         activityName: "Test activity",
         numberOfParticipants: "200",
-        demographicInfo: "any value",
+        demographicInfo: [
+          {
+            number: 0,
+            type: "",
+            note: "any value"
+          }
+        ],
         impactOutcome: "impact"
       }
     ],

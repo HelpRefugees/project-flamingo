@@ -89,13 +89,13 @@ export class ReportViewComponent extends React.PureComponent<{
             </Typography>
             <hr className={classes.rule} />
           </Grid>
-          {report.keyActivities.map((activity, index) => (
+          {report.keyActivities.map((demoInfo, index) => (
             <Grid item key={index}>
               <Typography
                 data-test-id="report-key-activity-name"
                 className={classes.activityName}
               >
-                {activity.activityName || ""}
+                {demoInfo.activityName || ""}
               </Typography>
               <dl>
                 <dt className={classes.definitionListTitle}>
@@ -105,7 +105,7 @@ export class ReportViewComponent extends React.PureComponent<{
                   data-test-id="report-number-of-participants"
                   className={classes.definitionListItem}
                 >
-                  {activity.numberOfParticipants || ""}
+                  {demoInfo.numberOfParticipants || ""}
                 </dd>
                 <dt className={classes.definitionListTitle}>
                   Demographic information
@@ -114,9 +114,14 @@ export class ReportViewComponent extends React.PureComponent<{
                   data-test-id="report-demographic-info"
                   className={classes.definitionListItem}
                 >
-                  {activity.demographicInfo.number || ""}{" "}
-                  {activity.demographicInfo.type || ""}{" "}
-                  {activity.demographicInfo.note || ""}
+                  {demoInfo.demographicInfo.map(
+                    (demoInfo: any, index: number) => (
+                      <div>
+                        {`${demoInfo.number || ""} ${demoInfo.type ||
+                          ""} ${demoInfo.note || ""}`}
+                      </div>
+                    )
+                  )}
                 </dd>
                 <dt className={classes.definitionListTitle}>
                   Positive impacts and outcome
@@ -125,7 +130,7 @@ export class ReportViewComponent extends React.PureComponent<{
                   data-test-id="report-impact-outcome"
                   className={classes.definitionListItem}
                 >
-                  {this.formatParagraph(activity.impactOutcome || "")}
+                  {this.formatParagraph(demoInfo.impactOutcome || "")}
                 </dd>
               </dl>
             </Grid>
