@@ -209,31 +209,17 @@ describe("activity subsection", () => {
     });
 
     expect(
-      wrapper.find("[data-test-id='report-demographic-info-number']").exists()
+      wrapper.find("[data-test-id='report-demographic-info']").exists()
     ).toEqual(true);
     expect(
       wrapper
-        .find("[data-test-id='report-demographic-info-number']")
-        .prop("value")
-    ).toEqual(12);
-
-    expect(
-      wrapper.find("[data-test-id='report-demographic-info-type']").exists()
-    ).toEqual(true);
-    expect(
-      wrapper
-        .find("[data-test-id='report-demographic-info-type']")
-        .prop("value")
-    ).toEqual("men");
-
-    expect(
-      wrapper.find("[data-test-id='report-demographic-info-note']").exists()
-    ).toEqual(true);
-    expect(
-      wrapper
-        .find("[data-test-id='report-demographic-info-note']")
-        .prop("value")
-    ).toEqual("text");
+        .find("[data-test-id='report-demographic-info']")
+        .prop("demographicInfo")
+    ).toEqual({
+      number: 12,
+      type: "men",
+      note: "text"
+    });
 
     expect(
       wrapper

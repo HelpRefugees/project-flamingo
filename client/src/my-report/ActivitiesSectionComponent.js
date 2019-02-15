@@ -12,7 +12,7 @@ import {
   FormControl
 } from "@material-ui/core";
 
-import { type KeyActivity } from "./models";
+import { type KeyActivity, type DemographicInfo } from "./models";
 
 export type Props = {
   classes: any,
@@ -106,33 +106,10 @@ export class KeyActivitySubsection extends Component<
   SubsectionProps,
   { number: number, type: string, note: string }
 > {
-  constructor() {
-    super();
-    this.state = {
-      number: 0,
-      type: "",
-      note: ""
-    };
-  }
-  componentWillMount() {
-    this.setState({
-      number: this.props.activity.demographicInfo.number,
-      type: this.props.activity.demographicInfo.type,
-      note: this.props.activity.demographicInfo.note
-    });
-  }
   changeInput = (key: string, value: any) => {
     this.props.onChange(this.props.index, {
       ...this.props.activity,
       [key]: value
-    });
-  };
-
-  updateValue = (value: any, key: string) => {
-    this.setState(state => {
-      state[key] = value;
-      this.changeInput("demographicInfo", state);
-      return state;
     });
   };
 
@@ -218,57 +195,13 @@ export class KeyActivitySubsection extends Component<
                 <InputLabel className={classes.label}>
                   Demographic info
                 </InputLabel>
-                <Grid container direction="row">
-                  <OutlinedInput
-                    className={classes.inputNumber}
-                    labelWidth={0}
-                    placeholder="Add a number"
-                    data-test-id="report-demographic-info-number"
-                    type="number"
-                    value={this.state.number || ""}
-                    onChange={event =>
-                      this.updateValue(event.target.value, "number")
-                    }
-                  />
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                  >
-                    <InputLabel htmlFor="outlined-demo-info">
-                      Choose a demographic indicator
-                    </InputLabel>
-                    <Select
-                      data-test-id="report-demographic-info-type"
-                      value={this.state.type || ""}
-                      onChange={event =>
-                        this.updateValue(event.target.value, "type")
-                      }
-                      input={
-                        <OutlinedInput
-                          labelWidth={250}
-                          name="Choose a demographic indicator"
-                          id="outlined-demo-info-type"
-                        />
-                      }
-                    >
-                      {(this.props.sectors || []).map((sector, key) => (
-                        <MenuItem key={key} value={sector}>
-                          {sector}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                  <OutlinedInput
-                    className={classes.inputNotes}
-                    labelWidth={0}
-                    placeholder="Type in your notes"
-                    data-test-id="report-demographic-info-note"
-                    value={this.state.note || ""}
-                    onChange={event =>
-                      this.updateValue(event.target.value, "note")
-                    }
-                  />
-                </Grid>
+                <DemographicInfoSection
+                  data-test-id="report-demographic-info"
+                  sectors={this.props.sectors}
+                  changeInput={this.changeInput}
+                  classes={classes}
+                  demographicInfo={this.props.activity.demographicInfo}
+                />
                 <InputLabel className={classes.label}>
                   Positive Impacts & outcome
                 </InputLabel>
@@ -298,7 +231,6 @@ export class KeyActivitySubsection extends Component<
                       disabled={disabled || isLoading}
                       fullWidth={false}
                       onClick={() => {
-                        // this.changeInput("demographicInfo", this.state);
                         onSave();
                       }}
                     >
@@ -337,6 +269,96 @@ export class KeyActivitySubsection extends Component<
           </Grid>
         </Paper>
       </div>
+    );
+  }
+}
+
+type DemographicInfoSectionProps = {
+  classes: any,
+  demographicInfo: DemographicInfo,
+  changeInput: (key: string, value: any) => void,
+  sectors: string[]
+};
+
+type DemographicInfoSectionState = {
+  number: number,
+  type: string,
+  note: string
+};
+
+export class DemographicInfoSection extends Component<
+  DemographicInfoSectionProps,
+  DemographicInfoSectionState
+> {
+  constructor() {
+    super();
+    this.state = {
+      number: 0,
+      type: "",
+      note: ""
+    };
+  }
+  componentWillMount() {
+    this.setState({
+      number: this.props.demographicInfo.number,
+      type: this.props.demographicInfo.type,
+      note: this.props.demographicInfo.note
+    });
+  }
+
+  updateValue = (value: any, key: string) => {
+    this.setState(state => {
+      state[key] = value;
+      this.props.changeInput("demographicInfo", state);
+      return state;
+    });
+  };
+
+  render() {
+    const { classes, sectors } = this.props;
+    return (
+      <Grid container direction="row">
+        <OutlinedInput
+          className={classes.inputNumber}
+          labelWidth={0}
+          placeholder="Add a number"
+          data-test-id="report-demographic-info-number"
+          type="number"
+          value={this.state.number || ""}
+          onChange={event => this.updateValue(event.target.value, "number")}
+        />
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel htmlFor="outlined-demo-info">
+            Choose a demographic indicator
+          </InputLabel>
+          <Select
+            data-test-id="report-demographic-info-type"
+            value={this.state.type || ""}
+            onChange={event => this.updateValue(event.target.value, "type")}
+            input={
+              <OutlinedInput
+                labelWidth={250}
+                name="Choose a demographic indicator"
+                id="outlined-demo-info-type"
+              />
+            }
+          >
+            {(sectors || []).map((sector, key) => (
+              <MenuItem key={key} value={sector}>
+                {sector}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <OutlinedInput
+          className={classes.inputNotes}
+          labelWidth={0}
+          placeholder="Type in your notes"
+          data-test-id="report-demographic-info-note"
+          value={this.state.note || ""}
+          onChange={event => this.updateValue(event.target.value, "note")}
+        />
+      </Grid>
     );
   }
 }
