@@ -1,7 +1,7 @@
-import { type Report } from "./my-report/models";
-import { Account } from "./authentication/models";
-import { type Grant } from "./grants/models";
-import { type User } from "./settings/models";
+import { type Report } from "../my-report/models";
+import { Account } from "../authentication/models";
+import { type Grant } from "../grants/models";
+import { type User } from "../settings/models";
 
 export type State = {
   isAuthenticated: ?boolean,

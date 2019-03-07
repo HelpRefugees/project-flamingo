@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 
 import Initializer from "./Initializer";
 import { mount } from "enzyme";
-import { appStarted } from "./actions";
+import { appStarted } from "./state/actions";
 import { mountWithProvider } from "./setupTests";
 
 describe("Initializer", () => {

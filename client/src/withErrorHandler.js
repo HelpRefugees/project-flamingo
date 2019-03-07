@@ -3,7 +3,7 @@ import { Snackbar, SnackbarContent, withStyles } from "@material-ui/core";
 import { connect } from "react-redux";
 import { type Dispatch } from "redux";
 
-import { errorExpired } from "./actions";
+import { errorExpired } from "./state/actions";
 
 class ErrorDisplay extends React.Component<{
   errorMessage: string,

@@ -116,7 +116,7 @@ export class ReportViewComponent extends React.PureComponent<{
                 >
                   {demoInfo.demographicInfo.map(
                     (demoInfo: any, index: number) => (
-                      <div>
+                      <div key={index}>
                         {`${demoInfo.number || ""} ${demoInfo.type ||
                           ""} ${demoInfo.note || ""}`}
                       </div>

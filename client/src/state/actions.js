@@ -1,9 +1,9 @@
 import { type Dispatch } from "redux";
 
-import { type Report } from "./my-report/models";
-import { type User } from "./settings/models";
-import { type Grant, type AddGrantModel } from "./grants/models";
-import { type Credentials, type Account } from "./authentication/models";
+import { type Report } from "../my-report/models";
+import { type User } from "../settings/models";
+import { type Grant, type AddGrantModel } from "../grants/models";
+import { type Credentials, type Account } from "../authentication/models";
 
 export const loginSuccessful = (account: Account) => ({
   type: "SET_LOGGED_IN",

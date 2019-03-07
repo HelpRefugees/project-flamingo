@@ -2,8 +2,8 @@ import { connect } from "react-redux";
 import { type Dispatch } from "redux";
 
 import MyReportReviewComponent from "./MyReportReviewComponent";
-import { logout, updateReport, loadReport } from "../actions";
-import { type State } from "../reducers";
+import { logout, updateReport, loadReport } from "../state/actions";
+import { type State } from "../state/reducers";
 import { type Report } from "./models";
 
 const mapStateToProps = (state: State): any => {

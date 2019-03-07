@@ -15,8 +15,8 @@ import MyReportEditPage from "./my-report/MyReportEditPage";
 import ReportsListingPage from "./reports-listing/ReportsListingPage";
 import SubmittedReportPage from "./submitted-report/SubmittedReportPage";
 
-import type { State } from "./reducers";
-import type { Account } from "./authentication/models";
+import { type State } from "./state/reducers";
+import { type Account } from "./authentication/models";
 
 import PrivateRoute from "./authorization/PrivateRoute";
 import NotFound from "./authorization/NotFound";

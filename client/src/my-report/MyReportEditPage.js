@@ -2,8 +2,13 @@ import { connect } from "react-redux";
 import { type Dispatch } from "redux";
 
 import MyReportEditComponent from "./MyReportEditComponent";
-import { logout, updateReport, loadReport, loadSectors } from "../actions";
-import { type State } from "../reducers";
+import {
+  logout,
+  updateReport,
+  loadReport,
+  loadSectors
+} from "../state/actions";
+import { type State } from "../state/reducers";
 import { type Report } from "./models";
 
 const mapStateToProps = (state: State): any => {

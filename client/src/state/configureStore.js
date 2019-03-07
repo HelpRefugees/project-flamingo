@@ -7,7 +7,7 @@ import storage from "redux-persist/lib/storage";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import reducers from "./reducers";
-import { initializer } from "./middleware";
+import { initializer } from "../middleware";
 
 const persistConfig = {
   key: "root",

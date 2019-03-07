@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 
-import configureStore from "./configureStore";
+import configureStore from "./state/configureStore";
 import "./index.css";
 import "./my-report/dropzone.min.css";
 import "./my-report/filepicker.css";

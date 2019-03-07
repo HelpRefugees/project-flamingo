@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
-import type { Dispatch } from "redux";
+import { type Dispatch } from "redux";
 
 import ForgottenPasswordComponent from "./ForgottenPasswordComponent";
-import { forgotPassword } from "../actions";
-import type { State } from "../reducers";
+import { forgotPassword } from "../state/actions";
+import { type State } from "../state/reducers";
 
 const mapStateToProps = ({ isLoading }: State): any => ({ isLoading });
 

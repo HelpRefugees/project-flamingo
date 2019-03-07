@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { mount } from "enzyme";
 
 import configureStore from "redux-mock-store";
-import { errorExpired } from "./actions"; //ES6 modules
+import { errorExpired } from "./state/actions"; //ES6 modules
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 

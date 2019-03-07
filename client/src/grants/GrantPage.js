@@ -1,10 +1,10 @@
 import { connect } from "react-redux";
-import type { Dispatch } from "redux";
+import { type Dispatch } from "redux";
 
 import GrantComponent from "./GrantComponent";
-import { logout, updateGrant, loadUsers, extendGrant } from "../actions";
-import type { State } from "../reducers";
-import type { Grant } from "./models";
+import { logout, updateGrant, loadUsers, extendGrant } from "../state/actions";
+import { type State } from "../state/reducers";
+import { type Grant } from "./models";
 
 const mapStateToProps = (state: State): any => ({
   isAuthenticated: state.isAuthenticated,

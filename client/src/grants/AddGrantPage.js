@@ -2,8 +2,8 @@ import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
 import AddGrantComponent from "./AddGrantComponent";
-import { logout, addGrant, loadUsers } from "../actions";
-import { type State } from "../reducers";
+import { logout, addGrant, loadUsers } from "../state/actions";
+import { type State } from "../state/reducers";
 import { type AddGrantModel } from "./models";
 
 const mapStateToProps = (state: State): any => ({

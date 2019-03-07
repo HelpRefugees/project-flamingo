@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { appStarted } from "./actions";
+import { appStarted } from "./state/actions";
 
 type Props = {
   onLoad: () => void,

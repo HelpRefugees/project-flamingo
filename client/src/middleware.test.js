@@ -1,8 +1,8 @@
 import configureStore from "redux-mock-store";
 import { initializer } from "./middleware";
 
-import * as actions from "./actions";
-import { appStarted } from "./actions";
+import * as actions from "./state/actions";
+import { appStarted } from "./state/actions";
 
 describe("middleware", () => {
   describe("initializer", () => {

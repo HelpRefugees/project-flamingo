@@ -2,8 +2,8 @@ import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 
 import MyReportsComponent from "./MyReportsComponent";
-import { logout, loadReports, updateReport } from "../actions";
-import type { State } from "../reducers";
+import { logout, loadReports, updateReport } from "../state/actions";
+import { type State } from "../state/reducers";
 import type { Props } from "./MyReportsComponent";
 import type { Report } from "./models";
 

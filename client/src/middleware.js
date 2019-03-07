@@ -1,4 +1,4 @@
-import { getInfo } from "./actions";
+import { getInfo } from "./state/actions";
 
 type Action = {
   type: string,

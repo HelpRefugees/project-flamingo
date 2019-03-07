@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { type Dispatch } from "redux";
 
-import { type State } from "../reducers";
-import { loadSectors, logout, addSector, deleteSector } from "../actions";
+import { type State } from "../state/reducers";
+import { loadSectors, logout, addSector, deleteSector } from "../state/actions";
 import DemographicInfoListingComponent from "./DemographicInfoListingComponent";
 
 const mapStateToProps = (state: State): any => ({

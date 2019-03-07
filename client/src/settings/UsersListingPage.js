@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { type Dispatch } from "redux";
 
-import { type State } from "../reducers";
-import { loadUsers, logout, addUser, deleteUser } from "../actions";
+import { type State } from "../state/reducers";
+import { loadUsers, logout, addUser, deleteUser } from "../state/actions";
 import UsersListingComponent from "./UsersListingComponent";
 
 import { type User } from "./models";
