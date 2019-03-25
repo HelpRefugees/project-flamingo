@@ -283,6 +283,40 @@ export const loadSectors = () => (dispatch: Dispatch<any>) => {
   );
 };
 
+export const loadCountriesStarted = () => ({
+  type: "LOAD_COUNTRIES_STARTED"
+});
+
+export const loadCountriesSuccessful = (Countries: string[]) => ({
+  type: "LOAD_COUNTRIES_SUCCESS",
+  payload: Countries
+});
+
+export const loadCountriesFailed = () => ({
+  type: "LOAD_COUNTRIES_FAILURE"
+});
+
+export const loadCountries = () => (dispatch: Dispatch<any>) => {
+  dispatch(loadCountriesStarted());
+  makeRequest(
+    dispatch,
+    "/api/settings/countries-regions",
+    {
+      method: "GET",
+      headers: { "content-type": "application/json" }
+    },
+    res => {
+      if (res.status === 200) {
+        return res.json().then((Countries: any) => {
+          dispatch(loadCountriesSuccessful(Countries));
+        });
+      } else {
+        dispatch(loadCountriesFailed());
+      }
+    }
+  );
+};
+
 export const appStarted = () => ({ type: "APP_STARTED" });
 
 export const getInfoSuccess = (payload: { environment: string }) => ({
@@ -501,6 +535,111 @@ export const addSector = (sector: string, errorMessage: string) => (
   return promise;
 };
 
+export const addCountryStarted = () => {
+  return { type: "ADD_COUNTRY_STARTED" };
+};
+
+export const addCountryFaild = () => {
+  return {
+    type: "ADD_COUNTRY_FAILD"
+  };
+};
+
+export const addCountrySuccessful = (Countries: string[]) => {
+  return {
+    type: "ADD_COUNTRY_SUCCESS",
+    payload: Countries
+  };
+};
+
+export const addCountry = (country: string, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(addCountryStarted());
+    makeRequest(
+      dispatch,
+      "/api/settings/countries-regions",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ country: country })
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(countries => {
+            dispatch(addCountrySuccessful(countries));
+            resolve();
+          });
+        } else {
+          dispatch(addCountryFaild());
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to insert Country");
+        }
+      }
+    ).catch(err => {
+      dispatch(addCountryFaild());
+      dispatch(errorOccurred(errorMessage));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
+//add region
+export const addRegionStarted = () => {
+  return { type: "ADD_REGION_STARTED" };
+};
+
+export const addRegionFaild = () => {
+  return {
+    type: "ADD_REGION_FAILD"
+  };
+};
+
+export const addRegionSuccessful = (countries: string[]) => {
+  return {
+    type: "ADD_REGION_SUCCESS",
+    payload: countries
+  };
+};
+
+export const addRegion = (
+  region: string,
+  country: string,
+  errorMessage: string
+) => (dispatch: Dispatch<any>) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(addRegionStarted());
+    makeRequest(
+      dispatch,
+      "/api/settings/regions",
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ country: country, region: region })
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(regions => {
+            dispatch(addRegionSuccessful(regions));
+            resolve();
+          });
+        } else {
+          dispatch(addRegionFaild());
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to insert Region");
+        }
+      }
+    ).catch(err => {
+      dispatch(addRegionFaild());
+      dispatch(errorOccurred(errorMessage));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
 export const selectGrant = (grant: $Shape<Grant>) => {
   return {
     type: "SELECT_GRANT",
@@ -708,6 +847,113 @@ export const deleteSector = (sector: string, errorMessage: string) => (
   });
   return promise;
 };
+
+export const deleteCountryStarted = () => {
+  return { type: "DELETE_COUNTRY_STARTED" };
+};
+
+export const deleteCountrySuccess = (countries: string[]) => {
+  return {
+    type: "DELETE_COUNTRY_SUCCESS",
+    payload: countries
+  };
+};
+
+export const deleteCountryFailed = (errorMessage: string) => {
+  return {
+    type: "DELETE_COUNTRY_FAILED",
+    payload: errorMessage
+  };
+};
+
+export const deleteCountry = (country: string, errorMessage: string) => (
+  dispatch: Dispatch<any>
+) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(deleteCountryStarted());
+    makeRequest(
+      dispatch,
+      `/api/settings/countries/${country}`,
+      {
+        method: "DELETE",
+        headers: { "content-type": "application/json" }
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(countries => {
+            dispatch(deleteCountrySuccess(countries));
+            resolve();
+          });
+        } else {
+          dispatch(deleteCountryFailed(errorMessage));
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to delete");
+        }
+      }
+    ).catch(err => {
+      dispatch(deleteCountryFailed(err));
+      dispatch(errorOccurred(err));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
+//delete region
+export const deleteRegionStarted = () => {
+  return { type: "DELETE_REGION_STARTED" };
+};
+
+export const deleteRegionSuccess = (countries: string[]) => {
+  return {
+    type: "DELETE_REGION_SUCCESS",
+    payload: countries
+  };
+};
+
+export const deleteRegionFailed = (errorMessage: string) => {
+  return {
+    type: "DELETE_REGION_FAILED",
+    payload: errorMessage
+  };
+};
+
+export const deleteRegion = (
+  country: string,
+  region: string,
+  errorMessage: string
+) => (dispatch: Dispatch<any>) => {
+  const promise: Promise<any> = new Promise((resolve, reject) => {
+    dispatch(deleteRegionStarted());
+    makeRequest(
+      dispatch,
+      `/api/settings/regions`,
+      {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ country, region })
+      },
+      res => {
+        if (res.status === 200) {
+          res.json().then(countriesAndRegions => {
+            dispatch(deleteRegionSuccess(countriesAndRegions));
+            resolve();
+          });
+        } else {
+          dispatch(deleteRegionFailed(errorMessage));
+          dispatch(errorOccurred(errorMessage));
+          reject("Unable to delete");
+        }
+      }
+    ).catch(err => {
+      dispatch(deleteRegionFailed(err));
+      dispatch(errorOccurred(err));
+      reject(err);
+    });
+  });
+  return promise;
+};
+
 ////
 export const makeRequest = (
   dispatch: Dispatch<any>,

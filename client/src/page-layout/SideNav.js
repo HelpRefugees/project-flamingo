@@ -19,7 +19,7 @@ import Collapse from "@material-ui/core/Collapse";
 
 const styles = theme => ({
   subItem: {
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.secondary
   },
   subItemText: {
     color: theme.palette.background.paper
@@ -57,7 +57,8 @@ export class NavComponent extends Component<props, state> {
   constructor() {
     super();
     this.state = {
-      expand: false
+      expand: false,
+      grantExpand: false
     };
   }
   navigateTo = (url: string) => {
@@ -65,6 +66,10 @@ export class NavComponent extends Component<props, state> {
   };
   expandMenu = () => {
     this.setState(state => ({ expand: !state.expand }));
+  };
+
+  grantExpandMenu = () => {
+    this.setState(state => ({ grantExpand: !state.grantExpand }));
   };
 
   render() {
@@ -105,6 +110,26 @@ export class NavComponent extends Component<props, state> {
               </ListItem>
             </Collapse>
             <Divider />
+            <ListItem onClick={this.grantExpandMenu} button>
+              <ListItemText primary="Grant settings" />
+              {this.state.grantExpand ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={this.state.grantExpand}>
+              <ListItem
+                color="white"
+                button
+                className={classes.subItem}
+                onClick={() => {
+                  this.navigateTo("/settings/countries-regions");
+                }}
+              >
+                <ListItemText
+                  primary="Countries & Regions"
+                  className={classes.subItemText}
+                  style={{ color: "white" }}
+                />
+              </ListItem>
+            </Collapse>
           </List>
         </Paper>
       </Grid>

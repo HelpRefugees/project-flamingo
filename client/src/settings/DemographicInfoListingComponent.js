@@ -277,7 +277,7 @@ class DemographicInfoListingComponent extends Component<Props, state> {
                             className={classes.addSector}
                             onClick={this.openModal}
                           >
-                            Please add a sector name…
+                            Please add a Demographic option…
                           </Typography>
                         </ListItem>
                       </List>

@@ -14,7 +14,8 @@ export type State = {
   errorMessage: ?string,
   environment: ?string,
   users: ?(User[]),
-  sectors: ?(string[])
+  sectors: ?(string[]),
+  countries: ?(string[])
 };
 
 export const initialState: State = {
@@ -28,7 +29,8 @@ export const initialState: State = {
   errorMessage: undefined,
   environment: undefined,
   users: undefined,
-  sectors: undefined
+  sectors: undefined,
+  countries: undefined
 };
 
 type Action = {
@@ -131,6 +133,15 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
+    case "LOAD_COUNTRIES_SUCCESS": {
+      const country = action.payload;
+      return {
+        ...state,
+        countries: country.values,
+        errorMessage: undefined
+      };
+    }
+
     case "SET_LOADING": {
       return {
         ...state,
@@ -178,6 +189,26 @@ const reducers = (state: State = initialState, action: Action): State => {
       };
     }
 
+    case "ADD_COUNTRY_SUCCESS": {
+      const country = action.payload;
+
+      return {
+        ...state,
+        countries: country.values,
+        errorMessage: undefined
+      };
+    }
+
+    case "ADD_REGION_SUCCESS": {
+      const country = action.payload;
+
+      return {
+        ...state,
+        countries: country.values,
+        errorMessage: undefined
+      };
+    }
+
     case "DELETE_SECTOR_SUCCESS": {
       const newSectors = (state.sectors || []).filter(
         sector => sector !== action.payload
@@ -186,6 +217,22 @@ const reducers = (state: State = initialState, action: Action): State => {
         ...state,
         errorMessage: undefined,
         sectors: newSectors
+      };
+    }
+
+    case "DELETE_COUNTRY_SUCCESS": {
+      return {
+        ...state,
+        errorMessage: undefined,
+        countries: action.payload
+      };
+    }
+
+    case "DELETE_REGION_SUCCESS": {
+      return {
+        ...state,
+        errorMessage: undefined,
+        countries: action.payload
       };
     }
 
@@ -215,6 +262,20 @@ const reducers = (state: State = initialState, action: Action): State => {
     }
 
     case "DELETE_SECTOR_FAILED": {
+      return {
+        ...state,
+        errorMessage: action.payload
+      };
+    }
+
+    case "DELETE_COUNTRY_FAILED": {
+      return {
+        ...state,
+        errorMessage: action.payload
+      };
+    }
+
+    case "DELETE_REGION_FAILED": {
       return {
         ...state,
         errorMessage: action.payload
