@@ -51,7 +51,8 @@ type props = {
   classes: any
 };
 type state = {
-  expand: boolean
+  expand: boolean,
+  grantExpand: boolean
 };
 export class NavComponent extends Component<props, state> {
   constructor() {
@@ -69,7 +70,7 @@ export class NavComponent extends Component<props, state> {
   };
 
   grantExpandMenu = () => {
-    this.setState(state => ({ grantExpand: !state.grantExpand }));
+    this.setState({ grantExpand: !this.state.grantExpand });
   };
 
   render() {

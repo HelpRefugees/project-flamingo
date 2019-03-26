@@ -16,7 +16,7 @@ import HeaderComponent from "../page-layout/HeaderComponent";
 import SideNav from "../page-layout/SideNav";
 
 import { type Account } from "../authentication/models";
-import { type country } from "./models";
+import { type Country } from "./models";
 
 const styles = theme => ({
   addSector: {
@@ -146,7 +146,7 @@ type Props = {
   account: Account,
   logout: () => void,
   classes: any,
-  countries: country[],
+  countries: Country[],
   loadCountries: () => void,
   addCountry: (name: string, errorMsg: string) => Promise<any>,
   deleteCountry: (country: string, errorMsg: string) => Promise<any>,
@@ -316,7 +316,7 @@ class CountriesRegionsListingComponent extends Component<Props, state> {
                         Please add any countries and their sectors you operate
                         in
                       </p>
-                      {countries.map((country: country, countryKey: number) => {
+                      {countries.map((country: Country, countryKey: number) => {
                         return (
                           <List
                             component="nav"

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { type Dispatch } from "redux";
 
-import { type State } from "../reducers";
+import { type State } from "../state/reducers";
 import {
   loadCountries,
   addCountry,
@@ -9,7 +9,7 @@ import {
   addRegion,
   deleteRegion,
   logout
-} from "../actions";
+} from "../state/actions";
 import CountriesRegionsListingComponent from "./CountriesRegionsListingComponent";
 
 const mapStateToProps = (state: State): any => ({

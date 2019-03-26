@@ -6,7 +6,7 @@ export type User = {
   id: number
 };
 
-export type country = {
+export type Country = {
   country: string,
   regions: string[]
 };
