@@ -9,8 +9,10 @@ import {
   Button,
   TextField,
   Modal,
-  Chip
+  Chip,
+  IconButton
 } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import SideNav from "../page-layout/SideNav";
@@ -129,13 +131,18 @@ const styles = theme => ({
   headerBotBorder: {
     borderBottom: "solid 1px #d4d7d9",
     marginRight: theme.spacing.unit * 3,
-    paddingBottom: theme.spacing.unit * 3
+    // paddingBottom: theme.spacing.unit * 3,
+    justifyContent: "space-between"
   },
   listItemPadding: {
     paddingLeft: "0px"
   },
   mainFont: {
     color: "#393e40"
+  },
+  countryName: {
+    color: "#393e40",
+    display: "inline-table"
   },
   countryHeader: {
     color: "#000000"
@@ -323,19 +330,22 @@ class CountriesRegionsListingComponent extends Component<Props, state> {
                             key={countryKey}
                             className={classes.gridBorder}
                           >
-                            <h4 className={classes.headerBotBorder}>
-                              {country.country}
-                            </h4>
-                            <Typography
-                              variant="h4"
-                              className={classes.addSector}
-                              style={{ fontSize: "14px" }}
-                              onClick={() => {
-                                this.deleteCountry(country.country);
-                              }}
-                            >
-                              Add a region…
-                            </Typography>
+                            <Grid className={classes.headerBotBorder}>
+                              <Typography
+                                variant="h4"
+                                className={classes.countryName}
+                              >
+                                {country.country}
+                              </Typography>
+                              <IconButton
+                                aria-label="Delete"
+                                onClick={() =>
+                                  this.deleteCountry(country.country)
+                                }
+                              >
+                                <DeleteIcon />
+                              </IconButton>
+                            </Grid>
                             {country.regions.map(
                               (region: string, key: number) => {
                                 return (
