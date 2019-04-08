@@ -85,7 +85,7 @@ export class AddGrantComponent extends Component<Props, any> {
     };
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.props.loadUsers();
   }
 
