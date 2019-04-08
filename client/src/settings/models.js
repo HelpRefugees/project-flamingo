@@ -5,3 +5,8 @@ export type User = {
   role: string,
   id: number
 };
+
+export type Country = {
+  country: string,
+  regions: string[]
+};

@@ -29,6 +29,7 @@ import EditGrantPage from "./grants/EditGrantPage";
 import SettingsPage from "./settings/UsersListingPage";
 import GrantPage from "./grants/GrantPage";
 import DemographicinfoListingPage from "./settings/DemographicinfoListingPage";
+import CountriesRegionsListingPage from "./settings/CountriesRegionsListingPage";
 
 const mapStateToProps = (state: State) => {
   return {
@@ -85,6 +86,14 @@ export class App extends Component<Props> {
               exact
               allowed={["help-refugees"]}
               component={withErrorHandler(DemographicinfoListingPage)}
+              isAuthenticated={this.props.isAuthenticated}
+              account={this.props.account}
+            />
+            <PrivateRoute
+              path="/settings/countries-regions"
+              exact
+              allowed={["help-refugees"]}
+              component={withErrorHandler(CountriesRegionsListingPage)}
               isAuthenticated={this.props.isAuthenticated}
               account={this.props.account}
             />
