@@ -85,6 +85,10 @@ export class AddGrantComponent extends Component<Props, any> {
     };
   }
 
+  componentWillMount(){
+    this.props.loadUsers();
+  }
+
   isAddGrantDisabled() {
     const { isLoading } = this.props;
 
