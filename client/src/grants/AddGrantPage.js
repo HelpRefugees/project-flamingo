@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   logout: () => dispatch(logout()),
   addGrant: (grant: AddGrantModel, errorMessage: string) =>
     dispatch(addGrant(grant, errorMessage)),
-  loadUsers: () => dispatch(loadUsers)
+  loadUsers: () => dispatch(loadUsers())
 });
 
 export default connect(
