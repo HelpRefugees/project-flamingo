@@ -172,15 +172,19 @@ export class AddGrantComponent extends Component<Props, any> {
             <OutlinedInput labelWidth={80} name="region" id="outlined-region" />
           }
         >
-          {countries.map((country: Country, key: number) => {
-            return country.regions.map((region: string, regionKey: number) => {
-              return (
-                <MenuItem key={regionKey} value={region}>
-                  {region}
-                </MenuItem>
+          {countries
+            .filter(country => country.country === this.state.country)
+            .map((country: Country, key: number) => {
+              return country.regions.map(
+                (region: string, regionKey: number) => {
+                  return (
+                    <MenuItem key={regionKey} value={region}>
+                      {region}
+                    </MenuItem>
+                  );
+                }
               );
-            });
-          })}
+            })}
         </Select>
       </FormControl>
     ) : (
