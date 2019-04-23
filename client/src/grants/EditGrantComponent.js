@@ -15,12 +15,13 @@ import {
   InputLabel
 } from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
+import { Link } from "react-router-dom";
 import moment from "moment";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import { type Grant } from "./models";
 import { type Account } from "../authentication/models";
-import { type User } from "../settings/models";
+import { type User, type Country } from "../settings/models";
 
 type Props = {
   classes: any,
@@ -30,7 +31,9 @@ type Props = {
   history: any,
   grant: $Shape<Grant>,
   users: $Shape<User>[],
-  loadUsers: () => void
+  loadUsers: () => void,
+  loadCountries: () => void,
+  countries: Country[]
 };
 
 const styles = themes => ({
@@ -151,6 +154,95 @@ export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
     );
   };
 
+  renderRegionInput = (classes: any, countries: Country[]) => {
+    return this.state.country !== "" ? (
+      <FormControl
+        variant="outlined"
+        className={classes.formControl}
+        fullWidth={true}
+      >
+        <InputLabel htmlFor="outlined-age">Region</InputLabel>
+        <Select
+          data-test-id="region"
+          fullWidth={true}
+          value={this.state.region}
+          onChange={value => this.updateField(value, "region")}
+          input={
+            <OutlinedInput labelWidth={80} name="region" id="outlined-region" />
+          }
+        >
+          {countries
+            .filter(country => country.country === this.state.country)
+            .map((country: Country, key: number) => {
+              return country.regions.map(
+                (region: string, regionKey: number) => {
+                  return (
+                    <MenuItem key={regionKey} value={region}>
+                      {region}
+                    </MenuItem>
+                  );
+                }
+              );
+            })}
+        </Select>
+      </FormControl>
+    ) : (
+      <TextField
+        disabled
+        className={classes.formControl}
+        data-test-id="region-text"
+        fullWidth={true}
+        value={this.state.region}
+        onChange={value => this.updateField(value, "region")}
+        variant="outlined"
+        label="Region"
+      />
+    );
+  };
+
+  renderCountryRegionInput = (classes: any, countries: Country[]) => {
+    return countries.length === 0 ? (
+      <Typography variant="h2" align="center" className={classes.subtitleText}>
+        Please insert countries first from
+        <Link
+          to={"/settings/countries-regions"}
+          className={classes.reportListItemLink}
+        >
+          <div>Grant Settings.</div>
+        </Link>
+      </Typography>
+    ) : (
+      <FormControl
+        variant="outlined"
+        className={classes.formControl}
+        fullWidth={true}
+      >
+        <InputLabel htmlFor="outlined-age">Country</InputLabel>
+        <Select
+          data-test-id="country"
+          fullWidth={true}
+          value={this.state.country}
+          onChange={value => this.updateField(value, "country")}
+          input={
+            <OutlinedInput
+              labelWidth={80}
+              name="country"
+              id="outlined-country"
+            />
+          }
+        >
+          {countries.map((country: Country, key: number) => {
+            return (
+              <MenuItem key={key} value={country.country}>
+                {country.country}
+              </MenuItem>
+            );
+          })}
+        </Select>
+      </FormControl>
+    );
+  };
+
   updateField = (event: Event, key: string) => {
     if (key === "endDate" || key === "startDate") {
       const date = new Date((event.target: window.HTMLInputElement).value);
@@ -171,7 +263,7 @@ export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
   };
 
   render() {
-    const { logout, classes, account } = this.props;
+    const { logout, classes, account, countries } = this.props;
     const users = this.props.users || [];
     return (
       <Fragment>
@@ -244,24 +336,9 @@ export class EditGrantComponent extends Component<Props, $Shape<Grant>> {
                       variant="outlined"
                       label="Grant description"
                     />
-                    <TextField
-                      className={classes.formControl}
-                      data-test-id="country-text"
-                      fullWidth={true}
-                      value={this.state.country}
-                      onChange={value => this.updateField(value, "country")}
-                      variant="outlined"
-                      label="Country"
-                    />
-                    <TextField
-                      className={classes.formControl}
-                      data-test-id="region-text"
-                      fullWidth={true}
-                      value={this.state.region}
-                      onChange={value => this.updateField(value, "region")}
-                      variant="outlined"
-                      label="Region"
-                    />
+                    {this.renderCountryRegionInput(classes, countries)}
+                    {this.renderRegionInput(classes, countries)}
+
                     <TextField
                       className={classes.formControl}
                       data-test-id="other-info-text"

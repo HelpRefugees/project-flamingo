@@ -203,9 +203,6 @@ export class AddGrantComponent extends Component<Props, any> {
 
   renderCountryRegionInput = (classes: any, countries: Country[]) => {
     return countries.length === 0 ? (
-      // <p data-test-id="grant-info-subtitle" className={classes.subtitleText}>
-      //   Please insert countries first from grant settings.
-      // </p>
       <Typography variant="h2" align="center" className={classes.subtitleText}>
         Please insert countries first from
         <Link
