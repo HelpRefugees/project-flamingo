@@ -30,10 +30,12 @@ describe("EditGrantComponent", () => {
   let grant;
   let mockSaveGrant;
   let mockLoadUsers;
+  let mockLoadCountries;
 
   beforeEach(() => {
     mockSaveGrant = jest.fn().mockImplementation(() => Promise.resolve());
     mockLoadUsers = jest.fn();
+    mockLoadCountries = jest.fn();
 
     grant = {
       id: 10,
@@ -63,7 +65,9 @@ describe("EditGrantComponent", () => {
         classes={{}}
         updateGrant={mockSaveGrant}
         loadUsers={mockLoadUsers}
+        loadCountries={mockLoadCountries}
         users={users}
+        countries={[]}
       />
     );
   });
