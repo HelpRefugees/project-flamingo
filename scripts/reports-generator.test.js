@@ -68,7 +68,15 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: username,
           id: 1,
-          keyActivities: [{}],
+          keyActivities: [
+            {
+              demographicInfo: {
+                number: 0,
+                type: "",
+                note: ""
+              }
+            }
+          ],
           incidents: "",
           challengesFaced: "",
           operatingEnvironment: "",
@@ -166,7 +174,15 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: username,
           id: 13,
-          keyActivities: [{}],
+          keyActivities: [
+            {
+              demographicInfo: {
+                number: 0,
+                type: "",
+                note: ""
+              }
+            }
+          ],
           incidents: "",
           challengesFaced: "",
           operatingEnvironment: "",
@@ -183,7 +199,15 @@ describe("Report generation script", () => {
           dueDate: generateDueDate(reportPeriod),
           owner: "helen@ip.org",
           id: 14,
-          keyActivities: [{}],
+          keyActivities: [
+            {
+              demographicInfo: {
+                number: 0,
+                type: "",
+                note: ""
+              }
+            }
+          ],
           incidents: "",
           challengesFaced: "",
           operatingEnvironment: "",
