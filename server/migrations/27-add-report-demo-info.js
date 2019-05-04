@@ -14,7 +14,7 @@ module.exports.up = function(done) {
             keyActivity.demographicInfo = {
               number: 0,
               type: "",
-              note: keyActivity.demographicInfo
+              note: keyActivity.demographicInfo || ""
             };
             return keyActivity;
           });
