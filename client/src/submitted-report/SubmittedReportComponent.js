@@ -1,11 +1,14 @@
 import React, { Component } from "react";
-import { AppBar, Grid, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Grid, Toolbar, Typography, Button } from "@material-ui/core";
 import moment from "moment";
+import { Packer } from "docx";
+import { saveAs } from "file-saver";
 
 import HeaderComponent from "../page-layout/HeaderComponent";
 import ReportViewComponent from "../my-report/ReportViewComponent";
 import { type Account } from "../authentication/models";
 import { type Report } from "../my-report/models";
+import { ReportCreator } from "../doc-creator/report-creator";
 
 type Props = {
   logout: () => void,
@@ -45,6 +48,24 @@ export class SubmittedReportComponent extends Component<Props> {
                 <Typography data-test-id="report-grant-name" variant="body1">
                   {report.grant}
                 </Typography>
+              </Grid>
+              <Grid item container direction="column" xs={3}>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    let reportCreator = new ReportCreator();
+                    let report = reportCreator.create(this.props.report);
+                    const packer = new Packer();
+
+                    packer.toBlob(report).then(blob => {
+                      console.log(blob);
+                      saveAs(blob, "report.docx");
+                      console.log("Document created successfully");
+                    });
+                  }}
+                >
+                  Download Report
+                </Button>
               </Grid>
               <Grid item container direction="column" xs={3}>
                 <Typography
