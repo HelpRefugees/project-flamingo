@@ -3,6 +3,17 @@ import { type Report } from "../my-report/models";
 import moment from "moment";
 
 export class ReportCreator {
+  reportSubTitles = {
+    overview: "Grant overview",
+    // keyActivities: " Key activities & impact",
+    operatingEnvironment: "Operating environment",
+    beneficiaryFeedback: "Beneficiary feedback",
+    challengesFaced: "Challenges faced and lessons learned",
+    incidents: "Incidents and near misses",
+    otherIssues:
+      "Is there anything you would like to use our platform to speak about?",
+    materialsForFundraising: "Materials for fundraising"
+  };
   create(report: Report) {
     let document = new Document();
 
@@ -15,13 +26,8 @@ export class ReportCreator {
     );
 
     Object.entries(report).forEach(([key: string, value: any]) => {
-      if (
-        key !== "id" &&
-        key !== "submissionDate" &&
-        key !== "keyActivities" &&
-        key !== "attachments"
-      ) {
-        this.createReportSection(key, value, document);
+      if (Object.keys(this.reportSubTitles).some(section => section === key)) {
+        this.createReportSection(this.reportSubTitles[key], value, document);
       }
     });
     return document;
@@ -49,7 +55,13 @@ export class ReportCreator {
       this.createReportSubtitle(capitalizeFirstLetter(sectionTitle))
     );
     let sectionTextParagraph = new Paragraph();
-    sectionTextParagraph.addRun(new TextRun(sectionText).bold());
+    sectionTextParagraph.addRun(new TextRun(sectionText).bold()).bullet();
+    sectionTextParagraph.addRun(
+      new TextRun()
+        .break()
+        .break()
+        .break()
+    );
     document.addParagraph(sectionTextParagraph);
   }
 

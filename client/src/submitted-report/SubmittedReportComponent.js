@@ -58,9 +58,7 @@ export class SubmittedReportComponent extends Component<Props> {
                     const packer = new Packer();
 
                     packer.toBlob(report).then(blob => {
-                      console.log(blob);
                       saveAs(blob, "report.docx");
-                      console.log("Document created successfully");
                     });
                   }}
                 >
