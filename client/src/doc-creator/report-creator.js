@@ -1,5 +1,9 @@
 import { Document, Paragraph, TextRun } from "docx";
-import { type Report } from "../my-report/models";
+import {
+  type Report,
+  type KeyActivity,
+  type DemographicInfo
+} from "../my-report/models";
 import moment from "moment";
 
 export class ReportCreator {
@@ -18,7 +22,7 @@ export class ReportCreator {
     let document = new Document();
 
     document.Header.createParagraph(
-      `Submission Date : ${moment(report.submissionDate).format("DD/MM/YYYY")}`
+      `Submitted on: ${moment(report.submissionDate).format("DD/MM/YYYY")}`
     );
 
     document.addParagraph(
@@ -30,6 +34,8 @@ export class ReportCreator {
         this.createReportSection(this.reportSubTitles[key], value, document);
       }
     });
+
+    this.createKeyActivities(document, report.keyActivities);
     return document;
   }
 
@@ -51,9 +57,7 @@ export class ReportCreator {
     sectionText: any,
     document: Document
   ) {
-    document.addParagraph(
-      this.createReportSubtitle(capitalizeFirstLetter(sectionTitle))
-    );
+    document.addParagraph(this.createReportSubtitle(sectionTitle));
     let sectionTextParagraph = new Paragraph();
     sectionTextParagraph.addRun(new TextRun(sectionText).bold()).bullet();
     sectionTextParagraph.addRun(
@@ -67,6 +71,31 @@ export class ReportCreator {
 
   createReportTextParagraph(text: string) {
     return new Paragraph(text);
+  }
+
+  createKeyActivities(document: Document, keyActivities: KeyActivity[]) {
+    document.addParagraph(this.createReportSubtitle("Key activities & impact"));
+    keyActivities.forEach(activity => {
+      let titleParagraph = new Paragraph().maxRightTabStop();
+      titleParagraph.addRun(new TextRun(activity.activityName).bold());
+      titleParagraph.addRun(
+        new TextRun(`${activity.numberOfParticipants || ""} participant`)
+          .tab()
+          .bold()
+      );
+      document.addParagraph(titleParagraph);
+      activity.demographicInfo.forEach((demoInfo: DemographicInfo) => {
+        let infoTextParagraph = new Paragraph().maxRightTabStop();
+        infoTextParagraph.addRun(
+          new TextRun(`${demoInfo.number} ${demoInfo.type}`)
+        );
+        infoTextParagraph.addRun(new TextRun(demoInfo.note).tab());
+        document.addParagraph(infoTextParagraph);
+      });
+      document.addParagraph(
+        this.createReportTextParagraph(activity.impactOutcome || "")
+      );
+    });
   }
 }
 
