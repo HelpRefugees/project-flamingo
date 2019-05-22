@@ -1,7 +1,20 @@
 import React from "react";
+import { withStyles } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
-export default () => (
-  <h2 data-test-id="forbidden">
-    403 Sorry! You don’t have permission to access this page.
-  </h2>
+const styles = () => ({
+  backgroundImage: {
+    backgroundImage: "url(/forbidden.png)",
+    backgroundSize: "cover",
+    height: "100vh"
+  }
+});
+const Forbidden = ({ classes, history }: any) => (
+  <div
+    className={classes.backgroundImage}
+    onClick={() => {
+      history.push("/");
+    }}
+  />
 );
+export default withRouter(withStyles(styles)(Forbidden));
