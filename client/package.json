@@ -5,6 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^3.1.2",
     "@material-ui/icons": "^3.0.1",
+    "docx": "^4.7.1",
+    "file-saver": "^2.0.2",
     "mockdate": "^2.0.2",
     "moment": "^2.22.2",
     "qs": "^6.5.2",

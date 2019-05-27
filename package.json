@@ -33,7 +33,7 @@
     "start:server": "node ./server/server.js",
     "ship": "run-script-os",
     "ship:win32": "yarn lint && yarn test && yarn e2e:docker",
-    "ship:linux:darwin": "yarn lint && yarn test && yarn e2e:ci",
+    "ship:linux:darwin": "yarn lint && yarn test",
     "lint": "eslint . && yarn client flow check",
     "lint:fix": "eslint . --fix && yarn client flow check",
     "dev": "concurrently -k -s first -n \"client,server,zapier\" \"yarn dev:client\" \"yarn dev:server\" \"cross-env PORT=4321 yarn zapier\"",

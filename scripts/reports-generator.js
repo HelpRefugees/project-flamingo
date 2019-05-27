@@ -59,7 +59,15 @@ function createReport(reportPeriod, id, grant) {
     reportPeriod,
     id,
     overview: "",
-    keyActivities: [{}],
+    keyActivities: [
+      {
+        demographicInfo: {
+          number: 0,
+          type: "",
+          note: ""
+        }
+      }
+    ],
     incidents: "",
     challengesFaced: "",
     operatingEnvironment: "",

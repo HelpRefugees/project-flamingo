@@ -28,6 +28,7 @@ describe("AddGrantComponent", () => {
   let account;
   let mockAddGrant;
   let mockLoadUsers;
+  let mockLoadCountries;
 
   beforeEach(() => {
     account = {
@@ -37,6 +38,7 @@ describe("AddGrantComponent", () => {
     };
     mockAddGrant = jest.fn().mockImplementation(() => Promise.resolve());
     mockLoadUsers = jest.fn();
+    mockLoadCountries = jest.fn();
 
     wrapper = shallow(
       <AddGrantComponent
@@ -48,6 +50,8 @@ describe("AddGrantComponent", () => {
         isLoading={false}
         loadUsers={mockLoadUsers}
         users={users}
+        loadCountries={mockLoadCountries}
+        countries={[]}
       />
     );
   });

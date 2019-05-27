@@ -1,5 +1,20 @@
 import React from "react";
+import { withStyles } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 
-export default () => (
-  <h2 data-test-id="not-found">404 Sorry! Page not found.</h2>
+const styles = () => ({
+  backgroundImage: {
+    backgroundImage: "url(/404.png)",
+    backgroundSize: "cover",
+    height: "100vh"
+  }
+});
+const NotFound = ({ classes, history }: any) => (
+  <div
+    className={classes.backgroundImage}
+    onClick={() => {
+      history.push("/");
+    }}
+  />
 );
+export default withRouter(withStyles(styles)(NotFound));
