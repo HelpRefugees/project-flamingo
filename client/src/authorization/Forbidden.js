@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 const styles = () => ({
   backgroundImage: {
     backgroundImage: "url(/forbidden.png)",
-    backgroundSize: "cover",
+    backgroundSize: "contain",
     height: "100vh"
   }
 });
