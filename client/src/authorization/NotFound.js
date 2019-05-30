@@ -4,9 +4,9 @@ import { withRouter } from "react-router-dom";
 
 const styles = () => ({
   backgroundImage: {
+    height: "100vh",
     backgroundImage: "url(/404.png)",
-    backgroundSize: "contain",
-    height: "100vh"
+    backgroundSize: "100% 100%"
   }
 });
 const NotFound = ({ classes, history }: any) => (
