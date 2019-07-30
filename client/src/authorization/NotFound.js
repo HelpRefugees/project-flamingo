@@ -12,6 +12,7 @@ const styles = () => ({
 const NotFound = ({ classes, history }: any) => (
   <div
     className={classes.backgroundImage}
+    data-test-id="not-found"
     onClick={() => {
       history.push("/");
     }}

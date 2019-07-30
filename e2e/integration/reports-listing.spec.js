@@ -134,10 +134,7 @@ context("Reports Listing Page", () => {
       it("redirects to the not found page if accessing a details page for a non-existent report", () => {
         new SubmittedReportPage(123).visit();
 
-        new NotFoundPage().message.should(
-          "contains.text",
-          "404 Sorry! Page not found."
-        );
+        new NotFoundPage().isAt();
       });
     });
 
@@ -219,19 +216,13 @@ context("Reports Listing Page", () => {
     it("is not able to see the Reports Listing page", () => {
       reportsListingPage.visit();
 
-      forbiddenPage.message.should(
-        "contains.text",
-        "403 Sorry! You don’t have permission to access this page."
-      );
+      forbiddenPage.isAt();
     });
 
     it("is not able to see the Submitted Report page", () => {
       new SubmittedReportPage(1).visit();
 
-      forbiddenPage.message.should(
-        "contains.text",
-        "403 Sorry! You don’t have permission to access this page."
-      );
+      forbiddenPage.isAt();
     });
   });
 });
