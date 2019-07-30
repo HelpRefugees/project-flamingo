@@ -36,7 +36,7 @@
     "e2e:dev": "cross-env CYPRESS_BASE_URL=http://localhost:4200 CYPRESS_WEBHOOK=http://localhost:4321 yarn e2e",
     "e2e:ci": "concurrently -k -s first -n \"app,zap,e2e\" \"yarn e2e:ci:app\" \"cross-env PORT=4322 yarn zapier\" \"yarn e2e:ci:safe\"",
     "e2e:ci:app": "cross-env PORT=3100 NODE_ENV=development EMAIL_WEBHOOK=http://localhost:4322 yarn start",
-    "e2e:ci:safe": "wait-on -l -t 60000 http-get://localhost:3100 && yarn e2e:ci:run",
+    "e2e:ci:safe": "wait-on -l -t 180000 http-get://localhost:3100 && yarn e2e:ci:run",
     "e2e:ci:run": "cross-env CYPRESS_BASE_URL=http://localhost:3100 CYPRESS_WEBHOOK=http://localhost:4322 yarn e2e",
     "pree2e:docker": "docker-compose build",
     "e2e:docker": "docker-compose run cypress e2e",
