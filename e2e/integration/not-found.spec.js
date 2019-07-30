@@ -6,7 +6,7 @@ context("Not Found Page", () => {
   it("shows not found page when navigating to invalid path", () => {
     cy.visit("/invalidpath");
 
-    notFoundPage.message.should("contains.text", "404 Sorry! Page not found.");
+    notFoundPage.isAt();
   });
 
   it("does not show not found page when navigating to valid path", () => {

@@ -165,20 +165,14 @@ context("My Reports Page", () => {
     it("is not able to see the My Reports page", () => {
       myReportsPage.visit();
 
-      forbiddenPage.message.should(
-        "contains.text",
-        "403 Sorry! You don’t have permission to access this page."
-      );
+      forbiddenPage.isAt();
     });
 
     it("is not able to see the Submit Report page", () => {
       cy.wait(250);
       new ReportPage(1).visit();
 
-      forbiddenPage.message.should(
-        "contains.text",
-        "403 Sorry! You don’t have permission to access this page."
-      );
+      forbiddenPage.isAt();
     });
   });
 });

@@ -12,6 +12,7 @@ const styles = () => ({
 const Forbidden = ({ classes, history }: any) => (
   <div
     className={classes.backgroundImage}
+    data-test-id="forbidden"
     onClick={() => {
       history.push("/");
     }}
