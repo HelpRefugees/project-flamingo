@@ -1,10 +1,5 @@
 language: node_js
 
-branches:
-  only:
-    - master
-    - /^v[\d\.]*$/
-
 cache: yarn
 
 addons:
@@ -42,7 +37,7 @@ deploy:
     organization: digital-coe
     space: flamingo-dev
     on:
-      tags: false
+      branch: master
 
   - provider: cloudfoundry
     username: $CF_USERNAME
