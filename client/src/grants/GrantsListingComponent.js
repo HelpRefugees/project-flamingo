@@ -551,7 +551,7 @@ export class GrantsListingComponent extends Component<Props, any> {
     grantSelector: string
   }) {
     return (
-      <div>
+      <div data-test-id="grant-list">
         <Table data-test-id={grantSelector}>
           <TableHead>
             <TableRow>
