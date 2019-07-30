@@ -1,8 +1,14 @@
 language: node_js
 
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - ~/.cache
 
 addons:
+  apt:
+    packages:
+      - libgconf-2-4
   chrome: stable
 
 services:
