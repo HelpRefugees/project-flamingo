@@ -9,12 +9,14 @@
       "reportPeriod": "2018-08-01T00:00:00.000Z",
       "dueDate": "2018-09-07T00:00:00.000Z",
       "owner": "ellen@ip.org",
-      "keyActivity": {
-        "activityName": "activityName",
-        "numberOfParticipants": "numberOfParticipants",
-        "demographicInfo": "demographicInfo",
-        "impactOutcome": "impactOutcome"
-      },
+      "keyActivities": [
+        {
+          "activityName": "activityName",
+          "numberOfParticipants": "numberOfParticipants",
+          "demographicInfo": "demographicInfo",
+          "impactOutcome": "impactOutcome"
+        }
+      ],
       "operatingEnvironment": "operatingEnvironment",
       "beneficiaryFeedback": "beneficiaryFeedback",
       "challengesFaced": "challengesFaced",
@@ -31,12 +33,14 @@
       "reportPeriod": "2018-08-01T00:00:00.000Z",
       "dueDate": "2018-09-07T00:00:00.000Z",
       "owner": "helen@ip.org",
-      "keyActivity": {
-        "activityName": "activityName",
-        "numberOfParticipants": "numberOfParticipants",
-        "demographicInfo": "demographicInfo",
-        "impactOutcome": "impactOutcome"
-      },
+      "keyActivities": [
+        {
+          "activityName": "activityName",
+          "numberOfParticipants": "numberOfParticipants",
+          "demographicInfo": "demographicInfo",
+          "impactOutcome": "impactOutcome"
+        }
+      ],
       "operatingEnvironment": "operatingEnvironment",
       "beneficiaryFeedback": "beneficiaryFeedback",
       "challengesFaced": "challengesFaced",
@@ -53,12 +57,14 @@
       "reportPeriod": "2018-07-01T00:00:00.000Z",
       "dueDate": "2018-07-30T00:00:00.000Z",
       "owner": "helen@ip.org",
-      "keyActivity": {
-        "activityName": "activityName",
-        "numberOfParticipants": "numberOfParticipants",
-        "demographicInfo": "demographicInfo",
-        "impactOutcome": "impactOutcome"
-      },
+      "keyActivities": [
+        {
+          "activityName": "activityName",
+          "numberOfParticipants": "numberOfParticipants",
+          "demographicInfo": "demographicInfo",
+          "impactOutcome": "impactOutcome"
+        }
+      ],
       "operatingEnvironment": "operatingEnvironment",
       "beneficiaryFeedback": "beneficiaryFeedback",
       "challengesFaced": "challengesFaced",
