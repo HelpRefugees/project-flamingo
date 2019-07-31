@@ -22,7 +22,8 @@
       "challengesFaced": "challengesFaced",
       "incidents": "incidents",
       "otherIssues": "otherIssues",
-      "materialsForFundraising": "materialsForFundraising"
+      "materialsForFundraising": "materialsForFundraising",
+      "attachments": []
     },
     {
       "id": 2,
@@ -46,7 +47,8 @@
       "challengesFaced": "challengesFaced",
       "incidents": "incidents",
       "otherIssues": "otherIssues",
-      "materialsForFundraising": "materialsForFundraising"
+      "materialsForFundraising": "materialsForFundraising",
+      "attachments": []
     }
   ]
 }

@@ -22,7 +22,8 @@
       "challengesFaced": "challengesFaced",
       "incidents": "incidents",
       "otherIssues": "otherIssues",
-      "materialsForFundraising": "materialsForFundraising"
+      "materialsForFundraising": "materialsForFundraising",
+      "attachments": []
     },
     {
       "id": 2,
@@ -30,7 +31,8 @@
       "overview": "Hugh Overview",
       "grant": "Hugh Grant",
       "owner": "ellen@ip.org",
-      "keyActivities": [{}]
+      "keyActivities": [{}],
+      "attachments": []
     }
   ]
 }
