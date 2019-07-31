@@ -8,7 +8,15 @@
       "reportPeriod": "2018-08-01T00:00:00.000Z",
       "dueDate": "2018-09-07T00:00:00.000Z",
       "owner": "ellen@ip.org",
-      "keyActivities": [{}],
+      "keyActivities": [
+        {
+          "demographicInfo": {
+            "number": 0,
+            "type": "",
+            "note": ""
+          }
+        }
+      ],
       "attachments": []
     }
   ]
