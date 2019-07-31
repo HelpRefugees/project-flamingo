@@ -10,11 +10,13 @@
       "owner": "ellen@ip.org",
       "keyActivities": [
         {
-          "demographicInfo": {
-            "number": 0,
-            "type": "",
-            "note": ""
-          }
+          "demographicInfo": [
+            {
+              "number": 0,
+              "type": "",
+              "note": ""
+            }
+          ]
         }
       ],
       "attachments": []

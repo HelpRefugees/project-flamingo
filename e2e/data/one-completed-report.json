@@ -13,11 +13,13 @@
         {
           "activityName": "activityName",
           "numberOfParticipants": "123",
-          "demographicInfo": {
-            "number": 0,
-            "type": "",
-            "note": "demographicInfo"
-          },
+          "demographicInfo": [
+            {
+              "number": 0,
+              "type": "",
+              "note": "demographicInfo"
+            }
+          ],
           "impactOutcome": "impactOutcome"
         }
       ],
@@ -37,11 +39,13 @@
       "owner": "ellen@ip.org",
       "keyActivities": [
         {
-          "demographicInfo": {
-            "number": 0,
-            "type": "",
-            "note": ""
-          }
+          "demographicInfo": [
+            {
+              "number": 0,
+              "type": "",
+              "note": ""
+            }
+          ]
         }
       ],
       "attachments": []
