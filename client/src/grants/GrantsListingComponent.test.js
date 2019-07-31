@@ -58,7 +58,7 @@ describe("GrantsListingComponent", () => {
       grants = [
         {
           id: 10,
-          grant: "grant",
+          grant: "My cool grant",
           owner: "a username",
           organization: "organization",
           sector: "sector",
@@ -90,6 +90,7 @@ describe("GrantsListingComponent", () => {
     });
 
     it("renders the list of grants", () => {
+      expect(wrapper.find('[data-test-id="my-cool-grant"]')).toHaveLength(1);
       expect(
         wrapper
           .find('[data-test-id="grant-name"]')

@@ -347,6 +347,13 @@ export class GrantsListingComponent extends Component<Props, any> {
     }
   }
 
+  grantDataId(grantName: string): string {
+    return grantName
+      .split(" ")
+      .join("-")
+      .toLocaleLowerCase();
+  }
+
   renderListItems(classes: any, grants: $Shape<Grant>[], archived: string) {
     return (
       <>
@@ -472,7 +479,7 @@ export class GrantsListingComponent extends Component<Props, any> {
               </div>
             ) : (
               <div key={index}>
-                <TableRow>
+                <TableRow data-test-id={this.grantDataId(grant.grant)}>
                   <TableCell
                     data-test-id="grant-name"
                     className={classes.grantNameCell}

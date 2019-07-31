@@ -12,27 +12,31 @@ export default class GrantsListingPage extends BasePage {
     return cy.get(testId("add-grant-button"));
   }
 
-  grantAt(index, callback) {
+  grantAt(grantId, callback) {
     return cy
       .get(testId("grant-list"))
-      .within(() => callback(new GrantListItemPage(index)));
+      .within(() => callback(new GrantListItemPage(grantId)));
   }
 }
 
 export class GrantListItemPage {
-  constructor(index) {
-    this.index = index;
+  constructor(grantId) {
+    this.grantId = grantId;
+  }
+
+  selector(field) {
+    return `${testId(this.grantId)} ${testId(field)}`;
   }
 
   get name() {
-    return cy.get(testId("grant-name")).eq(this.index);
+    return cy.get(this.selector("grant-name"));
   }
 
   get organisation() {
-    return cy.get(testId("grant-organisation")).eq(this.index);
+    return cy.get(this.selector("grant-organisation"));
   }
 
   get region() {
-    return cy.get(testId("grant-region")).eq(this.index);
+    return cy.get(this.selector("grant-region"));
   }
 }
