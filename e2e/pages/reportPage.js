@@ -148,7 +148,7 @@ export default class ReportPage extends BasePage {
         .should("contain.value", newReport.keyActivity.numberOfParticipants);
       keyActivitiesSection
         .getContentField(KeyActivity.inputs.demographicInfo)
-        .should("contain.text", newReport.keyActivity.demographicInfo);
+        .should("contain.value", newReport.keyActivity.demographicInfo);
       keyActivitiesSection
         .getContentField(KeyActivity.inputs.impactOutcome)
         .should("contain.text", newReport.keyActivity.impactOutcome);
@@ -278,8 +278,8 @@ export class KeyActivity extends InputGroup {
       type: "input"
     },
     demographicInfo: {
-      selector: "report-demographic-info-input",
-      type: "textarea"
+      selector: "report-demographic-info-note",
+      type: "input"
     },
     impactOutcome: {
       selector: "report-impact-outcome-input",

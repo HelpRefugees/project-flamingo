@@ -100,7 +100,7 @@ context("completing a report", () => {
           .should("contain.value", newActivity.numberOfParticipants);
         keyActivity
           .getContentField(KeyActivity.inputs.demographicInfo)
-          .should("contain.text", newActivity.demographicInfo);
+          .should("contain.value", newActivity.demographicInfo);
         keyActivity
           .getContentField(KeyActivity.inputs.impactOutcome)
           .should("contain.text", newActivity.impactOutcome);
