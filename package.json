@@ -6,6 +6,7 @@
   "scripts": {
     "client": "cd client && yarn",
     "install:all": "yarn client && yarn",
+    "postinstall": "cypress install",
     "cypress": "cypress open",
     "zapier": "node ./e2e/fixtures/zapierSpy",
     "cypress:dev": "CYPRESS_BASE_URL=http://localhost:4200 CYPRESS_WEBHOOK=http://localhost:4321 cypress open",
