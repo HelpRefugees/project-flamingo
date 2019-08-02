@@ -115,12 +115,24 @@ const styles = theme => ({
   tableGrant: {
     margin: "2px",
     borderLeft: "1px solid #d9d9d9",
-    paddingLeft: "24px",
-    width: theme.spacing.unit * 10 //TO BE CHECKED
+    paddingLeft: "18px",
+    width: theme.spacing.unit * 5 //TO BE CHECKED
+  },
+  smallCellTableGrant: {
+    margin: "2px",
+    borderLeft: "1px solid #d9d9d9",
+    paddingLeft: "18px",
+    width: theme.spacing.unit * 0.3
   },
   tableGrantFirstCell: {
-    margin: "2px",
-    width: theme.spacing.unit * 10
+    width: "100%"
+  },
+  // 'TabelHead TabelRow TableCell:last-child':{
+  //   paddingRight:"0px"
+  // },
+  grantNameCell: {
+    width: theme.spacing.unit * 20,
+    paddingRight: theme.spacing.unit * 1
   },
   clickable: {
     cursor: "pointer"
@@ -153,10 +165,6 @@ const styles = theme => ({
   },
   row: {
     cursor: "pointer"
-  },
-  grantNameCell: {
-    width: theme.spacing.unit * 20,
-    paddingRight: theme.spacing.unit * 1
   },
   expiredLabel: {
     color: "#ea1024"
@@ -378,6 +386,12 @@ export class GrantsListingComponent extends Component<Props, any> {
                       </div>
                     </span>
                     <span
+                      data-test-id="grant-country"
+                      className={classes.spanTd}
+                    >
+                      <div className={classes.spanDiv}>{grant.country}</div>
+                    </span>
+                    <span
                       data-test-id="grant-region"
                       className={classes.spanTd}
                     >
@@ -475,12 +489,12 @@ export class GrantsListingComponent extends Component<Props, any> {
                 <TableRow>
                   <TableCell
                     data-test-id="grant-name"
-                    className={classes.grantNameCell}
+                    className={classes.tableGrantFirstCell}
                   >
                     {grant.grant}
                   </TableCell>
                   <TableCell data-test-id="grant-periods-no">
-                    <div className={classes.tableGrant}>
+                    <div className={classes.smallCellTableGrant}>
                       {grant.periods ? grant.periods.length : 1}
                     </div>
                   </TableCell>
@@ -488,6 +502,9 @@ export class GrantsListingComponent extends Component<Props, any> {
                     <div className={classes.tableGrant}>
                       {grant.organization}
                     </div>
+                  </TableCell>
+                  <TableCell data-test-id="grant-country">
+                    <div className={classes.tableGrant}>{grant.country}</div>
                   </TableCell>
                   <TableCell data-test-id="grant-region">
                     <div className={classes.tableGrant}>{grant.region}</div>
@@ -498,7 +515,7 @@ export class GrantsListingComponent extends Component<Props, any> {
                     </div>
                   </TableCell>
                   <TableCell data-test-id="grant-archive">
-                    <div className={classes.tableGrant}>
+                    <div className={classes.smallCellTableGrant}>
                       {archived === "archive" ? (
                         <Archive
                           className={classes.clickable}
@@ -519,7 +536,7 @@ export class GrantsListingComponent extends Component<Props, any> {
                     </div>
                   </TableCell>
                   <TableCell data-test-id="grant-action">
-                    <div className={classes.tableGrant}>
+                    <div className={classes.smallCellTableGrant}>
                       <RemoveRedEye
                         className={classes.clickable}
                         onClick={() => {
@@ -530,7 +547,7 @@ export class GrantsListingComponent extends Component<Props, any> {
                     </div>
                   </TableCell>
                   <TableCell data-test-id="grant-action">
-                    <div className={classes.tableGrant} />
+                    <div className={classes.smallCellTableGrant} />
                   </TableCell>
                 </TableRow>
               </div>
@@ -555,12 +572,19 @@ export class GrantsListingComponent extends Component<Props, any> {
         <Table data-test-id={grantSelector}>
           <TableHead>
             <TableRow>
-              <TableCell>Grant Name</TableCell>
+              <TableCell className={classes.tableGrantFirstCell}>
+                <div>Grant Name</div>
+              </TableCell>
               <TableCell>
-                <div className={classes.tableGrant}>No. of periods</div>
+                <div className={classes.smallCellTableGrant}>
+                  No. of periods
+                </div>
               </TableCell>
               <TableCell>
                 <div className={classes.tableGrant}>Organisation</div>
+              </TableCell>
+              <TableCell>
+                <div className={classes.tableGrant}>Country</div>
               </TableCell>
               <TableCell>
                 <div className={classes.tableGrant}>Region</div>
@@ -569,15 +593,15 @@ export class GrantsListingComponent extends Component<Props, any> {
                 <div className={classes.tableGrant}>Expiry Date</div>
               </TableCell>
               <TableCell>
-                <div className={classes.tableGrant}>
+                <div className={classes.smallCellTableGrant}>
                   {grantSelector === "ongoing-grants" ? "ARCHIVE" : "UNARCHIVE"}
                 </div>
               </TableCell>
               <TableCell>
-                <div className={classes.tableGrant}>view</div>
+                <div className={classes.smallCellTableGrant}>view</div>
               </TableCell>
               <TableCell>
-                <div className={classes.tableGrant}>expand</div>
+                <div className={classes.smallCellTableGrant}>expand</div>
               </TableCell>
             </TableRow>
           </TableHead>
