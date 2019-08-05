@@ -87,7 +87,8 @@ export default createMuiTheme({
       head: {
         ...defaultCell,
         textTransform: "uppercase"
-      }
+      },
+      borderLeft: "1px solid #d9d9d9"
     },
     MuiTableRow: {
       head: {

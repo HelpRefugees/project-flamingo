@@ -90,19 +90,14 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3.5,
     display: "flex"
   },
-  grantPeriod: {
-    margin: "2px",
-    width: theme.spacing.unit * 82
-  },
+  grantPeriod: { margin: "2px", width: theme.spacing.unit * 82 },
   grantExpansionDetails: {
     flexDirection: "column",
     backgroundColor: "#f4f4f4",
     margin: "0px",
     padding: "0px"
   },
-  rowContainer: {
-    marginTop: theme.spacing.unit * 4
-  },
+  rowContainer: { marginTop: theme.spacing.unit * 4 },
   addGrantButton: {
     width: "171px",
     height: "36px",
@@ -116,18 +111,20 @@ const styles = theme => ({
     margin: "2px",
     borderLeft: "1px solid #d9d9d9",
     paddingLeft: "24px",
-    width: theme.spacing.unit * 10 //TO BE CHECKED
-  },
-  tableGrantFirstCell: {
-    margin: "2px",
     width: theme.spacing.unit * 10
   },
-  clickable: {
-    cursor: "pointer"
+  smallCellTableGrant: {
+    margin: "2px",
+    borderLeft: "1px solid #d9d9d9",
+    paddingLeft: "18px",
+    width: theme.spacing.unit * 0.3
   },
-  badge: {
-    padding: `0 ${theme.spacing.unit * 2}px`
+  grantNameCell: {
+    width: theme.spacing.unit * 20,
+    paddingRight: theme.spacing.unit * 1
   },
+  clickable: { cursor: "pointer" },
+  badge: { padding: `0 ${theme.spacing.unit * 2}px` },
   grantNameFilter: {
     minWidth: theme.spacing.unit * 35,
     paddingRight: theme.spacing.unit * 3.5,
@@ -140,46 +137,47 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 3,
     paddingBottom: theme.spacing.unit * 3
   },
-  underlined: {
-    borderBottom: "1px solid #e5e5e5"
-  },
-  grow: {
-    flexGrow: 1
-  },
+  underlined: { borderBottom: "1px solid #e5e5e5" },
+  grow: { flexGrow: 1 },
   tableCellDiv: {
     margin: 2,
     borderLeft: "1px solid #d9d9d9",
     paddingLeft: theme.spacing.unit * 3
   },
-  row: {
-    cursor: "pointer"
-  },
+  row: { cursor: "pointer" },
   grantNameCell: {
     width: theme.spacing.unit * 20,
     paddingRight: theme.spacing.unit * 1
   },
-  expiredLabel: {
-    color: "#ea1024"
-  },
-  expiredOutlined: {
-    borderColor: "#ea1024"
-  },
+  expiredLabel: { color: "#ea1024" },
+  expiredOutlined: { borderColor: "#ea1024" },
   expiryDev: {
     margin: "2px",
     borderLeft: "1px solid #d9d9d9",
     paddingLeft: "24px"
   },
-  spanTd: {
-    margin: 2,
-    borderLeft: "1px solid #d9d9d9",
-    paddingLeft: theme.spacing.unit * 3,
-    paddingRight: theme.spacing.unit * 7
+  tableHeaderCell: {
+    width: theme.spacing.unit * 8,
+    marginRight: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing.unit
+  },
+  tableHeaderCellWide: {
+    width: theme.spacing.unit * 17
   },
   spanDiv: {
-    width: theme.spacing.unit * 10
+    width: theme.spacing.unit * 15,
+    paddingLeft: theme.spacing.unit * 4
   },
-  spanDivGrantName: {
-    width: theme.spacing.unit * 19.6
+  tableDivWide: { width: theme.spacing.unit * 17 },
+  spanPadding: {
+    padding: "12px 56px 4px 0px"
+  },
+  cellLeftBorder: {
+    borderLeft: "1px solid #d9d9d9"
+  },
+  cellRightBorder: {
+    borderRight: "1px solid #d9d9d9",
+    paddingRight: "56px !important"
   }
 });
 
@@ -196,11 +194,9 @@ export class GrantsListingComponent extends Component<Props, any> {
   componentWillMount() {
     this.props.loadGrants();
   }
-
   handleArchiveOpen = () => {
     this.setState({ dialogOpen: true });
   };
-
   renderDialog(archive: string) {
     const { updateGrant } = this.props;
     return (
@@ -257,16 +253,14 @@ export class GrantsListingComponent extends Component<Props, any> {
       </Dialog>
     );
   }
-
-  getFilteredGrants(grants: $Shape<Grant>[]): $Shape<Grant>[] {
+  getFilteredGrants(grants: Array<$Shape<Grant>>): Array<$Shape<Grant>> {
     return this.state.filter
       ? grants.filter(
           (grant: $Shape<Grant>) => grant.grant === this.state.filter
         )
       : grants;
   }
-
-  getFilterOptions(): any[] {
+  getFilterOptions(): Array<any> {
     let currentTabGrants = this.props.grants || [];
     if (this.state.tabValue === 0) {
       currentTabGrants = currentTabGrants.filter(
@@ -288,25 +282,18 @@ export class GrantsListingComponent extends Component<Props, any> {
       .sort()
       .map(grant => ({ value: grant, label: grant }));
   }
-
-  getArchivedGrants(grants: ?($Shape<Grant>[])) {
+  getArchivedGrants(grants: ?Array<$Shape<Grant>>) {
     return (grants || []).filter((grant: $Shape<Grant>) => grant.archived);
   }
-
-  getOngoingGrants(grants: $Shape<Grant>[]) {
+  getOngoingGrants(grants: Array<$Shape<Grant>>) {
     return grants.filter((grant: $Shape<Grant>) => !grant.archived);
   }
-
   getSelectedFilterValue() {
     return this.getFilterOptions().find(o => o.value === this.state.filter);
   }
-
   updateFilter = (selection: { label: string, value: string }) => {
-    this.setState({
-      filter: selection ? selection.value : undefined
-    });
+    this.setState({ filter: selection ? selection.value : undefined });
   };
-
   noGrantsMessage(classes: any, title: string, message: string) {
     return (
       <Paper className={classes.messagePaper}>
@@ -321,7 +308,6 @@ export class GrantsListingComponent extends Component<Props, any> {
       </Paper>
     );
   }
-
   renderExpiryIndicator(endDate: any, classes: any) {
     let status = moment(endDate).format("DD/MM/YYYY");
     let chipClasses = {
@@ -346,15 +332,17 @@ export class GrantsListingComponent extends Component<Props, any> {
       );
     }
   }
-
   grantDataId(grantName: string): string {
     return grantName
       .split(" ")
       .join("-")
       .toLocaleLowerCase();
   }
-
-  renderListItems(classes: any, grants: $Shape<Grant>[], archived: string) {
+  renderListItems(
+    classes: any,
+    grants: Array<$Shape<Grant>>,
+    archived: string
+  ) {
     return (
       <>
         {grants.map((grant: $Shape<Grant>, index: number) => {
@@ -363,14 +351,17 @@ export class GrantsListingComponent extends Component<Props, any> {
               <div data-test-id="grant" key={index}>
                 <ExpansionPanel>
                   <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-                    <span data-test-id="grant-name">
-                      <div className={classes.spanDivGrantName}>
-                        {grant.grant}
-                      </div>
+                    <span
+                      data-test-id="grant-name"
+                      className={classes.spanPadding}
+                    >
+                      <div className={classes.tableDivWide}>{grant.grant}</div>
                     </span>
                     <span
                       data-test-id="grant-periods-no"
-                      className={classes.spanTd}
+                      className={
+                        classes.spanPadding + " " + classes.cellLeftBorder
+                      }
                     >
                       <div className={classes.spanDiv}>
                         {grant.periods ? grant.periods.length : 1}
@@ -378,21 +369,35 @@ export class GrantsListingComponent extends Component<Props, any> {
                     </span>
                     <span
                       data-test-id="grant-organisation"
-                      className={classes.spanTd}
+                      className={
+                        classes.spanPadding + " " + classes.cellLeftBorder
+                      }
                     >
                       <div className={classes.spanDiv}>
                         {grant.organization}
                       </div>
                     </span>
                     <span
+                      data-test-id="grant-country"
+                      className={
+                        classes.spanPadding + " " + classes.cellLeftBorder
+                      }
+                    >
+                      <div className={classes.spanDiv}>{grant.country}</div>
+                    </span>
+                    <span
                       data-test-id="grant-region"
-                      className={classes.spanTd}
+                      className={
+                        classes.spanPadding + " " + classes.cellLeftBorder
+                      }
                     >
                       <div className={classes.spanDiv}>{grant.region}</div>
                     </span>
                     <span
                       data-test-id="grant-end-date"
-                      className={classes.spanTd}
+                      className={
+                        classes.spanPadding + " " + classes.cellLeftBorder
+                      }
                     >
                       <div className={classes.spanDiv}>
                         {this.renderExpiryIndicator(grant.endDate, classes)}
@@ -400,7 +405,9 @@ export class GrantsListingComponent extends Component<Props, any> {
                     </span>
                     <span
                       data-test-id="grant-archive"
-                      className={classes.spanTd}
+                      className={
+                        classes.spanPadding + " " + classes.cellLeftBorder
+                      }
                     >
                       <div className={classes.spanDiv}>
                         {archived === "archive" ? (
@@ -424,7 +431,13 @@ export class GrantsListingComponent extends Component<Props, any> {
                     </span>
                     <span
                       data-test-id="grant-action"
-                      className={classes.spanTd}
+                      className={
+                        classes.spanPadding +
+                        " " +
+                        classes.cellLeftBorder +
+                        " " +
+                        classes.cellRightBorder
+                      }
                     >
                       <div className={classes.spanDiv}>
                         <RemoveRedEye
@@ -449,24 +462,23 @@ export class GrantsListingComponent extends Component<Props, any> {
                           {grant.grant}
                         </div>
                         <div
-                          data-test-id="grant-name"
-                          className={classes.spanTd}
+                          data-test-id="grant-end-date"
+                          className={classes.spanPadding}
                         >
                           {`${moment(period.endDate).format("DD/MM/YYYY")}`}
                         </div>
                         {moment(period.endDate).diff(moment(), "days") < 0 && (
                           <div
-                            data-test-id="grant-name"
-                            className={classes.spanTd}
+                            data-test-id="grant-expired"
+                            className={classes.spanPadding}
                           >
                             EXPIRED
                           </div>
                         )}
-
                         {moment(period.endDate).diff(moment(), "days") > 0 && (
                           <div
-                            data-test-id="grant-name"
-                            className={classes.spanTd}
+                            data-test-id="grant-on-going"
+                            className={classes.spanPadding}
                             style={{ color: "#00857b" }}
                           >
                             ONGOING
@@ -480,32 +492,56 @@ export class GrantsListingComponent extends Component<Props, any> {
             ) : (
               <div key={index}>
                 <TableRow data-test-id={this.grantDataId(grant.grant)}>
-                  <TableCell
-                    data-test-id="grant-name"
-                    className={classes.grantNameCell}
-                  >
-                    {grant.grant}
+                  <TableCell data-test-id="grant-name">
+                    <div className={classes.tableHeaderCellWide}>
+                      {grant.grant}
+                    </div>
                   </TableCell>
-                  <TableCell data-test-id="grant-periods-no">
-                    <div className={classes.tableGrant}>
+                  <TableCell
+                    data-test-id="grant-periods-no"
+                    className={classes.cellLeftBorder}
+                  >
+                    <div className={classes.tableHeaderCell}>
                       {grant.periods ? grant.periods.length : 1}
                     </div>
                   </TableCell>
-                  <TableCell data-test-id="grant-organisation">
-                    <div className={classes.tableGrant}>
+                  <TableCell
+                    data-test-id="grant-organisation"
+                    className={classes.cellLeftBorder}
+                  >
+                    <div className={classes.tableHeaderCell}>
                       {grant.organization}
                     </div>
                   </TableCell>
-                  <TableCell data-test-id="grant-region">
-                    <div className={classes.tableGrant}>{grant.region}</div>
+                  <TableCell
+                    data-test-id="grant-country"
+                    className={classes.cellLeftBorder}
+                  >
+                    <div className={classes.tableHeaderCell}>
+                      {grant.country}
+                    </div>
                   </TableCell>
-                  <TableCell data-test-id="grant-end-date">
-                    <div className={classes.tableGrant}>
+                  <TableCell
+                    data-test-id="grant-region"
+                    className={classes.cellLeftBorder}
+                  >
+                    <div className={classes.tableHeaderCell}>
+                      {grant.region}
+                    </div>
+                  </TableCell>
+                  <TableCell
+                    data-test-id="grant-end-date"
+                    className={classes.cellLeftBorder}
+                  >
+                    <div className={classes.tableHeaderCell}>
                       {this.renderExpiryIndicator(grant.endDate, classes)}
                     </div>
                   </TableCell>
-                  <TableCell data-test-id="grant-archive">
-                    <div className={classes.tableGrant}>
+                  <TableCell
+                    data-test-id="grant-archive"
+                    className={classes.cellLeftBorder}
+                  >
+                    <div className={classes.tableHeaderCell}>
                       {archived === "archive" ? (
                         <Archive
                           className={classes.clickable}
@@ -525,8 +561,11 @@ export class GrantsListingComponent extends Component<Props, any> {
                       )}
                     </div>
                   </TableCell>
-                  <TableCell data-test-id="grant-action">
-                    <div className={classes.tableGrant}>
+                  <TableCell
+                    data-test-id="grant-action"
+                    className={classes.cellLeftBorder}
+                  >
+                    <div className={classes.tableHeaderCell}>
                       <RemoveRedEye
                         className={classes.clickable}
                         onClick={() => {
@@ -536,8 +575,11 @@ export class GrantsListingComponent extends Component<Props, any> {
                       />
                     </div>
                   </TableCell>
-                  <TableCell data-test-id="grant-action">
-                    <div className={classes.tableGrant} />
+                  <TableCell
+                    data-test-id="grant-action"
+                    className={classes.cellLeftBorder}
+                  >
+                    <div className={classes.tableHeaderCell} />
                   </TableCell>
                 </TableRow>
               </div>
@@ -547,14 +589,13 @@ export class GrantsListingComponent extends Component<Props, any> {
       </>
     );
   }
-
   grantsTable({
     classes,
     grants,
     grantSelector
   }: {
     classes: any,
-    grants: $Shape<Grant>[],
+    grants: Array<$Shape<Grant>>,
     grantSelector: string
   }) {
     return (
@@ -562,29 +603,34 @@ export class GrantsListingComponent extends Component<Props, any> {
         <Table data-test-id={grantSelector}>
           <TableHead>
             <TableRow>
-              <TableCell>Grant Name</TableCell>
-              <TableCell>
-                <div className={classes.tableGrant}>No. of periods</div>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCellWide}>Grant Name</div>
               </TableCell>
-              <TableCell>
-                <div className={classes.tableGrant}>Organisation</div>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCell}>No. of periods</div>
               </TableCell>
-              <TableCell>
-                <div className={classes.tableGrant}>Region</div>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCell}>Organisation</div>
               </TableCell>
-              <TableCell>
-                <div className={classes.tableGrant}>Expiry Date</div>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCell}>Country</div>
               </TableCell>
-              <TableCell>
-                <div className={classes.tableGrant}>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCell}>Region</div>
+              </TableCell>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCell}>Expiry Date</div>
+              </TableCell>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCell}>
                   {grantSelector === "ongoing-grants" ? "ARCHIVE" : "UNARCHIVE"}
                 </div>
               </TableCell>
-              <TableCell>
-                <div className={classes.tableGrant}>view</div>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCell}>view</div>
               </TableCell>
-              <TableCell>
-                <div className={classes.tableGrant}>expand</div>
+              <TableCell className={classes.cellLeftBorder}>
+                <div className={classes.tableHeaderCell}>expand</div>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -596,7 +642,6 @@ export class GrantsListingComponent extends Component<Props, any> {
             : this.getArchivedGrants(grants),
           grantSelector === "ongoing-grants" ? "archive" : "unarchive"
         )}
-
         <div>
           {this.renderDialog(
             grantSelector === "ongoing-grants" ? "archive" : "unarchive"
@@ -605,8 +650,7 @@ export class GrantsListingComponent extends Component<Props, any> {
       </div>
     );
   }
-
-  grantsTabs(classes: any, grants: ?($Shape<Grant>[])) {
+  grantsTabs(classes: any, grants: ?Array<$Shape<Grant>>) {
     const ongoingGrantsContent =
       grants && this.getFilteredGrants(this.getOngoingGrants(grants)).length > 0
         ? this.grantsTable({
@@ -642,10 +686,7 @@ export class GrantsListingComponent extends Component<Props, any> {
             textColor="primary"
             value={this.state.tabValue}
             onChange={(event, value) => {
-              this.setState({
-                tabValue: value,
-                filter: ""
-              });
+              this.setState({ tabValue: value, filter: "" });
             }}
           >
             <Tab
@@ -683,7 +724,6 @@ export class GrantsListingComponent extends Component<Props, any> {
       </Paper>
     );
   }
-
   render() {
     const { logout, account, classes, grants } = this.props;
     return (
