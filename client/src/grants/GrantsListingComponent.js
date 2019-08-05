@@ -145,10 +145,6 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 3
   },
   row: { cursor: "pointer" },
-  grantNameCell: {
-    width: theme.spacing.unit * 20,
-    paddingRight: theme.spacing.unit * 1
-  },
   expiredLabel: { color: "#ea1024" },
   expiredOutlined: { borderColor: "#ea1024" },
   expiryDev: {

@@ -202,7 +202,7 @@ export class AddGrantComponent extends Component<Props, any> {
   };
 
   renderCountryRegionInput = (classes: any, countries: Country[]) => {
-    return countries.length === 0 ? (
+    return (countries || []).length === 0 ? (
       <Typography variant="h2" align="center" className={classes.subtitleText}>
         Please insert countries first from
         <Link
