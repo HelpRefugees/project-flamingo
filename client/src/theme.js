@@ -64,8 +64,8 @@ export default createMuiTheme({
     },
     MuiTab: {
       root: {
-        borderRight: "1px solid #e5e5e5",
-        borderBottom: "1px solid #e5e5e5",
+        borderRight: "0.0625rem solid #e5e5e5",
+        borderBottom: "0.0625rem solid #e5e5e5",
         paddingTop: defaultTheme.spacing.unit * 2,
         paddingBottom: defaultTheme.spacing.unit * 2,
         margin: 0
@@ -87,8 +87,7 @@ export default createMuiTheme({
       head: {
         ...defaultCell,
         textTransform: "uppercase"
-      },
-      borderLeft: "1px solid #d9d9d9"
+      }
     },
     MuiTableRow: {
       head: {

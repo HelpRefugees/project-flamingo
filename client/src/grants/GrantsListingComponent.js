@@ -85,12 +85,12 @@ const grantNameFilterControlStyles = {
 const styles = theme => ({
   grantExtension: {
     backgroundColor: "#f4f4f4",
-    borderBottom: "1px solid #d9d9d9",
+    borderBottom: "0.0625rem solid #d9d9d9",
     flexDirection: "row",
     padding: theme.spacing.unit * 3.5,
     display: "flex"
   },
-  grantPeriod: { margin: "2px", width: theme.spacing.unit * 82 },
+  grantPeriod: { margin: "0.125rem", width: theme.spacing.unit * 82 },
   grantExpansionDetails: {
     flexDirection: "column",
     backgroundColor: "#f4f4f4",
@@ -99,32 +99,16 @@ const styles = theme => ({
   },
   rowContainer: { marginTop: theme.spacing.unit * 4 },
   addGrantButton: {
-    width: "171px",
-    height: "36px",
+    width: "10.6875rem",
+    height: "2.25rem",
     background: "#ffffff",
     color: "#00857b",
     marginTop: theme.spacing.unit * 5.5,
-    fontSize: "14px",
+    fontSize: "0.875rem",
     borderRadius: "0px"
   },
-  tableGrant: {
-    margin: "2px",
-    borderLeft: "1px solid #d9d9d9",
-    paddingLeft: "24px",
-    width: theme.spacing.unit * 10
-  },
-  smallCellTableGrant: {
-    margin: "2px",
-    borderLeft: "1px solid #d9d9d9",
-    paddingLeft: "18px",
-    width: theme.spacing.unit * 0.3
-  },
-  grantNameCell: {
-    width: theme.spacing.unit * 20,
-    paddingRight: theme.spacing.unit * 1
-  },
   clickable: { cursor: "pointer" },
-  badge: { padding: `0 ${theme.spacing.unit * 2}px` },
+  badge: { padding: `0 ${(theme.spacing.unit * 2) / 16} rem` },
   grantNameFilter: {
     minWidth: theme.spacing.unit * 35,
     paddingRight: theme.spacing.unit * 3.5,
@@ -137,21 +121,10 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 3,
     paddingBottom: theme.spacing.unit * 3
   },
-  underlined: { borderBottom: "1px solid #e5e5e5" },
+  underlined: { borderBottom: "0.0625rem solid #e5e5e5" },
   grow: { flexGrow: 1 },
-  tableCellDiv: {
-    margin: 2,
-    borderLeft: "1px solid #d9d9d9",
-    paddingLeft: theme.spacing.unit * 3
-  },
-  row: { cursor: "pointer" },
   expiredLabel: { color: "#ea1024" },
   expiredOutlined: { borderColor: "#ea1024" },
-  expiryDev: {
-    margin: "2px",
-    borderLeft: "1px solid #d9d9d9",
-    paddingLeft: "24px"
-  },
   tableHeaderCell: {
     width: theme.spacing.unit * 8,
     marginRight: theme.spacing.unit * 4,
@@ -166,14 +139,14 @@ const styles = theme => ({
   },
   tableDivWide: { width: theme.spacing.unit * 17 },
   spanPadding: {
-    padding: "12px 56px 4px 0px"
+    padding: "0.75rem 3.5rem 0.25rem 0px"
   },
   cellLeftBorder: {
-    borderLeft: "1px solid #d9d9d9"
+    borderLeft: "0.0625rem solid #d9d9d9"
   },
   cellRightBorder: {
-    borderRight: "1px solid #d9d9d9",
-    paddingRight: "56px !important"
+    borderRight: "0.0625rem solid #d9d9d9",
+    paddingRight: "3.5rem !important"
   }
 });
 
@@ -334,6 +307,7 @@ export class GrantsListingComponent extends Component<Props, any> {
       .join("-")
       .toLocaleLowerCase();
   }
+
   renderListItems(
     classes: any,
     grants: Array<$Shape<Grant>>,
@@ -486,99 +460,96 @@ export class GrantsListingComponent extends Component<Props, any> {
                 </ExpansionPanel>
               </div>
             ) : (
-              <div key={index}>
-                <TableRow data-test-id={this.grantDataId(grant.grant)}>
-                  <TableCell data-test-id="grant-name">
-                    <div className={classes.tableHeaderCellWide}>
-                      {grant.grant}
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    data-test-id="grant-periods-no"
-                    className={classes.cellLeftBorder}
-                  >
-                    <div className={classes.tableHeaderCell}>
-                      {grant.periods ? grant.periods.length : 1}
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    data-test-id="grant-organisation"
-                    className={classes.cellLeftBorder}
-                  >
-                    <div className={classes.tableHeaderCell}>
-                      {grant.organization}
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    data-test-id="grant-country"
-                    className={classes.cellLeftBorder}
-                  >
-                    <div className={classes.tableHeaderCell}>
-                      {grant.country}
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    data-test-id="grant-region"
-                    className={classes.cellLeftBorder}
-                  >
-                    <div className={classes.tableHeaderCell}>
-                      {grant.region}
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    data-test-id="grant-end-date"
-                    className={classes.cellLeftBorder}
-                  >
-                    <div className={classes.tableHeaderCell}>
-                      {this.renderExpiryIndicator(grant.endDate, classes)}
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    data-test-id="grant-archive"
-                    className={classes.cellLeftBorder}
-                  >
-                    <div className={classes.tableHeaderCell}>
-                      {archived === "archive" ? (
-                        <Archive
-                          className={classes.clickable}
-                          onClick={() => {
-                            this.handleArchiveOpen();
-                            this.setState({ grant: { ...grant } });
-                          }}
-                        />
-                      ) : (
-                        <Unarchive
-                          className={classes.clickable}
-                          onClick={() => {
-                            this.handleArchiveOpen();
-                            this.setState({ grant: { ...grant } });
-                          }}
-                        />
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    data-test-id="grant-action"
-                    className={classes.cellLeftBorder}
-                  >
-                    <div className={classes.tableHeaderCell}>
-                      <RemoveRedEye
+              <TableRow
+                key={index}
+                data-test-id={this.grantDataId(grant.grant)}
+              >
+                <TableCell data-test-id="grant-name">
+                  <div className={classes.tableHeaderCellWide}>
+                    {grant.grant}
+                  </div>
+                </TableCell>
+                <TableCell
+                  data-test-id="grant-periods-no"
+                  className={classes.cellLeftBorder}
+                >
+                  <div className={classes.tableHeaderCell}>
+                    {grant.periods ? grant.periods.length : 1}
+                  </div>
+                </TableCell>
+                <TableCell
+                  data-test-id="grant-organisation"
+                  className={classes.cellLeftBorder}
+                >
+                  <div className={classes.tableHeaderCell}>
+                    {grant.organization}
+                  </div>
+                </TableCell>
+                <TableCell
+                  data-test-id="grant-country"
+                  className={classes.cellLeftBorder}
+                >
+                  <div className={classes.tableHeaderCell}>{grant.country}</div>
+                </TableCell>
+                <TableCell
+                  data-test-id="grant-region"
+                  className={classes.cellLeftBorder}
+                >
+                  <div className={classes.tableHeaderCell}>{grant.region}</div>
+                </TableCell>
+                <TableCell
+                  data-test-id="grant-end-date"
+                  className={classes.cellLeftBorder}
+                >
+                  <div className={classes.tableHeaderCell}>
+                    {this.renderExpiryIndicator(grant.endDate, classes)}
+                  </div>
+                </TableCell>
+                <TableCell
+                  data-test-id="grant-archive"
+                  className={classes.cellLeftBorder}
+                >
+                  <div className={classes.tableHeaderCell}>
+                    {archived === "archive" ? (
+                      <Archive
                         className={classes.clickable}
                         onClick={() => {
-                          this.props.selectGrant(grant);
-                          this.props.history.push(`/grants/${grant.id}`);
+                          this.handleArchiveOpen();
+                          this.setState({ grant: { ...grant } });
                         }}
                       />
-                    </div>
-                  </TableCell>
-                  <TableCell
-                    data-test-id="grant-action"
-                    className={classes.cellLeftBorder}
-                  >
-                    <div className={classes.tableHeaderCell} />
-                  </TableCell>
-                </TableRow>
-              </div>
+                    ) : (
+                      <Unarchive
+                        className={classes.clickable}
+                        onClick={() => {
+                          this.handleArchiveOpen();
+                          this.setState({ grant: { ...grant } });
+                        }}
+                      />
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell
+                  data-test-id="grant-action"
+                  className={classes.cellLeftBorder}
+                >
+                  <div className={classes.tableHeaderCell}>
+                    <RemoveRedEye
+                      className={classes.clickable}
+                      onClick={() => {
+                        this.props.selectGrant(grant);
+                        this.props.history.push(`/grants/${grant.id}`);
+                      }}
+                    />
+                  </div>
+                </TableCell>
+                <TableCell
+                  data-test-id="grant-action"
+                  className={classes.cellLeftBorder}
+                >
+                  <div className={classes.tableHeaderCell} />
+                </TableCell>
+              </TableRow>
             );
           return renderOutput;
         })}
@@ -599,7 +570,7 @@ export class GrantsListingComponent extends Component<Props, any> {
         <Table data-test-id={grantSelector}>
           <TableHead>
             <TableRow>
-              <TableCell className={classes.cellLeftBorder}>
+              <TableCell>
                 <div className={classes.tableHeaderCellWide}>Grant Name</div>
               </TableCell>
               <TableCell className={classes.cellLeftBorder}>
