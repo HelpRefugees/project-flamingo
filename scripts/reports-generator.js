@@ -55,6 +55,8 @@ function createReport(reportPeriod, id, grant) {
     completed: false,
     dueDate: generateDueDate(reportPeriod),
     grant: grant.grant,
+    region: grant.region,
+    country: grant.country,
     owner: grant.owner,
     reportPeriod,
     id,

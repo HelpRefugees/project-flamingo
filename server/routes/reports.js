@@ -47,6 +47,8 @@ module.exports = db => {
           dueDate: 1,
           submissionDate: 1,
           owner: 1,
+          country: 1,
+          region: 1,
           id: 1
         }
       })

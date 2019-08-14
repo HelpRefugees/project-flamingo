@@ -104,7 +104,7 @@ const styles = theme => ({
     cursor: "pointer"
   },
   grantNameCell: {
-    width: "66%"
+    width: "44%"
   }
 });
 
@@ -218,6 +218,12 @@ export class ReportsListingComponent extends Component<
               <div className={classes.tableCellDiv}>Period</div>
             </TableCell>
             <TableCell>
+              <div className={classes.tableCellDiv}>Region</div>
+            </TableCell>
+            <TableCell>
+              <div className={classes.tableCellDiv}>Country</div>
+            </TableCell>
+            <TableCell>
               <div className={classes.tableCellDiv}>
                 {reportSelector === "submitted-reports"
                   ? "Submitted"
@@ -244,6 +250,12 @@ export class ReportsListingComponent extends Component<
                   className={classes.grantNameCell}
                 >
                   <div>{report.grant}</div>
+                </TableCell>
+                <TableCell data-test-id="report-period">
+                  <div className={classes.tableCellDiv}>{report.region}</div>
+                </TableCell>
+                <TableCell data-test-id="report-period">
+                  <div className={classes.tableCellDiv}>{report.country}</div>
                 </TableCell>
                 <TableCell data-test-id="report-period">
                   <div className={classes.tableCellDiv}>
@@ -374,6 +386,7 @@ export class ReportsListingComponent extends Component<
 
   render() {
     const { classes, logout, account, reports } = this.props;
+    console.log(reports);
 
     return (
       <Fragment>
