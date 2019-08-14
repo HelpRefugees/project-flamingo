@@ -251,10 +251,10 @@ export class ReportsListingComponent extends Component<
                 >
                   <div>{report.grant}</div>
                 </TableCell>
-                <TableCell data-test-id="report-period">
+                <TableCell>
                   <div className={classes.tableCellDiv}>{report.region}</div>
                 </TableCell>
-                <TableCell data-test-id="report-period">
+                <TableCell>
                   <div className={classes.tableCellDiv}>{report.country}</div>
                 </TableCell>
                 <TableCell data-test-id="report-period">
@@ -386,8 +386,6 @@ export class ReportsListingComponent extends Component<
 
   render() {
     const { classes, logout, account, reports } = this.props;
-    console.log(reports);
-
     return (
       <Fragment>
         <HeaderComponent logout={logout} account={account} />
