@@ -67,6 +67,8 @@ describe("Report generation script", () => {
           reportPeriod,
           dueDate: generateDueDate(reportPeriod),
           owner: username,
+          region: null,
+          country: null,
           id: 1,
           keyActivities: [
             {
@@ -168,6 +170,8 @@ describe("Report generation script", () => {
       expect(reports).toEqual([
         {
           overview: "",
+          region: null,
+          country: null,
           grant: "Grant Mitchell",
           completed: false,
           reportPeriod,
@@ -193,6 +197,8 @@ describe("Report generation script", () => {
         },
         {
           overview: "",
+          region: null,
+          country: null,
           grant: "Hugh Grant",
           completed: false,
           reportPeriod,

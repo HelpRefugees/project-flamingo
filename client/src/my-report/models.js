@@ -13,6 +13,8 @@ export type KeyActivity = {
 
 export type Report = {
   id: number,
+  region: string,
+  country: string,
   overview: string,
   keyActivities: KeyActivity[],
   operatingEnvironment: string,
