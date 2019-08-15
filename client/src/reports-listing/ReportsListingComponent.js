@@ -215,13 +215,13 @@ export class ReportsListingComponent extends Component<
               <div>Grant</div>
             </TableCell>
             <TableCell>
-              <div className={classes.tableCellDiv}>Period</div>
-            </TableCell>
-            <TableCell>
               <div className={classes.tableCellDiv}>Region</div>
             </TableCell>
             <TableCell>
               <div className={classes.tableCellDiv}>Country</div>
+            </TableCell>
+            <TableCell>
+              <div className={classes.tableCellDiv}>Period</div>
             </TableCell>
             <TableCell>
               <div className={classes.tableCellDiv}>
