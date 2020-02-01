@@ -47,9 +47,6 @@
       "pre-push": "yarn ship"
     }
   },
-  "jest": {
-    "coverageCollector": "jest-babel-istanbul"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HelpRefugees/project-flamingo.git"
@@ -68,11 +65,12 @@
   },
   "homepage": "https://github.com/HelpRefugees/project-flamingo#readme",
   "dependencies": {
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^3.0.7",
     "body-parser": "^1.18.3",
     "cf-services": "^2.0.1",
-    "connect-mongo": "^2.0.1",
+    "connect-mongo": "^3.2.0",
     "debug": "^4.1.0",
+    "eslint-plugin-react-hooks": "^1.6.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "moment": "^2.24.0",
@@ -88,28 +86,27 @@
     "**/event-stream": "^4.0.1"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "10.0.3",
     "concurrently": "^4.0.1",
     "copyfiles": "^2.1.1",
     "cross-env": "^5.2.0",
-    "cypress": "3.4.0",
-    "eslint": "^5.6.1",
+    "cypress": "^3.8.3",
+    "eslint": "^6.6.0",
     "eslint-config-prettier": "^3.1.0",
-    "eslint-config-react-app": "^3.0.3",
+    "eslint-config-react-app": "^5.2.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-cypress": "^2.0.1",
-    "eslint-plugin-flowtype": "^2.50.3",
-    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-flowtype": "4.6.0",
+    "eslint-plugin-import": "2.20.0",
     "eslint-plugin-jest": "^21.15.1",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-prettier": "^3.0.0",
     "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-react": "7.18.0",
     "eslint-plugin-standard": "^3.0.1",
     "husky": "^1.1.0",
-    "jest": "23.6.0",
-    "jest-babel-istanbul": "^0.1.0",
+    "jest": "24.9.0",
     "mockdate": "^2.0.2",
     "nock": "^10.0.2",
     "nodemon": "^1.18.4",
@@ -119,7 +116,7 @@
     "wait-on": "^3.0.1"
   },
   "engines": {
-    "node": "^10.11.0",
-    "yarn": "1.10.1"
+    "node": "~12.14.0",
+    "yarn": "1.21.1"
   }
 }

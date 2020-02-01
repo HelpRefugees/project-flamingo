@@ -1,6 +1,7 @@
-const request = require("supertest");
 const MockDate = require("mockdate");
-const bcrypt = require("bcrypt");
+const request = require("supertest");
+
+const { hashPassword, safeDrop } = require("./helpers");
 
 describe("reports endpoint", () => {
   let app;
@@ -30,14 +31,6 @@ describe("reports endpoint", () => {
   afterEach(() => {
     MockDate.reset();
   });
-
-  const safeDrop = async collection => {
-    try {
-      await global.DATABASE.collection(collection).drop();
-    } catch (err) {
-      // pass
-    }
-  };
 
   beforeEach(async () => {
     await safeDrop("reports");
@@ -83,23 +76,17 @@ describe("reports endpoint", () => {
     await global.DATABASE.collection("users").insertMany([
       {
         username: implementingPartner.username,
-        password: bcrypt.hashSync(
-          implementingPartner.password,
-          bcrypt.genSaltSync()
-        ),
+        password: hashPassword(implementingPartner.password),
         role: "implementing-partner"
       },
       {
         username: helpRefugees.username,
-        password: bcrypt.hashSync(helpRefugees.password, bcrypt.genSaltSync()),
+        password: hashPassword(helpRefugees.password),
         role: "help-refugees"
       },
       {
         username: otherImplementingPartner.username,
-        password: bcrypt.hashSync(
-          otherImplementingPartner.password,
-          bcrypt.genSaltSync()
-        ),
+        password: hashPassword(otherImplementingPartner.password),
         role: "implementing-partner"
       }
     ]);

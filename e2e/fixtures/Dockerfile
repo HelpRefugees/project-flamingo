@@ -1,11 +1,11 @@
-FROM node:10.12-alpine
+FROM node:12.14-alpine
 
 RUN apk add --update build-base python python-dev
 
 COPY package.json .
 COPY yarn.lock .
 
-RUN npm install -g yarn@1.10.1
+ENV CYPRESS_INSTALL_BINARY=0
 
 RUN yarn install
 

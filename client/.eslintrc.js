@@ -6,5 +6,10 @@ module.exports = {
   },
   globals: {
     mountWithProvider: true
+  },
+  settings: {
+    react: {
+      version: "16.12"
+    }
   }
 };

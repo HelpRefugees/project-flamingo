@@ -8,9 +8,7 @@ type Props = {
   reports: $Shape<Report>[]
 };
 
-export default class UnsubmittedReportListComponent extends PureComponent<
-  Props
-> {
+export default class UnsubmittedReportListComponent extends PureComponent<Props> {
   render() {
     const { reports } = this.props;
     return (

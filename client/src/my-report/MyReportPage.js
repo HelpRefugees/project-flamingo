@@ -16,7 +16,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   loadReport: (id: number) => dispatch(loadReport(id))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MyReportComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(MyReportComponent);

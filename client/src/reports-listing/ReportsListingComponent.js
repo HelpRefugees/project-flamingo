@@ -57,8 +57,8 @@ const grantNameFilterControlStyles = {
     backgroundColor: props.isSelected
       ? "#00857b"
       : props.isFocused
-        ? "#f5f5f5"
-        : "white",
+      ? "#f5f5f5"
+      : "white",
     color: props.isSelected ? "white" : "black",
     ":active": {
       backgroundColor: props.isSelected ? null : "#f5f5f5"

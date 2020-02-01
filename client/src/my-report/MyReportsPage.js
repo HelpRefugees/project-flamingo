@@ -22,7 +22,4 @@ const mapStateToProps: (state: State) => $Shape<Props> = ({
   account
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MyReportsComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(MyReportsComponent);

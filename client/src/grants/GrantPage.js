@@ -28,7 +28,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   loadUsers: () => dispatch(loadUsers())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(GrantComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(GrantComponent);

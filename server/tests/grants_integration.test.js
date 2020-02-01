@@ -1,6 +1,7 @@
-const request = require("supertest");
 const MockDate = require("mockdate");
-const bcrypt = require("bcrypt");
+const request = require("supertest");
+
+const { hashPassword, safeDrop } = require("./helpers");
 
 describe("grants endpoint", () => {
   const implementingPartner = {
@@ -12,17 +13,6 @@ describe("grants endpoint", () => {
     username: "daisy@hr.org",
     password: "helpingrefugees"
   };
-
-  const safeDrop = async collection => {
-    try {
-      await global.DATABASE.collection(collection).drop();
-    } catch (err) {
-      /* pass */
-    }
-  };
-
-  const hashPassword = password =>
-    bcrypt.hashSync(password, bcrypt.genSaltSync());
 
   let app;
 

@@ -6,8 +6,8 @@ module.exports = class MongoEnvironment extends NodeEnvironment {
     super(config);
   }
   async setup() {
-    this.global.DATABASE = await dbModule.connect(this.global.DATABASE_URL);
     await super.setup();
+    this.global.DATABASE = await dbModule.connect(this.global.DATABASE_URL);
   }
 
   async teardown() {

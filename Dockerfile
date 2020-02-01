@@ -1,13 +1,15 @@
-FROM node:10.12-alpine as react
+FROM node:12.14-alpine as react
 
 RUN set -xe \
-    && apk add --no-cache bash git openssh
+  && apk add --no-cache bash git openssh
 
 WORKDIR /client
 
 COPY /client/package.json .
 COPY /client/yarn.lock .
 COPY /client/.flowconfig .
+
+ENV CYPRESS_INSTALL_BINARY=0
 
 RUN yarn install
 
@@ -16,7 +18,7 @@ COPY /client/src ./src
 
 RUN yarn build
 
-FROM node:10.12-alpine
+FROM node:12.14-alpine
 
 RUN apk add --update build-base python python-dev
 
