@@ -1,9 +1,9 @@
-FROM cypress/browsers:chrome69
+FROM cypress/browsers:node12.14.0-chrome79-ff71
 
 COPY package.json .
 COPY yarn.lock .
 
-RUN npm install -g yarn@1.10.1
+RUN npm install -g yarn@1.21.1
 
 RUN yarn install
 

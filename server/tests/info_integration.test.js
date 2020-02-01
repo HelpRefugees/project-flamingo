@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 const request = require("supertest");
 
 describe("info", () => {

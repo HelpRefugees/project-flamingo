@@ -29,7 +29,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   loadCountries: () => dispatch(loadCountries())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditGrantComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(EditGrantComponent);

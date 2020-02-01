@@ -1,5 +1,6 @@
-const reportsHelper = require("../services/reports_service");
 const MockDate = require("mockdate");
+
+const reportsHelper = require("../services/reports_service");
 
 describe("reports service", () => {
   describe("updateReport", () => {

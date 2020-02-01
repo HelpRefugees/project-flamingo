@@ -2,7 +2,9 @@ const bcrypt = require("bcrypt");
 const nock = require("nock");
 const request = require("supertest");
 
-describe("/api/password", async () => {
+const { safeDrop } = require("./helpers");
+
+describe("/api/password", () => {
   let app;
   let db;
 
@@ -147,12 +149,4 @@ describe("/api/password", async () => {
       });
     });
   });
-
-  const safeDrop = async collection => {
-    try {
-      await db.collection(collection).drop();
-    } catch (err) {
-      // pass
-    }
-  };
 });

@@ -72,8 +72,5 @@ export default (WrappedComponent: any) => {
     clearError: () => dispatch(errorExpired())
   });
 
-  return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SnackBarErrorHandler);
+  return connect(mapStateToProps, mapDispatchToProps)(SnackBarErrorHandler);
 };

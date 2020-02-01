@@ -24,7 +24,4 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): any => ({
   loadCountries: () => dispatch(loadCountries())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddGrantComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(AddGrantComponent);

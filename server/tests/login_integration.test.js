@@ -1,7 +1,8 @@
 const request = require("supertest");
-const bcrypt = require("bcrypt");
 
-describe("/api/login", async () => {
+const { hashPassword, safeDrop } = require("./helpers");
+
+describe("/api/login", () => {
   let app;
   const route = "/api/login";
   const password = "flamingo";
@@ -9,7 +10,7 @@ describe("/api/login", async () => {
     username: "ellen@ip.org",
     name: "Ellen Smith",
     role: "implementing-partner",
-    password: bcrypt.hashSync(password, bcrypt.genSaltSync())
+    password: hashPassword(password)
   };
 
   beforeEach(() => {
@@ -18,14 +19,6 @@ describe("/api/login", async () => {
       session => new session.MemoryStore()
     );
   });
-
-  const safeDrop = async collection => {
-    try {
-      await global.DATABASE.collection(collection).drop();
-    } catch (err) {
-      // pass
-    }
-  };
 
   beforeEach(async () => {
     await safeDrop("users");

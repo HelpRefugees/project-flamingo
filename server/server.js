@@ -10,25 +10,22 @@ const dbModule = require("./db");
 const appFactory = require("./app");
 let server;
 
-dbModule.connect(
-  getDatabaseUrl(),
-  (err, db) => {
-    if (err) {
-      debug("Unable to connect to Mongo", err);
-      return process.exit(1);
-    }
-
-    let app = appFactory(db, session => {
-      const MongoStore = connectMongo(session);
-      return new MongoStore({ db, collection: "_sessions" });
-    });
-    app.set("port", port);
-
-    server = http.createServer(app);
-    server.listen(port);
-    server.on("listening", onListening);
+dbModule.connect(getDatabaseUrl(), (err, db) => {
+  if (err) {
+    debug("Unable to connect to Mongo", err);
+    return process.exit(1);
   }
-);
+
+  const app = appFactory(db, session => {
+    const MongoStore = connectMongo(session);
+    return new MongoStore({ url: getDatabaseUrl(), collection: "_sessions" });
+  });
+  app.set("port", port);
+
+  server = http.createServer(app);
+  server.listen(port);
+  server.on("listening", onListening);
+});
 
 /**
  * Normalize a port into a number, string, or false.

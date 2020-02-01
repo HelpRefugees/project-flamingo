@@ -30,7 +30,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   onLoad: () => dispatch(appStarted())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Initializer);
+export default connect(mapStateToProps, mapDispatchToProps)(Initializer);

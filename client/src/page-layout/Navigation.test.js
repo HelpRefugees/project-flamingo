@@ -38,7 +38,7 @@ describe("Navigation", () => {
     it("renders an empty navigation bar", () => {
       const wrapper = navWithRole("another-role");
 
-      expect(wrapper.text()).toBeNull();
+      expect(wrapper.text()).toBe("");
     });
   });
 });

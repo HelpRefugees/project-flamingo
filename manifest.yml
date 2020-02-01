@@ -1,7 +1,7 @@
 applications:
   - name: flamingo
     buildpacks:
-      - https://github.com/cloudfoundry/nodejs-buildpack.git#v1.6.33
+      - https://github.com/cloudfoundry/nodejs-buildpack.git#v1.7.9
     command: yarn start:server
     env:
       NODE_ENV: production
