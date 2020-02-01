@@ -155,7 +155,7 @@ const sectionConfiguration = {
 };
 
 export class MyReportEditComponent extends Component<Props, State> {
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadSectors();
     this.props
       .loadReport(parseInt(this.props.match.params.id, 10))

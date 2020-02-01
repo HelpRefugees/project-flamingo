@@ -123,7 +123,7 @@ class UsersListingComponent extends Component<Props, state> {
       expand: false
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadUsers();
   }
 

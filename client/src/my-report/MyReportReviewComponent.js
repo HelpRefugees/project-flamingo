@@ -39,7 +39,7 @@ const styles = theme => ({
 });
 
 export class MyReportReviewComponent extends Component<Props> {
-  componentWillMount() {
+  componentDidMount() {
     this.props
       .loadReport(parseInt(this.props.match.params.id, 10))
       .then(loaded => {

@@ -20,7 +20,7 @@ type Props = {
 };
 
 export class SubmittedReportComponent extends Component<Props> {
-  componentWillMount() {
+  componentDidMount() {
     this.props
       .loadReport(parseInt(this.props.match.params.id, 10))
       .then(loaded => {

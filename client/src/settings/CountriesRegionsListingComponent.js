@@ -189,7 +189,7 @@ class CountriesRegionsListingComponent extends Component<Props, state> {
       whichCountry: ""
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadCountries();
   }
 

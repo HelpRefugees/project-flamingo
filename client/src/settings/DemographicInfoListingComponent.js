@@ -138,7 +138,7 @@ class DemographicInfoListingComponent extends Component<Props, state> {
       open: false
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadSectors();
   }
 
