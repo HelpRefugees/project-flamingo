@@ -89,7 +89,7 @@ export class AddGrantComponent extends Component<Props, any> {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadUsers();
     this.props.loadCountries();
   }

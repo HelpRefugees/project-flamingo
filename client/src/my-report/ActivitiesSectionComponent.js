@@ -369,7 +369,7 @@ export class DemographicInfoSection extends Component<
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({
       number: this.props.demographicInfo.number,
       type: this.props.demographicInfo.type,

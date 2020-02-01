@@ -187,7 +187,7 @@ export class GrantsListingComponent extends Component<Props, any> {
       grant: undefined
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadGrants();
   }
   handleArchiveOpen = () => {

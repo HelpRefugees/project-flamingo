@@ -123,7 +123,7 @@ export class ReportsListingComponent extends Component<
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadReports();
   }
 

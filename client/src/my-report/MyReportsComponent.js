@@ -27,7 +27,7 @@ const styles = theme => ({
 });
 
 export class MyReportsComponent extends Component<Props, State> {
-  componentWillMount() {
+  componentDidMount() {
     this.props.loadReports();
   }
 

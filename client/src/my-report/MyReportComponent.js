@@ -26,7 +26,7 @@ const styles = () => ({
 });
 
 export class MyReportComponent extends Component<Props, State> {
-  componentWillMount() {
+  componentDidMount() {
     this.props
       .loadReport(parseInt(this.props.match.params.id, 10))
       .then(report => {
