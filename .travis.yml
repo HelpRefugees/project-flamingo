@@ -32,6 +32,9 @@ script:
   - yarn test:cover
   - yarn e2e:ci
 
+after_script:
+  - ./coverage.sh
+
 before_deploy:
   - yarn build
 
@@ -53,8 +56,3 @@ deploy:
     space: flamingo-prod
     on:
       tags: true
-
-after_script:
-  - ./coverage.sh
-  # prettier-ignore
-  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi
