@@ -65,7 +65,7 @@
   },
   "homepage": "https://github.com/HelpRefugees/project-flamingo#readme",
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "cf-services": "^2.0.1",
     "connect-mongo": "^3.2.0",
