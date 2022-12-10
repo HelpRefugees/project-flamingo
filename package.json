@@ -71,7 +71,7 @@
     "connect-mongo": "^3.2.0",
     "debug": "^4.1.0",
     "eslint-plugin-react-hooks": "^1.6.1",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-session": "^1.15.6",
     "moment": "^2.24.0",
     "mongodb": "^3.1.6",
